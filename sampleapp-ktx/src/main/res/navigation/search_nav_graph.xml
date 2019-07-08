@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2015-2019 TomTom N.V. All rights reserved.
+  ~
+  ~ This software is the proprietary copyright of TomTom N.V. and its subsidiaries and may be used
+  ~ for internal evaluation purposes or commercial use strictly subject to separate licensee
+  ~ agreement between you and TomTom. If you are the licensee, you are only permitted to use
+  ~ this Software in accordance with the terms of your license agreement. If you are not the
+  ~ licensee then you are not authorised to use this software in any manner and should
+  ~ immediately return it to TomTom N.V.
+  -->
+
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/search_nav_graph"
+    app:startDestination="@id/searchMenuFragment">
+
+    <fragment
+        android:id="@+id/searchMenuFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.menu.SearchMenuFragment"
+        android:label="@string/menu_search_title">
+        <action
+            android:id="@+id/action_searchMenuFragment_to_addressSearchFragment"
+            app:destination="@id/addressSearchFragment" />
+        <action
+            android:id="@+id/action_searchMenuFragment_to_categorySearchFragment"
+            app:destination="@id/categorySearchFragment" />
+        <action
+            android:id="@+id/action_searchMenuFragment_to_typeaheadSearchFragment"
+            app:destination="@id/typeaheadSearchFragment" />
+        <action
+            android:id="@+id/action_searchMenuFragment_to_languageParamFragment"
+            app:destination="@id/languageParamFragment" />
+        <action
+            android:id="@+id/action_searchMenuFragment_to_maxFuzzinessParamFragment"
+            app:destination="@id/maxFuzzinessParamFragment" />
+        <action
+            android:id="@+id/action_searchMenuFragment_to_revGeoFragment"
+            app:destination="@id/revGeoFragment" />
+        <action
+            android:id="@+id/action_searchMenuFragment_to_entryPointsFragment"
+            app:destination="@id/entryPointsFragment" />
+        <action
+            android:id="@+id/action_searchMenuFragment_to_revGeoPolygonsFragment"
+            app:destination="@id/revGeoPolygonsFragment" />
+        <action
+            android:id="@+id/action_searchMenuFragment_to_adpSearchFragment"
+            app:destination="@id/adpSearchFragment" />
+        <action
+            android:id="@+id/action_searchMenuFragment_to_revGeoFragment2"
+            app:destination="@id/revGeoFragment" />
+        <action
+            android:id="@+id/action_searchMenuFragment_to_alongRouteFragment"
+            app:destination="@id/alongRouteFragment" />
+        <action
+            android:id="@+id/action_searchMenuFragment_to_geometrySearchFragment"
+            app:destination="@id/geometrySearchFragment" />
+        <action
+            android:id="@+id/action_searchMenuFragment_to_batchSearchFragment"
+            app:destination="@id/batchSearchFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addressSearchFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.search.address.AddressSearchFragment"
+        android:label="@string/menu_search_address_title" />
+    <fragment
+        android:id="@+id/categorySearchFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.search.category.CategorySearchFragment"
+        android:label="@string/menu_category_search_title" />
+    <fragment
+        android:id="@+id/typeaheadSearchFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.search.typeahead.TypeaheadSearchFragment"
+        android:label="@string/menu_typeahead_search_title" />
+    <fragment
+        android:id="@+id/languageParamFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.search.languageparam.LanguageParamFragment"
+        android:label="@string/menu_language_parameter_title" />
+    <fragment
+        android:id="@+id/maxFuzzinessParamFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.search.maxfuzzinessparam.MaxFuzzinessParamFragment"
+        android:label="@string/menu_search_max_fuzziness_param_title" />
+    <fragment
+        android:id="@+id/revGeoFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.search.revgeo.RevGeoFragment"
+        android:label="@string/menu_search_reverse_geocoding_title" />
+    <fragment
+        android:id="@+id/entryPointsFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.search.entrypoints.EntryPointsFragment"
+        android:label="@string/menu_search_entry_points_title" />
+    <fragment
+        android:id="@+id/adpSearchFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.search.adp.AdpSearchFragment"
+        android:label="@string/menu_search_entry_adp_title" />
+    <fragment
+        android:id="@+id/revGeoPolygonsFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.search.revgeopolygons.RevGeoPolygonsFragment"
+        android:label="@string/menu_search_entry_rev_geo_polygons_title" />
+    <fragment
+        android:id="@+id/alongRouteFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.search.alongroute.AlongRouteFragment"
+        android:label="@string/menu_search_along_route_title" />
+    <fragment
+        android:id="@+id/geometrySearchFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.search.geometry.GeometrySearchFragment"
+        android:label="@string/menu_geometry_search_title" />
+    <fragment
+        android:id="@+id/batchSearchFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.search.batch.BatchSearchFragment"
+        android:label="@string/menu_batch_search_title" />
+
+</navigation>

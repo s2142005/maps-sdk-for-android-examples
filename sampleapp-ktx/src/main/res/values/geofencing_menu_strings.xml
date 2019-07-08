@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2015-2019 TomTom N.V. All rights reserved.
+  ~
+  ~ This software is the proprietary copyright of TomTom N.V. and its subsidiaries and may be used
+  ~ for internal evaluation purposes or commercial use strictly subject to separate licensee
+  ~ agreement between you and TomTom. If you are the licensee, you are only permitted to use
+  ~ this Software in accordance with the terms of your license agreement. If you are not the
+  ~ licensee then you are not authorised to use this software in any manner and should
+  ~ immediately return it to TomTom N.V.
+  -->
+
+<resources>
+    <string name="menu_geofencing_report_service_title">Geofencing report</string>
+    <string name="menu_geofencing_report_service_description">Report contains information for a specified object or point.</string>
+
+    <string name="label_geofencing_report_one_fence_btn">One fence</string>
+    <string name="label_geofencing_report_two_fences_btn">Two fences</string>
+    <string name="report_service_fence_marker_balloon">This is the closest location to \n%1$s border</string>
+    <string name="report_service_only_inside_fences">The location is \ninside of fences: %1$s</string>
+    <string name="report_service_only_outside_fences">The location is \noutside of fences: %1$s</string>
+    <string name="report_service_both_types_of_fences">The location is \ninside of fences: %1$s \noutside of fences: %2$s</string>
+
+</resources>

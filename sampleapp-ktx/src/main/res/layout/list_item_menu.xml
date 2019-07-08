@@ -1,0 +1,72 @@
+<!--
+  ~ Copyright (c) 2015-2019 TomTom N.V. All rights reserved.
+  ~
+  ~ This software is the proprietary copyright of TomTom N.V. and its subsidiaries and may be used
+  ~ for internal evaluation purposes or commercial use strictly subject to separate licensee
+  ~ agreement between you and TomTom. If you are the licensee, you are only permitted to use
+  ~ this Software in accordance with the terms of your license agreement. If you are not the
+  ~ licensee then you are not authorised to use this software in any manner and should
+  ~ immediately return it to TomTom N.V.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/menu_item_height"
+    android:layout_marginLeft="@dimen/default_small_padding"
+    android:layout_marginRight="@dimen/default_small_padding"
+    android:layout_marginBottom="@dimen/default_small_padding"
+    android:background="@drawable/menu_item_background"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/menu_item_title_height"
+        android:orientation="horizontal"
+        android:padding="@dimen/default_small_padding">
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="@dimen/menu_item_icon"
+            android:layout_height="@dimen/menu_item_icon"
+            android:fitsSystemWindows="true" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/menu_item_icon"
+            android:gravity="center"
+            android:paddingLeft="@dimen/default_small_padding"
+            android:textColor="@color/solid_black"
+            android:textSize="@dimen/menu_item_title_text"
+            android:textStyle="normal" />
+
+        <ImageView
+            android:layout_width="@dimen/menu_item_arrow"
+            android:layout_height="@dimen/menu_item_arrow"
+            android:layout_gravity="center_vertical|right"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_arrow" />
+
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/menu_item_description_height"
+        android:maxLines="3"
+        android:paddingLeft="@dimen/default_small_padding"
+        android:paddingRight="@dimen/default_small_padding"
+        android:paddingBottom="@dimen/default_small_padding"
+        android:textColor="@color/deep_gray"
+        android:textSize="@dimen/menu_item_description_text" />
+
+
+    <ImageView
+        android:id="@+id/banner"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/menu_item_banner_height"
+        android:scaleType="centerCrop" />
+
+</LinearLayout>

@@ -1,0 +1,143 @@
+<!--
+  ~ Copyright (c) 2015-2019 TomTom N.V. All rights reserved.
+  ~
+  ~ This software is the proprietary copyright of TomTom N.V. and its subsidiaries and may be used
+  ~ for internal evaluation purposes or commercial use strictly subject to separate licensee
+  ~ agreement between you and TomTom. If you are the licensee, you are only permitted to use
+  ~ this Software in accordance with the terms of your license agreement. If you are not the
+  ~ licensee then you are not authorised to use this software in any manner and should
+  ~ immediately return it to TomTom N.V.
+  -->
+
+<resources>
+
+    <!-- Base application theme -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/black_semitransparent</item>
+        <item name="colorPrimaryDark">@color/black_fully_opaque</item>
+        <item name="colorAccent">@color/tt_green</item>
+        <item name="android:textColorPrimary">@color/white_fully_opaque</item>
+        <item name="android:editTextColor">@color/black_semitransparent</item>
+    </style>
+
+    <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerHorizontal">true</item>
+    </style>
+
+    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@drawable/background_splash</item>
+    </style>
+
+    <style name="SearchBox" parent="Widget.AppCompat.SearchView">
+        <item name="android:layout_height">@dimen/list_item_size</item>
+        <item name="queryBackground">@color/white_fully_opaque</item>
+        <item name="android:background">@color/white_fully_opaque</item>
+        <item name="iconifiedByDefault">false</item>
+    </style>
+
+    <style name="SearchControlTabsContainer" parent="Widget.Design.TabLayout">
+        <item name="android:layout_height">50dp</item>
+        <item name="android:elevation">@dimen/default_small_padding</item>
+        <item name="android:background">@color/athens_gray</item>
+        <item name="tabBackground">@color/athens_gray</item>
+        <item name="tabTextAppearance">@style/SearchControlTabTextAppearance</item>
+        <item name="tabSelectedTextColor">@color/deep_gray</item>
+    </style>
+
+    <!-- for text -->
+    <style name="SearchControlTabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">@dimen/submenu_item_description_text</item>
+        <item name="textAllCaps">true</item>
+        <item name="android:textColor">@color/silver</item>
+    </style>
+
+
+    <style name="ControlButton" parent="Theme.AppCompat.Light">
+        <item name="android:layout_width">@dimen/control_button_width</item>
+        <item name="android:layout_height">@dimen/control_button_height</item>
+        <item name="android:layout_margin">@dimen/control_button_margin</item>
+        <item name="android:background">@drawable/action_button</item>
+        <item name="android:textColor">@drawable/action_button_text_color</item>
+        <item name="android:button">@android:color/transparent</item>
+        <item name="android:gravity">center</item>
+        <item name="android:button">@null</item>
+    </style>
+
+    <style name="ControlButtonsContainer" parent="Theme.AppCompat.Light">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_margin">@dimen/offset_large</item>
+        <item name="android:gravity">center_horizontal|bottom</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:padding">@dimen/offset_small</item>
+        <item name="android:textColor">@drawable/action_button_text_color</item>
+    </style>
+
+    <style name="FlatRadioButton" parent="Theme.AppCompat.Light">
+        <item name="android:background">@drawable/flat_radio_button</item>
+        <item name="android:button">@null</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/flat_radio_button_text_color</item>
+    </style>
+
+    <style name="FlatRadioButtonsContainer" parent="Theme.AppCompat.Light">
+        <item name="android:background">@color/tt_green</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:padding">1dp</item>
+        <item name="android:layout_height">30dp</item>
+    </style>
+
+    <style name="InfoTextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">bottom|center_horizontal</item>
+        <item name="android:layout_marginBottom">@dimen/info_text_view_margin</item>
+        <item name="android:background">@drawable/info_view_background</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">@dimen/offset_medium</item>
+        <item name="android:textColor">@color/solid_black</item>
+        <item name="android:textSize">@dimen/text_size_default</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:visibility">gone</item>
+    </style>
+
+    <style name="InfoBarView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/info_bar_height</item>
+        <item name="android:background">@drawable/info_bar_background</item>
+        <item name="android:padding">@dimen/offset_small</item>
+        <item name="android:gravity">top</item>
+    </style>
+
+    <style name="SearchInfoBarView" parent="InfoBarView">
+        <item name="android:visibility">gone</item>
+        <item name="android:layout_height">@dimen/info_bar_height_search</item>
+    </style>
+
+    <!-- //tag::compass_style[] -->
+    <style name="CompassView" parent="BaseCompactView">
+        <item name="android:layout_gravity">top|start</item>
+        <item name="android:layout_marginStart">@dimen/compass_default_margin_start</item>
+        <item name="android:layout_marginTop">@dimen/compass_default_margin_top</item>
+    </style>
+    <!-- //end::compass_style[] -->
+
+    <!-- //tag::current_location_style[] -->
+    <style name="CenterOnCurrentLocationView" parent="BaseCompactView">
+        <item name="android:layout_gravity">bottom|start</item>
+        <item name="android:layout_marginStart">@dimen/compass_default_margin_start</item>
+        <item name="android:layout_marginBottom">@dimen/current_location_default_margin_bottom
+        </item>
+    </style>
+    <!-- //end::current_location_style[] -->
+
+</resources>

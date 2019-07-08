@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2015-2019 TomTom N.V. All rights reserved.
+  ~
+  ~ This software is the proprietary copyright of TomTom N.V. and its subsidiaries and may be used
+  ~ for internal evaluation purposes or commercial use strictly subject to separate licensee
+  ~ agreement between you and TomTom. If you are the licensee, you are only permitted to use
+  ~ this Software in accordance with the terms of your license agreement. If you are not the
+  ~ licensee then you are not authorised to use this software in any manner and should
+  ~ immediately return it to TomTom N.V.
+  -->
+
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/map_nav_graph"
+    app:startDestination="@id/mapMenuFragment">
+
+    <fragment
+        android:id="@+id/mapMenuFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.menu.MapMenuFragment"
+        android:label="@string/menu_map_title">
+        <action
+            android:id="@+id/action_mapMenuFragment_to_mapTilesFragment"
+            app:destination="@id/mapTilesFragment" />
+        <action
+            android:id="@+id/action_mapMenuFragment_to_mapEventsFragment"
+            app:destination="@id/mapEventsFragment" />
+        <action
+            android:id="@+id/action_mapMenuFragment_to_vector_map_and_traffic"
+            app:destination="@+id/mapVectorAndTrafficFragment" />
+        <action
+            android:id="@+id/action_mapMenuFragment_to_raster_map_and_traffic"
+            app:destination="@+id/mapRasterAndTrafficFragment" />
+        <action
+            android:id="@+id/action_mapMenuFragment_to_mapLanguageFragment"
+            app:destination="@+id/mapLanguageFragment" />
+        <action
+            android:id="@+id/action_mapMenuFragment_to_mapGeopoliticalViewFragment"
+            app:destination="@+id/mapGeopoliticalViewFragment" />
+        <action
+            android:id="@+id/action_mapMenuFragment_to_customMapStyleFragment"
+            app:destination="@+id/customMapStyleFragment" />
+        <action
+            android:id="@+id/action_mapMenuFragment_to_mapStaticImageFragment"
+            app:destination="@+id/mapStaticImageFragment" />
+        <action
+            android:id="@+id/action_mapMenuFragment_to_mapCenteringFragment"
+            app:destination="@+id/mapCenteringFragment" />
+        <action
+            android:id="@+id/action_mapMenuFragment_to_mapPerspectiveFragment"
+            app:destination="@+id/mapPerspectiveFragment" />
+        <action
+            android:id="@+id/action_mapMenuFragment_to_mapUiExtensionsFragment"
+            app:destination="@+id/mapUiExtensionsFragment" />
+        <action
+            android:id="@+id/action_mapMenuFragment_to_markersFragment"
+            app:destination="@+id/markersFragment" />
+        <action
+            android:id="@+id/action_mapMenuFragment_to_customBalloonFragment"
+            app:destination="@+id/customBalloonFragment" />
+        <action
+            android:id="@+id/action_mapMenuFragment_to_customShapesFragment"
+            app:destination="@+id/customShapesFragment" />
+        <action
+            android:id="@+id/action_mapMenuFragment_to_markerClusteringFragment"
+            app:destination="@+id/markerClusteringFragment" />
+        <action
+            android:id="@+id/action_mapMenuFragment_to_customRouteFragment"
+            app:destination="@+id/customRouteFragment" />
+        <action
+            android:id="@+id/action_routingMenuFragment_to_customRouteFragment"
+            app:destination="@id/customRouteFragment" />
+        <action
+            android:id="@+id/action_mapMenuFragment_to_multipleMapsFragment"
+            app:destination="@+id/multipleMapsFragment" />
+        <action
+            android:id="@+id/action_mapMenuFragment_to_advancedMarkersFragment"
+            app:destination="@id/advancedMarkersFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/mapTilesFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.map.tiles.MapTilesFragment"
+        android:label="@string/menu_map_tiles_title" />
+    <fragment
+        android:id="@+id/mapEventsFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.map.events.MapEventsFragment"
+        android:label="@string/menu_map_events_title" />
+    <fragment
+        android:id="@+id/mapVectorAndTrafficFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.map.traffic.VectorTrafficLayersFragment"
+        android:label="@string/menu_map_vector_and_traffic_title" />
+    <fragment
+        android:id="@+id/mapRasterAndTrafficFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.map.traffic.RasterTrafficLayersFragment"
+        android:label="@string/menu_map_raster_and_traffic_title" />
+    <fragment
+        android:id="@+id/mapLanguageFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.map.language.MapLanguageFragment"
+        android:label="@string/menu_map_language_title" />
+    <fragment
+        android:id="@+id/mapGeopoliticalViewFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.map.geopoliticalview.GeopoliticalViewFragment"
+        android:label="@string/menu_map_geopolitical_view_title" />
+    <fragment
+        android:id="@+id/customMapStyleFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.map.styles.CustomMapStyleFragment"
+        android:label="@string/menu_map_styles_title" />
+    <fragment
+        android:id="@+id/mapStaticImageFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.map.staticimage.StaticImageFragment"
+        android:label="@string/menu_map_static_image_title" />
+    <fragment
+        android:id="@+id/mapCenteringFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.map.centering.MapCenteringFragment"
+        android:label="@string/menu_map_centering_title" />
+    <fragment
+        android:id="@+id/mapPerspectiveFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.map.perspective.MapPerspectiveFragment"
+        android:label="@string/menu_map_perspective_title" />
+    <fragment
+        android:id="@+id/mapUiExtensionsFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.map.uiextensions.MapUiExtensionsFragment"
+        android:label="@string/menu_map_ui_extensions_title" />
+    <fragment
+        android:id="@+id/markersFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.map.markers.MarkersFragment"
+        android:label="@string/menu_map_markers_title" />
+    <fragment
+        android:id="@+id/advancedMarkersFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.map.markers.advanced.AdvancedMarkersFragment"
+        android:label="@string/menu_map_advanced_markers_title" />
+    <fragment
+        android:id="@+id/customBalloonFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.map.markers.balloon.CustomBalloonFragment"
+        android:label="@string/menu_map_custom_balloon_title" />
+    <fragment
+        android:id="@+id/customShapesFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.map.shapes.CustomShapesFragment"
+        android:label="@string/menu_map_custom_shapes_title" />
+    <fragment
+        android:id="@+id/markerClusteringFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.map.markers.clustering.MarkerClusteringFragment"
+        android:label="@string/menu_map_marker_clustering_title" />
+    <fragment
+        android:id="@+id/customRouteFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.map.route.RouteCustomizationFragment"
+        android:label="@string/menu_map_custom_route_title" />
+    <fragment
+        android:id="@+id/multipleMapsFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.map.multiplemaps.MultipleMapsFragment"
+        android:label="@string/menu_map_multiple_maps_title" />
+
+</navigation>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2015-2019 TomTom N.V. All rights reserved.
+  ~
+  ~ This software is the proprietary copyright of TomTom N.V. and its subsidiaries and may be used
+  ~ for internal evaluation purposes or commercial use strictly subject to separate licensee
+  ~ agreement between you and TomTom. If you are the licensee, you are only permitted to use
+  ~ this Software in accordance with the terms of your license agreement. If you are not the
+  ~ licensee then you are not authorised to use this software in any manner and should
+  ~ immediately return it to TomTom N.V.
+  -->
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/solid_white">
+
+    <ImageView
+        android:id="@+id/map_1"
+        android:layout_width="@dimen/zero_dp"
+        android:layout_height="@dimen/zero_dp"
+        android:layout_margin="@dimen/static_image_margin"
+        app:layout_constraintBottom_toTopOf="@+id/map_2"
+        app:layout_constraintEnd_toStartOf="@+id/map_3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!--4-->
+    <ImageView
+        android:id="@+id/map_2"
+        android:layout_width="@dimen/zero_dp"
+        android:layout_height="@dimen/zero_dp"
+        android:layout_margin="@dimen/static_image_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/map_4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/map_1" />
+
+    <!--2-->
+    <ImageView
+        android:id="@+id/map_3"
+        android:layout_width="@dimen/zero_dp"
+        android:layout_height="@dimen/zero_dp"
+        android:layout_margin="@dimen/static_image_margin"
+        app:layout_constraintBottom_toTopOf="@+id/map_4"
+        app:layout_constraintEnd_toStartOf="@+id/map_5"
+        app:layout_constraintStart_toEndOf="@+id/map_1"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <ImageView
+        android:id="@+id/map_4"
+        android:layout_width="@dimen/zero_dp"
+        android:layout_height="@dimen/zero_dp"
+        android:layout_margin="@dimen/static_image_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/map_6"
+        app:layout_constraintStart_toEndOf="@+id/map_2"
+        app:layout_constraintTop_toBottomOf="@+id/map_3" />
+
+    <!--3-->
+    <ImageView
+        android:id="@+id/map_5"
+        android:layout_width="@dimen/zero_dp"
+        android:layout_height="@dimen/zero_dp"
+        android:layout_margin="@dimen/static_image_margin"
+        app:layout_constraintBottom_toTopOf="@+id/map_6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/map_3"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/map_6"
+        android:layout_width="@dimen/zero_dp"
+        android:layout_height="@dimen/zero_dp"
+        android:layout_margin="@dimen/static_image_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/map_4"
+        app:layout_constraintTop_toBottomOf="@+id/map_5" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

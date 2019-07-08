@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2015-2019 TomTom N.V. All rights reserved.
+  ~
+  ~ This software is the proprietary copyright of TomTom N.V. and its subsidiaries and may be used
+  ~ for internal evaluation purposes or commercial use strictly subject to separate licensee
+  ~ agreement between you and TomTom. If you are the licensee, you are only permitted to use
+  ~ this Software in accordance with the terms of your license agreement. If you are not the
+  ~ licensee then you are not authorised to use this software in any manner and should
+  ~ immediately return it to TomTom N.V.
+  -->
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_margin="4dp"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/list_item_size">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/distanceSection"
+            android:layout_width="@dimen/list_item_distance_section_size"
+            android:layout_height="@dimen/zero_dp"
+            android:layout_marginStart="@dimen/default_small_padding"
+            android:layout_marginTop="@dimen/default_small_padding"
+            android:layout_marginEnd="@dimen/default_small_padding"
+            android:layout_marginBottom="@dimen/default_small_padding"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/divider"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/search_result_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_location" />
+
+            <TextView
+                android:id="@+id/distanceTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textAlignment="center"
+                android:textSize="@dimen/small_text"
+                tools:text="10.0 km" />
+        </LinearLayout>
+
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="@dimen/standard_divider_size"
+            android:layout_height="@dimen/zero_dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/default_small_padding"
+            android:layout_marginEnd="@dimen/default_small_padding"
+            android:layout_marginBottom="@dimen/default_small_padding"
+            android:background="@color/silver"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/addressSection"
+            app:layout_constraintStart_toEndOf="@+id/distanceSection"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/addressSection"
+            android:layout_width="@dimen/zero_dp"
+            android:layout_height="@dimen/zero_dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="@dimen/default_small_padding"
+            android:layout_marginEnd="@dimen/default_small_padding"
+            android:layout_marginBottom="@dimen/default_small_padding"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/divider"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/primaryAddressTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/list_item_primary_text_size"
+                android:textStyle="bold"
+                tools:text="Free form address" />
+
+            <TextView
+                android:id="@+id/secondaryAddressTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/list_item_secondary_text_size"
+                tools:text="Country" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

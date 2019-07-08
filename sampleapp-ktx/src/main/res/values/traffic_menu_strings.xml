@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2015-2019 TomTom N.V. All rights reserved.
+  ~
+  ~ This software is the proprietary copyright of TomTom N.V. and its subsidiaries and may be used
+  ~ for internal evaluation purposes or commercial use strictly subject to separate licensee
+  ~ agreement between you and TomTom. If you are the licensee, you are only permitted to use
+  ~ this Software in accordance with the terms of your license agreement. If you are not the
+  ~ licensee then you are not authorised to use this software in any manner and should
+  ~ immediately return it to TomTom N.V.
+  -->
+
+<resources>
+    <string name="menu_traffic_incident_list_title">Traffic incident list</string>
+    <string name="menu_traffic_incident_list_description">Present details of traffic incidents as a list.</string>
+
+    <string name="traffic_incident_list_header_desc">Description</string>
+    <string name="traffic_incident_list_header_delay">Delay</string>
+    <string name="traffic_incident_list_header_length">Length</string>
+    <string name="traffic_incident_list_header_category">Category</string>
+    <string name="traffic_incident_cluster_description">Multiple incidents</string>
+
+</resources>

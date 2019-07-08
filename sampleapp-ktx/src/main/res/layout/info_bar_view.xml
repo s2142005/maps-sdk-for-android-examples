@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2015-2019 TomTom N.V. All rights reserved.
+  ~
+  ~ This software is the proprietary copyright of TomTom N.V. and its subsidiaries and may be used
+  ~ for internal evaluation purposes or commercial use strictly subject to separate licensee
+  ~ agreement between you and TomTom. If you are the licensee, you are only permitted to use
+  ~ this Software in accordance with the terms of your license agreement. If you are not the
+  ~ licensee then you are not authorised to use this software in any manner and should
+  ~ immediately return it to TomTom N.V.
+  -->
+
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:background="@drawable/info_bar_background"
+    tools:layout_height="@dimen/info_bar_height"
+    tools:layout_width="match_parent"
+    tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
+
+    <ImageView
+        android:id="@+id/left_icon"
+        android:layout_width="@dimen/info_bar_image_view_size"
+        android:layout_height="@dimen/info_bar_image_view_size"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/info_bar_subtitle"
+        app:layout_constraintEnd_toStartOf="@id/info_bar_subtitle"
+        app:layout_constraintStart_toStartOf="@+id/info_bar_title"
+        app:layout_constraintTop_toTopOf="@+id/info_bar_subtitle" />
+
+    <TextView
+        android:id="@+id/info_bar_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/offset_default_small"
+        android:layout_marginLeft="@dimen/offset_default_small"
+        android:textColor="@color/solid_black"
+        android:textSize="@dimen/text_size_default"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/info_bar_subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/offset_xsmall"
+        android:layout_marginLeft="@dimen/offset_xsmall"
+        app:layout_goneMarginStart="@dimen/no_offset"
+        android:textColor="@color/rolling_stone"
+        android:textSize="@dimen/info_bar_subtitle_text"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_guideline"
+        app:layout_constraintStart_toEndOf="@id/left_icon"
+        app:layout_constraintTop_toBottomOf="@+id/info_bar_title" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/bottom_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="@dimen/bottom_guideline_height" />
+
+</merge>

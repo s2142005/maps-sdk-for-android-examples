@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2015-2019 TomTom N.V. All rights reserved.
+  ~
+  ~ This software is the proprietary copyright of TomTom N.V. and its subsidiaries and may be used
+  ~ for internal evaluation purposes or commercial use strictly subject to separate licensee
+  ~ agreement between you and TomTom. If you are the licensee, you are only permitted to use
+  ~ this Software in accordance with the terms of your license agreement. If you are not the
+  ~ licensee then you are not authorised to use this software in any manner and should
+  ~ immediately return it to TomTom N.V.
+  -->
+
+<resources>
+
+    <!-- Primary colors -->
+    <color name="tt_green">#B3D800</color> <!-- CTA buttons, active sliders, selected items -->
+    <color name="pistachio">#A2C203</color> <!-- Pressed buttons -->
+    <color name="chrome_white">#EAF2D3</color> <!-- Disabled elements: buttons, sliders etc.-->
+    <color name="catskill_white">#EDF2F7</color> <!-- Background, hover -->
+    <color name="solid_white">#FFFFFF</color> <!-- Background, marker border -->
+
+    <!-- Secondary colors -->
+    <color name="solid_black">#000000</color> <!-- Body text, input text, text in popups, markers -->
+    <color name="deep_gray">#4A4C4C</color> <!-- Selection titles, parameter labels -->
+    <color name="rolling_stone">#7A7E80</color> <!-- Checkbox and radio buttons labels -->
+    <color name="gray_chateau">#A2A9B4</color> <!-- Unselected tab, info text on Catskill White backgrounds -->
+    <color name="silver">#BEBEB3</color> <!-- Hint text -->
+    <color name="iron">#CECDCE</color> <!-- Disabled text on buttons/tags/tabs -->
+    <color name="mercury">#E5E5E5</color> <!-- Borders and disabled text -->
+    <color name="athens_gray">#F2F4F6</color> <!-- Disabled borders, white button hover -->
+
+    <!-- Data colors -->
+    <color name="electric_violet">#9706Ed</color> <!-- Routes -->
+    <color name="la_palma">#25B21B</color> <!-- Routes -->
+    <color name="chilean_fire">#F66606</color> <!-- Routes, polygons -->
+    <color name="turquoise">#4A90E2</color> <!-- Routes -->
+    <color name="chilean_fire_alt">#2FAAFF</color>  <!-- Routes, polygons -->
+    <color name="malchiate">#00F288</color> <!-- Polygons -->
+    <color name="turquoise_alt">#44D0D6</color> <!-- Routes -->
+
+</resources>

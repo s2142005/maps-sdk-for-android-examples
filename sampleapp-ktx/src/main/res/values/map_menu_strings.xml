@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2015-2019 TomTom N.V. All rights reserved.
+  ~
+  ~ This software is the proprietary copyright of TomTom N.V. and its subsidiaries and may be used
+  ~ for internal evaluation purposes or commercial use strictly subject to separate licensee
+  ~ agreement between you and TomTom. If you are the licensee, you are only permitted to use
+  ~ this Software in accordance with the terms of your license agreement. If you are not the
+  ~ licensee then you are not authorised to use this software in any manner and should
+  ~ immediately return it to TomTom N.V.
+  -->
+
+<resources>
+    <string name="menu_map_events_title">Map events</string>
+    <string name="menu_map_events_description">Implement an action you want to trigger on map events</string>
+
+    <string name="menu_map_tiles_title">Map tiles</string>
+    <string name="menu_map_tiles_description">Allow users to display the map in either raster or vector format</string>
+
+    <string name="label_map_tiles_vector_btn">Vector</string>
+    <string name="label_map_tiles_raster_btn">Raster</string>
+
+    <string name="menu_map_vector_and_traffic_title">Vector map and traffic</string>
+    <string name="menu_map_vector_and_traffic_description">Display traffic tiles on a vector map.</string>
+
+    <string name="menu_map_raster_and_traffic_title">Raster map and traffic</string>
+    <string name="menu_map_raster_and_traffic_description">Display traffic tiles on a raster map.</string>
+
+    <string name="label_map_traffic_incidents_btn">Incidents</string>
+    <string name="label_map_traffic_flow_btn">Flow</string>
+    <string name="label_map_traffic_off_btn">No traffic</string>
+
+    <string name="menu_map_language_title">Map language</string>
+    <string name="menu_map_language_description">Change language of the map.</string>
+
+    <string name="label_map_language_english_btn">English</string>
+    <string name="label_map_language_russian_btn">Russian</string>
+    <string name="label_map_language_dutch_btn">Dutch</string>
+
+    <string name="menu_map_geopolitical_view_title">Geopolitical view</string>
+    <string name="menu_map_geopolitical_view_description">Display the territory boundaries based on geopolitical view.</string>
+
+    <string name="label_map_geopolitical_view_unified_btn">Unified</string>
+    <string name="label_map_geopolitical_view_local_btn">Local</string>
+
+    <string name="menu_map_styles_title">Custom style</string>
+    <string name="menu_map_styles_description">Give custom look and feel to your map with a map style</string>
+
+    <string name="label_map_style_basic_btn">Basic</string>
+    <string name="label_map_style_custom_btn">Custom</string>
+
+    <string name="menu_map_static_image_title">Static map image</string>
+    <string name="menu_map_static_image_description">Download static map image.</string>
+
+    <string name="staticMap1_msg">Default static map Amsterdam</string>
+    <string name="staticMap2_msg">Night style Amsterdam</string>
+    <string name="staticMap3_msg">Zoom 15 Amsterdam</string>
+    <string name="staticMap4_msg">Hybrid map Amsterdam</string>
+    <string name="staticMap5_msg">Custom style Amsterdam</string>
+    <string name="staticMap6_msg">Zoom 8 night mode Amsterdam</string>
+
+    <string name="menu_map_centering_title">Map centering</string>
+    <string name="menu_map_centering_description">Center the map on GPS coordinates or any other location.</string>
+
+    <string name="label_map_centering_amsterdam_btn">Amsterdam</string>
+    <string name="label_map_centering_berlin_btn">Berlin</string>
+    <string name="label_map_centering_london_btn">London</string>
+
+    <string name="menu_map_perspective_title">Map perspective</string>
+    <string name="menu_map_perspective_description">Switch between 2D and 3D mode to change map perspective.</string>
+
+    <string name="label_map_perspective_2d_btn">2D mode</string>
+    <string name="label_map_perspective_3d_btn">3D mode</string>
+
+    <string name="menu_map_ui_extensions_title">Map UI extensions</string>
+    <string name="menu_map_ui_extension_description">Display default or custom controls on the map.</string>
+
+    <string name="label_map_uiextensions_default_btn">Default</string>
+    <string name="label_map_uiextensions_custom_btn">Custom</string>
+    <string name="label_map_uiextensions_hide_btn">Hide</string>
+
+    <string name="menu_map_markers_title">Markers</string>
+    <string name="menu_map_markers_description">Drop default or custom marker icon on map.</string>
+
+    <string name="label_markers_simple_btn">Simple</string>
+    <string name="label_markers_decal_btn">Decal</string>
+
+    <string name="menu_map_advanced_markers_title">Advanced markers</string>
+    <string name="menu_map_advanced_markers_description">Draggable and animated markers.</string>
+
+    <string name="label_advanced_markers_animated_btn">Animated</string>
+    <string name="label_advanced_markers_draggable_btn">Draggable</string>
+
+    <string name="marker_dragging_end_message">Marker was dragged to</string>
+    <string name="marker_dragging_start_message">Marker dragged from</string>
+
+    <string name="menu_map_custom_balloon_title">Balloons</string>
+    <string name="menu_map_custom_balloon_description">Display default or custom balloons adjusting the UI and the content.</string>
+
+    <string name="label_marker_simple_balloon_btn">Simple</string>
+    <string name="label_marker_custom_balloon_btn">Custom</string>
+
+    <string name="menu_map_custom_shapes_title">Shapes</string>
+    <string name="menu_map_custom_shapes_description">Mark different areas on the map by using circles polygons and polylines.</string>
+
+    <string name="label_map_custom_shapes_polygon_btn">Polygon</string>
+    <string name="label_map_custom_shapes_polyline_btn">Polyline</string>
+    <string name="label_map_custom_shapes_circle_btn">Circle</string>
+
+    <string name="toast_circle_clicked">Circle clicked!</string>
+    <string name="toast_polygon_clicked">Polygon clicked!</string>
+    <string name="toast_polyline_clicked">Polyline clicked!</string>
+
+    <string name="menu_map_marker_clustering_title">Marker clustering</string>
+    <string name="menu_map_marker_clustering_description">Collect multiple markers in a customizable cluster.</string>
+
+    <string name="balloon_default_text">Welcome to TomTom</string>
+    <string name="balloon_tomtom_hq">TomTom HQ</string>
+
+    <string name="menu_map_custom_route_title">Custom route style</string>
+    <string name="menu_map_custom_route_description">Defines custom style for route.</string>
+
+    <string name="label_custom_route_basic_btn">Basic</string>
+    <string name="label_custom_route_custom_btn">Custom</string>
+
+    <string name="menu_map_multiple_maps_title">Multiple maps</string>
+    <string name="menu_map_multiple_maps_description">Display more then one map on controller.</string>
+
+</resources>

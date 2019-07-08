@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2015-2019 TomTom N.V. All rights reserved.
+  ~
+  ~ This software is the proprietary copyright of TomTom N.V. and its subsidiaries and may be used
+  ~ for internal evaluation purposes or commercial use strictly subject to separate licensee
+  ~ agreement between you and TomTom. If you are the licensee, you are only permitted to use
+  ~ this Software in accordance with the terms of your license agreement. If you are not the
+  ~ licensee then you are not authorised to use this software in any manner and should
+  ~ immediately return it to TomTom N.V.
+  -->
+
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/routing_nav_graph"
+    app:startDestination="@id/routingMenuFragment">
+
+    <fragment
+        android:id="@+id/routingMenuFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.menu.RoutingMenuFragment"
+        android:label="@string/menu_routing_title">
+        <action
+            android:id="@+id/action_routingMenuFragment_to_routeTravelModesFragment"
+            app:destination="@id/routeTravelModesFragment" />
+        <action
+            android:id="@+id/action_routingMenuFragment_to_routeTypesFragment"
+            app:destination="@id/routeTypesFragment" />
+        <action
+            android:id="@+id/action_routingMenuFragment_to_routeAvoidFragment"
+            app:destination="@id/routeAvoidFragment" />
+        <action
+            android:id="@+id/action_routingMenuFragment_to_routeWaypointsFragment"
+            app:destination="@id/routeWaypointsFragment" />
+        <action
+            android:id="@+id/action_routingMenuFragment_to_routeAlternativesFragment"
+            app:destination="@id/routeAlternativesFragment" />
+        <action
+            android:id="@+id/action_routingMenuFragment_to_routeConsumptionFragment"
+            app:destination="@id/routeConsumptionFragment" />
+        <action
+            android:id="@+id/action_routingMenuFragment_to_routeSupportingPointsFragment"
+            app:destination="@id/routeSupportingPointsFragment" />
+        <action
+            android:id="@+id/action_routingMenuFragment_to_batchRoutingFragment"
+            app:destination="@id/batchRoutingFragment" />
+        <action
+            android:id="@+id/action_routingMenuFragment_to_reachableRangeFragment"
+            app:destination="@id/reachableRangeFragment" />
+        <action
+            android:id="@+id/action_routingMenuFragment_to_avoidVignettesAndAreasFragment"
+            app:destination="@id/reachableRangeFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/routeAvoidFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.route.avoids.RouteAvoidFragment"
+        android:label="@string/menu_route_avoids_title" />
+    <fragment
+        android:id="@+id/routeAlternativesFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.route.alternatives.RouteAlternativesFragment"
+        android:label="@string/menu_route_alternatives_title" />
+    <fragment
+        android:id="@+id/routeTypesFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.route.types.RouteTypesFragment"
+        android:label="@string/menu_route_types_title" />
+    <fragment
+        android:id="@+id/routeTravelModesFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.route.modes.RouteTravelModesFragment"
+        android:label="@string/menu_route_travel_modes_title" />
+    <fragment
+        android:id="@+id/routeWaypointsFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.route.waypoints.RouteWaypointsFragment"
+        android:label="@string/menu_route_waypoints_title" />
+    <fragment
+        android:id="@+id/routeConsumptionFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.route.consumption.RouteConsumptionFragment"
+        android:label="@string/menu_route_consumption_title" />
+    <fragment
+        android:id="@+id/routeSupportingPointsFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.route.supportingpoints.RouteSupportingPointsFragment"
+        android:label="@string/menu_route_supporting_points_title" />
+    <fragment
+        android:id="@+id/batchRoutingFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.route.batch.BatchRoutingFragment"
+        android:label="@string/menu_batch_routing_title" />
+    <fragment
+        android:id="@+id/reachableRangeFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.route.reachablerange.ReachableRangeFragment"
+        android:label="@string/menu_route_reachable_range_title" />
+    <fragment
+        android:id="@+id/avoidVignettesAndAreasFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.route.avoids.vignettesandareas.AvoidVignettesAndAreasFragment"
+        android:label="@string/menu_route_avoid_vignettes_and_areas_title" />
+
+</navigation>

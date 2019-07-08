@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2015-2019 TomTom N.V. All rights reserved.
+  ~
+  ~ This software is the proprietary copyright of TomTom N.V. and its subsidiaries and may be used
+  ~ for internal evaluation purposes or commercial use strictly subject to separate licensee
+  ~ agreement between you and TomTom. If you are the licensee, you are only permitted to use
+  ~ this Software in accordance with the terms of your license agreement. If you are not the
+  ~ licensee then you are not authorised to use this software in any manner and should
+  ~ immediately return it to TomTom N.V.
+  -->
+
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/traffic_nav_graph"
+    app:startDestination="@id/trafficMenuFragment">
+
+    <fragment
+        android:id="@+id/trafficMenuFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.menu.TrafficMenuFragment"
+        android:label="@string/menu_traffic_title">
+        <action
+            android:id="@+id/action_trafficMenuFragment_to_trafficIncidentListFragment"
+            app:destination="@id/trafficIncidentListFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/trafficIncidentListFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.traffic.incident.TrafficIncidentListFragment"
+        android:label="@string/menu_traffic_incident_list_title" />
+
+</navigation>

@@ -1,0 +1,93 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
+apply plugin: 'androidx.navigation.safeargs'
+
+
+
+if (project.hasProperty("testCoverageEnabled")) {
+    apply from: '../jacoco.gradle'
+}
+
+
+android {
+
+    buildToolsVersion androidBuildToolsVersion
+    compileSdkVersion androidCompileSdkVersion
+
+    defaultConfig {
+        applicationId "com.tomtom.sdk.examples"
+        targetSdkVersion androidTargetSdkVersion
+        minSdkVersion androidMinSdkVersion
+        versionCode buildVersionCode
+        versionName buildVersionName
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
+
+    configurations.all {
+        resolutionStrategy.force 'com.google.code.findbugs:jsr305:3.0.2'
+    }
+
+    configurations {
+        all*.exclude group: 'com.google.guava', module: 'listenablefuture'
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+}
+
+dependencies {
+
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+        implementation("com.tomtom.online:sdk-maps:$rootProject.internalVersions.sdk")
+        implementation("com.tomtom.online:sdk-traffic:$rootProject.internalVersions.sdk")
+        implementation("com.tomtom.online:sdk-search:$rootProject.internalVersions.sdk")
+        implementation("com.tomtom.online:sdk-routing:$rootProject.internalVersions.sdk")
+        implementation("com.tomtom.online:sdk-maps-rx-extensions:$rootProject.internalVersions.sdk")
+        implementation("com.tomtom.online:sdk-maps-ui-extensions:$rootProject.internalVersions.sdk")
+        implementation("com.tomtom.online:sdk-maps-static-image:$rootProject.internalVersions.sdk")
+        implementation("com.tomtom.online:sdk-maps-driving-extensions:$rootProject.internalVersions.sdk")
+        implementation("com.tomtom.online:sdk-geofencing:$rootProject.internalVersions.sdk")
+    //Kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    //Google
+    implementation "androidx.navigation:navigation-fragment-ktx:$rootProject.androidXVersions.navigation_fragment"
+    implementation "androidx.navigation:navigation-ui-ktx:$rootProject.androidXVersions.navigation_ui"
+    implementation "androidx.constraintlayout:constraintlayout:$rootProject.androidXVersions.constraintlayout"
+    implementation "androidx.recyclerview:recyclerview:$rootProject.androidXVersions.recyclerview"
+    implementation "androidx.activity:activity-ktx:$rootProject.androidXVersions.activityktx"
+    implementation "androidx.appcompat:appcompat:$rootProject.androidXVersions.appcompat"
+    implementation ("androidx.legacy:legacy-support-v4:$rootProject.androidXVersions.legacysupportv4") {
+        exclude group: 'com.google.guava', module: 'listenablefuture'
+    }
+    implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.androidXVersions.lifecycleextensions"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$rootProject.androidXVersions.lifecycleviewmodelktx"
+    implementation "androidx.cardview:cardview:$rootProject.androidXVersions.cardview"
+    implementation "com.google.android.material:material:$rootProject.androidXVersions.material"
+
+    //Rx
+    implementation "com.jakewharton.rxbinding2:rxbinding:$rootProject.libVersions.rxbinding"
+    implementation "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:$rootProject.libVersions.rxbinding"
+
+    //Tests
+    androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.androidXVersions.test.espresso"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$rootProject.androidXVersions.test.espresso"
+    androidTestImplementation "androidx.annotation:annotation:$rootProject.androidXVersions.annotation"
+    androidTestImplementation "androidx.test:runner:$rootProject.androidXVersions.test.runner"
+    androidTestImplementation "androidx.test:rules:$rootProject.androidXVersions.test.rules"
+    androidTestImplementation "androidx.test:orchestrator:$rootProject.androidXVersions.test.orchestrator"
+    androidTestImplementation "androidx.test.uiautomator:uiautomator:$rootProject.androidXVersions.test.uiautomator"
+    implementation "androidx.test.espresso:espresso-idling-resource:$rootProject.androidXVersions.test.idling_resource"
+}

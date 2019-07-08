@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2015-2019 TomTom N.V. All rights reserved.
+  ~
+  ~ This software is the proprietary copyright of TomTom N.V. and its subsidiaries and may be used
+  ~ for internal evaluation purposes or commercial use strictly subject to separate licensee
+  ~ agreement between you and TomTom. If you are the licensee, you are only permitted to use
+  ~ this Software in accordance with the terms of your license agreement. If you are not the
+  ~ licensee then you are not authorised to use this software in any manner and should
+  ~ immediately return it to TomTom N.V.
+  -->
+
+<resources>
+    <string name="msg_search_failed">Search failed.</string>
+
+    <string name="menu_search_address_title">Address search</string>
+    <string name="menu_search_address_description">Search for address or POI.</string>
+    <string name="label_address_search_global_btn">Global</string>
+    <string name="label_address_search_near_me_btn">Near me</string>
+
+    <string name="menu_category_search_title">Category search</string>
+    <string name="menu_category_search_description">Search for POIs in one of categories.</string>
+    <string name="label_category_search_parking_btn">Parking</string>
+    <string name="label_category_search_gas_btn">Gas</string>
+    <string name="label_category_search_atm_btn">Atm</string>
+
+    <string name="menu_typeahead_search_title">Typeahead parameters</string>
+    <string name="menu_typeahead_search_description">Enables typeahead suggestions.</string>
+
+    <string name="menu_language_parameter_description">Returns results in a specific language.</string>
+    <string name="menu_language_parameter_title">Language parameter</string>
+    <string name="menu_search_max_fuzziness_param_title">Max fuzziness parameter</string>
+    <string name="menu_search_max_fuzziness_param_description">Use the right fuzziness levels to set sensivity.“</string>
+    <string name="label_max_fuzzy_level_one_btn">Max 1</string>
+    <string name="label_max_fuzzy_level_two_btn">Max 2</string>
+    <string name="label_max_fuzzy_level_three_btn">Max 3</string>
+    <string name="menu_search_reverse_geocoding_title">Reverse geocoding</string>
+    <string name="menu_search_reverse_geocoding_description">Translate coordinates into addresses.</string>
+
+    <string name="entry_points_type">Entry point type: %1$s</string>
+    <string name="menu_search_entry_points_title">Entry points</string>
+    <string name="menu_search_entry_points_description">Allow your users to display entry points using using fuzzy search results.</string>
+    <string name="btn_text_airport">Airport</string>
+    <string name="btn_text_shopping_mall">Shopping Mall</string>
+
+    <string name="menu_search_entry_rev_geo_polygons_title">Polygons for rev geo</string>
+    <string name="menu_search_entry_rev_geo_polygons_description">Drop a pin to get a polygon.</string>
+    <string name="rev_geo_polygons_country">Country</string>
+    <string name="rev_geo_polygons_municipality">Municipality</string>
+    <string name="rev_geo_infobar_title">Drop a pin</string>
+    <string name="rev_geo_polygons_infobar_title">Drop a pin to get a polygon</string>
+
+    <string name="menu_search_entry_adp_title">Additional data</string>
+    <string name="menu_search_entry_adp_description">Polygons for geographies.</string>
+    <string name="label_poland">Poland</string>
+    <string name="label_amsterdam">Amsterdam</string>
+    <string name="label_airport">Airport</string>
+
+    <string name="menu_search_along_route_title">Search along the route</string>
+    <string name="menu_search_along_route_description">Search for POIs along the route.</string>
+    <string name="btn_text_car_repair">Car repair</string>
+    <string name="btn_text_gas_stations">Gas stations</string>
+    <string name="btn_text_ev_stations">EV stations</string>
+
+    <string name="menu_geometry_search_title">Geometry search</string>
+    <string name="menu_geometry_search_description">Search for POIs in a marked area.</string>
+    <string name="btn_text_parking">Parking</string>
+    <string name="btn_text_atm">ATM</string>
+    <string name="btn_text_grocery">Grocery</string>
+
+    <string name="menu_batch_search_title">Batch search</string>
+    <string name="menu_batch_search_description">Search for categories near the origin point.</string>
+    <string name="btn_text_batch_parking">Parking</string>
+    <string name="btn_text_batch_gas">Gas</string>
+    <string name="btn_text_batch_bar">Bar</string>
+</resources>
