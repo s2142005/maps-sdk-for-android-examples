@@ -38,6 +38,9 @@ public final class Locations {
     public static final LatLng SAN_FRANCISCO = new LatLng(37.7793, -122.419);
     public static final LatLng SANTA_CRUZ = new LatLng(36.9749416, -122.0285259);
 
+    public static final LatLng HAARLEM_WEST = new LatLng(52.392282, 4.634233);
+    public static final LatLng HAARLEM_KLEVERPARK = new LatLng(52.384713, 4.625929);
+
     public static final LatLng SAN_JOSE_9RD = new LatLng(37.176238, -122.139924);
     public static final LatLng SAN_JOSE_IMG1 = new LatLng(37.76028, -122.454246);
     public static final LatLng SAN_JOSE_IMG2 = new LatLng(36.926304, -121.967966);

@@ -17,7 +17,7 @@ ext {
 
 //tag::doc_setup_main_build_gradle[]
 buildscript {
-
+    ext.kotlin_version = '1.3.31'
     repositories {
         google()
         jcenter()
@@ -30,6 +30,10 @@ buildscript {
 
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.1'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jlleitschuh.gradle:ktlint-gradle:7.1.0"
+        classpath "org.jetbrains.dokka:dokka-android-gradle-plugin:0.9.17"
+        classpath "android.arch.navigation:navigation-safe-args-gradle-plugin:1.0.0"
     }
 }
 //end::doc_setup_main_build_gradle[]
