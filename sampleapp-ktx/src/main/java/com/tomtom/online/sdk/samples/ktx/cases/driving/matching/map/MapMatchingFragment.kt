@@ -30,17 +30,33 @@ class MapMatchingFragment : DrivingFragment<MapMatchingViewModel>() {
 
     override fun onResume() {
         super.onResume()
+        createMatcher()
         restoreOrCreateChevron()
         enableFollowTheChevron()
-        createMatcher()
-        viewModel.startOrResumeSimulation()
+        startOrResumeSimulation()
     }
 
     override fun onPause() {
         super.onPause()
-        viewModel.stopSimulation()
-        viewModel.disposeMatcher()
+        stopSimulation()
         disableFollowTheChevron()
+        disposeMatcher()
+    }
+
+    private fun startOrResumeSimulation() {
+        mainViewModel.applyOnMap(MapAction {
+            viewModel.startOrResumeSimulation()
+        })
+    }
+
+    private fun stopSimulation() {
+        mainViewModel.applyOnMap(MapAction {
+            viewModel.stopSimulation()
+        })
+    }
+
+    private fun disposeMatcher() {
+        viewModel.disposeMatcher()
     }
 
     private fun createMatcher() {
