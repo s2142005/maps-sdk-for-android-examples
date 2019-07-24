@@ -380,4 +380,5 @@
     <string name="label_btn_geojson_layer">GeoJSON</string>
     <string name="label_btn_roads_layer">Roads</string>
 
+    <string name="interactive_layers_polygon">%1$s clicked!</string>
 </resources>

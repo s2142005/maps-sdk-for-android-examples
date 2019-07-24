@@ -2,6 +2,7 @@
   "type": "FeatureCollection",
   "features": [
     {
+      "id": "GeoJSON Polygon",
       "type": "Feature",
       "properties": {},
       "geometry": {

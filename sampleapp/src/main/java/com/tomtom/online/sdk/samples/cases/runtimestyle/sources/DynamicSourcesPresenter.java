@@ -10,10 +10,17 @@
  */
 package com.tomtom.online.sdk.samples.cases.runtimestyle.sources;
 
+import androidx.annotation.NonNull;
+
 import com.google.common.collect.ImmutableList;
+import com.tomtom.online.sdk.common.func.FuncUtils;
+import com.tomtom.online.sdk.common.geojson.Feature;
+import com.tomtom.online.sdk.common.geojson.FeatureCollection;
 import com.tomtom.online.sdk.common.location.LatLng;
+import com.tomtom.online.sdk.helpers.AssetsHelper;
 import com.tomtom.online.sdk.map.MapConstants;
 import com.tomtom.online.sdk.map.TomtomMap;
+import com.tomtom.online.sdk.map.TomtomMapCallback;
 import com.tomtom.online.sdk.map.style.layers.Layer;
 import com.tomtom.online.sdk.map.style.layers.LayerFactory;
 import com.tomtom.online.sdk.map.style.sources.GeoJsonSource;
@@ -22,13 +29,12 @@ import com.tomtom.online.sdk.map.style.sources.SourceFactory;
 import com.tomtom.online.sdk.samples.R;
 import com.tomtom.online.sdk.samples.activities.BaseFunctionalExamplePresenter;
 import com.tomtom.online.sdk.samples.activities.FunctionalExampleModel;
-import com.tomtom.online.sdk.helpers.AssetsHelper;
 import com.tomtom.online.sdk.samples.fragments.FunctionalExampleFragment;
 import com.tomtom.online.sdk.samples.utils.Locations;
 
 import java.util.List;
 
-public class DynamicSourcesPresenter extends BaseFunctionalExamplePresenter {
+public class DynamicSourcesPresenter extends BaseFunctionalExamplePresenter implements TomtomMapCallback.OnMapClickListener {
 
     private static final String IMAGE_LAYER_JSON_PATH = "layers/raster_layer.json";
     private static final String IMAGE_SOURCE_ID = "image-source-id";
@@ -46,6 +52,7 @@ public class DynamicSourcesPresenter extends BaseFunctionalExamplePresenter {
     private static final String GEOJSON_LAYER_ID = "layer-line-id";
 
     private static final double DEFAULT_MAP_ZOOM_FOR_EXAMPLE = 15.0;
+    private static final int TOAST_DURATION = 2000; //milliseconds
 
     @Override
     public void bind(FunctionalExampleFragment view, TomtomMap map) {
@@ -53,6 +60,13 @@ public class DynamicSourcesPresenter extends BaseFunctionalExamplePresenter {
         if (!view.isMapRestored()) {
             centerOnBuckinghamPalace();
         }
+        tomtomMap.addOnMapClickListener(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        tomtomMap.removeOnMapClickListener(this);
     }
 
     @Override
@@ -131,5 +145,25 @@ public class DynamicSourcesPresenter extends BaseFunctionalExamplePresenter {
                 Locations.BUCKINGHAM_PALACE_LOCATION.getLongitude(),
                 DEFAULT_MAP_ZOOM_FOR_EXAMPLE,
                 MapConstants.ORIENTATION_NORTH);
+    }
+
+    @Override
+    public void onMapClick(@NonNull LatLng latLng) {
+        //tag::query_style_for_features[]
+        List<String> layerIds = ImmutableList.of(GEOJSON_LAYER_ID);
+        FeatureCollection featureCollection = tomtomMap.getStyleSettings().featuresAtCoordinates(latLng, layerIds);
+        //end::query_style_for_features[]
+        processFeatureCollection(featureCollection);
+    }
+
+    private void processFeatureCollection(FeatureCollection featureCollection) {
+        //tag::process_feature_list[]
+        List<Feature> featureList = featureCollection.getFeatures();
+        FuncUtils.forEach(featureList, feature -> FuncUtils.apply(feature.getId(), this::displayToast));
+        //end::process_feature_list[]
+    }
+
+    private void displayToast(String id) {
+        view.showInfoText(getContext().getString(R.string.interactive_layers_polygon, id), TOAST_DURATION);
     }
 }
