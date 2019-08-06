@@ -42,6 +42,13 @@ object Locations {
     val ARAD_TOP_RIGHT_NEIGHBORHOOD = LatLng(46.241223, 21.506465)
     val HAARLEM_WEST = LatLng(52.392282, 4.634233)
     val HAARLEM_KLEVERPARK = LatLng(52.384713, 4.625929)
+    val BUCKINGHAM_PALACE = LatLng(51.501197, -0.1436497)
+    val SAN_JOSE = LatLng(37.176238, -122.139924)
+    val SAN_JOSE_IMG1 = LatLng(37.76028, -122.454246)
+    val SAN_JOSE_IMG2 = LatLng(36.926304, -121.967966)
+    val SAN_JOSE_IMG3 = LatLng(37.455662, -122.492698)
+    val SAN_FRANCISCO = LatLng(37.7793, -122.419)
+    val SANTA_CRUZ = LatLng(36.9749416, -122.0285259)
 
     private var r = Random(System.currentTimeMillis())
 

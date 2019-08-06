@@ -41,6 +41,15 @@
             android:id="@+id/action_mapMenuFragment_to_customMapStyleFragment"
             app:destination="@+id/customMapStyleFragment" />
         <action
+            android:id="@+id/action_mapMenuFragment_to_mapLayerVisibilityFragment"
+            app:destination="@+id/mapLayerVisibilityFragment" />
+        <action
+            android:id="@+id/action_mapMenuFragment_to_mapDynamicSourcesFragment"
+            app:destination="@+id/mapDynamicSourcesFragment" />
+        <action
+            android:id="@+id/action_mapMenuFragment_to_mapDynamicLayerOrderingFragment"
+            app:destination="@+id/mapDynamicLayerOrderFragment" />
+        <action
             android:id="@+id/action_mapMenuFragment_to_mapStaticImageFragment"
             app:destination="@+id/mapStaticImageFragment" />
         <action
@@ -106,6 +115,18 @@
         android:id="@+id/customMapStyleFragment"
         android:name="com.tomtom.online.sdk.samples.ktx.cases.map.styles.CustomMapStyleFragment"
         android:label="@string/menu_map_styles_title" />
+    <fragment
+        android:id="@+id/mapLayerVisibilityFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.map.runtimestyles.visibility.LayerVisibilityFragment"
+        android:label="@string/menu_map_layers_visibility_title" />
+    <fragment
+        android:id="@+id/mapDynamicSourcesFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.map.runtimestyles.sources.DynamicSourcesFragment"
+        android:label="@string/menu_map_dynamic_sources_title" />
+    <fragment
+        android:id="@+id/mapDynamicLayerOrderFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.map.runtimestyles.zorder.DynamicLayerOrderFragment"
+        android:label="@string/menu_map_dynamic_layer_ordering_title" />
     <fragment
         android:id="@+id/mapStaticImageFragment"
         android:name="com.tomtom.online.sdk.samples.ktx.cases.map.staticimage.StaticImageFragment"

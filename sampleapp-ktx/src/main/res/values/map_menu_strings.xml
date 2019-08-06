@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2015-2019 TomTom N.V. All rights reserved.
   ~
   ~ This software is the proprietary copyright of TomTom N.V. and its subsidiaries and may be used
@@ -45,6 +44,28 @@
 
     <string name="menu_map_styles_title">Custom style</string>
     <string name="menu_map_styles_description">Give custom look and feel to your map with a map style</string>
+
+    <string name="menu_map_layers_visibility_title">Map layers visibility</string>
+    <string name="menu_map_layers_visibility_description">Customize time which map layers are shown in the map in real time.</string>
+
+    <string name="label_map_layers_road_network_btn">"Road network"</string>
+    <string name="label_map_layers_woodland_btn">"Woodland"</string>
+    <string name="label_map_layers_build_up_btn">"Build-up"</string>
+
+    <string name="menu_map_dynamic_sources_title">Dynamic map sources</string>
+    <string name="menu_map_dynamic_sources_description">Place images on the map with an image source, draw polygons and lines with a geoJSON source.</string>
+
+    <string name="label_map_dynamic_sources_geojson_btn">"GeoJson"</string>
+    <string name="label_map_dynamic_sources_image_btn">"Image"</string>
+
+    <string name="interactive_layers_polygon">%1$s clicked!</string>
+
+    <string name="menu_map_dynamic_layer_ordering_title">Dynamic layer ordering</string>
+    <string name="menu_map_dynamic_layer_ordering_description">Change the z-order of layers dynamically.</string>
+
+    <string name="label_map_dynamic_layer_order_image_btn">"Images"</string>
+    <string name="label_map_dynamic_layer_order_geojson_btn">"GeoJson"</string>
+    <string name="label_map_dynamic_layer_order_roads_btn">"Roads"</string>
 
     <string name="label_map_style_basic_btn">Basic</string>
     <string name="label_map_style_custom_btn">Custom</string>

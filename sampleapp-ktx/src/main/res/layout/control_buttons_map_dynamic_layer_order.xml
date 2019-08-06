@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RadioButton
+        android:id="@+id/map_dynamic_layer_order_image_btn"
+        style="@style/ControlButton"
+        android:checked="true"
+        android:text="@string/label_map_dynamic_layer_order_image_btn" />
+
+    <RadioButton
+        android:id="@+id/map_dynamic_layer_order_geojson_btn"
+        style="@style/ControlButton"
+        android:text="@string/label_map_dynamic_layer_order_geojson_btn" />
+
+    <RadioButton
+        android:id="@+id/map_dynamic_layer_order_roads_btn"
+        style="@style/ControlButton"
+        android:text="@string/label_map_dynamic_layer_order_roads_btn" />
+
+</merge>

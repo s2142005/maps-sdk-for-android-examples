@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/map_layout_parent"
+        style="@style/ControlButtonsContainer">
+
+        <CheckBox
+            android:id="@+id/map_layers_road_network_btn"
+            style="@style/ControlButton"
+            android:text="@string/label_map_layers_road_network_btn" />
+
+        <CheckBox
+            android:id="@+id/map_layers_woodland_btn"
+            style="@style/ControlButton"
+            android:text="@string/label_map_layers_woodland_btn" />
+
+        <CheckBox
+            android:id="@+id/map_layers_build_up_btn"
+            style="@style/ControlButton"
+            android:text="@string/label_map_layers_build_up_btn" />
+
+    </LinearLayout>
+
+</FrameLayout>
