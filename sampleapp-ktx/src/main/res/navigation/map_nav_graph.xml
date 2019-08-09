@@ -50,6 +50,12 @@
             android:id="@+id/action_mapMenuFragment_to_mapDynamicLayerOrderingFragment"
             app:destination="@+id/mapDynamicLayerOrderFragment" />
         <action
+            android:id="@+id/action_mapMenuFragment_to_mapInteractiveLayersFragment"
+            app:destination="@+id/mapInteractiveLayersFragment" />
+        <action
+            android:id="@+id/action_mapMenuFragment_to_mapImageClusteringFragment"
+            app:destination="@+id/mapImageClusteringFragment" />
+        <action
             android:id="@+id/action_mapMenuFragment_to_mapStaticImageFragment"
             app:destination="@+id/mapStaticImageFragment" />
         <action
@@ -127,6 +133,14 @@
         android:id="@+id/mapDynamicLayerOrderFragment"
         android:name="com.tomtom.online.sdk.samples.ktx.cases.map.runtimestyles.zorder.DynamicLayerOrderFragment"
         android:label="@string/menu_map_dynamic_layer_ordering_title" />
+    <fragment
+        android:id="@+id/mapInteractiveLayersFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.map.runtimestyles.interactivelayers.InteractiveLayersFragment"
+        android:label="@string/menu_map_interactive_layers_title" />
+    <fragment
+        android:id="@+id/mapImageClusteringFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.map.runtimestyles.clustering.ImageClusteringFragment"
+        android:label="@string/menu_map_image_clustering_title" />
     <fragment
         android:id="@+id/mapStaticImageFragment"
         android:name="com.tomtom.online.sdk.samples.ktx.cases.map.staticimage.StaticImageFragment"

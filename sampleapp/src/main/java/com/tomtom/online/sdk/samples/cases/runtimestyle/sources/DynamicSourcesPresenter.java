@@ -10,9 +10,13 @@
  */
 package com.tomtom.online.sdk.samples.cases.runtimestyle.sources;
 
-import androidx.annotation.NonNull;
+import android.graphics.PointF;
+import android.graphics.RectF;
+
+import androidx.annotation.VisibleForTesting;
 
 import com.google.common.collect.ImmutableList;
+import com.tomtom.core.maps.OnMapTapListener;
 import com.tomtom.online.sdk.common.func.FuncUtils;
 import com.tomtom.online.sdk.common.geojson.Feature;
 import com.tomtom.online.sdk.common.geojson.FeatureCollection;
@@ -20,7 +24,6 @@ import com.tomtom.online.sdk.common.location.LatLng;
 import com.tomtom.online.sdk.helpers.AssetsHelper;
 import com.tomtom.online.sdk.map.MapConstants;
 import com.tomtom.online.sdk.map.TomtomMap;
-import com.tomtom.online.sdk.map.TomtomMapCallback;
 import com.tomtom.online.sdk.map.style.layers.Layer;
 import com.tomtom.online.sdk.map.style.layers.LayerFactory;
 import com.tomtom.online.sdk.map.style.sources.GeoJsonSource;
@@ -34,7 +37,7 @@ import com.tomtom.online.sdk.samples.utils.Locations;
 
 import java.util.List;
 
-public class DynamicSourcesPresenter extends BaseFunctionalExamplePresenter implements TomtomMapCallback.OnMapClickListener {
+public class DynamicSourcesPresenter extends BaseFunctionalExamplePresenter {
 
     private static final String IMAGE_LAYER_JSON_PATH = "layers/raster_layer.json";
     private static final String IMAGE_SOURCE_ID = "image-source-id";
@@ -60,13 +63,13 @@ public class DynamicSourcesPresenter extends BaseFunctionalExamplePresenter impl
         if (!view.isMapRestored()) {
             centerOnBuckinghamPalace();
         }
-        tomtomMap.addOnMapClickListener(this);
+        tomtomMap.getGestureDetector().addOnMapTapListener(onMapTapListener);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        tomtomMap.removeOnMapClickListener(this);
+        tomtomMap.getGestureDetector().removeOnMapTapListener(onMapTapListener);
     }
 
     @Override
@@ -147,14 +150,22 @@ public class DynamicSourcesPresenter extends BaseFunctionalExamplePresenter impl
                 MapConstants.ORIENTATION_NORTH);
     }
 
-    @Override
-    public void onMapClick(@NonNull LatLng latLng) {
-        //tag::query_style_for_features[]
-        List<String> layerIds = ImmutableList.of(GEOJSON_LAYER_ID);
-        FeatureCollection featureCollection = tomtomMap.getStyleSettings().featuresAtCoordinates(latLng, layerIds);
-        //end::query_style_for_features[]
-        processFeatureCollection(featureCollection);
-    }
+    private OnMapTapListener onMapTapListener = new OnMapTapListener() {
+        @Override
+        public void onMapTap(Float x, Float y) {
+            PointF point = new PointF(x, y);
+            //tag::query_style_for_features[]
+            List<String> layerIds = ImmutableList.of(GEOJSON_LAYER_ID);
+            FeatureCollection featureCollection = tomtomMap.getDisplaySettings().featuresAtPoint(point, layerIds);
+            //end::query_style_for_features[]
+            processFeatureCollection(featureCollection);
+        }
+
+        @Override
+        public void onMapLongTap(Float x, Float y) {
+            //not used right now
+        }
+    };
 
     private void processFeatureCollection(FeatureCollection featureCollection) {
         //tag::process_feature_list[]
@@ -166,4 +177,18 @@ public class DynamicSourcesPresenter extends BaseFunctionalExamplePresenter impl
     private void displayToast(String id) {
         view.showInfoText(getContext().getString(R.string.interactive_layers_polygon, id), TOAST_DURATION);
     }
+
+    @VisibleForTesting
+    @SuppressWarnings("unused")
+    void queryStyleForFeaturesInViewport() {
+        List<String> layerIds = ImmutableList.of(GEOJSON_LAYER_ID);
+        PointF topLeft = new PointF(2.0f, 3.0f);
+        PointF bottomRight = new PointF(2.0f, 4.0f);
+        RectF mapViewPort = new RectF(topLeft.x, topLeft.y, bottomRight.x, bottomRight.y);
+
+        //tag::query_style_for_features_in_viewport[]
+        FeatureCollection featureCollection = tomtomMap.getDisplaySettings().featuresInScreenRect(mapViewPort, layerIds);
+        //end::query_style_for_features_in_viewport[]
+    }
+
 }

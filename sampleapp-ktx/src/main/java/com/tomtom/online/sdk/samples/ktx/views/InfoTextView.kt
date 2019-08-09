@@ -35,6 +35,11 @@ class InfoTextView @JvmOverloads constructor(
         handler.postDelayed(runnable, duration)
     }
 
+    fun displayPermanently(msg: String) {
+        text = msg
+        visibility = View.VISIBLE
+    }
+
     companion object {
         const val DEFAULT_DURATION_MILLIS = 2000L
     }

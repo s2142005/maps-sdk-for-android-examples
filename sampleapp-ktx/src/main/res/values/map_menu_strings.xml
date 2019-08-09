@@ -67,6 +67,16 @@
     <string name="label_map_dynamic_layer_order_geojson_btn">"GeoJson"</string>
     <string name="label_map_dynamic_layer_order_roads_btn">"Roads"</string>
 
+    <string name="menu_map_image_clustering_title">Image clustering</string>
+    <string name="menu_map_image_clustering_description">Cluster images that were added to the style.</string>
+
+    <string name="menu_map_interactive_layers_title">Get style features</string>
+    <string name="menu_map_interactive_layers_description">Retrieve currently rendered features in a viewport and at point.</string>
+
+    <string name="interactive_layers_no_features_found">No features visible</string>
+    <string name="interactive_layers_at_point_header">Features clicked at point: \n</string>
+    <string name="interactive_layers_viewport_changed_header">Features in viewport:\n</string>
+
     <string name="label_map_style_basic_btn">Basic</string>
     <string name="label_map_style_custom_btn">Custom</string>
 

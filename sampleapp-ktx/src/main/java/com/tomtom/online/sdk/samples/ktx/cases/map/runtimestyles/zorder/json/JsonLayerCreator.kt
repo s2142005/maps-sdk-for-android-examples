@@ -12,6 +12,7 @@ package com.tomtom.online.sdk.samples.ktx.cases.map.runtimestyles.zorder.json
 
 import org.json.JSONException
 import org.json.JSONObject
+import timber.log.Timber
 import java.util.*
 
 object JsonLayerCreator {
@@ -31,6 +32,7 @@ object JsonLayerCreator {
             }
             layerJson.toString()
         } catch (exception: JSONException) {
+            Timber.e("Failed to create JSON from descriptor, returning empty JSON")
             "{}"
         }
     }

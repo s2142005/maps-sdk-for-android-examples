@@ -49,6 +49,7 @@ class MapUiExtensionsFragment : ExampleFragment() {
     override fun onExampleStarted() {
         super.onExampleStarted()
         centerOnWithBearing()
+        setLocationUpdates(true)
     }
 
     override fun onResume() {
@@ -62,10 +63,17 @@ class MapUiExtensionsFragment : ExampleFragment() {
         defaultUiVisibility()
         defaultUiComponentsIcons()
         defaultCurrentLocationViewMargins()
+        setLocationUpdates(false)
     }
 
     private fun inflateControlButtons() {
         layoutInflater.inflate(R.layout.control_buttons_ui_extensions, mapControlButtonsContainer, true)
+    }
+
+    private fun setLocationUpdates(enabled: Boolean) {
+        mainViewModel.applyOnMap(MapAction {
+            isMyLocationEnabled = enabled
+        })
     }
 
     private fun confViewActions() {

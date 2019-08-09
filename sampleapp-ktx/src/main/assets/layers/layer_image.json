@@ -1,0 +1,10 @@
+{
+  "id": "IC-layer-cluster-image",
+  "filter": ["!has", "point_count"],
+  "type": "symbol",
+  "layout": {
+    "icon-image":  "{icon}",
+    "icon-allow-overlap": true
+  },
+  "source": "IC-clustering-source"
+}

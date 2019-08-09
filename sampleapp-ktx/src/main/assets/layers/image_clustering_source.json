@@ -1,0 +1,114 @@
+ "IC-clustering-source": {
+    "type": "geojson",
+    "cluster": true,
+    "clusterRadius": 70,
+    "data": {
+      "type": "FeatureCollection",
+      "features": [
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.710759,
+              52.340415
+            ]
+          },
+          "properties": {
+            "icon": "ic_jet_airplane"
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.911038,
+              52.379749
+            ]
+          },
+          "properties": {
+            "icon": "ic_tunnel"
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.902259,
+              52.376433
+            ]
+          },
+          "properties": {
+            "icon": "ic_amsterdam_night"
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.892744,
+              52.369375
+            ]
+          },
+          "properties": {
+            "icon": "ic_amsterdam_rokin"
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.982211,
+              52.342163
+            ]
+          },
+          "properties": {
+            "icon": "ic_road_with_traffic"
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.855640,
+              52.442560
+            ]
+          },
+          "properties": {
+            "icon": "ic_gas_station"
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              5.011129,
+              52.347500
+            ]
+          },
+          "properties": {
+            "icon": "ic_skyscrapers"
+          }
+        },
+        {
+          "type": "Feature",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              4.794660,
+              52.459127
+            ]
+          },
+          "properties": {
+            "icon": "ic_traffic_light"
+          }
+        }
+      ]
+    }
+  }

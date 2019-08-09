@@ -1,0 +1,17 @@
+{
+  "filter": ["has", "point_count"],
+  "id": "IC-layer-symbol-count",
+  "source": "IC-clustering-source",
+  "type": "symbol",
+  "layout": {
+    "text-field": "{point_count}",
+    "text-font": [
+      "Noto-Bold"
+    ],
+    "text-size": 14,
+    "text-offset": [0.0, 0.0]
+  },
+  "paint": {
+    "text-color": "#FFFFFF"
+  }
+}

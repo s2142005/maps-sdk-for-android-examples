@@ -1,0 +1,11 @@
+{
+  "id": "IC-layer-clustered",
+  "filter": ["has", "point_count"],
+  "type": "symbol",
+  "layout": {
+    "icon-image":  "ic_cluster",
+    "icon-allow-overlap": true,
+    "icon-ignore-placement": true
+  },
+  "source": "IC-clustering-source"
+}
