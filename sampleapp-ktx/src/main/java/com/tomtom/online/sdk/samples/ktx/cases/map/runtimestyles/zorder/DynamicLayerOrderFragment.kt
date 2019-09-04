@@ -35,8 +35,8 @@ class DynamicLayerOrderFragment : ExampleFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        confViewModel()
         inflateControlButtons()
+        confViewModel()
         confViewActions()
     }
 
@@ -68,11 +68,13 @@ class DynamicLayerOrderFragment : ExampleFragment() {
 
     private fun processRoutingResults(routes: List<FullRoute>) {
         mainViewModel.applyOnMap(MapAction {
-            RouteDrawer(requireContext(), this).drawDefault(routes)
+            if (routeSettings.routes.isEmpty()) {
+                RouteDrawer(requireContext(), this).drawDefault(routes)
 
-            val layerDrawer = DynamicLayerDrawer(requireContext(), this)
-            layerDrawer.addGeoJsonLayer(routes.first())
-            layerDrawer.addImageLayers()
+                val layerDrawer = DynamicLayerDrawer(requireContext(), this)
+                layerDrawer.addGeoJsonLayer(routes.first())
+                layerDrawer.addImageLayers()
+            }
         })
     }
 

@@ -12,4 +12,4 @@ package com.tomtom.online.sdk.samples.ktx.utils.driving
 
 import android.location.Location
 
-class RouteSimulator(override val locations: List<Location>, locationInterpolator: com.tomtom.online.sdk.samples.ktx.utils.driving.LocationInterpolator) : com.tomtom.online.sdk.samples.ktx.utils.driving.BaseSimulator(locationInterpolator)
+class RouteSimulator(override val locations: List<Location>, locationInterpolator: LocationInterpolator) : BaseSimulator(locationInterpolator)

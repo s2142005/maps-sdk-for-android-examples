@@ -10,6 +10,7 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/menu_item_height"
     android:layout_marginLeft="@dimen/default_small_padding"
@@ -18,9 +19,10 @@
     android:background="@drawable/menu_item_background"
     android:orientation="vertical">
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/menu_item_title_height"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="@dimen/default_small_padding">
 
@@ -32,36 +34,38 @@
 
         <TextView
             android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="@dimen/menu_item_icon"
-            android:gravity="center"
-            android:paddingLeft="@dimen/default_small_padding"
+            android:layout_width="@dimen/zero_dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/default_small_padding"
+            android:layout_marginEnd="@dimen/default_small_padding"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:singleLine="true"
             android:textColor="@color/solid_black"
             android:textSize="@dimen/menu_item_title_text"
-            android:textStyle="normal" />
+            android:textStyle="normal"
+            tools:text="Test long title test long title test long title" />
 
         <ImageView
             android:layout_width="@dimen/menu_item_arrow"
             android:layout_height="@dimen/menu_item_arrow"
-            android:layout_gravity="center_vertical|right"
             android:adjustViewBounds="true"
             android:src="@drawable/ic_arrow" />
 
-    </FrameLayout>
+    </LinearLayout>
 
     <TextView
         android:id="@+id/description"
         android:layout_width="match_parent"
         android:layout_height="@dimen/menu_item_description_height"
+        android:ellipsize="end"
         android:maxLines="3"
         android:paddingLeft="@dimen/default_small_padding"
         android:paddingRight="@dimen/default_small_padding"
         android:paddingBottom="@dimen/default_small_padding"
         android:textColor="@color/deep_gray"
-        android:textSize="@dimen/menu_item_description_text" />
-
+        android:textSize="@dimen/menu_item_description_text"
+        tools:text="Test long description test long description test long description test long description test long description test long description test long description" />
 
     <ImageView
         android:id="@+id/banner"

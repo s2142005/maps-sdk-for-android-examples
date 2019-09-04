@@ -52,7 +52,7 @@ abstract class BaseSimulator(private val locationInterpolator: LocationInterpola
             val interpolatedLocation = locationInterpolator?.interpolate(location) ?: location
 
             //Next location calculated based on route points
-            //If we are visiting last location, wait 1 second
+            //If we are visiting last location, wait 1.2 second
             //Before starting this simulation again
             var nextLocationDelay = DEFAULT_DELAY_TIME_IN_MS
             if (gpsActiveLocationIdx < locations.size - 1) {

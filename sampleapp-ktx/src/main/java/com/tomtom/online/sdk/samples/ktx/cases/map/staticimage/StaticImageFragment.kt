@@ -17,15 +17,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import com.tomtom.online.sdk.common.config.loader.SingleManifestValueLoader
 import com.tomtom.online.sdk.common.config.provider.ConfigProvider
+import com.tomtom.online.sdk.samples.ktx.cases.ExampleFragment
 import com.tomtom.online.sdk.staticimage.StaticImage.LAYER_HYBRID
 import com.tomtom.online.sdk.staticimage.StaticImage.STYLE_NIGHT
 import com.tomtom.sdk.examples.R
 import kotlinx.android.synthetic.main.fragment_map_static_image.*
 
-class StaticImageFragment : Fragment() {
+class StaticImageFragment : ExampleFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {

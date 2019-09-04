@@ -10,12 +10,11 @@
  */
 package com.tomtom.online.sdk.samples.ktx.utils.driving
 
-
 import android.content.Context
 import android.location.Location
 import com.tomtom.online.sdk.samples.ktx.utils.csv.parseFromAssets
 
-class GpsCsvSimulator(context: Context, locationInterpolator: com.tomtom.online.sdk.samples.ktx.utils.driving.LocationInterpolator) : com.tomtom.online.sdk.samples.ktx.utils.driving.BaseSimulator(locationInterpolator) {
+class GpsCsvSimulator(context: Context, locationInterpolator: LocationInterpolator) : BaseSimulator(locationInterpolator) {
 
     override val locations: List<Location> =
         parseFromAssets(context, DRIVING_PROBE_CSV_FILE, DEFAULT_HEADER_LINES)
@@ -24,5 +23,4 @@ class GpsCsvSimulator(context: Context, locationInterpolator: com.tomtom.online.
         private const val DRIVING_PROBE_CSV_FILE = "probes/simple_route.csv"
         private const val DEFAULT_HEADER_LINES = 0
     }
-
 }

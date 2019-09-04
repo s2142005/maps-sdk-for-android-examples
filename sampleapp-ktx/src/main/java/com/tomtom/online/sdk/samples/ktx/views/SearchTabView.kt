@@ -28,15 +28,15 @@ class SearchTabView @JvmOverloads constructor(
         }
     }
 
-    fun setupTabSelectedListener(onTabSelected: (TabLayout.Tab) -> Unit) {
-        addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabReselected(tab: TabLayout.Tab?) {
+    fun setupTabSelectedListener(onTabSelected: (Tab) -> Unit) {
+        addOnTabSelectedListener(object : OnTabSelectedListener {
+            override fun onTabReselected(tab: Tab?) {
             }
 
-            override fun onTabUnselected(tab: TabLayout.Tab?) {
+            override fun onTabUnselected(tab: Tab?) {
             }
 
-            override fun onTabSelected(tab: TabLayout.Tab) {
+            override fun onTabSelected(tab: Tab) {
                 selectTabAt(tab.position)
                 onTabSelected(tab)
             }
@@ -44,7 +44,7 @@ class SearchTabView @JvmOverloads constructor(
     }
 
     fun selectTabAt(position: Int) {
-        getTabAt(position)?.let { it.select() }
+        getTabAt(position)?.select()
     }
 
     private fun addSearchTabs(tabTitlesResIds: IntArray) {

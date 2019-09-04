@@ -13,6 +13,7 @@ package com.tomtom.online.sdk.samples.ktx.cases.search.entrypoints
 
 import android.app.Application
 import com.tomtom.online.sdk.samples.ktx.cases.search.SearchViewModel
+import com.tomtom.online.sdk.samples.ktx.utils.routes.Locations
 import com.tomtom.online.sdk.search.data.fuzzy.FuzzySearchQueryBuilder
 
 class EntryPointsViewModel(application: Application) : SearchViewModel(application) {
@@ -21,7 +22,7 @@ class EntryPointsViewModel(application: Application) : SearchViewModel(applicati
         val queryBuilder = FuzzySearchQueryBuilder
                 .create(query)
                 .withIdx(IDX_POI)
-                .withPosition(addPosition())
+                .withPosition(Locations.AMSTERDAM_CENTER)
                 .build()
 
         search(queryBuilder)

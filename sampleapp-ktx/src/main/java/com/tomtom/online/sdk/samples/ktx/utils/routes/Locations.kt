@@ -14,7 +14,6 @@ import com.google.common.collect.ImmutableList
 import com.tomtom.online.sdk.common.location.LatLng
 import java.util.*
 
-@Suppress("unused")
 object Locations {
 
     val BERLIN = LatLng(52.520007, 13.404954)
@@ -49,6 +48,8 @@ object Locations {
     val SAN_JOSE_IMG3 = LatLng(37.455662, -122.492698)
     val SAN_FRANCISCO = LatLng(37.7793, -122.419)
     val SANTA_CRUZ = LatLng(36.9749416, -122.0285259)
+    val CZECH_REPUBLIC = LatLng(50.746420115485755, 14.799316562712196)
+    val ROMANIA = LatLng(45.33232542221267, 22.753418125212196)
 
     private var r = Random(System.currentTimeMillis())
 

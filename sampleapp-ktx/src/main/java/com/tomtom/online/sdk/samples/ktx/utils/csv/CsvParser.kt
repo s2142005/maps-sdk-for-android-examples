@@ -66,16 +66,6 @@ fun parseFromAssets(
     return result
 }
 
-fun parseFromSdCard(fileName: String): List<Location> {
-    val result = arrayListOf<Location>()
-    FileReader("${Environment.getExternalStorageDirectory()}/$fileName").use { reader ->
-        reader.readLines().forEach { line ->
-            result.add(parseLine(line))
-        }
-    }
-    return result
-}
-
 private fun parseLine(line: String): Location {
 
     val tokens = line.split(CSV_SEPARATOR)

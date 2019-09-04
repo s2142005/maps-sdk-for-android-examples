@@ -13,7 +13,6 @@ package com.tomtom.online.sdk.samples.ktx.utils.driving
 import android.location.Location
 
 import com.tomtom.online.sdk.map.Chevron
-import com.tomtom.online.sdk.samples.ktx.utils.driving.BaseSimulator
 
 class ChevronSimulatorUpdater(private var chevron: Chevron) : BaseSimulator.SimulatorCallback {
 

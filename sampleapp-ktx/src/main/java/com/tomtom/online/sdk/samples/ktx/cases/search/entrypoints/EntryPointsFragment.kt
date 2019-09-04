@@ -38,7 +38,7 @@ class EntryPointsFragment : SearchFragment<EntryPointsViewModel>() {
             viewModel.search("Amsterdam Airport Schiphol")
         }
         search_entry_shopping_mall_btn.setOnClickListener {
-            viewModel.search("Kalvertoren Singel 451")
+            viewModel.search("Kalvertoren Singel")
         }
     }
 

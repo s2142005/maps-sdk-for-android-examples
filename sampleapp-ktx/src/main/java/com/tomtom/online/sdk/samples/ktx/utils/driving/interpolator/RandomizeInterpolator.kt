@@ -23,19 +23,19 @@ class RandomizeInterpolator : com.tomtom.online.sdk.samples.ktx.utils.driving.Lo
         val random = Random(Calendar.getInstance().timeInMillis)
 
         // Convert radius from meters to degrees
-        val radiusInDegrees = (com.tomtom.online.sdk.samples.ktx.utils.driving.interpolator.RandomizeInterpolator.Companion.DEFAULT_RADIUS_IN_METERS / com.tomtom.online.sdk.samples.ktx.utils.driving.interpolator.RandomizeInterpolator.Companion.METERS_TO_DEGREES_FACTOR).toDouble()
+        val radiusInDegrees = (DEFAULT_RADIUS_IN_METERS / METERS_TO_DEGREES_FACTOR).toDouble()
 
         val u = random.nextDouble()
         val v = random.nextDouble()
         val w = radiusInDegrees * Math.sqrt(u)
         val t = 2.0 * Math.PI * v
-        val new_x = Math.abs(w * Math.cos(t))
-        val new_y = Math.abs(w * Math.sin(t))
+        val newX = Math.abs(w * Math.cos(t))
+        val newY = Math.abs(w * Math.sin(t))
         val yS = Math.sin(Math.toRadians(location.bearing.toDouble()))
         val xS = -Math.cos(Math.toRadians(location.bearing.toDouble()))
 
-        val foundLongitude = new_x * xS + location.longitude
-        val foundLatitude = new_y * yS + location.latitude
+        val foundLongitude = newX * xS + location.longitude
+        val foundLatitude = newY * yS + location.latitude
 
         result.latitude = foundLatitude
         result.longitude = foundLongitude
@@ -44,8 +44,8 @@ class RandomizeInterpolator : com.tomtom.online.sdk.samples.ktx.utils.driving.Lo
 
     companion object {
 
-        private val DEFAULT_RADIUS_IN_METERS = 35
-        private val METERS_TO_DEGREES_FACTOR = 111000f
+        private const val DEFAULT_RADIUS_IN_METERS = 35
+        private const val METERS_TO_DEGREES_FACTOR = 111000f
     }
 
 }

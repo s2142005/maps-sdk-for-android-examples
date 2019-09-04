@@ -19,6 +19,7 @@ import java.util.*
 private const val NEXT_POINT_TIME_DIFF_IN_MILLIS = 1200.0
 private const val POINT_DEFAULT_ACCURACY = 0.0f
 private const val POINT_DEFAULT_SPEED = 50.0f
+private const val POINT_DEFAULT_BEARING = 0.0f
 
 fun convertFromRoutesToLocations(routes: List<FullRoute>): List<Location> {
     if (routes.isEmpty()) {
@@ -31,7 +32,7 @@ fun convertFromRoutesToLocations(routes: List<FullRoute>): List<Location> {
 
     for ((pointIdx, point) in routePoints.withIndex()) {
 
-        var pointBearing = 0.0f
+        var pointBearing = POINT_DEFAULT_BEARING
         if (pointIdx > 0) {
             val prevPoint = routePoints[pointIdx - 1]
             pointBearing = getBearingInDegrees(prevPoint, point)

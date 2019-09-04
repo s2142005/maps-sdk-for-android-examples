@@ -15,10 +15,10 @@ import com.tomtom.online.sdk.common.location.LatLng
 class CzechRepublicToRomaniaRouteConfig : RouteConfigExample {
 
     override val origin: LatLng
-        get() = LatLng(50.746420115485755, 14.799316562712196)
+        get() = Locations.CZECH_REPUBLIC
 
     override val destination: LatLng
-        get() = LatLng(45.33232542221267, 22.753418125212196)
+        get() = Locations.ROMANIA
 
     override val waypoints: List<LatLng>?
         get() = null
