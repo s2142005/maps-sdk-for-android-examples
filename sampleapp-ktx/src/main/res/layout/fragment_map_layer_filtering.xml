@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RadioGroup
+        android:id="@+id/map_layout_parent"
+        style="@style/ControlButtonsContainer">
+
+        <RadioButton
+            android:id="@+id/map_layer_filtering_road_motorways"
+            style="@style/ControlButton"
+            android:text="@string/label_map_layers_filtering_road_motorways" />
+
+        <RadioButton
+            android:id="@+id/map_layer_filtering_road_major"
+            style="@style/ControlButton"
+            android:text="@string/label_map_layers_filtering_road_major" />
+
+        <RadioButton
+            android:id="@+id/map_layer_filtering_road_all"
+            style="@style/ControlButton"
+            android:text="@string/label_map_layers_filtering_road_all" />
+
+    </RadioGroup>
+
+</FrameLayout>

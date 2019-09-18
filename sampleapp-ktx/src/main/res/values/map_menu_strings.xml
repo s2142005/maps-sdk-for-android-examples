@@ -52,6 +52,13 @@
     <string name="label_map_layers_woodland_btn">"Woodland"</string>
     <string name="label_map_layers_build_up_btn">"Build-up"</string>
 
+    <string name="menu_map_layers_filtering_title">Map layer filtering</string>
+    <string name="menu_map_layers_filtering_description">Filter map layers in runtime.</string>
+
+    <string name="label_map_layers_filtering_road_motorways">Motorways</string>
+    <string name="label_map_layers_filtering_road_major">Major road</string>
+    <string name="label_map_layers_filtering_road_all">All</string>
+
     <string name="menu_map_dynamic_sources_title">Dynamic map sources</string>
     <string name="menu_map_dynamic_sources_description">Place images on the map with an image source, draw polygons and lines with a geoJSON source.</string>
 

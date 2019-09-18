@@ -126,6 +126,10 @@
         android:name="com.tomtom.online.sdk.samples.ktx.cases.map.runtimestyles.visibility.LayerVisibilityFragment"
         android:label="@string/menu_map_layers_visibility_title" />
     <fragment
+        android:id="@+id/mapLayerFilteringFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.map.runtimestyles.filtering.MapLayerFilteringFragment"
+        android:label="@string/menu_map_layers_filtering_title" />
+    <fragment
         android:id="@+id/mapDynamicSourcesFragment"
         android:name="com.tomtom.online.sdk.samples.ktx.cases.map.runtimestyles.sources.DynamicSourcesFragment"
         android:label="@string/menu_map_dynamic_sources_title" />
