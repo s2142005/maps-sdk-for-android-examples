@@ -122,6 +122,10 @@ ext {
             gesture                : '0.0.8',
             detekt                 : '1.0.0-RC12',
             ktlint                 : '6.3.1',
+            replayingshare         : '2.1.1',
+            rxandroidble           : '1.10.2',
+            rxkotlin               : '2.3.0',
+            mapbox_gestures        : '0.5.1',
             test                   : [
                     junit              : '4.13-beta-3',
                     robospock          : '1.0.1',
@@ -133,6 +137,7 @@ ext {
                     fest               : '2.0M10',
                     cglibnodep         : '3.3.0',
                     powermock          : '1.6.6',
+                    powermock_mockito  : '1.7.1',
                     mockitoForPowermock: '2.0.0-beta',
                     wiremock           : '2.14.0',
                     httpclientandroid  : '4.3.5.1',

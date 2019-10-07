@@ -91,6 +91,12 @@
         <action
             android:id="@+id/action_mapMenuFragment_to_advancedMarkersFragment"
             app:destination="@id/advancedMarkersFragment" />
+        <action
+            android:id="@+id/action_mapMenuFragment_to_mapBuildingHeightsFragment"
+            app:destination="@id/mapBuildingHeightsFragment" />
+        <action
+            android:id="@+id/action_mapMenuFragment_to_mapLayerFilteringFragment"
+            app:destination="@id/mapLayerFilteringFragment" />
     </fragment>
 
     <fragment
@@ -189,5 +195,9 @@
         android:id="@+id/multipleMapsFragment"
         android:name="com.tomtom.online.sdk.samples.ktx.cases.map.multiplemaps.MultipleMapsFragment"
         android:label="@string/menu_map_multiple_maps_title" />
+    <fragment
+        android:id="@+id/mapBuildingHeightsFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.map.buildingheights.MapBuildingHeightsFragment"
+        android:label="@string/menu_map_building_heights_title" />
 
 </navigation>

@@ -164,4 +164,9 @@
     <string name="menu_map_multiple_maps_title">Multiple maps</string>
     <string name="menu_map_multiple_maps_description">Display more then one map on controller.</string>
 
+    <string name="menu_map_building_heights_title">Map with building heights</string>
+    <string name="menu_map_building_heights_description">Display the map in 2.5D with building heights or in 2D with building footprints.</string>
+    <string name="label_map_building_heights_enable_btn">Heights</string>
+    <string name="label_map_building_heights_disable_btn">Footprints</string>
+
 </resources>
