@@ -11,8 +11,10 @@
   -->
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
     <fragment
         android:id="@+id/mini_map_fragment"
@@ -22,6 +24,7 @@
         android:layout_gravity="top|end"
         android:layout_margin="@dimen/mini_map_margin"
         android:background="@color/solid_black"
-        android:padding="@dimen/mini_map_border" />
+        android:padding="@dimen/mini_map_border"
+        app:customMapBackgroundColor="@color/solid_black"/>
 
 </FrameLayout>
