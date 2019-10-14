@@ -142,10 +142,11 @@ ext {
                     wiremock           : '2.14.0',
                     httpclientandroid  : '4.3.5.1',
                     mockito_kotlin     : '1.5.0',
+                    mockito_kotlin2    : '2.2.0',
                     kluent             : '1.40',
                     support            : '0.5',
                     mockk              : '1.7.15',
-                    bouncycastle: '1.56',
+                    bouncycastle       : '1.56',
 
 
             ],
