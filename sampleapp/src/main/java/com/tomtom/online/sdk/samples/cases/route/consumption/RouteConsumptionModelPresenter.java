@@ -10,6 +10,7 @@
  */
 package com.tomtom.online.sdk.samples.cases.route.consumption;
 
+import com.tomtom.online.sdk.map.RouteSettings;
 import com.tomtom.online.sdk.map.TomtomMap;
 import com.tomtom.online.sdk.map.TomtomMapCallback;
 import com.tomtom.online.sdk.routing.data.FullRoute;
@@ -21,6 +22,7 @@ import com.tomtom.online.sdk.samples.cases.route.RouteQueryFactory;
 import com.tomtom.online.sdk.samples.fragments.FunctionalExampleFragment;
 import com.tomtom.online.sdk.samples.routes.AmsterdamToUtrechtRouteConfig;
 import com.tomtom.online.sdk.samples.routes.RouteConfigExample;
+import com.tomtom.online.sdk.samples.utils.RouteUtils;
 
 public class RouteConsumptionModelPresenter extends RoutePlannerPresenter {
 
@@ -68,8 +70,11 @@ public class RouteConsumptionModelPresenter extends RoutePlannerPresenter {
 
     private TomtomMapCallback.OnRouteClickListener onRouteClickListener = route -> {
         long routeId = route.getId();
-        tomtomMap.getRouteSettings().setRoutesInactive();
-        tomtomMap.getRouteSettings().setRouteActive(routeId);
+        RouteSettings routeSettings = tomtomMap.getRouteSettings();
+
+        RouteUtils.setRoutesInactive(routeSettings);
+        RouteUtils.setRouteActive(routeId, routeSettings);
+
         FullRoute fullRoute = routesMap.get(routeId);
         displayInfoAboutRoute(fullRoute);
     };

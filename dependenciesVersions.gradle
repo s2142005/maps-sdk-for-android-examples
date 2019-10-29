@@ -118,7 +118,7 @@ ext {
             anko_version           : '0.10.4',
             glide                  : '4.7.1',
             androidgifdrawable     : '1.2.15',
-            sdkannotations         : '1.0.2',
+            sdkannotations         : '1.0.3',
             gesture                : '0.0.8',
             detekt                 : '1.0.0-RC12',
             ktlint                 : '6.3.1',
@@ -133,6 +133,7 @@ ext {
                     easytesting        : '1.0.16',
                     cglib              : '3.2.8',
                     mockito            : '1.9.0',
+                    mockito_android    : '3.1.0',
                     easymock           : '3.2',
                     fest               : '2.0M10',
                     cglibnodep         : '3.3.0',
@@ -147,8 +148,6 @@ ext {
                     support            : '0.5',
                     mockk              : '1.7.15',
                     bouncycastle       : '1.56',
-
-
             ],
 
     ]

@@ -16,6 +16,7 @@ import androidx.annotation.VisibleForTesting;
 import com.google.common.base.Optional;
 import com.tomtom.online.sdk.common.func.FuncUtils;
 import com.tomtom.online.sdk.map.Route;
+import com.tomtom.online.sdk.map.RouteSettings;
 import com.tomtom.online.sdk.map.RouteStyle;
 import com.tomtom.online.sdk.map.TomtomMap;
 import com.tomtom.online.sdk.map.TomtomMapCallback;
@@ -37,6 +38,7 @@ import com.tomtom.online.sdk.samples.fragments.FunctionalExampleFragment;
 import com.tomtom.online.sdk.samples.routes.AmsterdamToOsloRouteConfig;
 import com.tomtom.online.sdk.samples.routes.AmsterdamToRotterdamRouteConfig;
 import com.tomtom.online.sdk.samples.routes.RouteConfigExample;
+import com.tomtom.online.sdk.samples.utils.RouteUtils;
 
 import java.util.List;
 
@@ -87,7 +89,8 @@ public class BatchRoutePresenter extends RoutePlannerPresenter {
                 //end::doc_execute_batch_routing[]
                 .subscribeOn(getWorkingScheduler())
                 .observeOn(getResultScheduler())
-                .subscribe(batchRoutingResponse -> displayRouteAndSetDescription(batchRoutingResponse), throwable -> proceedWithError(throwable.getMessage()));
+                .subscribe(this::displayRouteAndSetDescription,
+                        throwable -> proceedWithError(throwable.getMessage()));
 
         compositeDisposable.add(subscribe);
     }
@@ -118,13 +121,17 @@ public class BatchRoutePresenter extends RoutePlannerPresenter {
 
     private void setRouteActiveIfApply() {
         FuncUtils.apply(getFirstRoute(tomtomMap.getRouteSettings().getRoutes()), route -> {
-            tomtomMap.getRouteSettings().setRoutesInactive();
-            tomtomMap.getRouteSettings().setRouteActive(route.getId());
+            long routeId = route.getId();
+            RouteSettings routeSettings = tomtomMap.getRouteSettings();
+
+            RouteUtils.setRoutesInactive(routeSettings);
+            RouteUtils.setRouteActive(routeId, routeSettings);
         });
     }
 
     private void displayInfoAboutRouteIfApply(BatchRoutingResponse batchRoutingResponse) {
-        FuncUtils.apply(getFirstFullRoute(batchRoutingResponse.getRouteRoutingResponses().get(0).getRoutes()), fullRoute -> displayInfoAboutRoute(fullRoute));
+        List<FullRoute> routes = batchRoutingResponse.getRouteRoutingResponses().get(0).getRoutes();
+        FuncUtils.apply(getFirstFullRoute(routes), this::displayInfoAboutRoute);
     }
 
     private Optional<Route> getFirstRoute(List<Route> routes) {
@@ -205,8 +212,10 @@ public class BatchRoutePresenter extends RoutePlannerPresenter {
 
     private TomtomMapCallback.OnRouteClickListener onRouteClickListener = route -> {
         long routeId = route.getId();
-        tomtomMap.getRouteSettings().setRoutesInactive();
-        tomtomMap.getRouteSettings().setRouteActive(routeId);
+
+        RouteUtils.setRoutesInactive(tomtomMap.getRouteSettings());
+        RouteUtils.setRouteActive(routeId, tomtomMap.getRouteSettings());
+
         FullRoute fullRoute = routesMap.get(routeId);
         displayInfoAboutRoute(fullRoute);
     };

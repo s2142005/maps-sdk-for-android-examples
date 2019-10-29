@@ -22,6 +22,7 @@ import com.tomtom.online.sdk.map.Icon;
 import com.tomtom.online.sdk.map.MapConstants;
 import com.tomtom.online.sdk.map.Route;
 import com.tomtom.online.sdk.map.RouteBuilder;
+import com.tomtom.online.sdk.map.RouteSettings;
 import com.tomtom.online.sdk.map.RouteStyle;
 import com.tomtom.online.sdk.map.TomtomMap;
 import com.tomtom.online.sdk.map.model.MapModeType;
@@ -35,6 +36,7 @@ import com.tomtom.online.sdk.samples.R;
 import com.tomtom.online.sdk.samples.activities.BaseFunctionalExamplePresenter;
 import com.tomtom.online.sdk.samples.fragments.FunctionalExampleFragment;
 import com.tomtom.online.sdk.samples.utils.CheckedButtonCleaner;
+import com.tomtom.online.sdk.samples.utils.RouteUtils;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -45,7 +47,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
-public abstract class RoutePlannerPresenter extends BaseFunctionalExamplePresenter implements RxContext {
+public abstract class RoutePlannerPresenter extends BaseFunctionalExamplePresenter implements
+        RxContext {
 
     protected static final int DEFAULT_ZOOM_FOR_EXAMPLE = 10;
     protected static final int DEFAULT_MAP_PADDING = 0;
@@ -222,8 +225,11 @@ public abstract class RoutePlannerPresenter extends BaseFunctionalExamplePresent
 
     protected void selectFirstRouteAsActive(RouteStyle routeStyle) {
         if (!tomtomMap.getRouteSettings().getRoutes().isEmpty() && routeStyle.equals(RouteStyle.DEFAULT_ROUTE_STYLE)) {
-            tomtomMap.getRouteSettings().setRoutesInactive();
-            tomtomMap.getRouteSettings().setRouteActive(tomtomMap.getRouteSettings().getRoutes().get(0).getId());
+            RouteSettings routeSettings = tomtomMap.getRouteSettings();
+            long routeId = tomtomMap.getRouteSettings().getRoutes().get(0).getId();
+
+            RouteUtils.setRoutesInactive(routeSettings);
+            RouteUtils.setRouteActive(routeId, routeSettings);
         }
     }
 
@@ -244,7 +250,7 @@ public abstract class RoutePlannerPresenter extends BaseFunctionalExamplePresent
                 .build());
     }
 
-    public void setCheckedButtonCleaner(CheckedButtonCleaner checkedButtonCleaner) {
+    void setCheckedButtonCleaner(CheckedButtonCleaner checkedButtonCleaner) {
         this.checkedButtonCleaner = checkedButtonCleaner;
     }
 

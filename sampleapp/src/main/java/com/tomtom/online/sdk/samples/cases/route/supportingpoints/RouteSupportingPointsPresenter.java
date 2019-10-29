@@ -16,6 +16,7 @@ import com.google.common.collect.ImmutableList;
 import com.tomtom.online.sdk.common.location.LatLng;
 import com.tomtom.online.sdk.map.CameraPosition;
 import com.tomtom.online.sdk.map.MapConstants;
+import com.tomtom.online.sdk.map.RouteSettings;
 import com.tomtom.online.sdk.map.TomtomMap;
 import com.tomtom.online.sdk.map.TomtomMapCallback;
 import com.tomtom.online.sdk.routing.data.FullRoute;
@@ -25,6 +26,7 @@ import com.tomtom.online.sdk.samples.activities.FunctionalExampleModel;
 import com.tomtom.online.sdk.samples.cases.RoutePlannerPresenter;
 import com.tomtom.online.sdk.samples.cases.RoutingUiListener;
 import com.tomtom.online.sdk.samples.fragments.FunctionalExampleFragment;
+import com.tomtom.online.sdk.samples.utils.RouteUtils;
 
 import java.util.List;
 
@@ -93,8 +95,11 @@ public class RouteSupportingPointsPresenter extends RoutePlannerPresenter {
 
     private TomtomMapCallback.OnRouteClickListener onRouteClickListener = route -> {
         long routeId = route.getId();
-        tomtomMap.getRouteSettings().setRoutesInactive();
-        tomtomMap.getRouteSettings().setRouteActive(routeId);
+        RouteSettings routeSettings = tomtomMap.getRouteSettings();
+
+        RouteUtils.setRoutesInactive(routeSettings);
+        RouteUtils.setRouteActive(routeId, routeSettings);
+
         FullRoute fullRoute = routesMap.get(routeId);
         displayInfoAboutRoute(fullRoute);
     };
