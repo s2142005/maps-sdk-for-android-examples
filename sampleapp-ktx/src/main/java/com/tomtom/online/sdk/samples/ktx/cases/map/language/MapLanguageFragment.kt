@@ -35,6 +35,7 @@ class MapLanguageFragment : ExampleFragment() {
     }
 
     override fun onExampleStarted() {
+        setMapLanguage("en-GB")
         centerOnLocation(location = Locations.LODZ, zoomLevel = DEFAULT_ZOOM_LEVEL_FOR_EXAMPLE)
     }
 
@@ -46,22 +47,27 @@ class MapLanguageFragment : ExampleFragment() {
         layoutInflater.inflate(R.layout.control_buttons_map_language, mapControlButtonsContainer, true)
     }
 
+    private fun setMapLanguage(language: String) {
+        mainViewModel.applyOnMap(MapAction {
+            val tomtomMap = this
+            //tag::doc_map_language[]
+            //language can be equal e.g. to "en-GB"
+            tomtomMap.setLanguage(language)
+            //end::doc_map_language[]
+        })
+    }
+
     private fun confViewActions() {
         map_language_english_btn.setOnClickListener {
-            mainViewModel.applyOnMap(MapAction {
-                val tomtomMap = this
-                //tag::doc_map_language[]
-                tomtomMap.setLanguage("en-GB")
-                //end::doc_map_language[]
-            })
+            setMapLanguage("en-GB")
         }
 
         map_language_russian_btn.setOnClickListener {
-            mainViewModel.applyOnMap(MapAction { setLanguage("ru-RU") })
+            setMapLanguage("ru-RU")
         }
 
         map_language_dutch_btn.setOnClickListener {
-            mainViewModel.applyOnMap(MapAction { setLanguage("nl-NL") })
+            setMapLanguage("nl-NL")
         }
     }
 

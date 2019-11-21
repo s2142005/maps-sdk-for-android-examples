@@ -42,9 +42,6 @@ public class SampleApp extends MultiDexApplication {
         if (!isRoboElectricUnitTest()) {
             LeakCanary.install(this);
         }
-        //tag::register_crash_observer[]
-        LogUtils.registerCrashObserver(getApplicationContext(), Uri.parse("file://" + LOGCAT_PATH));
-        //end::register_crash_observer[]
     }
 
     public boolean isRoboElectricUnitTest() {

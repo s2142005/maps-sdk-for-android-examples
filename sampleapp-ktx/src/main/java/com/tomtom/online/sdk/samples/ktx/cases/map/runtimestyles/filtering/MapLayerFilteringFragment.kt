@@ -11,10 +11,14 @@
 package com.tomtom.online.sdk.samples.ktx.cases.map.runtimestyles.filtering
 
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.tomtom.online.sdk.map.style.expression.*
+import com.tomtom.online.sdk.map.style.expression.ComparisonExpression
+import com.tomtom.online.sdk.map.style.expression.Expression
+import com.tomtom.online.sdk.map.style.expression.GetExpression
+import com.tomtom.online.sdk.map.style.expression.LiteralExpression
 import com.tomtom.online.sdk.map.style.layers.Layer
 import com.tomtom.online.sdk.samples.ktx.MapAction
 import com.tomtom.online.sdk.samples.ktx.cases.ExampleFragment
@@ -24,7 +28,11 @@ import kotlinx.android.synthetic.main.fragment_map_layer_filtering.*
 
 class MapLayerFilteringFragment : ExampleFragment() {
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_map_layer_filtering, container, false)
     }
 
@@ -34,13 +42,15 @@ class MapLayerFilteringFragment : ExampleFragment() {
     }
 
     override fun onExampleStarted() {
-        turnOnFlowTiles()
         centerOnLocation(location = Locations.AMSTERDAM, zoomLevel = DEFAULT_ZOOM_LEVEL_FOR_EXAMPLE)
+        registerOnMapChangedListener()
+        //note: we load custom style that contains layers to filter in this example
+        loadCustomStyle()
     }
 
     override fun onExampleEnded() {
-        resetFilterOnLayers()
-        turnOffFlowTiles()
+        unregisterOnMapChangedListener()
+        loadBaseStyle()
     }
 
     private fun confViewActions() {
@@ -49,7 +59,10 @@ class MapLayerFilteringFragment : ExampleFragment() {
                 //tag::doc_create_filtering_expression[]
                 //ROAD_TYPE = "road_type"
                 //ROAD_TYPE_MOTORWAY = "Motorway"
-                val filteringExpression = ComparisonExpression.eq(GetExpression.get(ROAD_TYPE), LiteralExpression.string(ROAD_TYPE_MOTORWAY))
+                val filteringExpression = ComparisonExpression.eq(
+                    GetExpression.get(ROAD_TYPE),
+                    LiteralExpression.string(ROAD_TYPE_MOTORWAY)
+                )
                 //end::doc_create_filtering_expression[]
                 filteringExpression
             }
@@ -57,7 +70,10 @@ class MapLayerFilteringFragment : ExampleFragment() {
 
         map_layer_filtering_road_major.setOnClickListener {
             applyFilterOnLayers {
-                ComparisonExpression.eq(GetExpression.get(ROAD_TYPE), LiteralExpression.string(ROAD_TYPE_MAJOR_ROAD))
+                ComparisonExpression.eq(
+                    GetExpression.get(ROAD_TYPE),
+                    LiteralExpression.string(ROAD_TYPE_MAJOR_ROAD)
+                )
             }
         }
 
@@ -66,23 +82,7 @@ class MapLayerFilteringFragment : ExampleFragment() {
         }
     }
 
-    private fun turnOnFlowTiles() {
-        mainViewModel.applyOnMap(MapAction {
-            let { tomtomMap ->
-                tomtomMap.trafficSettings.turnOnVectorTrafficFlowTiles()
-            }
-        })
-    }
-
-    private fun turnOffFlowTiles() {
-        mainViewModel.applyOnMap(MapAction {
-            let { tomtomMap ->
-                tomtomMap.trafficSettings.turnOffTrafficFlowTiles()
-            }
-        })
-    }
-
-    private fun executeOnLayer(call: (Layer)->Unit) {
+    private fun executeOnLayer(call: (Layer) -> Unit) {
         mainViewModel.applyOnMap(MapAction {
             let { tomtomMap ->
                 //tag::find_layers_by_source_layer_id[]
@@ -94,7 +94,7 @@ class MapLayerFilteringFragment : ExampleFragment() {
         })
     }
 
-    private fun applyFilterOnLayers(filterCreator: ()->Expression) {
+    private fun applyFilterOnLayers(filterCreator: () -> Expression) {
         executeOnLayer { layer ->
             val filteringExpression = filterCreator()
             //tag::apply_filter[]
@@ -109,6 +109,43 @@ class MapLayerFilteringFragment : ExampleFragment() {
             layer.resetFilter()
             //end::reset_filter[]
         }
+    }
+
+    private fun registerOnMapChangedListener() {
+        mainViewModel.applyOnMap(MapAction {
+            addOnMapChangedListener(showTrafficWhenCustomStyleLoaded)
+        })
+    }
+
+    private fun unregisterOnMapChangedListener() {
+        mainViewModel.applyOnMap(MapAction {
+            removeOnMapChangedListener(showTrafficWhenCustomStyleLoaded)
+        })
+    }
+
+    private val showTrafficWhenCustomStyleLoaded = object : AbstractOnMapChangedListener() {
+        override fun onDidFinishLoadingStyle() {
+            val handler = Handler()
+            mainViewModel.applyOnMap(MapAction {
+                handler.post {
+                    trafficSettings.turnOnVectorTrafficFlowTiles()
+                }
+            })
+        }
+    }
+
+    private fun loadCustomStyle() {
+        //Custom-traffic is a style with custom traffic layers,
+        //so we do not need so complicated expressions
+        mainViewModel.applyOnMap(MapAction {
+            uiSettings.setStyleUrl("asset://styles/custom-traffic.json")
+        })
+    }
+
+    private fun loadBaseStyle() {
+        mainViewModel.applyOnMap(MapAction {
+            uiSettings.setStyleUrl("asset://styles/mapssdk-default-style.json")
+        })
     }
 
     companion object {

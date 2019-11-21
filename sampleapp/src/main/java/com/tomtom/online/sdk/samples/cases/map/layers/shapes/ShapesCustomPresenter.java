@@ -28,6 +28,7 @@ public class ShapesCustomPresenter extends BaseFunctionalExamplePresenter {
 
     private static final int TOAST_DURATION = 2000; //milliseconds
     private final static int POLYLINE_POINTS = 24;
+    private static final int DEFAULT_ZOOM_LEVEL = 10;
 
     private ShapesDrawer shapesDrawer;
 
@@ -122,7 +123,7 @@ public class ShapesCustomPresenter extends BaseFunctionalExamplePresenter {
     }
 
     private float suitableRadiusToZoomLevel() {
-        return 128.0f / (1 << ((int)tomtomMap.getUiSettings().getCameraPosition().getZoom()));
+        return 128.0f / (1 << DEFAULT_ZOOM_LEVEL);
     }
 
     private float randomRation() {

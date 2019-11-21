@@ -32,7 +32,7 @@ public class EntryPointsSearchFragment extends ExampleFragment<EntryPointsSearch
         if (newValues[0]) {
             presenter.performSearch("Amsterdam Airport Schiphol");
         } else if (newValues[1]) {
-            presenter.performSearch("Kalvertoren Singel 451");
+            presenter.performSearch("Kalvertoren Singel");
         }
     }
 

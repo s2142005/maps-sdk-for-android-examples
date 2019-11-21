@@ -123,7 +123,7 @@ ext {
             detekt                 : '1.0.0-RC12',
             ktlint                 : '6.3.1',
             replayingshare         : '2.1.1',
-            rxandroidble           : '1.10.2',
+            rxandroidble           : '1.10.3',
             rxkotlin               : '2.3.0',
             mapbox_gestures        : '0.5.1',
             test                   : [

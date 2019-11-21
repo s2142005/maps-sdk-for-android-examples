@@ -51,10 +51,12 @@ class MapBuildingHeightsFragment : ExampleFragment() {
 
     private fun confViewActions() {
         map_disable_building_heights.setOnClickListener {
+            mainViewModel.applyOnMap(MapAction { set2DMode() })
             hide3Dbuildings()
         }
 
         map_enable_building_heights.setOnClickListener {
+            mainViewModel.applyOnMap(MapAction { set3DMode() })
             show3DBuildings()
         }
     }

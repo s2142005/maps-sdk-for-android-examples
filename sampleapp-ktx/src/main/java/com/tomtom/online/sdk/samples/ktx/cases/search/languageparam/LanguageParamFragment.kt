@@ -52,8 +52,8 @@ class LanguageParamFragment : SearchFragment<LanguageParamViewModel>() {
             when (position) {
                 0 -> viewModel.enableEnglish()
                 1 -> viewModel.enableGerman()
-                2 -> viewModel.enableFrench()
-                3 -> viewModel.enableSpanish()
+                2 -> viewModel.enableSpanish()
+                3 -> viewModel.enableFrench()
             }
             searchView.query.ifNotNullNorEmpty { query -> viewModel.search(query) }
         })
