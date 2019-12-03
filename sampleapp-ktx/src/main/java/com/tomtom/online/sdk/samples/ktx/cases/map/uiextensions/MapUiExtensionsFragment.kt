@@ -30,8 +30,10 @@ class MapUiExtensionsFragment : ExampleFragment() {
 
     private lateinit var mapUiExtensionsViewModel: MapUiExtensionsViewModel
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.default_map_fragment, container, false)
     }
 
@@ -43,7 +45,8 @@ class MapUiExtensionsFragment : ExampleFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        mapUiExtensionsViewModel = ViewModelProviders.of(this).get(MapUiExtensionsViewModel::class.java)
+        mapUiExtensionsViewModel =
+            ViewModelProviders.of(this).get(MapUiExtensionsViewModel::class.java)
     }
 
     override fun onExampleStarted() {
@@ -67,7 +70,11 @@ class MapUiExtensionsFragment : ExampleFragment() {
     }
 
     private fun inflateControlButtons() {
-        layoutInflater.inflate(R.layout.control_buttons_ui_extensions, mapControlButtonsContainer, true)
+        layoutInflater.inflate(
+            R.layout.control_buttons_ui_extensions,
+            mapControlButtonsContainer,
+            true
+        )
     }
 
     private fun setLocationUpdates(enabled: Boolean) {
@@ -164,7 +171,8 @@ class MapUiExtensionsFragment : ExampleFragment() {
     private fun defaultUiComponentsIcons() {
         mainViewModel.applyOnMap(MapAction {
             uiSettings.compassView.getView<ImageView>().setImageResource(R.drawable.btn_compass)
-            uiSettings.currentLocationView.getView<ImageView>().setImageResource(R.drawable.btn_current_location)
+            uiSettings.currentLocationView.getView<ImageView>()
+                .setImageResource(R.drawable.btn_current_location)
 
             let { tomtomMap ->
                 //tag::set_default_panning_controls[]
@@ -187,8 +195,10 @@ class MapUiExtensionsFragment : ExampleFragment() {
 
     private fun customUiComponentsIcons() {
         mainViewModel.applyOnMap(MapAction {
-            uiSettings.compassView.getView<ImageView>().setImageResource(R.drawable.ic_compass_custom)
-            uiSettings.currentLocationView.getView<ImageView>().setImageResource(R.drawable.ic_current_location_custom)
+            uiSettings.compassView.getView<ImageView>()
+                .setImageResource(R.drawable.ic_compass_custom)
+            uiSettings.currentLocationView.getView<ImageView>()
+                .setImageResource(R.drawable.ic_current_location_custom)
 
             let { tomtomMap ->
                 //tag::set_custom_panning_controls[]
@@ -207,6 +217,37 @@ class MapUiExtensionsFragment : ExampleFragment() {
             }
         })
         mapUiExtensionsViewModel.isUiCustom = true
+    }
+
+    @Suppress("unused")
+    private fun confLogoComponent(gravity: Int, top: Int, left: Int, right: Int, bottom: Int) {
+        mainViewModel.applyOnMap(MapAction {
+            val tomtomMap = this
+
+            //tag::set_custom_logo_gravity[]
+            tomtomMap.uiSettings.logoView.setGravity(gravity)
+            //end::set_custom_logo_gravity[]
+
+            //tag::set_custom_logo_margins[]
+            tomtomMap.uiSettings.logoView.setMargins(left, top, right, bottom)
+            //end::set_custom_logo_margins[]
+
+            //tag::restore_default_logo_margins[]
+            tomtomMap.uiSettings.logoView.restoreDefaultMargins()
+            //end::restore_default_logo_margins[]
+
+            //tag::restore_default_logo_gravity[]
+            tomtomMap.uiSettings.logoView.restoreDefaultGravity()
+            //end::restore_default_logo_gravity[]
+
+            //tag::apply_default_logo[]
+            tomtomMap.uiSettings.logoView.applyDefaultLogo()
+            //end::apply_default_logo[]
+
+            //tag::apply_inverted_logo[]
+            tomtomMap.uiSettings.logoView.applyInvertedLogo()
+            //end::apply_inverted_logo[]
+        })
     }
 
     private fun centerOnWithBearing() {

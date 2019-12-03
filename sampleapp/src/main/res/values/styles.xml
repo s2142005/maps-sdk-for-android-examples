@@ -133,6 +133,7 @@
     <!-- tag::example_of_custom_logo_position[] -->
     <style name="LogoView" parent="BaseLogoView" >
         <item name="android:layout_gravity">bottom|left</item>
+        <item name="android:layout_margin">@dimen/common_layout_zero_dp</item>
     </style>
     <!-- end::example_of_custom_logo_position[] -->
 </resources>

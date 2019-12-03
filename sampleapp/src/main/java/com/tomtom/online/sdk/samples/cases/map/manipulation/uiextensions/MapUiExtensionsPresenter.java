@@ -149,5 +149,30 @@ public class MapUiExtensionsPresenter extends BaseFunctionalExamplePresenter {
         //end::set_custom_zooming_controls[]
     }
 
+    @SuppressWarnings("unused")
+    private void confLogoComponent(int gravity, int top, int left, int right, int bottom) {
+        //tag::set_custom_logo_gravity[]
+        tomtomMap.getUiSettings().getLogoView().setGravity(gravity);
+        //end::set_custom_logo_gravity[]
 
+        //tag::set_custom_logo_margins[]
+        tomtomMap.getUiSettings().getLogoView().setMargins(left, top, right, bottom);
+        //end::set_custom_logo_margins[]
+
+        //tag::restore_default_logo_margins[]
+        tomtomMap.getUiSettings().getLogoView().restoreDefaultMargins();
+        //end::restore_default_logo_margins[]
+
+        //tag::restore_default_logo_gravity[]
+        tomtomMap.getUiSettings().getLogoView().restoreDefaultGravity();
+        //end::restore_default_logo_gravity[]
+
+        //tag::apply_default_logo[]
+        tomtomMap.getUiSettings().getLogoView().applyDefaultLogo();
+        //end::apply_default_logo[]
+
+        //tag::apply_inverted_logo[]
+        tomtomMap.getUiSettings().getLogoView().applyInvertedLogo();
+        //end::apply_inverted_logo[]
+    }
 }
