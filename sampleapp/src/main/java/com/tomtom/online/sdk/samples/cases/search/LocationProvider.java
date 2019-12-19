@@ -14,9 +14,8 @@ import android.content.Context;
 import android.location.Location;
 
 import com.tomtom.online.sdk.common.location.LatLng;
-import com.tomtom.online.sdk.location.LocationRequestsFactory;
+import com.tomtom.online.sdk.location.BasicLocationSource;
 import com.tomtom.online.sdk.location.LocationSource;
-import com.tomtom.online.sdk.location.LocationSourceFactory;
 import com.tomtom.online.sdk.location.LocationUpdateListener;
 import com.tomtom.online.sdk.location.Locations;
 
@@ -24,8 +23,8 @@ class LocationProvider {
 
     private LocationSource locationSource;
 
-    LocationProvider(Context context, LocationUpdateListener updateListener) {
-        this.locationSource = createLocationSource(context, updateListener);
+    LocationProvider(Context context) {
+        this.locationSource = createLocationSource(context);
     }
 
     LatLng getLastKnownPosition() {
@@ -44,8 +43,11 @@ class LocationProvider {
         locationSource.deactivate();
     }
 
-    private LocationSource createLocationSource(Context context, LocationUpdateListener updateListener) {
-        return new LocationSourceFactory().createDefaultLocationSource(context, updateListener,
-                LocationRequestsFactory.create().createSearchLocationRequest());
+    void addLocationUpdateListener(LocationUpdateListener locationUpdateListener) {
+        locationSource.addLocationUpdateListener(locationUpdateListener);
+    }
+
+    private LocationSource createLocationSource(Context context) {
+        return new BasicLocationSource(context);
     }
 }

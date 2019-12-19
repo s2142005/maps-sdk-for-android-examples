@@ -23,8 +23,8 @@ import com.tomtom.online.sdk.common.location.LatLng;
 import com.tomtom.online.sdk.common.location.LatLngAcc;
 import com.tomtom.online.sdk.common.util.Contextable;
 import com.tomtom.online.sdk.location.LocationUpdateListener;
-import com.tomtom.online.sdk.search.data.fuzzy.FuzzySearchQueryBuilder;
 import com.tomtom.online.sdk.search.data.fuzzy.FuzzySearchQuery;
+import com.tomtom.online.sdk.search.data.fuzzy.FuzzySearchQueryBuilder;
 import com.tomtom.online.sdk.search.data.fuzzy.FuzzySearchResponse;
 import com.tomtom.online.sdk.search.data.fuzzy.FuzzySearchResult;
 
@@ -33,7 +33,8 @@ import java.io.Serializable;
 import io.reactivex.observers.DisposableSingleObserver;
 import timber.log.Timber;
 
-public class SearchFragmentPresenter implements SearchPresenter, LocationUpdateListener, Contextable {
+public class SearchFragmentPresenter implements SearchPresenter, LocationUpdateListener,
+        Contextable {
 
     protected final static String LAST_SEARCH_QUERY_BUNDLE_KEY = "LAST_SEARCH_QUERY_BUNDLE_KEY";
     public static final int STANDARD_RADIUS = 30 * 1000; //30 km
@@ -67,15 +68,15 @@ public class SearchFragmentPresenter implements SearchPresenter, LocationUpdateL
 
     @Override
     public void onCreate(Context context) {
-        Timber.d("onCreate()");
-        locationProvider = new LocationProvider(context, this);
+        Timber.d("onCreate(%s)", context);
+        locationProvider = new LocationProvider(getContext());
     }
-
 
     @Override
     public void onResume() {
         Timber.d("onResume()");
         //tag::doc_location_source_activation[]
+        locationProvider.addLocationUpdateListener(this);
         locationProvider.activateLocationSource();
         //end::doc_location_source_activation[]
     }
