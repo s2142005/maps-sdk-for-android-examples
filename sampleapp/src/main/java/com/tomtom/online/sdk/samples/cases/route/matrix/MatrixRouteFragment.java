@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2015-2019 TomTom N.V. All rights reserved.
+ * Copyright (c) 2015-2020 TomTom N.V. All rights reserved.
  *
  * This software is the proprietary copyright of TomTom N.V. and its subsidiaries and may be used
  * for internal evaluation purposes or commercial use strictly subject to separate licensee
@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.RadioButton;
 
 import androidx.annotation.NonNull;
@@ -23,6 +24,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.tomtom.online.sdk.map.MapFragment;
+import com.tomtom.online.sdk.map.MapView;
 import com.tomtom.online.sdk.map.OnMapReadyCallback;
 import com.tomtom.online.sdk.routing.data.matrix.MatrixRoutingResponse;
 import com.tomtom.online.sdk.samples.R;
@@ -37,7 +39,7 @@ public class MatrixRouteFragment extends FunctionalExampleFragmentAdapter implem
     private RadioButton planMatrixTaxiBtn;
     private MatrixRoutesTableListAdapter matrixRoutesListAdapter;
     private MatrixRouteTableHeader matrixRouteTableHeader;
-    private MapFragment mapFragment;
+    private MapView mapView;
 
     @Nullable
     @Override
@@ -72,8 +74,7 @@ public class MatrixRouteFragment extends FunctionalExampleFragmentAdapter implem
     }
 
     private void initViews(View view) {
-        mapFragment = (MapFragment) getActivity().getSupportFragmentManager()
-                .findFragmentById(R.id.map_fragment);
+        mapView = getActivity().findViewById(R.id.map_view);
         planMatrixBtn = view.findViewById(R.id.matrixRestaurantsBtn);
         planMatrixTaxiBtn = view.findViewById(R.id.matrixTaxiBtn);
         matrixRoutesList = view.findViewById(R.id.matrixRoutesList);
@@ -137,6 +138,6 @@ public class MatrixRouteFragment extends FunctionalExampleFragmentAdapter implem
 
     @Override
     public void runOnTomtomMap(final OnMapReadyCallback callback) {
-        mapFragment.getAsyncMap(callback);
+        mapView.addOnMapReadyCallback(callback);
     }
 }

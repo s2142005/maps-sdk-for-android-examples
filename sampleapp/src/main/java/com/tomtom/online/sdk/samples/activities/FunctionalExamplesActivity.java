@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2015-2019 TomTom N.V. All rights reserved.
+ * Copyright (c) 2015-2020 TomTom N.V. All rights reserved.
  *
  * This software is the proprietary copyright of TomTom N.V. and its subsidiaries and may be used
  * for internal evaluation purposes or commercial use strictly subject to separate licensee
@@ -13,6 +13,10 @@ package com.tomtom.online.sdk.samples.activities;
 import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -22,14 +26,11 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.TextView;
-
 import com.google.android.material.navigation.NavigationView;
 import com.tomtom.online.sdk.common.location.LatLng;
 import com.tomtom.online.sdk.map.BaseGpsPositionIndicator;
 import com.tomtom.online.sdk.map.MapFragment;
+import com.tomtom.online.sdk.map.MapView;
 import com.tomtom.online.sdk.map.OnMapReadyCallback;
 import com.tomtom.online.sdk.map.TomtomMap;
 import com.tomtom.online.sdk.samples.BuildConfig;
@@ -55,6 +56,7 @@ public class FunctionalExamplesActivity extends AppCompatActivity
 
     private BackButtonDelegate backButtonDelegate;
     private FunctionalExamplesNavigationManager functionalExamplesNavigationManager;
+    private MapView mapView;
 
     //tag::doc_implement_on_map_ready_callback[]
     private final OnMapReadyCallback onMapReadyCallback =
@@ -64,7 +66,7 @@ public class FunctionalExamplesActivity extends AppCompatActivity
                     //Map is ready here
                     tomtomMap = map;
                     tomtomMap.setMyLocationEnabled(true);
-                    tomtomMap.collectLogsToFile(SampleApp.LOGCAT_PATH);
+                    tomtomMap.collectLogsToFile(SampleApp.LOG_FILE_PATH);
                 }
             };
     //end::doc_implement_on_map_ready_callback[]
@@ -75,7 +77,7 @@ public class FunctionalExamplesActivity extends AppCompatActivity
         //tag::doc_collect_logs_to_file_in_onready_callback[]
         @Override
         public void onMapReady(@NonNull TomtomMap tomtomMap) {
-            tomtomMap.collectLogsToFile(SampleApp.LOGCAT_PATH);
+            tomtomMap.collectLogsToFile(SampleApp.LOG_FILE_PATH);
         }
         //end::doc_collect_logs_to_file_in_onready_callback[]
     };
@@ -87,10 +89,13 @@ public class FunctionalExamplesActivity extends AppCompatActivity
         Timber.d("onCreate()");
         super.onCreate(savedInstanceState);
         inflateActivity();
-        //tag::doc_initialise_map[]
-        MapFragment mapFragment = (MapFragment) getSupportFragmentManager().findFragmentById(R.id.map_fragment);
-        mapFragment.getAsyncMap(onMapReadyCallback);
-        //end::doc_initialise_map[]
+
+        mapView = new MapView(getApplicationContext());
+        mapView.addOnMapReadyCallback(onMapReadyCallback);
+        mapView.setId(R.id.map_view);
+
+        FrameLayout frameLayout = findViewById(R.id.map_container);
+        frameLayout.addView(mapView);
 
         Timber.d("Phone language " + Locale.getDefault().getLanguage());
         restoreState(savedInstanceState);
@@ -117,19 +122,34 @@ public class FunctionalExamplesActivity extends AppCompatActivity
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        outState.putInt(CURRENT_EXAMPLE_KEY, currentExampleId);
-        super.onSaveInstanceState(outState);
+    protected void onStart() {
+        super.onStart();
+        mapView.onStart();
+        mapView.addOnMapReadyCallback(map -> map.getUiSettings().setCopyrightsViewAdapter(() -> this));
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        mapView.onResume();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        mapView.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        mapView.onDestroy();
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt(CURRENT_EXAMPLE_KEY, currentExampleId);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -261,6 +281,15 @@ public class FunctionalExamplesActivity extends AppCompatActivity
         tomtomMap.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
     //end::doc_map_permissions[]
+
+    @SuppressWarnings("unused")
+    private void initMap() {
+        int mapFragmentId = 0;
+        //tag::doc_initialise_map[]
+        MapFragment mapFragment = (MapFragment) getSupportFragmentManager().findFragmentById(mapFragmentId);
+        mapFragment.getAsyncMap(onMapReadyCallback);
+        //end::doc_initialise_map[]
+    }
 
     /**
      * Custom GPS position indicator that forces accuracy to 0.

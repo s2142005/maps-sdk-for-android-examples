@@ -125,6 +125,8 @@ ext {
             replayingshare         : '2.1.1',
             rxandroidble           : '1.10.5',
             rxkotlin               : '2.3.0',
+            slf4j                  : '1.7.25',
+            logback                : '2.0.0',
             mapbox_gestures        : '0.5.1',
             test                   : [
                     junit              : '4.13-beta-3',

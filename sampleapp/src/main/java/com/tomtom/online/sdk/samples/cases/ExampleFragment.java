@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2015-2019 TomTom N.V. All rights reserved.
+ * Copyright (c) 2015-2020 TomTom N.V. All rights reserved.
  *
  * This software is the proprietary copyright of TomTom N.V. and its subsidiaries and may be used
  * for internal evaluation purposes or commercial use strictly subject to separate licensee
@@ -20,7 +20,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
 
-import com.tomtom.online.sdk.map.MapFragment;
+import com.tomtom.online.sdk.map.MapView;
 import com.tomtom.online.sdk.samples.R;
 import com.tomtom.online.sdk.samples.activities.ActionBarModel;
 import com.tomtom.online.sdk.samples.activities.FunctionalExamplePresenter;
@@ -91,11 +91,10 @@ public abstract class ExampleFragment<T extends FunctionalExamplePresenter> exte
         optionsView.setEnabled(false);
         actionBar = (ActionBarModel) getActivity();
 
-        MapFragment mapFragment = (MapFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.map_fragment);
-        mapFragment.getAsyncMap(tomtomMap -> {
+        MapView mapView = getActivity().findViewById(R.id.map_view);
+        mapView.addOnMapReadyCallback(tomtomMap -> {
             optionsView.setEnabled(true);
             presenter.bind(ExampleFragment.this, tomtomMap);
-
         });
     }
 

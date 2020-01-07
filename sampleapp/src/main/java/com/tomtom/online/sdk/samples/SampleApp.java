@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2015-2019 TomTom N.V. All rights reserved.
+ * Copyright (c) 2015-2020 TomTom N.V. All rights reserved.
  *
  * This software is the proprietary copyright of TomTom N.V. and its subsidiaries and may be used
  * for internal evaluation purposes or commercial use strictly subject to separate licensee
@@ -28,8 +28,7 @@ import java.io.File;
 public class SampleApp extends MultiDexApplication {
 
     private static final String ROBO_ELECTRIC_FINGERPRINT = "robolectric";
-    public static final String LOGCAT_FILE_NAME = "logcat.txt";
-    public static final String LOGCAT_PATH = Environment.getExternalStorageDirectory() + File.separator + LOGCAT_FILE_NAME;
+    public static final String LOG_FILE_PATH = Environment.getExternalStorageDirectory() + File.separator;
 
     //tag::doc_log[]
     @Override

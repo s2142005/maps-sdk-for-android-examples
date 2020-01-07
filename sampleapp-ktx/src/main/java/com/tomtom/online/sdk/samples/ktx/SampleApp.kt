@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2019 TomTom N.V. All rights reserved.
+ * Copyright (c) 2015-2020 TomTom N.V. All rights reserved.
  *
  * This software is the proprietary copyright of TomTom N.V. and its subsidiaries and may be used
  * for internal evaluation purposes or commercial use strictly subject to separate licensee
@@ -35,8 +35,7 @@ class SampleApp : Application() {
     }
 
     companion object {
-        private const val LOGCAT_FILE_NAME = "logcat.txt"
-        val LOGCAT_PATH = Environment.getExternalStorageDirectory().toString() + File.separator + LOGCAT_FILE_NAME
+        val LOG_FILE_PATH = Environment.getExternalStorageDirectory().toString() + File.separator
     }
 
 }

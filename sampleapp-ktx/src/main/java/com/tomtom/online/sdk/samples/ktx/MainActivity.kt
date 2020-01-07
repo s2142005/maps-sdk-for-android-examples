@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2019 TomTom N.V. All rights reserved.
+ * Copyright (c) 2015-2020 TomTom N.V. All rights reserved.
  *
  * This software is the proprietary copyright of TomTom N.V. and its subsidiaries and may be used
  * for internal evaluation purposes or commercial use strictly subject to separate licensee
@@ -83,6 +83,7 @@ class MainActivity : AppCompatActivity() {
         tomtomMap.uiSettings.currentLocationView.hide()
         tomtomMap.setPadding(mapPaddingVertical, mapPaddingHorizontal,
             mapPaddingVertical, mapPaddingHorizontal)
+        tomtomMap.collectLogsToFile(SampleApp.LOG_FILE_PATH)
     }
     //end::doc_implement_on_map_ready_callback[]
 
@@ -90,7 +91,7 @@ class MainActivity : AppCompatActivity() {
     private val onMapReadyCallbackSaveLogs = object : OnMapReadyCallback {
         //tag::doc_collect_logs_to_file_in_onready_callback[]
         override fun onMapReady(tomtomMap: TomtomMap) {
-            tomtomMap.collectLogsToFile(SampleApp.LOGCAT_PATH)
+            tomtomMap.collectLogsToFile(SampleApp.LOG_FILE_PATH)
         }
         //end::doc_collect_logs_to_file_in_onready_callback[]
     }
