@@ -307,11 +307,6 @@ public class FunctionalExamplesActivity extends AppCompatActivity
         }
 
         @Override
-        public void setLocation(LatLng latLng, double bearingInDegrees, double accuracyInMeters) {
-            setLocation(latLng, 0.0, 0.0, 0);
-        }
-
-        @Override
         public void setLocation(LatLng latLng, double bearingInDegrees, double accuracyInMeters, long timeInMillis) {
             super.show();
             super.setDimmed(false);

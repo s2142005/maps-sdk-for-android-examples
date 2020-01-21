@@ -12,6 +12,7 @@ package com.tomtom.online.sdk.samples.cases.map.layers.traffic;
 
 import com.tomtom.online.sdk.map.MapConstants;
 import com.tomtom.online.sdk.map.TomtomMap;
+import com.tomtom.online.sdk.map.TrafficFlowType;
 import com.tomtom.online.sdk.map.UiSettings;
 import com.tomtom.online.sdk.map.model.MapTilesType;
 import com.tomtom.online.sdk.samples.activities.BaseFunctionalExamplePresenter;
@@ -21,7 +22,8 @@ import com.tomtom.online.sdk.samples.utils.Locations;
 
 import static com.tomtom.online.sdk.map.TrafficFlowType.*;
 
-public class TrafficLayersPresenter extends BaseFunctionalExamplePresenter implements TrafficPresenter {
+public class TrafficLayersPresenter extends BaseFunctionalExamplePresenter implements
+        TrafficPresenter {
 
     @Override
     public void bind(FunctionalExampleFragment view, TomtomMap map) {
@@ -52,15 +54,16 @@ public class TrafficLayersPresenter extends BaseFunctionalExamplePresenter imple
     }
 
     @SuppressWarnings("unused")
-    public void exampleOfUsingTrafficStyle(){
+    public void exampleOfUsingTrafficStyle() {
         //tag::doc_traffic_flow_styles[]
-        UiSettings uiSettings = tomtomMap.getUiSettings();
-        //default
-        uiSettings.turnOnRasterTrafficFlowTiles(new RelativeTrafficFlowStyle());
-        uiSettings.turnOnRasterTrafficFlowTiles(new AbsoluteTrafficFlowStyle());
-        uiSettings.turnOnRasterTrafficFlowTiles(new RelativeDelayTrafficFlowStyle());
-        uiSettings.turnOnRasterTrafficFlowTiles(new ReducedSensitivityTrafficFlowStyle());
+        tomtomMap.getTrafficSettings().turnOnRasterTrafficFlowTiles(new TrafficFlowType.RelativeTrafficFlowStyle()); //default
+        tomtomMap.getTrafficSettings().turnOnRasterTrafficFlowTiles(new TrafficFlowType.AbsoluteTrafficFlowStyle());
+        tomtomMap.getTrafficSettings().turnOnRasterTrafficFlowTiles(new TrafficFlowType.RelativeDelayTrafficFlowStyle());
         //end::doc_traffic_flow_styles[]
+
+        //tag::doc_get_style_info[]
+        RasterTrafficFlowType style = tomtomMap.getTrafficSettings().getTrafficRasterFlowStyle();
+        //end::doc_get_style_info[]
     }
 
     public void showTrafficIncidents() {

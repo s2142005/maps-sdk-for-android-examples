@@ -48,10 +48,10 @@ class RasterTrafficLayersFragment : TrafficLayersFragment() {
             let { tomtomMap ->
                 //tag::doc_traffic_flow_styles[]
                 //default
-                tomtomMap.uiSettings.turnOnRasterTrafficFlowTiles(TrafficFlowType.RelativeTrafficFlowStyle())
-                tomtomMap.uiSettings.turnOnRasterTrafficFlowTiles(TrafficFlowType.AbsoluteTrafficFlowStyle())
-                tomtomMap.uiSettings.turnOnRasterTrafficFlowTiles(TrafficFlowType.RelativeDelayTrafficFlowStyle())
-                tomtomMap.uiSettings.turnOnRasterTrafficFlowTiles(TrafficFlowType.ReducedSensitivityTrafficFlowStyle())
+                tomtomMap.trafficSettings.turnOnRasterTrafficFlowTiles(TrafficFlowType.RelativeTrafficFlowStyle())
+                tomtomMap.trafficSettings.turnOnRasterTrafficFlowTiles(TrafficFlowType.AbsoluteTrafficFlowStyle())
+                tomtomMap.trafficSettings.turnOnRasterTrafficFlowTiles(TrafficFlowType.RelativeDelayTrafficFlowStyle())
+                tomtomMap.trafficSettings.turnOnRasterTrafficFlowTiles(TrafficFlowType.ReducedSensitivityTrafficFlowStyle())
                 //end::doc_traffic_flow_styles[]
             }
         })
