@@ -126,6 +126,7 @@ public class FunctionalExamplesActivity extends AppCompatActivity
         super.onStart();
         mapView.onStart();
         mapView.addOnMapReadyCallback(map -> map.getUiSettings().setCopyrightsViewAdapter(() -> this));
+        mapView.addOnMapReadyCallback(map -> map.getUiSettings().getCurrentLocationView().setCurrentLocationViewAdapter(() -> this));
     }
 
     @Override
