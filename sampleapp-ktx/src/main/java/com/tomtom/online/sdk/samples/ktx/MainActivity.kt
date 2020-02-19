@@ -11,6 +11,7 @@
 
 package com.tomtom.online.sdk.samples.ktx
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -18,10 +19,9 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import com.tomtom.online.sdk.common.location.LatLng
 import com.tomtom.online.sdk.common.permission.AppPermissionHandler
-import com.tomtom.online.sdk.map.MapFragment
-import com.tomtom.online.sdk.map.OnMapReadyCallback
-import com.tomtom.online.sdk.map.TomtomMap
+import com.tomtom.online.sdk.map.*
 import com.tomtom.online.sdk.samples.ktx.extensions.visibleIf
 import com.tomtom.sdk.examples.R
 import kotlinx.android.synthetic.main.activity_main.*
@@ -94,5 +94,24 @@ class MainActivity : AppCompatActivity() {
             tomtomMap.collectLogsToFile(SampleApp.LOG_FILE_PATH)
         }
         //end::doc_collect_logs_to_file_in_onready_callback[]
+    }
+
+    @Suppress("unused")
+    private fun initMapWithProperties() {
+        //tag::doc_initial_map_properties[]
+        val keysMap = mapOf(ApiKeyType.MAPS_API_KEY to "online-maps-key")
+        val cameraPosition = CameraPosition.builder()
+            .focusPosition(LatLng(12.34, 23.45))
+            .zoom(10.0)
+            .bearing(24.0)
+            .build()
+        val mapProps = MapProperties.Builder()
+            .customStyleUri("asset://styles/style.json")
+            .backgroundColor(Color.BLUE)
+            .keys(keysMap)
+            .cameraPosition(cameraPosition)
+            .build()
+        val fragment = MapFragment.newInstance(mapProps)
+        //end::doc_initial_map_properties[]
     }
 }
