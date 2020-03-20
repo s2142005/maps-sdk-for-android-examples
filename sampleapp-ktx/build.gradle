@@ -59,6 +59,7 @@ dependencies {
         implementation("com.tomtom.online:sdk-maps-static-image:$rootProject.internalVersions.sdk")
         implementation("com.tomtom.online:sdk-maps-driving-extensions:$rootProject.internalVersions.sdk")
         implementation("com.tomtom.online:sdk-geofencing:$rootProject.internalVersions.sdk")
+
     //Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 

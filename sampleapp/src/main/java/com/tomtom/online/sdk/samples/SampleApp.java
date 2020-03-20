@@ -37,7 +37,6 @@ public class SampleApp extends MultiDexApplication {
         LogUtils.enableLogs(Log.VERBOSE);
         //end::doc_log[]
         //initStrictMode();
-        CrashSupporter.create(this);
         if (!isRoboElectricUnitTest()) {
             LeakCanary.install(this);
         }

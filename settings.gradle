@@ -1,2 +1,3 @@
+//DO NOT REMOVE: needed for generating asciidocs
 include ':sampleapp'
 include ':sampleapp-ktx'

@@ -27,7 +27,7 @@ import timber.log.Timber
 import java.io.IOException
 import java.util.*
 
-class AboutFragment : Fragment(), OnBackPressedCallback {
+class AboutFragment : Fragment() {
 
     private lateinit var webView: WebView
     private lateinit var viewModel: MainViewModel
@@ -44,11 +44,6 @@ class AboutFragment : Fragment(), OnBackPressedCallback {
         loadData()
     }
 
-    override fun onDestroyView() {
-        removeActivityCallback()
-        super.onDestroyView()
-    }
-
     private fun confWebView() {
         webView = about_content
         webView.webViewClient = object : WebViewClient() {
@@ -60,16 +55,12 @@ class AboutFragment : Fragment(), OnBackPressedCallback {
     }
 
     private fun confViewModel() {
-        viewModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
+        viewModel = ViewModelProviders.of(requireActivity()).get(MainViewModel::class.java)
         viewModel.applyAboutButtonVisibility(false)
     }
 
     private fun confActivityCallback() {
-        activity!!.addOnBackPressedCallback(this)
-    }
-
-    private fun removeActivityCallback() {
-        activity!!.removeOnBackPressedCallback(this)
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, AboutOnBackPressedCallback())
     }
 
     private fun loadHeader(): String {
@@ -79,25 +70,25 @@ class AboutFragment : Fragment(), OnBackPressedCallback {
     private fun loadData() {
         val sb = StringBuilder(HTML_TITLE)
         sb.append(loadHeader())
-        sb.append(loadModules(DIR_LICENSES, MODULE_LICENSE_TITLE))
+        sb.append(loadModules())
         sb.append(HTML_END)
         webView.loadDataWithBaseURL(BACKUP_URL, sb.toString(), MIME_TYPE, ENCODING, null)
     }
 
-    private fun loadModules(dir: String, title: String): String {
-        val modules: List<String> = getLicencesModules(dir)
+    private fun loadModules(): String {
+        val modules: List<String> = getLicencesModules()
         val sb = StringBuilder()
-        sb.append(String.format(MODULE_TITLE_FORMAT, title))
+        sb.append(String.format(MODULE_TITLE_FORMAT, MODULE_LICENSE_TITLE))
         modules.forEach { module ->
-            sb.append(String.format(LINK_FORMAT, dir, module, module.replace(HTML_NAME_SEPARATOR, " ")))
+            sb.append(String.format(LINK_FORMAT, DIR_LICENSES, module, module.replace(HTML_NAME_SEPARATOR, " ")))
         }
         return sb.toString()
     }
 
-    private fun getLicencesModules(dir: String): List<String> {
+    private fun getLicencesModules(): List<String> {
         val modules = ArrayList<String>()
         return try {
-            requireContext().assets.list(dir)?.let { licenseList ->
+            requireContext().assets.list(DIR_LICENSES)?.let { licenseList ->
                 licenseList.forEach { file ->
                     val module = file.replace(HTML_EXT, "")
                     Timber.d("module name loaded $module")
@@ -116,14 +107,18 @@ class AboutFragment : Fragment(), OnBackPressedCallback {
         viewModel.applyAboutButtonVisibility(true)
     }
 
-    override fun handleOnBackPressed(): Boolean {
-        val back = webView.url.startsWith(FILE_RES)
-        if (webView.canGoBack()) {
-            webView.goBack()
-            loadData()
-            return back
+    inner class AboutOnBackPressedCallback : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            val back = webView.url.startsWith(FILE_RES)
+            if (webView.canGoBack()) {
+                webView.goBack()
+                loadData()
+            }
+            if (!back) {
+                isEnabled = false
+                requireActivity().onBackPressed()
+            }
         }
-        return false
     }
 
     companion object {

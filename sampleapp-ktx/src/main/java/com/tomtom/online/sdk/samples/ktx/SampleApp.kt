@@ -15,7 +15,6 @@ import android.app.Application
 import android.os.Environment
 import android.util.Log
 import com.tomtom.online.sdk.common.util.LogUtils
-import com.tomtom.online.sdk.samples.CrashSupporter
 import com.tomtom.sdk.examples.BuildConfig
 import java.io.File
 
@@ -24,7 +23,6 @@ class SampleApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        CrashSupporter.create(this)
         initLogs()
     }
 

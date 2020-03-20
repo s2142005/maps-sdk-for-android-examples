@@ -23,7 +23,7 @@ import com.tomtom.online.sdk.samples.ktx.MapAction
 import com.tomtom.online.sdk.samples.ktx.dialogs.ProgressFragment
 import com.tomtom.online.sdk.samples.ktx.utils.routes.Locations
 
-abstract class ExampleFragment : Fragment(), ExampleLifecycle, OnBackPressedCallback {
+abstract class ExampleFragment : Fragment(), ExampleLifecycle {
 
     lateinit var mainViewModel: MainViewModel
     lateinit var exampleViewModel: ExampleViewModel
@@ -34,13 +34,13 @@ abstract class ExampleFragment : Fragment(), ExampleLifecycle, OnBackPressedCall
         super.onActivityCreated(savedInstanceState)
 
         //Handle back press for proper navigation
-        activity!!.addOnBackPressedCallback(this)
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, ExampleOnBackPressedCallback())
 
         //Example view model
         exampleViewModel = ViewModelProviders.of(this).get(ExampleViewModel::class.java)
 
         //Shared view model
-        mainViewModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
+        mainViewModel = ViewModelProviders.of(requireActivity()).get(MainViewModel::class.java)
         mainViewModel.applyAboutButtonVisibility(false)
 
         //Restore if required
@@ -49,20 +49,18 @@ abstract class ExampleFragment : Fragment(), ExampleLifecycle, OnBackPressedCall
         }
     }
 
-    override fun onDestroyView() {
-        activity!!.removeOnBackPressedCallback(this)
-        super.onDestroyView()
-    }
-
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         exampleViewModel.isRestored = true
     }
 
-    override fun handleOnBackPressed(): Boolean {
-        mainViewModel.applyAboutButtonVisibility(true)
-        onExampleEnded()
-        return false
+    inner class ExampleOnBackPressedCallback : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            mainViewModel.applyAboutButtonVisibility(true)
+            onExampleEnded()
+            isEnabled = false
+            requireActivity().onBackPressed()
+        }
     }
 
     private fun isRestored(): Boolean {
