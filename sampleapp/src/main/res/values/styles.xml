@@ -105,11 +105,10 @@
     <!-- //end::compass_style[] -->
 
     <!-- //tag::current_location_style[] -->
-    <style name="CenterOnCurrentLocationView" parent="BaseCompactView">
+    <style name="CenterOnCurrentLocationView" parent="BaseCenterOnCurrentLocationView">
         <item name="android:layout_gravity">bottom|start</item>
         <item name="android:layout_marginStart">@dimen/compass_default_margin_start</item>
-        <item name="android:layout_marginBottom">@dimen/current_location_default_margin_bottom
-        </item>
+        <item name="android:layout_marginBottom">@dimen/current_location_default_margin_bottom</item>
     </style>
     <!-- //end::current_location_style[] -->
 
