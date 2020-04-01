@@ -11,6 +11,7 @@
 package com.tomtom.online.sdk.samples.activities;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
@@ -27,8 +28,10 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.common.base.Optional;
 import com.tomtom.online.sdk.common.location.LatLng;
 import com.tomtom.online.sdk.map.BaseGpsPositionIndicator;
+import com.tomtom.online.sdk.map.GpsIndicator;
 import com.tomtom.online.sdk.map.MapFragment;
 import com.tomtom.online.sdk.map.MapView;
 import com.tomtom.online.sdk.map.OnMapReadyCallback;
@@ -316,4 +319,28 @@ public class FunctionalExamplesActivity extends AppCompatActivity
     }
     //end::doc_custom_gps_position_indicator
 
+    @SuppressWarnings("unused")
+    private void changeGPSIndicatorRadiusColor() {
+        new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(@NonNull TomtomMap tomtomMap) {
+                final int COLOR_RGBA = Color.argb(128, 128, 128, 128);
+                GpsIndicator gpsIndicator = tomtomMap.getGpsPositionIndicator().get();
+                //tag::doc_obtain_gps_indicator[]
+                Optional<GpsIndicator> indicatorOptional = tomtomMap.getGpsPositionIndicator();
+                if (indicatorOptional.isPresent()) {
+                    gpsIndicator = indicatorOptional.get();
+                }
+                //end::doc_obtain_gps_indicator[]
+
+                //tag::doc_set_gps_indicator_active_radius[]
+                gpsIndicator.setInaccuracyAreaColor(COLOR_RGBA);
+                //end::doc_set_gps_indicator_active_radius[]
+
+                //tag::doc_set_gps_indicator_inactive_radius[]
+                gpsIndicator.setDimmedInaccuracyAreaColor(COLOR_RGBA);
+                //end::doc_set_gps_indicator_inactive_radius[]
+            }
+        };
+    }
 }

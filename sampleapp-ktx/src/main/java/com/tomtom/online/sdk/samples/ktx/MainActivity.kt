@@ -81,8 +81,10 @@ class MainActivity : AppCompatActivity() {
         val mapPaddingHorizontal = resources.getDimension(R.dimen.map_padding_horizontal).toDouble()
 
         tomtomMap.uiSettings.currentLocationView.hide()
-        tomtomMap.setPadding(mapPaddingVertical, mapPaddingHorizontal,
-            mapPaddingVertical, mapPaddingHorizontal)
+        tomtomMap.setPadding(
+            mapPaddingVertical, mapPaddingHorizontal,
+            mapPaddingVertical, mapPaddingHorizontal
+        )
         tomtomMap.collectLogsToFile(SampleApp.LOG_FILE_PATH)
     }
     //end::doc_implement_on_map_ready_callback[]
@@ -114,4 +116,23 @@ class MainActivity : AppCompatActivity() {
         val fragment = MapFragment.newInstance(mapProps)
         //end::doc_initial_map_properties[]
     }
+
+    @Suppress("unused")
+    private fun changeGPSIndicatorRadiusColor() {
+        OnMapReadyCallback { tomtomMap ->
+            val COLOR_RGBA = Color.argb(128, 128, 128, 128)
+            //tag::doc_obtain_gps_indicator[]
+            val gpsIndicator = tomtomMap.gpsPositionIndicator.orNull()
+            //end::doc_obtain_gps_indicator[]
+
+            //tag::doc_set_gps_indicator_active_radius[]
+            gpsIndicator?.setInaccuracyAreaColor(COLOR_RGBA)
+            //end::doc_set_gps_indicator_active_radius[]
+
+            //tag::doc_set_gps_indicator_inactive_radius[]
+            gpsIndicator?.setDimmedInaccuracyAreaColor(COLOR_RGBA)
+            //end::doc_set_gps_indicator_inactive_radius[]
+        }
+    }
+
 }

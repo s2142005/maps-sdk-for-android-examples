@@ -44,7 +44,7 @@ ext {
             androidarch      : '1.1.1',
             support          : '28.0.0',
             design           : '28.0.0',
-            playservices     : '15.0.1',
+            playservices     : '16.0.0',
             multidex         : '1.0.3',
             constraint_layout: '1.1.0',
             test             : [
