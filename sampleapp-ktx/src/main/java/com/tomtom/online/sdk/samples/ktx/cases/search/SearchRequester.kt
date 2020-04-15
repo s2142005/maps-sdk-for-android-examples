@@ -25,6 +25,8 @@ import com.tomtom.online.sdk.search.data.fuzzy.FuzzySearchResponse
 import com.tomtom.online.sdk.search.data.fuzzy.FuzzySearchResult
 import com.tomtom.online.sdk.search.data.geometry.GeometrySearchQuery
 import com.tomtom.online.sdk.search.data.geometry.GeometrySearchResult
+import com.tomtom.online.sdk.search.data.poicategories.PoiCategoriesQuery
+import com.tomtom.online.sdk.search.data.poicategories.PoiCategoriesResponse
 import com.tomtom.online.sdk.search.data.reversegeocoder.ReverseGeocoderFullAddress
 import com.tomtom.online.sdk.search.data.reversegeocoder.ReverseGeocoderSearchQuery
 import com.tomtom.online.sdk.search.extensions.SearchService
@@ -100,6 +102,21 @@ class SearchRequester(context: Context) : RxContext {
             //tag::doc_batch_search_request[]
             searchApi.batchSearch(batchSearchQuery)
                 //end::doc_batch_search_request[]
+                .subscribeOn(workingScheduler)
+                .observeOn(resultScheduler)
+                .subscribe(
+                    { response -> results.value = Resource.success(response) },
+                    { error -> results.value = Resource.error(null, Error(error.message)) }
+                )
+        )
+    }
+
+    fun poiCategoriesSearch(poiCategoriesQuery: PoiCategoriesQuery, results: ResourceLiveData<PoiCategoriesResponse>) {
+        results.value = Resource.loading(null)
+        disposable.set(
+            //tag::doc_poi_categories_search_request[]
+            searchApi.poiCategoriesSearch(poiCategoriesQuery)
+                //end::doc_poi_categories_search_request[]
                 .subscribeOn(workingScheduler)
                 .observeOn(resultScheduler)
                 .subscribe(

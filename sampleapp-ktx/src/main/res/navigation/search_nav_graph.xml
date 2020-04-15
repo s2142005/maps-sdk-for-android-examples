@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2015-2019 TomTom N.V. All rights reserved.
   ~
   ~ This software is the proprietary copyright of TomTom N.V. and its subsidiaries and may be used
@@ -108,5 +107,13 @@
         android:id="@+id/batchSearchFragment"
         android:name="com.tomtom.online.sdk.samples.ktx.cases.search.batch.BatchSearchFragment"
         android:label="@string/menu_batch_search_title" />
+    <fragment
+        android:id="@+id/poiCategoriesSearchFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.search.poicategories.PoiCategoriesSearchFragment"
+        android:label="@string/menu_search_poi_categories_title" />
+    <fragment
+        android:id="@+id/poiSubcategoriesFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.search.poicategories.PoiSubcategoriesFragment"
+        android:label="@string/menu_search_poi_categories_title" />
 
 </navigation>

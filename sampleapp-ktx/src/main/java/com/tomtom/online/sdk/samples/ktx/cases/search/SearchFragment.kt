@@ -81,7 +81,7 @@ abstract class SearchFragment<T : SearchViewModel> : ExampleFragment() {
     private fun initSearchViewModel() {
         viewModel = searchViewModel()
         viewModel.updateLocation(locationViewModel.lastKnownLocationOrNull())
-        viewModel.searchResults.observe(this, ResourceObserver(
+        viewModel.searchResults.observe(viewLifecycleOwner, ResourceObserver(
             hideLoading = ::hideLoading,
             showLoading = ::showLoading,
             onSuccess = ::displaySearchResults,
@@ -89,8 +89,8 @@ abstract class SearchFragment<T : SearchViewModel> : ExampleFragment() {
     }
 
     private fun initLocationViewModel() {
-        locationViewModel = ViewModelProviders.of(activity!!).get(LocationViewModel::class.java)
-        locationViewModel.lastKnownLocation().observe(this, Observer { loc ->
+        locationViewModel = ViewModelProviders.of(requireActivity()).get(LocationViewModel::class.java)
+        locationViewModel.lastKnownLocation().observe(viewLifecycleOwner, Observer { loc ->
             viewModel.updateLocation(loc)
         })
     }
@@ -124,7 +124,7 @@ abstract class SearchFragment<T : SearchViewModel> : ExampleFragment() {
 
     fun hideKeyboard() {
         searchView?.let { searchView ->
-            hideKeyboard(context!!, searchView.windowToken)
+            hideKeyboard(requireContext(), searchView.windowToken)
             searchView.clearFocus()
         }
     }

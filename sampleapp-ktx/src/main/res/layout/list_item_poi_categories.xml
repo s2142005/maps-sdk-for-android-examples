@@ -1,0 +1,47 @@
+<!--
+  ~ Copyright (c) 2015-2019 TomTom N.V. All rights reserved.
+  ~
+  ~ This software is the proprietary copyright of TomTom N.V. and its subsidiaries and may be used
+  ~ for internal evaluation purposes or commercial use strictly subject to separate licensee
+  ~ agreement between you and TomTom. If you are the licensee, you are only permitted to use
+  ~ this Software in accordance with the terms of your license agreement. If you are not the
+  ~ licensee then you are not authorised to use this software in any manner and should
+  ~ immediately return it to TomTom N.V.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/poi_categories_search_container_height"
+    android:background="@drawable/menu_item_background"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/poi_category_name"
+        android:layout_width="0dp"
+        android:layout_height="fill_parent"
+        android:layout_marginEnd="@dimen/default_small_padding"
+        android:layout_marginRight="@dimen/default_small_padding"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:includeFontPadding="false"
+        android:maxLines="2"
+        android:paddingStart="@dimen/default_small_padding"
+        android:paddingLeft="@dimen/default_small_padding"
+        android:textColor="@color/solid_black"
+        android:textSize="@dimen/submenu_item_title_text"
+        android:textStyle="normal"
+        tools:text="Test title" />
+
+    <ImageView
+        android:id="@+id/poi_category_arrow"
+        android:layout_width="@dimen/submenu_item_arrow_size"
+        android:layout_height="@dimen/submenu_item_arrow_size"
+        android:layout_gravity="center_vertical"
+        android:adjustViewBounds="true"
+        android:paddingEnd="@dimen/default_small_padding"
+        android:paddingRight="@dimen/default_small_padding"
+        android:src="@drawable/ic_arrow" />
+
+</LinearLayout>

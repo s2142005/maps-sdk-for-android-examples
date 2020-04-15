@@ -83,4 +83,6 @@
     <dimen name="traffic_incident_item_size">50dp</dimen>
     <dimen name="traffic_incident_view_padding">5dp</dimen>
     <dimen name="traffic_incident_view_text_size">20sp</dimen>
+
+    <dimen name="poi_categories_search_container_height">44dp</dimen>
 </resources>

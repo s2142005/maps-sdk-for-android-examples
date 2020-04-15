@@ -73,4 +73,8 @@
     <string name="btn_text_batch_parking">Parking</string>
     <string name="btn_text_batch_gas">Gas</string>
     <string name="btn_text_batch_bar">Bar</string>
+
+    <string name="menu_search_poi_categories_title">POI category tree</string>
+    <string name="menu_search_poi_categories_description">Allow your users to easily search for appropriate category of Point of Interest.</string>
+
 </resources>

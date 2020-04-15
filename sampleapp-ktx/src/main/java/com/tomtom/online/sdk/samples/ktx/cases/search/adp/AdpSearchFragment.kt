@@ -55,7 +55,7 @@ class AdpSearchFragment : SearchFragment<AdpSearchViewModel>() {
 
     private fun createViewModel() {
         viewModel = searchViewModel()
-        viewModel.adpResult.observe(this, ResourceObserver(
+        viewModel.adpResult.observe(viewLifecycleOwner, ResourceObserver(
             hideLoading = ::hideLoading,
             showLoading = ::showLoading,
             onSuccess = ::showAdpResults,
