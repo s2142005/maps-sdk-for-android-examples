@@ -13,33 +13,32 @@ package com.tomtom.online.sdk.samples.ktx.cases.geofencing.report
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import com.tomtom.online.sdk.common.location.LatLng
-import com.tomtom.online.sdk.geofencing.data.report.ReportServiceQuery
-import com.tomtom.online.sdk.geofencing.data.report.ReportServiceQueryBuilder
-import com.tomtom.online.sdk.geofencing.data.report.ReportServiceResponse
+import com.tomtom.online.sdk.geofencing.report.Report
+import com.tomtom.online.sdk.geofencing.report.ReportQuery
 import com.tomtom.online.sdk.samples.ktx.cases.geofencing.GeofencingRequester
 import com.tomtom.online.sdk.samples.ktx.utils.arch.ResourceLiveData
 import java.util.*
 
 class ReportServiceViewModel(application: Application) : AndroidViewModel(application) {
 
-    var reportResponse = ResourceLiveData<ReportServiceResponse>()
+    var reportResponse = ResourceLiveData<Report>()
     lateinit var projectId: UUID
 
     fun requestReport(location: LatLng) {
-        val reportServiceQuery = prepareQuery(location)
+        val reportQuery = prepareQuery(location)
 
-        GeofencingRequester(getApplication()).obtainReport(reportServiceQuery, reportResponse)
+        GeofencingRequester(getApplication()).obtainReport(reportQuery, reportResponse)
     }
 
-    private fun prepareQuery(position: LatLng): ReportServiceQuery {
+    private fun prepareQuery(position: LatLng): ReportQuery {
         return (
-                //tag::doc_create_report_service_query[]
-                ReportServiceQueryBuilder.create(position.toLocation())
-                        .withProject(projectId)
-                        .withRange(QUERY_RANGE)
-                        .build()
-                //end::doc_create_report_service_query[]
-                )
+            //tag::doc_create_report_service_query[]
+            ReportQuery.Builder(position.toLocation())
+                .projectId(projectId)
+                .range(QUERY_RANGE)
+                .build()
+            //end::doc_create_report_service_query[]
+            )
     }
 
     companion object {

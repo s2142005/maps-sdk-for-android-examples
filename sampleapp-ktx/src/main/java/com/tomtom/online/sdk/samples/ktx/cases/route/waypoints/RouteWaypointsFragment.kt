@@ -57,7 +57,6 @@ class RouteWaypointsFragment : RouteFragment<RouteWaypointsViewModel>() {
 
     private fun confViewActions() {
         route_waypoints_initial_order_btn.setOnClickListener { viewModel.planInitialOrderRoute() }
-        route_waypoints_best_order_btn.setOnClickListener { viewModel.plantBestOrderRoute() }
         route_waypoints_no_waypoints_btn.setOnClickListener { viewModel.planNoWaypointsRoute() }
     }
 

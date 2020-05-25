@@ -15,13 +15,17 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import com.tomtom.online.sdk.common.location.BoundingBox
 import com.tomtom.online.sdk.common.location.LatLng
+import com.tomtom.online.sdk.map.AnimationDuration
+import com.tomtom.online.sdk.map.CameraFocusArea
 import com.tomtom.online.sdk.map.MapConstants
 import com.tomtom.online.sdk.samples.IdlingResourceHelper
 import com.tomtom.online.sdk.samples.ktx.MainViewModel
 import com.tomtom.online.sdk.samples.ktx.MapAction
 import com.tomtom.online.sdk.samples.ktx.dialogs.ProgressFragment
 import com.tomtom.online.sdk.samples.ktx.utils.routes.Locations
+import java.util.concurrent.TimeUnit
 
 abstract class ExampleFragment : Fragment(), ExampleLifecycle {
 
@@ -84,6 +88,23 @@ abstract class ExampleFragment : Fragment(), ExampleLifecycle {
                     zoomLevel,
                     bearing)
                 //end::doc_map_center_on_amsterdam[]
+            }
+        })
+    }
+
+    protected fun centerOnArea(topLeft: LatLng, bottomRight: LatLng) {
+        mainViewModel.applyOnMap(MapAction {
+            let { tomtomMap ->
+                //tag::doc_map_center_on_area[]
+                val areaBox = BoundingBox(topLeft, bottomRight)
+                val cameraFocusArea = CameraFocusArea.Builder(areaBox)
+                    .apply {
+                        bearing(MapConstants.ORIENTATION_SOUTH.toDouble())
+                        pitch(45.0)
+                    }
+                    .build()
+                tomtomMap.centerOn(cameraFocusArea, AnimationDuration(1500, TimeUnit.MILLISECONDS))
+                //end::doc_map_center_on_area[]
             }
         })
     }

@@ -15,12 +15,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.tomtom.online.sdk.common.location.BoundingBox
+import com.tomtom.online.sdk.map.AnimationDuration
+import com.tomtom.online.sdk.map.CameraFocusArea
+import com.tomtom.online.sdk.map.MapConstants
 import com.tomtom.online.sdk.samples.ktx.MapAction
 import com.tomtom.online.sdk.samples.ktx.cases.ExampleFragment
 import com.tomtom.online.sdk.samples.ktx.utils.routes.Locations
 import com.tomtom.sdk.examples.R
 import kotlinx.android.synthetic.main.control_buttons_map_centering.*
 import kotlinx.android.synthetic.main.default_map_fragment.*
+import java.util.concurrent.TimeUnit
 
 class MapCenteringFragment : ExampleFragment() {
 
@@ -49,7 +54,7 @@ class MapCenteringFragment : ExampleFragment() {
     private fun confViewActions() {
         map_centering_amsterdam_btn.setOnClickListener { centerOnAmsterdam() }
         map_centering_berlin_btn.setOnClickListener { centerOnBerlin() }
-        map_centering_london_btn.setOnClickListener { centerOnLondon() }
+        map_centering_area_btn.setOnClickListener { centerOnBoundingBox() }
     }
 
     private fun centerOnAmsterdam() {
@@ -60,8 +65,8 @@ class MapCenteringFragment : ExampleFragment() {
         centerOnLocation(location = Locations.BERLIN)
     }
 
-    private fun centerOnLondon() {
-        centerOnLocation(location = Locations.LONDON)
+    private fun centerOnBoundingBox() {
+        centerOnArea(topLeft = Locations.AMSTERDAM_HAARLEM, bottomRight = Locations.AMSTERDAM_CENTER)
     }
 
     @Suppress("unused")

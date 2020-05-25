@@ -62,7 +62,6 @@ class PoiCategoriesSearchFragment : SearchFragment<PoiCategoriesSearchViewModel>
         viewModel.searchPoiCategories()
     }
 
-
     private fun setupRecyclerView() {
         searchResultRv?.let { view ->
             poiCategoriesAdapter = PoiCategoriesAdapter(this)

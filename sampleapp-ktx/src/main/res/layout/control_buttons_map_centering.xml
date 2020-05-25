@@ -24,8 +24,8 @@
         android:text="@string/label_map_centering_berlin_btn" />
 
     <RadioButton
-        android:id="@+id/map_centering_london_btn"
+        android:id="@+id/map_centering_area_btn"
         style="@style/ControlButton"
-        android:text="@string/label_map_centering_london_btn" />
+        android:text="@string/label_map_centering_area_btn" />
 
 </merge>

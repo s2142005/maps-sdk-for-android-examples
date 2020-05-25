@@ -57,6 +57,13 @@ class SearchMenuFragment : MenuFragment() {
                 onClickNavigateTo = R.id.typeaheadSearchFragment
             ),
             MenuItem(
+                title = R.string.menu_autocomplete_search_title,
+                icon = R.drawable.ic_map_menu_icon,
+                description = R.string.menu_autocomplete_search_description,
+                banner = R.drawable.ic_menu_search_autocomplete_search,
+                onClickNavigateTo = R.id.autocompleteSearchFragment
+            ),
+            MenuItem(
                 title = R.string.menu_search_max_fuzziness_param_title,
                 icon = R.drawable.ic_map_menu_icon,
                 description = R.string.menu_search_max_fuzziness_param_description,
@@ -90,6 +97,13 @@ class SearchMenuFragment : MenuFragment() {
                 description = R.string.menu_search_entry_points_description,
                 banner = R.drawable.ic_menu_search_entry_points,
                 onClickNavigateTo = R.id.entryPointsFragment
+            ),
+            MenuItem(
+                title = R.string.menu_search_opening_hours_title,
+                icon = R.drawable.ic_map_menu_icon,
+                description = R.string.menu_search_opening_hours_description,
+                banner = R.drawable.ic_menu_search_opening_hours,
+                onClickNavigateTo = R.id.openingHoursFragment
             ),
             MenuItem(
                 title = R.string.menu_search_entry_adp_title,

@@ -54,12 +54,6 @@ public class RouteWaypointsPresenter extends RoutePlannerPresenter {
         return new RouteWaypointsFunctionalExample();
     }
 
-    public void bestOrder() {
-        clearMap();
-        addDefaultWaypoints();
-        displayRoute(getRouteQuery(true));
-    }
-
     private void addDefaultWaypoints() {
         addWaypoint(HAMBURG);
         addWaypoint(ZURICH);
@@ -69,12 +63,12 @@ public class RouteWaypointsPresenter extends RoutePlannerPresenter {
     public void initialOrder() {
         clearMap();
         addDefaultWaypoints();
-        displayRoute(getRouteQuery(false));
+        displayRoute(getRouteQuery());
     }
 
     public void noWaypoints() {
         clearMap();
-        displayRoute(getRouteQuery(false));
+        displayRoute(getRouteQuery());
     }
 
     private void clearMap() {
@@ -106,13 +100,12 @@ public class RouteWaypointsPresenter extends RoutePlannerPresenter {
     }
 
     @VisibleForTesting
-    protected RouteQuery getRouteQuery(boolean computeBestOrder) {
+    protected RouteQuery getRouteQuery() {
         AmsterdamToBerlinRouteConfig routeConfig = new AmsterdamToBerlinRouteConfig();
         //tag::doc_route_waypoints[]
         LatLng[] wayPointsArray = wayPoints.toArray(new LatLng[wayPoints.size()]);
         RouteQuery routeQuery = RouteQueryBuilder.create(routeConfig.getOrigin(), routeConfig.getDestination())
                 .withWayPoints(wayPointsArray)
-                .withComputeBestOrder(computeBestOrder)
                 .withConsiderTraffic(false).build();
         //end::doc_route_waypoints[]
         return routeQuery;

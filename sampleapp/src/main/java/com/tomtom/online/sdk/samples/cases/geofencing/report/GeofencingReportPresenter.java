@@ -15,8 +15,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.tomtom.online.sdk.common.location.LatLng;
-import com.tomtom.online.sdk.geofencing.ReportServiceResultListener;
-import com.tomtom.online.sdk.geofencing.data.report.ReportServiceResponse;
+import com.tomtom.online.sdk.geofencing.GeofencingException;
+import com.tomtom.online.sdk.geofencing.report.Report;
+import com.tomtom.online.sdk.geofencing.report.ReportCallback;
 import com.tomtom.online.sdk.map.MapConstants;
 import com.tomtom.online.sdk.map.Marker;
 import com.tomtom.online.sdk.map.TomtomMap;
@@ -82,16 +83,16 @@ public class GeofencingReportPresenter extends BaseFunctionalExamplePresenter im
     }
 
     //tag::doc_register_report_listener[]
-    private ReportServiceResultListener resultListener = new ReportServiceResultListener() {
+    private ReportCallback resultListener = new ReportCallback() {
 
         @Override
-        public void onResponse(@NonNull ReportServiceResponse response) {
+        public void onSuccess(@NonNull Report report) {
             markerDrawer.removeFenceMarkers();
-            markerDrawer.updateMarkersFromResponse(response);
+            markerDrawer.updateMarkersFromResponse(report);
         }
 
         @Override
-        public void onError(Throwable error) {
+        public void onError(@NonNull GeofencingException error) {
             Toast.makeText(getContext(), R.string.report_service_request_error, Toast.LENGTH_LONG).show();
         }
     };

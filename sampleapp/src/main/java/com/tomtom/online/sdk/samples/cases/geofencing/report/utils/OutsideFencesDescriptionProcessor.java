@@ -12,7 +12,7 @@ package com.tomtom.online.sdk.samples.cases.geofencing.report.utils;
 
 import android.content.Context;
 
-import com.tomtom.online.sdk.geofencing.data.report.Report;
+import com.tomtom.online.sdk.geofencing.report.Report;
 import com.tomtom.online.sdk.samples.R;
 
 public class OutsideFencesDescriptionProcessor implements FencesDescriptionProcessor {

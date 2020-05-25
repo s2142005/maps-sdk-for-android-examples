@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (c) 2015-2019 TomTom N.V. All rights reserved.
+  ~ Copyright (c) 2015-2020 TomTom N.V. All rights reserved.
   ~
   ~ This software is the proprietary copyright of TomTom N.V. and its subsidiaries and may be used
   ~ for internal evaluation purposes or commercial use strictly subject to separate licensee
@@ -27,10 +27,13 @@
     <string name="menu_typeahead_search_title">Typeahead parameters</string>
     <string name="menu_typeahead_search_description">Enables typeahead suggestions.</string>
 
+    <string name="menu_autocomplete_search_title">Autocomplete</string>
+    <string name="menu_autocomplete_search_description">Autocomplete provides more meaningful results to your application’s users.</string>
+
     <string name="menu_language_parameter_description">Returns results in a specific language.</string>
     <string name="menu_language_parameter_title">Language parameter</string>
     <string name="menu_search_max_fuzziness_param_title">Max fuzziness parameter</string>
-    <string name="menu_search_max_fuzziness_param_description">Use the right fuzziness levels to set sensivity.“</string>
+    <string name="menu_search_max_fuzziness_param_description">Use the right fuzziness levels to set sensitivity.“</string>
     <string name="label_max_fuzzy_level_one_btn">Max 1</string>
     <string name="label_max_fuzzy_level_two_btn">Max 2</string>
     <string name="label_max_fuzzy_level_three_btn">Max 3</string>
@@ -39,9 +42,12 @@
 
     <string name="entry_points_type">Entry point type: %1$s</string>
     <string name="menu_search_entry_points_title">Entry points</string>
-    <string name="menu_search_entry_points_description">Allow your users to display entry points using using fuzzy search results.</string>
+    <string name="menu_search_entry_points_description">Allow your users to display entry points using fuzzy search results.</string>
     <string name="btn_text_airport">Airport</string>
     <string name="btn_text_shopping_mall">Shopping Mall</string>
+
+    <string name="menu_search_opening_hours_title">POI with Opening Hours</string>
+    <string name="menu_search_opening_hours_description">Opening hours for next week, starting with the current day in the local time of the POI.</string>
 
     <string name="menu_search_entry_rev_geo_polygons_title">Polygons for rev geo</string>
     <string name="menu_search_entry_rev_geo_polygons_description">Drop a pin to get a polygon.</string>

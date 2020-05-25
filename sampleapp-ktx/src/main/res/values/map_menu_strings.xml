@@ -102,7 +102,7 @@
 
     <string name="label_map_centering_amsterdam_btn">Amsterdam</string>
     <string name="label_map_centering_berlin_btn">Berlin</string>
-    <string name="label_map_centering_london_btn">London</string>
+    <string name="label_map_centering_area_btn">Area</string>
 
     <string name="menu_map_perspective_title">Map perspective</string>
     <string name="menu_map_perspective_description">Switch between 2D and 3D mode to change map perspective.</string>

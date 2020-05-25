@@ -12,12 +12,13 @@ package com.tomtom.online.sdk.samples.ktx.cases.geofencing.report.utils
 
 import com.google.common.base.Joiner
 import com.google.common.collect.Lists
-import com.tomtom.online.sdk.geofencing.data.report.FenceDetails
+import com.tomtom.online.sdk.geofencing.report.FenceDetails
 
 object GeofencingReportParser {
 
     internal fun fenceDetailsToString(fences: List<FenceDetails>): String {
-        val trimmed = Lists.transform(fences) { input -> String.format("\"%1\$s\"", input!!.fence.name) }
+        val trimmed =
+            Lists.transform(fences) { input -> String.format("\"%1\$s\"", input!!.fence.name) }
         return Joiner.on(", ").join(trimmed)
     }
 

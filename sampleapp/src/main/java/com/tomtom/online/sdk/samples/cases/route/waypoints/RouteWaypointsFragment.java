@@ -24,7 +24,6 @@ public class RouteWaypointsFragment extends RoutePlannerFragment<RouteWaypointsP
     @Override
     protected void onOptionsButtonsView(OptionsButtonsView view) {
         view.addOption(R.string.btn_text_initial_order);
-        view.addOption(R.string.btn_text_best_order);
         view.addOption(R.string.btn_text_clear);
     }
 
@@ -33,8 +32,6 @@ public class RouteWaypointsFragment extends RoutePlannerFragment<RouteWaypointsP
         if (newValues[0]) {
             presenter.initialOrder();
         } else if (newValues[1]) {
-            presenter.bestOrder();
-        } else if (newValues[2]) {
             presenter.noWaypoints();
         }
     }

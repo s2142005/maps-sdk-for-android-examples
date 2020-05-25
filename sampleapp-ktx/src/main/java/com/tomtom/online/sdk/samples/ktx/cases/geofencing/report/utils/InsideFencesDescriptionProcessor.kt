@@ -11,7 +11,7 @@
 package com.tomtom.online.sdk.samples.ktx.cases.geofencing.report.utils
 
 import android.content.Context
-import com.tomtom.online.sdk.geofencing.data.report.Report
+import com.tomtom.online.sdk.geofencing.report.Report
 import com.tomtom.sdk.examples.R
 
 class InsideFencesDescriptionProcessor : FencesDescriptionProcessor {
@@ -21,8 +21,10 @@ class InsideFencesDescriptionProcessor : FencesDescriptionProcessor {
     }
 
     override fun getText(context: Context, report: Report): String {
-        return context.resources.getString(R.string.report_service_only_inside_fences,
-                GeofencingReportParser.fenceDetailsToString(report.inside))
+        return context.resources.getString(
+            R.string.report_service_only_inside_fences,
+            GeofencingReportParser.fenceDetailsToString(report.inside)
+        )
     }
 
 }

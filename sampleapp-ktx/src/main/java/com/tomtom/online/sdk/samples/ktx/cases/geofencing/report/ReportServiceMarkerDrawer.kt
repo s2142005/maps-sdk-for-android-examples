@@ -12,8 +12,8 @@ package com.tomtom.online.sdk.samples.ktx.cases.geofencing.report
 
 import android.content.Context
 import com.google.common.collect.ImmutableList
-import com.tomtom.online.sdk.geofencing.data.report.FenceDetails
-import com.tomtom.online.sdk.geofencing.data.report.Report
+import com.tomtom.online.sdk.geofencing.report.FenceDetails
+import com.tomtom.online.sdk.geofencing.report.Report
 import com.tomtom.online.sdk.map.*
 import com.tomtom.online.sdk.samples.ktx.cases.geofencing.report.utils.InsideFencesDescriptionProcessor
 import com.tomtom.online.sdk.samples.ktx.cases.geofencing.report.utils.InsideOutsideFencesDescriptionProcessor
@@ -30,9 +30,16 @@ class ReportServiceMarkerDrawer(private val context: Context, private val tomtom
 
         fenceDetailsList.forEach { fenceDetail ->
             val markerBuilder = MarkerBuilder(fenceDetail.closestPoint)
-                    .icon(createMarkerIcon())
-                    .markerBalloon(SimpleMarkerBalloon(context.resources.getString(R.string.report_service_fence_marker_balloon, fenceDetail.fence.name)))
-                    .tag(FENCE_MARKERS_TAG)
+                .icon(createMarkerIcon())
+                .markerBalloon(
+                    SimpleMarkerBalloon(
+                        context.resources.getString(
+                            R.string.report_service_fence_marker_balloon,
+                            fenceDetail.fence.name
+                        )
+                    )
+                )
+                .tag(FENCE_MARKERS_TAG)
 
             tomtomMap.addMarker(markerBuilder)
         }
@@ -40,9 +47,9 @@ class ReportServiceMarkerDrawer(private val context: Context, private val tomtom
 
     fun drawDraggableMarkerAtDefaultPosition() {
         val markerBuilder = MarkerBuilder(Locations.AMSTERDAM_BARNDESTEEG)
-                .markerBalloon(BaseMarkerBalloon())
-                .tag(DRAGGABLE_MARKER_TAG)
-                .draggable(true)
+            .markerBalloon(BaseMarkerBalloon())
+            .tag(DRAGGABLE_MARKER_TAG)
+            .draggable(true)
 
         tomtomMap.addMarker(markerBuilder)
     }
@@ -53,9 +60,9 @@ class ReportServiceMarkerDrawer(private val context: Context, private val tomtom
 
     fun updateDraggableMarkerText(report: Report) {
         val descriptionProcessors = ImmutableList.of(
-                InsideFencesDescriptionProcessor(),
-                OutsideFencesDescriptionProcessor(),
-                InsideOutsideFencesDescriptionProcessor()
+            InsideFencesDescriptionProcessor(),
+            OutsideFencesDescriptionProcessor(),
+            InsideOutsideFencesDescriptionProcessor()
         )
 
         findDraggableMarker()?.let { marker ->

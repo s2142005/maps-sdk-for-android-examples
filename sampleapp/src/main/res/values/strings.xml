@@ -127,7 +127,7 @@
 
     <string name="map_center_amsterdam">Amsterdam</string>
     <string name="map_center_berlin">Berlin</string>
-    <string name="map_center_london">London</string>
+    <string name="map_center_area">Area</string>
     <string name="map_center_gps">GPS</string>
 
     <string name="travel_mode_pedestrian_text">Pedestrian</string>
@@ -204,7 +204,6 @@
     <string name="dialog_search_in_progress_msg">Search in progress...</string>
 
     <string name="btn_text_initial_order">Initial order</string>
-    <string name="btn_text_best_order">Best order</string>
     <string name="btn_text_clear">No waypoints</string>
     <string name="label_arrival_time">Arrival time:</string>
     <string name="label_departure_time">Departure time:</string>

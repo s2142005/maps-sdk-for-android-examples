@@ -18,11 +18,6 @@
         android:text="@string/label_route_waypoints_initial_order_btn" />
 
     <RadioButton
-        android:id="@+id/route_waypoints_best_order_btn"
-        style="@style/ControlButton"
-        android:text="@string/label_route_waypoints_best_order_btn" />
-
-    <RadioButton
         android:id="@+id/route_waypoints_no_waypoints_btn"
         style="@style/ControlButton"
         android:text="@string/label_route_waypoints_no_waypoints_btn" />

@@ -55,13 +55,13 @@ class AlongRouteFragment : SearchFragment<AlongRouteViewModel>() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.routingResult.observe(this, ResourceObserver(
+        viewModel.routingResult.observe(viewLifecycleOwner, ResourceObserver(
             hideLoading = ::hideLoading,
             showLoading = ::showLoading,
             onSuccess = ::displayRoute,
             onError = ::showError))
 
-        viewModel.results.observe(this, ResourceObserver(
+        viewModel.results.observe(viewLifecycleOwner, ResourceObserver(
             hideLoading = ::hideLoading,
             showLoading = ::showLoading,
             onSuccess = ::displayResults,

@@ -16,9 +16,8 @@ import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import com.tomtom.online.sdk.common.func.FuncUtils;
 import com.tomtom.online.sdk.common.location.LatLng;
-import com.tomtom.online.sdk.geofencing.data.report.FenceDetails;
-import com.tomtom.online.sdk.geofencing.data.report.Report;
-import com.tomtom.online.sdk.geofencing.data.report.ReportServiceResponse;
+import com.tomtom.online.sdk.geofencing.report.FenceDetails;
+import com.tomtom.online.sdk.geofencing.report.Report;
 import com.tomtom.online.sdk.map.BaseMarkerBalloon;
 import com.tomtom.online.sdk.map.Icon;
 import com.tomtom.online.sdk.map.Marker;
@@ -62,9 +61,7 @@ public class GeofencingMarkersDrawer {
         });
     }
 
-    void updateMarkersFromResponse(ReportServiceResponse serviceResponse) {
-        Report report = serviceResponse.getReport();
-
+    void updateMarkersFromResponse(Report report) {
         //Add fence markers
         addFenceMarkers(report.getInside());
         addFenceMarkers(report.getOutside());

@@ -12,7 +12,7 @@ package com.tomtom.online.sdk.samples.cases.geofencing.report.utils;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
-import com.tomtom.online.sdk.geofencing.data.report.FenceDetails;
+import com.tomtom.online.sdk.geofencing.report.FenceDetails;
 
 import java.util.List;
 

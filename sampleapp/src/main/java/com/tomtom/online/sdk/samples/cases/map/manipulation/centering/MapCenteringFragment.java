@@ -32,7 +32,7 @@ public class MapCenteringFragment extends ExampleFragment<MapCenteringPresenter>
     protected void onOptionsButtonsView(final OptionsButtonsView view) {
         view.addOption(R.string.map_center_amsterdam);
         view.addOption(R.string.map_center_berlin);
-        view.addOption(R.string.map_center_london);
+        view.addOption(R.string.map_center_area);
 
         optionsView.selectItem(0, true);
     }
@@ -69,7 +69,7 @@ public class MapCenteringFragment extends ExampleFragment<MapCenteringPresenter>
                 presenter.centerOnBerlin();
                 break;
             case 2:
-                presenter.centerOnLondon();
+                presenter.centerOnArea();
                 break;
         }
     }

@@ -12,7 +12,10 @@ package com.tomtom.online.sdk.samples.cases.map.manipulation.centering;
 
 import android.location.Location;
 
+import com.tomtom.online.sdk.common.location.BoundingBox;
 import com.tomtom.online.sdk.common.location.LatLng;
+import com.tomtom.online.sdk.map.AnimationDuration;
+import com.tomtom.online.sdk.map.CameraFocusArea;
 import com.tomtom.online.sdk.map.CameraPosition;
 import com.tomtom.online.sdk.map.MapConstants;
 import com.tomtom.online.sdk.map.TomtomMap;
@@ -21,6 +24,8 @@ import com.tomtom.online.sdk.samples.activities.BaseFunctionalExamplePresenter;
 import com.tomtom.online.sdk.samples.activities.FunctionalExampleModel;
 import com.tomtom.online.sdk.samples.fragments.FunctionalExampleFragment;
 import com.tomtom.online.sdk.samples.utils.Locations;
+
+import java.util.concurrent.TimeUnit;
 
 public class MapCenteringPresenter extends BaseFunctionalExamplePresenter {
 
@@ -81,17 +86,18 @@ public class MapCenteringPresenter extends BaseFunctionalExamplePresenter {
         //end::doc_map_center_on_berlin[]
     }
 
-    public void centerOnLondon() {
-        view.setActionBarSubtitle(R.string.map_center_london);
-
-        //tag::doc_map_center_on_london[]
-        CameraPosition cameraPosition = CameraPosition
-                .builder(Locations.LONDON_LOCATION)
-                .bearing(MapConstants.ORIENTATION_NORTH)
-                .zoom(DEFAULT_ZOOM_LEVEL)
+    public void centerOnArea() {
+        view.setActionBarSubtitle(R.string.map_center_area);
+        LatLng topLeft = Locations.AMSTERDAM_HAARLEM;
+        LatLng bottomRight = Locations.AMSTERDAM_CENTER_LOCATION;
+        //tag::doc_map_center_on_area[]
+        BoundingBox areaBox = new BoundingBox(topLeft, bottomRight);
+        CameraFocusArea cameraFocusArea = new CameraFocusArea.Builder(areaBox)
+                .bearing(MapConstants.ORIENTATION_SOUTH)
+                .pitch(45.0)
                 .build();
-        tomtomMap.centerOn(cameraPosition);
-        //end::doc_map_center_on_london[]
+        tomtomMap.centerOn(cameraFocusArea, new AnimationDuration(1500, TimeUnit.MILLISECONDS));
+        //end::doc_map_center_on_area[]
     }
 
     @SuppressWarnings("unused")

@@ -16,9 +16,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
-import com.tomtom.online.sdk.geofencing.ReportServiceResultListener
-import com.tomtom.online.sdk.geofencing.data.report.Report
-import com.tomtom.online.sdk.geofencing.data.report.ReportServiceResponse
+import com.tomtom.online.sdk.geofencing.GeofencingException
+import com.tomtom.online.sdk.geofencing.report.ReportCallback
+import com.tomtom.online.sdk.geofencing.report.Report
 import com.tomtom.online.sdk.map.Marker
 import com.tomtom.online.sdk.map.TomtomMapCallback
 import com.tomtom.online.sdk.samples.ktx.MapAction
@@ -34,8 +34,10 @@ class ReportServiceFragment : ExampleFragment() {
 
     private lateinit var viewModel: ReportServiceViewModel
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.default_map_fragment, container, false)
     }
 
@@ -67,16 +69,22 @@ class ReportServiceFragment : ExampleFragment() {
     }
 
     private fun inflateControlButtons() {
-        layoutInflater.inflate(R.layout.control_buttons_geofencing_report, mapControlButtonsContainer, true)
+        layoutInflater.inflate(
+            R.layout.control_buttons_geofencing_report,
+            mapControlButtonsContainer,
+            true
+        )
     }
 
     private fun confViewModel() {
         viewModel = ViewModelProviders.of(this).get(ReportServiceViewModel::class.java)
-        viewModel.reportResponse.observe(this, ResourceObserver(
-            hideLoading = ::hideLoading,
-            showLoading = ::showLoading,
-            onSuccess = ::processResponse,
-            onError = ::showError)
+        viewModel.reportResponse.observe(
+            this, ResourceObserver(
+                hideLoading = ::hideLoading,
+                showLoading = ::showLoading,
+                onSuccess = ::processResponse,
+                onError = ::showError
+            )
         )
     }
 
@@ -94,8 +102,8 @@ class ReportServiceFragment : ExampleFragment() {
         }
     }
 
-    private fun processResponse(response: ReportServiceResponse) {
-        processReport(response.report)
+    private fun processResponse(report: Report) {
+        processReport(report)
     }
 
     private fun processReport(report: Report) {
@@ -178,12 +186,13 @@ class ReportServiceFragment : ExampleFragment() {
 
     @Suppress("unused")
     //tag::doc_register_report_listener[]
-    private val resultListener = object : ReportServiceResultListener {
-        override fun onResponse(serviceResponse: ReportServiceResponse) {
-            processResponse(serviceResponse)
+    private val resultListener = object :
+        ReportCallback {
+        override fun onSuccess(report: Report) {
+            processResponse(report)
         }
 
-        override fun onError(error: Throwable) {
+        override fun onError(error: GeofencingException) {
             Toast.makeText(context, error.message, Toast.LENGTH_LONG).show()
         }
     }
@@ -191,7 +200,8 @@ class ReportServiceFragment : ExampleFragment() {
 
     companion object {
         //tag::doc_projects_ID[]
-        private val PROJECT_UUID_TWO_FENCES = UUID.fromString("fcf6d609-550d-49ff-bcdf-02bba08baa28")
+        private val PROJECT_UUID_TWO_FENCES =
+            UUID.fromString("fcf6d609-550d-49ff-bcdf-02bba08baa28")
         private val PROJECT_UUID_ONE_FENCE = UUID.fromString("57287023-a968-492c-8473-7e049a606425")
         //end::doc_projects_ID[]
         private const val ZOOM_LEVEL_FOR_EXAMPLE = 12.0

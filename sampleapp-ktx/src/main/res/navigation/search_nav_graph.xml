@@ -88,6 +88,10 @@
         android:name="com.tomtom.online.sdk.samples.ktx.cases.search.entrypoints.EntryPointsFragment"
         android:label="@string/menu_search_entry_points_title" />
     <fragment
+        android:id="@+id/openingHoursFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.search.openinghours.OpeningHoursFragment"
+        android:label="@string/menu_search_opening_hours_title" />
+    <fragment
         android:id="@+id/adpSearchFragment"
         android:name="com.tomtom.online.sdk.samples.ktx.cases.search.adp.AdpSearchFragment"
         android:label="@string/menu_search_entry_adp_title" />
@@ -115,5 +119,13 @@
         android:id="@+id/poiSubcategoriesFragment"
         android:name="com.tomtom.online.sdk.samples.ktx.cases.search.poicategories.PoiSubcategoriesFragment"
         android:label="@string/menu_search_poi_categories_title" />
+    <fragment
+        android:id="@+id/autocompleteSearchFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.search.autocomplete.AutocompleteSearchFragment"
+        android:label="@string/menu_autocomplete_search_title" />
+    <fragment
+        android:id="@+id/autocompleteMarkersFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.search.autocomplete.AutocompleteMarkersFragment"
+        android:label="@string/menu_autocomplete_search_title" />
 
 </navigation>

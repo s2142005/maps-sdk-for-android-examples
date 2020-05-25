@@ -13,8 +13,9 @@ package com.tomtom.online.sdk.samples.ktx.cases.geofencing
 import android.content.Context
 import com.tomtom.online.sdk.common.rx.RxContext
 import com.tomtom.online.sdk.geofencing.GeofencingApi
-import com.tomtom.online.sdk.geofencing.data.report.ReportServiceQuery
-import com.tomtom.online.sdk.geofencing.data.report.ReportServiceResponse
+import com.tomtom.online.sdk.geofencing.RxGeofencingApi
+import com.tomtom.online.sdk.geofencing.report.Report
+import com.tomtom.online.sdk.geofencing.report.ReportQuery
 import com.tomtom.online.sdk.samples.ktx.utils.arch.Resource
 import com.tomtom.online.sdk.samples.ktx.utils.arch.ResourceLiveData
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -26,20 +27,25 @@ class GeofencingRequester(context: Context) : RxContext {
     private val disposable = SerialDisposable()
 
     //tag::doc_initialise_geofencing[]
-    private val geofencingApi = GeofencingApi.create(context)
+    private val geofencingApi = GeofencingApi(context)
     //end::doc_initialise_geofencing[]
+    //tag::doc_initialise_rx_geofencing[]
+    private val rxGeofencingApi = RxGeofencingApi(context)
+    //end::doc_initialise_rx_geofencing[]
 
-    fun obtainReport(reportServiceQuery: ReportServiceQuery, result: ResourceLiveData<ReportServiceResponse>) {
+    fun obtainReport(reportQuery: ReportQuery, result: ResourceLiveData<Report>) {
         result.value = Resource.loading(null)
 
-        disposable.set(geofencingApi.obtainReport(reportServiceQuery)
-                .subscribeOn(workingScheduler)
-                .observeOn(resultScheduler)
-                .subscribe(
-                        { response -> result.value = Resource.success(response) },
-                        { error -> result.value = Resource.error(null, Error(error.message)) }
-                )
-        )
+        //tag::doc_obtain_report_rx[]
+        rxGeofencingApi.obtainReport(reportQuery)
+            .subscribeOn(workingScheduler)
+            .observeOn(resultScheduler)
+            .subscribe(
+                { response -> result.value = Resource.success(response) },
+                { error -> result.value = Resource.error(null, Error(error.message)) }
+            )
+            .let { disposable.set(it) }
+        //end::doc_obtain_report_rx[]
     }
 
     override fun getWorkingScheduler() = Schedulers.newThread()

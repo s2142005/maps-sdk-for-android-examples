@@ -46,7 +46,6 @@
     <string name="menu_route_waypoints_description">Allows you to plan a route with up to 50 waypoints.</string>
 
     <string name="label_route_waypoints_initial_order_btn">Initial order</string>
-    <string name="label_route_waypoints_best_order_btn">Best order</string>
     <string name="label_route_waypoints_no_waypoints_btn">No waypoints</string>
 
     <string name="menu_route_consumption_title">Consumption model</string>

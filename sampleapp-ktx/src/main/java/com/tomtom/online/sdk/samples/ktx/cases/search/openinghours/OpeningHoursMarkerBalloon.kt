@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2015-2020 TomTom N.V. All rights reserved.
  *
  * This software is the proprietary copyright of TomTom N.V. and its subsidiaries and may be used
@@ -8,23 +8,23 @@
  * licensee then you are not authorised to use this software in any manner and should
  * immediately return it to TomTom N.V.
  */
+package com.tomtom.online.sdk.samples.ktx.cases.search.openinghours
 
-package com.tomtom.online.sdk.samples.ktx.utils.arch
+import com.tomtom.online.sdk.map.BaseMarkerBalloon
 
-class Resource<out T> constructor(val status: Status, val data: T?, val error: Error?) {
+class OpeningHoursMarkerBalloon(title: String, weekdays: String, hours: String) : BaseMarkerBalloon() {
 
-    enum class Status {
-        SUCCESS, ERROR, LOADING
+    init {
+        addProperty(KEY_TITLE, title)
+        addProperty(KEY_TEXT_WEEKDAYS, weekdays)
+        addProperty(KEY_TEXT_HOURS, hours)
     }
 
     companion object {
-        fun <T> loading(data: T?): Resource<T> = Resource(Status.LOADING, data, null)
-
-        fun <T> success(data: T?): Resource<T> = Resource(Status.SUCCESS, data, null)
-
-        fun <T> error(data: T?, error: Error?): Resource<T> = Resource(Status.ERROR, data, error)
-
-        fun <T> error(error: Error): Resource<T> = Resource(Status.ERROR, null, error)
+        private const val serialVersionUID = -3794201955202222698L
+        internal const val KEY_TITLE = "title"
+        internal const val KEY_TEXT_WEEKDAYS = "weekdays"
+        internal const val KEY_TEXT_HOURS = "hours"
     }
 
 }
