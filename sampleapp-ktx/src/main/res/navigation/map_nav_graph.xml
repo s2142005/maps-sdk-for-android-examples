@@ -62,6 +62,9 @@
             android:id="@+id/action_mapMenuFragment_to_mapCenteringFragment"
             app:destination="@+id/mapCenteringFragment" />
         <action
+            android:id="@+id/action_mapMenuFragment_to_mapInitializationFragment"
+            app:destination="@+id/mapInitializationFragment" />
+        <action
             android:id="@+id/action_mapMenuFragment_to_mapPerspectiveFragment"
             app:destination="@+id/mapPerspectiveFragment" />
         <action
@@ -159,6 +162,10 @@
         android:id="@+id/mapCenteringFragment"
         android:name="com.tomtom.online.sdk.samples.ktx.cases.map.centering.MapCenteringFragment"
         android:label="@string/menu_map_centering_title" />
+    <fragment
+        android:id="@+id/mapInitializationFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.map.initialization.MapInitializationFragment"
+        android:label="@string/menu_map_initialization_title" />
     <fragment
         android:id="@+id/mapPerspectiveFragment"
         android:name="com.tomtom.online.sdk.samples.ktx.cases.map.perspective.MapPerspectiveFragment"

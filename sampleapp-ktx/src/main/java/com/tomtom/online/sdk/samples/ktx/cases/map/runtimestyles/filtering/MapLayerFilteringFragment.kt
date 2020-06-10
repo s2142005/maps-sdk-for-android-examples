@@ -15,6 +15,7 @@ import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.tomtom.online.sdk.map.LayerSetConfiguration
 import com.tomtom.online.sdk.map.style.expression.ComparisonExpression
 import com.tomtom.online.sdk.map.style.expression.Expression
 import com.tomtom.online.sdk.map.style.expression.GetExpression
@@ -128,7 +129,7 @@ class MapLayerFilteringFragment : ExampleFragment() {
             val handler = Handler()
             mainViewModel.applyOnMap(MapAction {
                 handler.post {
-                    trafficSettings.turnOnVectorTrafficFlowTiles()
+                    trafficSettings.turnOnTrafficFlowTiles()
                 }
             })
         }
@@ -138,13 +139,18 @@ class MapLayerFilteringFragment : ExampleFragment() {
         //Custom-traffic is a style with custom traffic layers,
         //so we do not need so complicated expressions
         mainViewModel.applyOnMap(MapAction {
-            uiSettings.setStyleUrl("asset://styles/custom-traffic.json")
+            uiSettings.setStyleUrl(
+                "asset://styles/custom-traffic.json",
+                LayerSetConfiguration.Builder()
+                    .trafficFlowTilesConfiguration(STYLE_TRAFFIC_FLOW_SOURCE_ID)
+                    .build()
+            )
         })
     }
 
     private fun loadBaseStyle() {
         mainViewModel.applyOnMap(MapAction {
-            uiSettings.setStyleUrl("asset://styles/mapssdk-default-style.json")
+            uiSettings.loadDefaultStyle()
         })
     }
 
@@ -154,6 +160,7 @@ class MapLayerFilteringFragment : ExampleFragment() {
         private const val ROAD_TYPE = "road_type"
         private const val ROAD_TYPE_MOTORWAY = "Motorway"
         private const val ROAD_TYPE_MAJOR_ROAD = "Major road"
+        private const val STYLE_TRAFFIC_FLOW_SOURCE_ID = "tomtom-flow-vector-reduced-sensitivity"
 
         private const val LAYERS_REGEX = "Traffic flow"
     }

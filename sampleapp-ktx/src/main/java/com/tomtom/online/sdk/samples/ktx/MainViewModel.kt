@@ -22,9 +22,11 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     private var mapAction: SingleLiveEvent<MapAction> = SingleLiveEvent()
     private var isAboutButtonVisible: MutableLiveData<Boolean> = MutableLiveData()
+    private var isMapFragmentVisible: MutableLiveData<Boolean> = MutableLiveData()
 
     init {
         isAboutButtonVisible.value = true
+        isMapFragmentVisible.value = true
     }
 
     fun applyOnMap(action: MapAction) {
@@ -41,6 +43,15 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     fun aboutButtonVisibility(): LiveData<Boolean> {
         return isAboutButtonVisible
+    }
+
+
+    fun applyMapFragmentVisibility(visible: Boolean) {
+        isMapFragmentVisible.value = visible
+    }
+
+    fun mapFragmentVisibility(): LiveData<Boolean> {
+        return isMapFragmentVisible
     }
 
     fun adjustCompassTopMarginForInfoBar(topMargin: Int = R.dimen.compass_with_bar_margin_top) {

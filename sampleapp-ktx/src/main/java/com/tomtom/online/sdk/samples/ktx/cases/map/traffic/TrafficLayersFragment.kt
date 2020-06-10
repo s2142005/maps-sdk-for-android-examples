@@ -32,28 +32,30 @@ abstract class TrafficLayersFragment : ExampleFragment() {
         return inflater.inflate(R.layout.fragment_map_traffic_layers, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        traffic_incidents_btn.setOnCheckedChangeListener { _, isChecked ->
-            trafficLayersViewModel.setIncidentOn(isChecked)
-        }
-
-        traffic_flow_btn.setOnCheckedChangeListener { _, isChecked ->
-            trafficLayersViewModel.setFlowOn(isChecked)
-        }
-
-        traffic_off_btn.setOnClickListener {
-            trafficLayersViewModel.setFlowOn(false)
-            trafficLayersViewModel.setIncidentOn(false)
-        }
+    override fun onExampleStarted() {
+        super.onExampleStarted()
+        centerOnLocation(location = Locations.LONDON, zoomLevel = DEFAULT_ZOOM_LEVEL_FOR_EXAMPLE)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onExampleEnded() {
+        super.onExampleEnded()
+        mainViewModel.applyOnMap(MapAction {
+            let { tomtomMap ->
+                //tag::doc_traffic_incidents_off[]
+                tomtomMap.trafficSettings.turnOffTrafficIncidents()
+                //end::doc_traffic_incidents_off[]
 
+                //tag::doc_traffic_off[]
+                tomtomMap.trafficSettings.turnOffTraffic()
+                //end::doc_traffic_off[]
+
+                tomtomMap.uiSettings.loadDefaultStyle()
+            }
+        })
+    }
+
+    internal fun registerTrafficObservers() {
         trafficLayersViewModel = ViewModelProviders.of(this).get(TrafficLayersViewModel::class.java)
-
         trafficLayersViewModel.isIncidentOn.observe(this, Observer { isIncidentOn ->
             traffic_incidents_btn.isChecked = isIncidentOn
             when (isIncidentOn) {
@@ -78,56 +80,30 @@ abstract class TrafficLayersFragment : ExampleFragment() {
         })
     }
 
-    override fun onExampleStarted() {
-        super.onExampleStarted()
-        centerOnLocation(location = Locations.LONDON, zoomLevel = DEFAULT_ZOOM_LEVEL_FOR_EXAMPLE)
-    }
+    internal fun confViewActions() {
+        traffic_incidents_btn.setOnCheckedChangeListener { _, isChecked ->
+            trafficLayersViewModel.setIncidentOn(isChecked)
+        }
 
-    override fun onExampleEnded() {
-        super.onExampleEnded()
-        mainViewModel.applyOnMap(MapAction {
-            uiSettings.mapTilesType = MapTilesType.VECTOR
-            let { tomtomMap ->
-                //tag::doc_traffic_off[]
-                tomtomMap.trafficSettings.turnOffTraffic()
-                //end::doc_traffic_off[]
-            }
-        })
-    }
+        traffic_flow_btn.setOnCheckedChangeListener { _, isChecked ->
+            trafficLayersViewModel.setFlowOn(isChecked)
+        }
 
-    private fun turnOffTraffic() {
-        mainViewModel.applyOnMap(MapAction {
-            let { tomtomMap ->
-                tomtomMap.trafficSettings.turnOffTrafficFlowTiles()
-                tomtomMap.trafficSettings.turnOffTrafficIncidents()
-            }
-        })
-    }
-
-    private fun turnOffFlowTiles() {
-        mainViewModel.applyOnMap(MapAction {
-            let { tomtomMap ->
-                //tag::doc_traffic_flow_off[]
-                tomtomMap.trafficSettings.turnOffTrafficFlowTiles()
-                //end::doc_traffic_flow_off[]
-            }
-
-        })
-    }
-
-    private fun turnOffIncidents() {
-        mainViewModel.applyOnMap(MapAction {
-            let { tomtomMap ->
-                //tag::doc_traffic_incidents_off[]
-                tomtomMap.trafficSettings.turnOffTrafficIncidents()
-                //end::doc_traffic_incidents_off[]
-            }
-        })
+        traffic_off_btn.setOnClickListener {
+            trafficLayersViewModel.setFlowOn(false)
+            trafficLayersViewModel.setIncidentOn(false)
+        }
     }
 
     abstract fun turnOnFlowTiles()
 
     abstract fun turnOnIncidents()
+
+    abstract fun turnOffFlowTiles()
+
+    abstract fun turnOffIncidents()
+
+    abstract fun turnOffTraffic()
 
     companion object {
         private const val DEFAULT_ZOOM_LEVEL_FOR_EXAMPLE = 12.0

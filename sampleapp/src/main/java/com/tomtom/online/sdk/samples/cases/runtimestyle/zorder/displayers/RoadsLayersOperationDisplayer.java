@@ -27,7 +27,7 @@ public class RoadsLayersOperationDisplayer {
     }
 
     public void moveLayersToFront() {
-        FuncUtils.forEach(layersRoads, layer -> proceedRoadsLayer(layer));
+        FuncUtils.forEach(layersRoads, this::proceedRoadsLayer);
     }
 
     private void initAllRoadsLayers() {

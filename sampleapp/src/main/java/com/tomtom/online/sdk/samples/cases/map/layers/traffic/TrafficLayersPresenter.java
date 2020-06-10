@@ -10,15 +10,20 @@
  */
 package com.tomtom.online.sdk.samples.cases.map.layers.traffic;
 
+import com.tomtom.online.sdk.common.func.FuncUtils;
 import com.tomtom.online.sdk.map.MapConstants;
 import com.tomtom.online.sdk.map.TomtomMap;
 import com.tomtom.online.sdk.map.TrafficFlowType;
 import com.tomtom.online.sdk.map.UiSettings;
 import com.tomtom.online.sdk.map.model.MapTilesType;
+import com.tomtom.online.sdk.map.style.layers.Layer;
+import com.tomtom.online.sdk.map.style.layers.Visibility;
 import com.tomtom.online.sdk.samples.activities.BaseFunctionalExamplePresenter;
 import com.tomtom.online.sdk.samples.activities.FunctionalExampleModel;
 import com.tomtom.online.sdk.samples.fragments.FunctionalExampleFragment;
 import com.tomtom.online.sdk.samples.utils.Locations;
+
+import java.util.List;
 
 import static com.tomtom.online.sdk.map.TrafficFlowType.*;
 
@@ -48,18 +53,18 @@ public class TrafficLayersPresenter extends BaseFunctionalExamplePresenter imple
 
     public void showTrafficFlowTiles() {
         tomtomMap.getTrafficSettings().turnOffTraffic();
-        //tag::doc_traffic_flow_on[]
+        //tag::doc_legacy_traffic_flow_on[]
         tomtomMap.getTrafficSettings().turnOnRasterTrafficFlowTiles();
-        //end::doc_traffic_flow_on[]
+        //end::doc_legacy_traffic_flow_on[]
     }
 
     @SuppressWarnings("unused")
     public void exampleOfUsingTrafficStyle() {
-        //tag::doc_traffic_flow_styles[]
+        //tag::doc_legacy_traffic_flow_styles[]
         tomtomMap.getTrafficSettings().turnOnRasterTrafficFlowTiles(new TrafficFlowType.RelativeTrafficFlowStyle()); //default
         tomtomMap.getTrafficSettings().turnOnRasterTrafficFlowTiles(new TrafficFlowType.AbsoluteTrafficFlowStyle());
         tomtomMap.getTrafficSettings().turnOnRasterTrafficFlowTiles(new TrafficFlowType.RelativeDelayTrafficFlowStyle());
-        //end::doc_traffic_flow_styles[]
+        //end::doc_legacy_traffic_flow_styles[]
 
         //tag::doc_get_style_info[]
         RasterTrafficFlowType style = tomtomMap.getTrafficSettings().getTrafficRasterFlowStyle();
@@ -72,9 +77,9 @@ public class TrafficLayersPresenter extends BaseFunctionalExamplePresenter imple
     }
 
     public void showTrafficFlowAndIncidentsTiles() {
-        //tag::doc_traffic_flow_inc_tiles_raster_on[]
+        //tag::doc_legacy_traffic_flow_inc_tiles_raster_on[]
         tomtomMap.getTrafficSettings().turnOnRasterTrafficIncidents();
-        //end::doc_traffic_flow_inc_tiles_raster_on[]
+        //end::doc_legacy_traffic_flow_inc_tiles_raster_on[]
         tomtomMap.getTrafficSettings().turnOnRasterTrafficFlowTiles();
 
     }
@@ -88,5 +93,21 @@ public class TrafficLayersPresenter extends BaseFunctionalExamplePresenter imple
 
     public void centerOnLondon() {
         tomtomMap.centerOn(Locations.LONDON_LOCATION.getLatitude(), Locations.LONDON_LOCATION.getLongitude(), DEFAULT_ZOOM_TRAFFIC_LEVEL, MapConstants.ORIENTATION_NORTH);
+    }
+
+    @SuppressWarnings("unused")
+    private void changeVisibilityOfTrafficFlow(Visibility visibility) {
+        //tag::doc_traffic_flow_on[]
+        List<Layer> layers = tomtomMap.getStyleSettings().findLayersById("tomtom-flow-raster-layer");
+        FuncUtils.forEach(layers, layer -> layer.setVisibility(visibility));
+        //end::doc_traffic_flow_on[]
+    }
+
+    @SuppressWarnings("unused")
+    private void changeVisibilityOfTrafficIncidents(Visibility visibility) {
+        //tag::doc_traffic_incidents_on[]
+        List<Layer> layers = tomtomMap.getStyleSettings().findLayersById("tomtom-incidents-layer");
+        FuncUtils.forEach(layers, layer -> layer.setVisibility(visibility));
+        //end::doc_traffic_incidents_on[]
     }
 }

@@ -137,8 +137,9 @@ abstract class DrivingFragment<T : DrivingViewModel> : ExampleFragment() {
 
     private fun processMatchedResult(it: ChevronMatchedStateUpdate) {
         //tag::doc_process_matcher_result[]
+        val chevronPosition = ChevronPosition.Builder(it.matchedLocation).build()
         chevron.isDimmed = it.isDimmed
-        chevron.setLocation(it.matchedLocation)
+        chevron.position = chevronPosition
         chevron.show()
         showOriginalLocationDot(it)
         //end::doc_process_matcher_result[]

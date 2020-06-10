@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 
 import com.tomtom.online.sdk.common.location.LatLng;
 import com.tomtom.online.sdk.common.service.ServiceException;
+import com.tomtom.online.sdk.map.ChevronPosition;
 import com.tomtom.online.sdk.map.Route;
 import com.tomtom.online.sdk.map.RouteBuilder;
 import com.tomtom.online.sdk.routing.OnlineRoutingApi;
@@ -98,7 +99,8 @@ public abstract class AbstractRoutingPresenter extends AbstractTrackingPresenter
     };
 
     protected void onRouteReady(FullRoute fullRoute) {
-        getChevron().setLocation(getRouteOrigin(fullRoute).toLocation());
+        ChevronPosition chevronPosition = new ChevronPosition.Builder(getRouteOrigin(fullRoute).toLocation()).build();
+        getChevron().setPosition(chevronPosition);
         showRoute(fullRoute);
         restoreSimulator();
     }

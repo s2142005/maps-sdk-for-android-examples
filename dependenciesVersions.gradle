@@ -1,6 +1,5 @@
 import java.text.SimpleDateFormat
 
-
 def dependenciesVersionsDirPath = project.findProperty('dependenciesVersionsDirPath')
 def releaseProps = new Properties()
 
@@ -11,7 +10,6 @@ if (dependenciesVersionsDirPath == null) {
 }
 
 ext {
-    releaseBuild = false
     release_notify_group = "sampleapp_group_internal"
     buildNumber = getBuildNumber()
     proguardEnable = getProguardOn()
@@ -73,7 +71,7 @@ ext {
             cardview             : '1.0.0',
             material             : '1.0.0',
             navigationuiktx      : '1.0.0-rc02',
-            multidex             : '2.0.0',
+            multidex             : '2.0.1',
             annotation           : '1.0.0',
             constraintlayout     : '1.1.3',
             room                 : '2.0.0',
@@ -111,7 +109,7 @@ ext {
             retrofit               : '2.5.0',
             retrofitrxjava         : '1.0.0',
             okhttp                 : '3.9.1',
-            kotlin                 : '1.3.31',
+            kotlin                 : '1.3.61',
             kotlinx                : '1.0.1',
             jdoocsoup              : '0.1.14',
             jodatime               : '2.9.9',

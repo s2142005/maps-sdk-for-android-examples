@@ -21,7 +21,25 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tomtom:mapBackgroundColor="@color/solid_black"
-        tomtom:styleUrl="http://your-server:port/style/example-merged.json" />
+        tomtom:styleUrl="http://your-server:port/style/example-merged.json"
+        tomtom:mapStyleSource="STYLE_MERGER"
+        tomtom:cameraFocusAreaPitch="84.5"
+        tomtom:cameraFocusAreaBearing="84.5"
+        tomtom:cameraFocusAreaTopLeftLatitude="84.5"
+        tomtom:cameraFocusAreaTopLeftLongitude="13.5"
+        tomtom:cameraFocusAreaBottomRightLatitude="12.5"
+        tomtom:cameraFocusAreaBottomRightLongitude="84.5"
+
+        tomtom:mapPaddingTop="100"
+        tomtom:mapPaddingLeft="12"
+        tomtom:mapPaddingBottom="200"
+        tomtom:mapPaddingRight="50"
+
+        tomtom:cameraPositionZoom="11"
+        tomtom:cameraPositionPitch="84.5"
+        tomtom:cameraPositionBearing="84.5"
+        tomtom:cameraPositionLatitude="84.5"
+        tomtom:cameraPositionLongitude="84.5" />
     <!-- end::map_fragment_xml_initialization[] -->
 
     <!-- tag::map_view_xml_initialization[] -->
@@ -31,6 +49,25 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tomtom:mapBackgroundColor="@color/solid_black"
-        tomtom:styleUrl="http://your-server:port/style/example-merged.json" />
+        tomtom:styleUrl="http://your-server:port/style/example-merged.json"
+        tomtom:mapStyleSource="STYLE_MERGER"
+
+        tomtom:cameraFocusAreaPitch="84.5"
+        tomtom:cameraFocusAreaBearing="84.5"
+        tomtom:cameraFocusAreaTopLeftLatitude="84.5"
+        tomtom:cameraFocusAreaTopLeftLongitude="13.5"
+        tomtom:cameraFocusAreaBottomRightLatitude="12.5"
+        tomtom:cameraFocusAreaBottomRightLongitude="84.5"
+
+        tomtom:mapPaddingTop="100"
+        tomtom:mapPaddingLeft="12"
+        tomtom:mapPaddingBottom="200"
+        tomtom:mapPaddingRight="50"
+
+        tomtom:cameraPositionZoom="11"
+        tomtom:cameraPositionPitch="84.5"
+        tomtom:cameraPositionBearing="84.5"
+        tomtom:cameraPositionLatitude="84.5"
+        tomtom:cameraPositionLongitude="84.5" />
     <!-- end::map_view_xml_initialization[] -->
 </FrameLayout>

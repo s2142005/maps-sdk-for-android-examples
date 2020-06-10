@@ -56,7 +56,7 @@ public class CustomMapStylePresenter extends BaseFunctionalExamplePresenter {
 
     public void showBaseStyle() {
         //tag::set_default_style[]
-        tomtomMap.getUiSettings().setStyleUrl("asset://styles/mapssdk-default-style.json");
+        tomtomMap.getUiSettings().loadDefaultStyle();
         tomtomMap.getLogoSettings().applyDefaultLogo();
         //end::set_default_style[]
     }

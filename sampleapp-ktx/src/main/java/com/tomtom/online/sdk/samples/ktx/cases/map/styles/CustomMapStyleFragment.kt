@@ -55,7 +55,7 @@ class CustomMapStyleFragment : ExampleFragment() {
         mainViewModel.applyOnMap(MapAction {
             let { tomtomMap ->
                 //tag::set_default_style[]
-                tomtomMap.uiSettings.setStyleUrl("asset://styles/mapssdk-default-style.json")
+                tomtomMap.uiSettings.loadDefaultStyle()
                 tomtomMap.logoSettings.applyDefaultLogo()
                 //end::set_default_style[]
             }

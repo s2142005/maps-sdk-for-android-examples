@@ -14,7 +14,7 @@ import com.google.common.collect.ImmutableList;
 import com.tomtom.online.sdk.common.geojson.Feature;
 import com.tomtom.online.sdk.common.geojson.FeatureCollection;
 import com.tomtom.online.sdk.common.geojson.geometry.LineString;
-import com.tomtom.online.sdk.helpers.LayersHelper;
+import com.tomtom.online.sdk.helpers.LayersFactoryHelper;
 import com.tomtom.online.sdk.map.TomtomMap;
 import com.tomtom.online.sdk.map.style.layers.Layer;
 import com.tomtom.online.sdk.map.style.layers.LayerFactory;
@@ -29,24 +29,22 @@ public class GeoJsonLayerOperationDisplayer {
 
     private final TomtomMap tomtomMap;
     private Layer layerGeoJson;
-    private final LayersHelper layersHelper;
+    private final LayersFactoryHelper layersFactoryHelper;
 
     public GeoJsonLayerOperationDisplayer(TomtomMap tomtomMap) {
         this.tomtomMap = tomtomMap;
-        this.layersHelper = new LayersHelper(tomtomMap);
+        this.layersFactoryHelper = new LayersFactoryHelper();
     }
 
     public void moveLayerToFront() {
         //tag::doc_map_move_geoJSON_layer[]
         // layerGeoJson = tomtomMap.getStyleSettings().findLayerById("layer-line-id").orNull();
-        // tomtomMap.getStyleSettings().moveLayerBehind(layerGeoJson.getId(), "");
-        layersHelper.moveLayerToFront(layerGeoJson);
+        tomtomMap.getStyleSettings().moveLayerBehind(layerGeoJson.getId(), "");
         //end::doc_map_move_geoJSON_layer[]
     }
 
     public void addGeoJsonLayer() {
-        final String jsonLayer = layersHelper.getLayersFactoryHelper()
-                .createGeoJsonLineLayer(GEOJSON_LAYER_ID, GEOJSON_SOURCE_ID);
+        final String jsonLayer = layersFactoryHelper.createGeoJsonLineLayer(GEOJSON_LAYER_ID, GEOJSON_SOURCE_ID);
 
         Layer layer = LayerFactory.createLayer(jsonLayer);
         tomtomMap.getStyleSettings().addLayer(layer);

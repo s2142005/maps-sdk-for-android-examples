@@ -57,6 +57,20 @@ public class MapTilesTypesPresenter extends BaseFunctionalExamplePresenter {
         //end::doc_set_none_tiles[]
     }
 
+    @SuppressWarnings("unused")
+    private void loadRasterStyle() {
+        //tag::doc_load_raster_tiles[]
+        tomtomMap.getUiSettings().setStyleUrl("asset://styles/mapssdk-raster_style.json");
+        //end::doc_load_raster_tiles[]
+    }
+
+    @SuppressWarnings("unused")
+    private void loadVectorStyle() {
+        //tag::doc_load_vector_tiles[]
+        tomtomMap.getUiSettings().loadDefaultStyle();
+        //end::doc_load_vector_tiles[]
+    }
+
     public void centerOnAmsterdam() {
 
         tomtomMap.centerOn(

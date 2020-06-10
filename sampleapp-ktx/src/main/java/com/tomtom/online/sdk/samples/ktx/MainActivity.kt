@@ -19,6 +19,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import com.tomtom.online.sdk.common.location.BoundingBox
 import com.tomtom.online.sdk.common.location.LatLng
 import com.tomtom.online.sdk.common.permission.AppPermissionHandler
 import com.tomtom.online.sdk.map.*
@@ -49,8 +50,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initMap() {
-        //tag::doc_initialise_map[]
+        //tag::doc_obtain_fragment_reference[]
         mapFragment = supportFragmentManager.findFragmentById(R.id.map_fragment) as MapFragment
+        //end::doc_obtain_fragment_reference[]
+        //tag::doc_initialise_map[]
         mapFragment.getAsyncMap(onMapReadyCallback)
         //end::doc_initialise_map[]
     }
@@ -66,9 +69,21 @@ class MainActivity : AppCompatActivity() {
         viewModel.aboutButtonVisibility().observe(this, Observer {
             about_btn.visibleIf(it)
         })
+        viewModel.mapFragmentVisibility().observe(this, Observer {
+            setMapFragmentVisibility(it)
+        })
         viewModel.mapAction().observe(this, Observer { action ->
             mapFragment.getAsyncMap { tomtomMap -> action.invoke(tomtomMap) }
         })
+    }
+
+    private fun setMapFragmentVisibility(visible: Boolean) {
+        val transaction = supportFragmentManager.beginTransaction()
+        when(visible) {
+            true -> transaction.show(mapFragment)
+            false -> transaction.hide(mapFragment)
+        }
+        transaction.commit()
     }
 
     private fun initAboutFragment() {
@@ -97,42 +112,4 @@ class MainActivity : AppCompatActivity() {
         }
         //end::doc_collect_logs_to_file_in_onready_callback[]
     }
-
-    @Suppress("unused")
-    private fun initMapWithProperties() {
-        //tag::doc_initial_map_properties[]
-        val keysMap = mapOf(ApiKeyType.MAPS_API_KEY to "online-maps-key")
-        val cameraPosition = CameraPosition.builder()
-            .focusPosition(LatLng(12.34, 23.45))
-            .zoom(10.0)
-            .bearing(24.0)
-            .build()
-        val mapProps = MapProperties.Builder()
-            .customStyleUri("asset://styles/style.json")
-            .backgroundColor(Color.BLUE)
-            .keys(keysMap)
-            .cameraPosition(cameraPosition)
-            .build()
-        val fragment = MapFragment.newInstance(mapProps)
-        //end::doc_initial_map_properties[]
-    }
-
-    @Suppress("unused")
-    private fun changeGPSIndicatorRadiusColor() {
-        OnMapReadyCallback { tomtomMap ->
-            val COLOR_RGBA = Color.argb(128, 128, 128, 128)
-            //tag::doc_obtain_gps_indicator[]
-            val gpsIndicator = tomtomMap.gpsPositionIndicator.orNull()
-            //end::doc_obtain_gps_indicator[]
-
-            //tag::doc_set_gps_indicator_active_radius[]
-            gpsIndicator?.setInaccuracyAreaColor(COLOR_RGBA)
-            //end::doc_set_gps_indicator_active_radius[]
-
-            //tag::doc_set_gps_indicator_inactive_radius[]
-            gpsIndicator?.setDimmedInaccuracyAreaColor(COLOR_RGBA)
-            //end::doc_set_gps_indicator_inactive_radius[]
-        }
-    }
-
 }

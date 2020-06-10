@@ -40,7 +40,7 @@ class MapTilesFragment : ExampleFragment() {
     }
 
     override fun onExampleEnded() {
-        mainViewModel.applyOnMap(MapAction { uiSettings.mapTilesType = MapTilesType.VECTOR })
+        mainViewModel.applyOnMap(MapAction { uiSettings.loadDefaultStyle() })
     }
 
     private fun inflateControlButtons() {
@@ -51,9 +51,9 @@ class MapTilesFragment : ExampleFragment() {
         vector_tiles_btn.setOnClickListener {
             mainViewModel.applyOnMap(MapAction {
                 let { tomtomMap ->
-                    //tag::doc_set_vector_tiles[]
-                    tomtomMap.uiSettings.mapTilesType = MapTilesType.VECTOR
-                    //end::doc_set_vector_tiles[]
+                    //tag::doc_load_vector_tiles[]
+                    tomtomMap.uiSettings.loadDefaultStyle()
+                    //end::doc_load_vector_tiles[]
                 }
             })
         }
@@ -61,18 +61,26 @@ class MapTilesFragment : ExampleFragment() {
         raster_tiles_btn.setOnClickListener {
             mainViewModel.applyOnMap(MapAction {
                 let { tomtomMap ->
-                    //tag::doc_set_raster_tiles[]
-                    tomtomMap.uiSettings.mapTilesType = MapTilesType.RASTER
-                    //end::doc_set_raster_tiles[]
+                    //tag::doc_load_raster_tiles[]
+                    tomtomMap.uiSettings.setStyleUrl("asset://styles/mapssdk-raster_style.json")
+                    //end::doc_load_raster_tiles[]
                 }
             })
         }
     }
 
     @Suppress("unused")
-    private fun exampleOfUsingNoneTiles() {
+    private fun exampleOfUsingLegacyTiles() {
         mainViewModel.applyOnMap(MapAction {
             let { tomtomMap ->
+                //tag::doc_set_raster_tiles[]
+                tomtomMap.uiSettings.mapTilesType = MapTilesType.RASTER
+                //end::doc_set_raster_tiles[]
+
+                //tag::doc_set_vector_tiles[]
+                tomtomMap.uiSettings.mapTilesType = MapTilesType.VECTOR
+                //end::doc_set_vector_tiles[]
+
                 //tag::doc_set_none_tiles[]
                 tomtomMap.uiSettings.mapTilesType = MapTilesType.NONE
                 //end::doc_set_none_tiles[]

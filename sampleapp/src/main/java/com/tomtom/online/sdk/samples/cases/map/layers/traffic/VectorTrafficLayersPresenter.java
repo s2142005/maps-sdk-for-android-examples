@@ -65,22 +65,28 @@ public class VectorTrafficLayersPresenter extends BaseFunctionalExamplePresenter
 
     @Override
     public void showTrafficFlowTiles() {
-        //tag::doc_traffic_vector_flow_on[]
+        //tag::doc_legacy_traffic_vector_flow_on[]
         tomtomMap.getTrafficSettings().turnOnVectorTrafficFlowTiles();
-        //end::doc_traffic_vector_flow_on[]
+        //end::doc_legacy_traffic_vector_flow_on[]
+    }
 
+    @SuppressWarnings("unused")
+    private void turnOnTrafficFlowTiles() {
+        //tag::doc_traffic_vector_flow_on[]
+        tomtomMap.getTrafficSettings().turnOnTrafficFlowTiles();
+        //end::doc_traffic_vector_flow_on[]
     }
 
     @SuppressWarnings("unused")
     public void exampleOfUsingTrafficStyle() {
-        //tag::doc_traffic_flow_styles[]
+        //tag::doc_legacy_traffic_flow_styles[]
         tomtomMap.getTrafficSettings().turnOnVectorTrafficFlowTiles(new TrafficFlowType.RelativeTrafficFlowStyle()); //default
         tomtomMap.getTrafficSettings().turnOnVectorTrafficFlowTiles(new TrafficFlowType.AbsoluteTrafficFlowStyle());
         tomtomMap.getTrafficSettings().turnOnVectorTrafficFlowTiles(new TrafficFlowType.RelativeDelayTrafficFlowStyle());
-        //end::doc_traffic_flow_styles[]
-        //tag::doc_get_style_info[]
+        //end::doc_legacy_traffic_flow_styles[]
+        //tag::doc_legacy_get_style_info[]
         VectorTrafficFlowType style = tomtomMap.getTrafficSettings().getTrafficVectorFlowStyle();
-        //end::doc_get_style_info[]
+        //end::doc_legacy_get_style_info[]
     }
 
     @Override
@@ -102,9 +108,15 @@ public class VectorTrafficLayersPresenter extends BaseFunctionalExamplePresenter
 
     @Override
     public void showTrafficIncidents() {
-        tomtomMap.getTrafficSettings().turnOffTraffic();
-        //tag::doc_traffic_vector_incidents_on[]
+        //tag::doc_legacy_traffic_vector_incidents_on[]
         tomtomMap.getTrafficSettings().turnOnVectorTrafficIncidents();
+        //end::doc_legacy_traffic_vector_incidents_on[]
+    }
+
+    @SuppressWarnings("unused")
+    private void turnOnTrafficIncidents() {
+        //tag::doc_traffic_vector_incidents_on[]
+        tomtomMap.getTrafficSettings().turnOnTrafficIncidents();
         //end::doc_traffic_vector_incidents_on[]
     }
 

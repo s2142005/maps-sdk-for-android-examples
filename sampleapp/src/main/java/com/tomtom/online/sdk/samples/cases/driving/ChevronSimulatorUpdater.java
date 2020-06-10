@@ -13,6 +13,7 @@ package com.tomtom.online.sdk.samples.cases.driving;
 import android.location.Location;
 
 import com.tomtom.online.sdk.map.Chevron;
+import com.tomtom.online.sdk.map.ChevronPosition;
 import com.tomtom.online.sdk.samples.cases.driving.utils.BaseSimulator;
 
 public class ChevronSimulatorUpdater implements BaseSimulator.SimulatorCallback {
@@ -25,10 +26,9 @@ public class ChevronSimulatorUpdater implements BaseSimulator.SimulatorCallback 
 
     @Override
     public void onNewRoutePointVisited(Location location) {
-        chevron.setLocation(location);
+        chevron.setPosition(new ChevronPosition.Builder(location).build());
         chevron.setDimmed(false);
         chevron.show();
-
     }
 
 }

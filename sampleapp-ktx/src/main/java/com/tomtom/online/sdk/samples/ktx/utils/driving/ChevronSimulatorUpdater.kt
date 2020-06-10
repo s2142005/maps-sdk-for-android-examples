@@ -13,11 +13,13 @@ package com.tomtom.online.sdk.samples.ktx.utils.driving
 import android.location.Location
 
 import com.tomtom.online.sdk.map.Chevron
+import com.tomtom.online.sdk.map.ChevronPosition
 
 class ChevronSimulatorUpdater(private var chevron: Chevron) : BaseSimulator.SimulatorCallback {
 
     override fun onNewRoutePointVisited(location: Location) {
-        chevron.setLocation(location)
+        val chevronPosition = ChevronPosition.Builder(location).build()
+        chevron.position = chevronPosition
         chevron.isDimmed = false
         chevron.show()
     }

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2015-2020 TomTom N.V. All rights reserved.
+  ~
+  ~ This software is the proprietary copyright of TomTom N.V. and its subsidiaries and may be used
+  ~ for internal evaluation purposes or commercial use strictly subject to separate licensee
+  ~ agreement between you and TomTom. If you are the licensee, you are only permitted to use
+  ~ this Software in accordance with the terms of your license agreement. If you are not the
+  ~ licensee then you are not authorised to use this software in any manner and should
+  ~ immediately return it to TomTom N.V.
+  -->
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- tag::map_initialization_xml_point[] -->
+    <fragment
+        android:id="@+id/map_fragment"
+        android:name="com.tomtom.online.sdk.map.MapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cameraPositionLatitude="52.499782"
+        app:cameraPositionLongitude="4.749553"
+        app:cameraPositionZoom="14.0"
+        app:cameraPositionPitch="5.0"
+        app:cameraPositionBearing="0.0" />
+    <!-- end::map_initialization_xml_point[] -->
+
+    <!-- tag::map_initialization_xml_bounding_box[] -->
+    <com.tomtom.online.sdk.map.MapView
+        android:id="@+id/map_view"
+        android:name="com.tomtom.online.sdk.map.MapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cameraFocusAreaTopLeftLatitude="52.499782"
+        app:cameraFocusAreaTopLeftLongitude="4.749553"
+        app:cameraFocusAreaBottomRightLatitude="52.246161"
+        app:cameraFocusAreaBottomRightLongitude="5.031764"
+        app:cameraFocusAreaPitch="5.0"
+        app:cameraFocusAreaBearing="0.0" />
+    <!-- end::map_initialization_xml_bounding_box[] -->
+</FrameLayout>

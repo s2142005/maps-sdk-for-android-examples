@@ -30,9 +30,12 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.navigation.NavigationView;
 import com.google.common.base.Optional;
 import com.tomtom.online.sdk.common.location.LatLng;
+import com.tomtom.online.sdk.map.ApiKeyType;
 import com.tomtom.online.sdk.map.BaseGpsPositionIndicator;
+import com.tomtom.online.sdk.map.CameraPosition;
 import com.tomtom.online.sdk.map.GpsIndicator;
 import com.tomtom.online.sdk.map.MapFragment;
+import com.tomtom.online.sdk.map.MapProperties;
 import com.tomtom.online.sdk.map.MapView;
 import com.tomtom.online.sdk.map.OnMapReadyCallback;
 import com.tomtom.online.sdk.map.TomtomMap;
@@ -43,7 +46,9 @@ import com.tomtom.online.sdk.samples.fragments.CurrentLocationFragment;
 import com.tomtom.online.sdk.samples.fragments.FunctionalExampleFragment;
 import com.tomtom.online.sdk.samples.utils.BackButtonDelegate;
 
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import timber.log.Timber;
 
@@ -289,10 +294,31 @@ public class FunctionalExamplesActivity extends AppCompatActivity
     @SuppressWarnings("unused")
     private void initMap() {
         int mapFragmentId = 0;
-        //tag::doc_initialise_map[]
+        //tag::doc_obtain_fragment_reference[]
         MapFragment mapFragment = (MapFragment) getSupportFragmentManager().findFragmentById(mapFragmentId);
+        //end::doc_obtain_fragment_reference[]
+        //tag::doc_initialise_map[]
         mapFragment.getAsyncMap(onMapReadyCallback);
         //end::doc_initialise_map[]
+    }
+
+    @SuppressWarnings("unused")
+    private void initMapProperties() {
+        //tag::doc_initial_map_properties[]
+        Map<ApiKeyType, String> keysMap = new HashMap<>();
+        keysMap.put(ApiKeyType.MAPS_API_KEY, "online-maps-key");
+        CameraPosition cameraPosition = CameraPosition.builder()
+                .focusPosition(new LatLng(12.34, 23.45))
+                .zoom(10.0)
+                .bearing(24.0)
+                .build();
+        MapProperties mapProperties = new MapProperties.Builder()
+                .customStyleUri("asset://styles/style.json")
+                .backgroundColor(Color.BLUE)
+                .keys(keysMap)
+                .cameraPosition(cameraPosition)
+                .build();
+        //end::doc_initial_map_properties[]
     }
 
     /**

@@ -11,16 +11,28 @@
 
 package com.tomtom.online.sdk.samples.ktx.cases.map.traffic
 
+import android.os.Bundle
+import android.view.View
 import com.tomtom.online.sdk.map.*
 import com.tomtom.online.sdk.samples.ktx.MapAction
 
 class VectorTrafficLayersFragment : TrafficLayersFragment() {
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        registerTrafficObservers()
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        confViewActions()
+    }
+
     override fun turnOnFlowTiles() {
         mainViewModel.applyOnMap(MapAction {
             let { tomtomMap ->
                 //tag::doc_traffic_vector_flow_on[]
-                tomtomMap.trafficSettings.turnOnVectorTrafficFlowTiles()
+                tomtomMap.trafficSettings.turnOnTrafficFlowTiles()
                 //end::doc_traffic_vector_flow_on[]
             }
         })
@@ -30,8 +42,60 @@ class VectorTrafficLayersFragment : TrafficLayersFragment() {
         mainViewModel.applyOnMap(MapAction {
             let { tomtomMap ->
                 //tag::doc_traffic_vector_incidents_on[]
-                tomtomMap.trafficSettings.turnOnVectorTrafficIncidents()
+                tomtomMap.trafficSettings.turnOnTrafficIncidents()
                 //end::doc_traffic_vector_incidents_on[]
+            }
+        })
+    }
+
+    override fun turnOffTraffic() {
+        mainViewModel.applyOnMap(MapAction {
+            let { tomtomMap ->
+                tomtomMap.trafficSettings.turnOffTrafficFlowTiles()
+                tomtomMap.trafficSettings.turnOffTrafficIncidents()
+            }
+        })
+    }
+
+    override fun turnOffFlowTiles() {
+        mainViewModel.applyOnMap(MapAction {
+            let { tomtomMap ->
+                //tag::doc_traffic_flow_off[]
+                tomtomMap.trafficSettings.turnOffTrafficFlowTiles()
+                //end::doc_traffic_flow_off[]
+            }
+
+        })
+    }
+
+    override fun turnOffIncidents() {
+        mainViewModel.applyOnMap(MapAction {
+            let { tomtomMap ->
+                //tag::doc_traffic_incidents_off[]
+                tomtomMap.trafficSettings.turnOffTrafficIncidents()
+                //end::doc_traffic_incidents_off[]
+            }
+        })
+    }
+
+    @Suppress("unused")
+    private fun showLegacyVectorTrafficIncidentsTiles() {
+        mainViewModel.applyOnMap(MapAction {
+            let { tomtomMap ->
+                //tag::doc_legacy_traffic_vector_incidents_on[]
+                tomtomMap.trafficSettings.turnOnVectorTrafficIncidents()
+                //end::doc_legacy_traffic_vector_incidents_on[]
+            }
+        })
+    }
+
+    @Suppress("unused")
+    private fun showLegacyVectorTrafficFlowTiles() {
+        mainViewModel.applyOnMap(MapAction {
+            let { tomtomMap ->
+                //tag::doc_legacy_traffic_vector_flow_on[]
+                tomtomMap.trafficSettings.turnOnRasterTrafficFlowTiles()
+                //end::doc_legacy_traffic_vector_flow_on[]
             }
         })
     }

@@ -17,7 +17,7 @@ import androidx.annotation.DrawableRes;
 import com.google.common.collect.ImmutableList;
 import com.tomtom.online.sdk.common.func.FuncUtils;
 import com.tomtom.online.sdk.common.location.LatLng;
-import com.tomtom.online.sdk.helpers.LayersHelper;
+import com.tomtom.online.sdk.helpers.LayersFactoryHelper;
 import com.tomtom.online.sdk.map.TomtomMap;
 import com.tomtom.online.sdk.map.style.layers.Layer;
 import com.tomtom.online.sdk.map.style.layers.LayerFactory;
@@ -36,26 +36,25 @@ public class ImageLayersOperationDisplayer {
 
     private final Context context;
     private final TomtomMap tomtomMap;
-    private final LayersHelper layersHelper;
+    private final LayersFactoryHelper layersFactoryHelper;
 
     private List<Layer> layersImages = new ArrayList<>();
 
     public ImageLayersOperationDisplayer(Context context, TomtomMap tomtomMap) {
         this.tomtomMap = tomtomMap;
         this.context = context;
-        this.layersHelper = new LayersHelper(tomtomMap);
+        this.layersFactoryHelper = new LayersFactoryHelper();
     }
 
     public void moveLayersToFront() {
-        FuncUtils.forEach(layersImages, layer -> proceedImageLayer(layer));
+        FuncUtils.forEach(layersImages, this::proceedImageLayer);
     }
 
     private void proceedImageLayer(Layer imgLayer) {
         //tag::doc_map_move_img_layer[]
         // layersImages = tomtomMap.getStyleSettings().findLayersById(IMAGE_LAYER_ID + "[0-9]");
         // Layer imgLayer = layersImages.get(...)
-        // tomtomMap.getStyleSettings().moveLayerBehind(layer.getId(), "");
-        layersHelper.moveLayerToFront(imgLayer);
+        tomtomMap.getStyleSettings().moveLayerBehind(imgLayer.getId(), "");
         //end::doc_map_move_img_layer[]
     }
 
@@ -80,10 +79,9 @@ public class ImageLayersOperationDisplayer {
     }
 
     private void createImageLayer(String imageId) {
-        final String jsonLayer = layersHelper.getLayersFactoryHelper()
-                .createImageLayer(
-                        IMAGE_LAYER_ID + imageId,
-                        IMAGE_SOURCE_ID + imageId);
+        final String jsonLayer = layersFactoryHelper.createImageLayer(
+                IMAGE_LAYER_ID + imageId,
+                IMAGE_SOURCE_ID + imageId);
         Layer layer = LayerFactory.createLayer(jsonLayer);
         tomtomMap.getStyleSettings().addLayer(layer);
     }
