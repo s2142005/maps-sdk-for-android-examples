@@ -28,6 +28,7 @@ import com.tomtom.online.sdk.search.data.fuzzy.FuzzySearchResult
 import com.tomtom.online.sdk.search.data.reversegeocoder.ReverseGeocoderFullAddress
 import com.tomtom.online.sdk.search.data.reversegeocoder.ReverseGeocoderSearchQuery
 import com.tomtom.online.sdk.search.data.reversegeocoder.ReverseGeocoderSearchResponse
+import com.tomtom.sdk.examples.BuildConfig
 import io.reactivex.Maybe
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.SerialDisposable
@@ -39,7 +40,7 @@ import io.reactivex.schedulers.Schedulers
 class AdpSearchRequester(context: Context, private val geometriesZoom: Int) : RxContext {
 
     private val disposable = SerialDisposable()
-    private val searchApi = OnlineSearchApi.create(context)!!
+    private val searchApi = OnlineSearchApi.create(context, BuildConfig.SEARCH_API_KEY)
 
     fun fuzzyWithAdp(searchQuery: FuzzySearchQuery, resource: ResourceLiveData<AdditionalDataSearchResult>) {
         resource.value = Resource.loading(null)

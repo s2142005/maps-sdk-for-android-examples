@@ -39,7 +39,10 @@
         tomtom:cameraPositionPitch="84.5"
         tomtom:cameraPositionBearing="84.5"
         tomtom:cameraPositionLatitude="84.5"
-        tomtom:cameraPositionLongitude="84.5" />
+        tomtom:cameraPositionLongitude="84.5"
+
+        tomtom:mapsApiKey="maps.api.key"
+        tomtom:trafficApiKey="traffic.api.key" />
     <!-- end::map_fragment_xml_initialization[] -->
 
     <!-- tag::map_view_xml_initialization[] -->
@@ -68,6 +71,20 @@
         tomtom:cameraPositionPitch="84.5"
         tomtom:cameraPositionBearing="84.5"
         tomtom:cameraPositionLatitude="84.5"
-        tomtom:cameraPositionLongitude="84.5" />
+        tomtom:cameraPositionLongitude="84.5"
+
+        tomtom:mapsApiKey="maps.api.key"
+        tomtom:trafficApiKey="traffic.api.key" />
     <!-- end::map_view_xml_initialization[] -->
+
+    <!-- tag::map_fragment_key_xml_initialization[] -->
+    <fragment
+        android:id="@+id/map_fragment_with_keys"
+        android:name="com.tomtom.online.sdk.map.MapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        tomtom:mapsApiKey="maps.api.key"
+        tomtom:trafficApiKey="traffic.api.key" />
+    <!-- end::map_fragment_key_xml_initialization[] -->
 </FrameLayout>

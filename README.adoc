@@ -28,6 +28,7 @@ More informations how to start are available on: https://developer.tomtom.com/ma
 * https://developer.tomtom.com/maps-android-sdk/api-reference-1[Javadocs for Search]
 * https://developer.tomtom.com/maps-android-sdk/api-reference[Javadocs for Routing]
 * https://developer.tomtom.com/maps-sdk-android/api-reference-0[Javadocs for Traffic]
+* https://developer.tomtom.com/maps-sdk-android/geofencing-public-preview[Javadocs for Geofencing]
 
 == Project set up
 
@@ -68,19 +69,51 @@ allprojects {
 To include all Maps SDK modules in your app, modify AndroidManifest.xml
 and build.gradle files
 
-* Modify AndroidManifest.xml
+* Key initialization +
+Please use dedicated constructors/methods to directly initialize with the API Key taken from http://developer.tomtom.com. +
+This approach is more thoroughly described in the modules' documentation pages.
 
+** Maps
 +
-Add service keys, taken from http://developer.tomtom.com, inside <application> tag.
-
-+
-[source,shell,indent=0]
+[source,java,indent=0]
 ----
-<meta-data android:name="OnlineMaps.Key" android:value="undefined" />
-<meta-data android:name="OnlineTraffic.Key" android:value="undefined" />
-<meta-data android:name="OnlineSearch.Key" android:value="undefined" />
-<meta-data android:name="OnlineRouting.Key" android:value="undefined" />
-<meta-data android:name="GeofencingApi.Key" android:value="undefined" />
+val keysMap = mapOf(
+    ApiKeyType.MAPS_API_KEY to "maps-key",
+    ApiKeyType.TRAFFIC_API_KEY to "traffic-key"
+)
+MapProperties.Builder()
+    .keys(keysMap)
+    .build()
+----
+
+
+** Search
++
+[source,java,indent=0]
+----
+val searchApi = OnlineSearchApi.create(context, apiKey)
+----
+
+** Routing
++
+[source,java,indent=0]
+----
+val routingApi = OnlineRoutingApi.create(context, apiKey)
+----
+
+
+** Traffic
++
+[source,java,indent=0]
+----
+val trafficApi = OnlineTrafficApi.create(context, apiKey)
+----
+
+** Geofencing
++
+[source,java,indent=0]
+----
+val geofencingApi = GeofencingApi(context, apiKey)
 ----
 
 * Modify build.gradle (app/build.gradle)

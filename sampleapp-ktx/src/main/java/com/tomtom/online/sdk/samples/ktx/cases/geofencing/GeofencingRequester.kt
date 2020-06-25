@@ -18,6 +18,7 @@ import com.tomtom.online.sdk.geofencing.report.Report
 import com.tomtom.online.sdk.geofencing.report.ReportQuery
 import com.tomtom.online.sdk.samples.ktx.utils.arch.Resource
 import com.tomtom.online.sdk.samples.ktx.utils.arch.ResourceLiveData
+import com.tomtom.sdk.examples.BuildConfig
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.SerialDisposable
 import io.reactivex.schedulers.Schedulers
@@ -27,10 +28,10 @@ class GeofencingRequester(context: Context) : RxContext {
     private val disposable = SerialDisposable()
 
     //tag::doc_initialise_geofencing[]
-    private val geofencingApi = GeofencingApi(context)
+    private val geofencingApi = GeofencingApi(context, BuildConfig.GEOFENCING_API_KEY)
     //end::doc_initialise_geofencing[]
     //tag::doc_initialise_rx_geofencing[]
-    private val rxGeofencingApi = RxGeofencingApi(context)
+    private val rxGeofencingApi = RxGeofencingApi(context, BuildConfig.GEOFENCING_API_KEY)
     //end::doc_initialise_rx_geofencing[]
 
     fun obtainReport(reportQuery: ReportQuery, result: ResourceLiveData<Report>) {

@@ -17,6 +17,7 @@ import com.tomtom.online.sdk.samples.ktx.utils.arch.ResourceLiveData
 import com.tomtom.online.sdk.traffic.OnlineTrafficApi
 import com.tomtom.online.sdk.traffic.incidents.query.IncidentDetailsQuery
 import com.tomtom.online.sdk.traffic.incidents.response.IncidentDetailsResponse
+import com.tomtom.sdk.examples.BuildConfig
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.SerialDisposable
 import io.reactivex.schedulers.Schedulers
@@ -26,7 +27,7 @@ class TrafficRequester(context: Context) : RxContext {
     private val disposable = SerialDisposable()
 
     //tag::doc_traffic_init_api[]
-    private val trafficApi = OnlineTrafficApi.create(context)
+    private val trafficApi = OnlineTrafficApi.create(context, BuildConfig.TRAFFIC_API_KEY)
     //end::doc_traffic_init_api[]
 
     fun findIncidentDetails(incidentDetailsQuery: IncidentDetailsQuery, results: ResourceLiveData<IncidentDetailsResponse>) {

@@ -32,6 +32,7 @@ import com.tomtom.online.sdk.search.data.poicategories.PoiCategoriesResponse
 import com.tomtom.online.sdk.search.data.reversegeocoder.ReverseGeocoderFullAddress
 import com.tomtom.online.sdk.search.data.reversegeocoder.ReverseGeocoderSearchQuery
 import com.tomtom.online.sdk.search.extensions.SearchService
+import com.tomtom.sdk.examples.BuildConfig
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.SerialDisposable
 import io.reactivex.observers.DisposableSingleObserver
@@ -41,7 +42,7 @@ class SearchRequester(context: Context) : RxContext {
 
     private val disposable = SerialDisposable()
     //tag::doc_create_search_object[]
-    private val searchApi = OnlineSearchApi.create(context)!!
+    private val searchApi = OnlineSearchApi.create(context, BuildConfig.SEARCH_API_KEY)
     //end::doc_create_search_object[]
 
     fun search(searchQuery: FuzzySearchQuery, results: ResourceListLiveData<FuzzySearchResult>) {

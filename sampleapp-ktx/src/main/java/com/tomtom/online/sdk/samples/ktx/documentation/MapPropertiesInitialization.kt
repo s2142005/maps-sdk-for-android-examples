@@ -72,6 +72,17 @@ internal class MapPropertiesInitialization(val context: Context) {
             .mapStyleSource(MapStyleSource.STYLE_MERGER)
             .build()
         //end::doc_map_properties_hosted_styles[]
+        //tag::doc_map_properties_layer_set_config[]
+        val layerSetConfiguration = LayerSetConfiguration.Builder()
+            .mapTilesConfiguration(MAP_TILES_SOURCE_ID)
+            .trafficIncidentsTilesConfiguration(TRAFFIC_INCIDENTS_SOURCE_ID)
+            .trafficFlowTilesConfiguration(TRAFFIC_FLOW_SOURCE_ID)
+            .build()
+        MapProperties.Builder()
+            .mapStyleSource(MapStyleSource.STYLE_MERGER)
+            .layerSetConfiguration(layerSetConfiguration)
+            .build()
+        //end::doc_map_properties_layer_set_config[]
         val mapProperties = MapProperties.Builder().build()
         //tag::doc_map_properties_init[]
         val fragment = MapFragment.newInstance(mapProperties)
@@ -83,5 +94,11 @@ internal class MapPropertiesInitialization(val context: Context) {
         //tag::doc_init_map_view_from_code[]
         val mapView = MapView(context)
         //end::doc_init_map_view_from_code[]
+    }
+
+    companion object {
+        const val TRAFFIC_FLOW_SOURCE_ID = "tomtom-flow-vector-reduced-sensitivity"
+        const val TRAFFIC_INCIDENTS_SOURCE_ID = "tomtom-incidents-vector"
+        const val MAP_TILES_SOURCE_ID = "tomtom-raster-basic-main"
     }
 }

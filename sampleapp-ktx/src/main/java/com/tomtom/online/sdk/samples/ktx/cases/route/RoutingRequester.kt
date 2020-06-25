@@ -24,6 +24,7 @@ import com.tomtom.online.sdk.routing.data.RouteResponse
 import com.tomtom.online.sdk.routing.data.batch.BatchRoutingResponse
 import com.tomtom.online.sdk.samples.ktx.utils.arch.Resource
 import com.tomtom.online.sdk.samples.ktx.utils.arch.ResourceLiveData
+import com.tomtom.sdk.examples.BuildConfig
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.SerialDisposable
@@ -34,7 +35,7 @@ class RoutingRequester(context: Context) : RxContext {
     private val disposable = SerialDisposable()
 
     //tag::doc_initialise_routing[]
-    private val routingApi = OnlineRoutingApi.create(context)!!
+    private val routingApi = OnlineRoutingApi.create(context, BuildConfig.ROUTING_API_KEY)
     //end::doc_initialise_routing[]
 
     fun planBatchRoutes(routeQuery: BatchRoutingQuery, result: ResourceLiveData<BatchRoutingResponse>) {

@@ -15,8 +15,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.tomtom.online.sdk.map.LayerSetConfiguration
 import com.tomtom.online.sdk.samples.ktx.MapAction
 import com.tomtom.online.sdk.samples.ktx.cases.ExampleFragment
+import com.tomtom.online.sdk.samples.ktx.documentation.MapPropertiesInitialization
+import com.tomtom.online.sdk.samples.ktx.documentation.MapPropertiesInitialization.Companion.MAP_TILES_SOURCE_ID
+import com.tomtom.online.sdk.samples.ktx.documentation.MapPropertiesInitialization.Companion.TRAFFIC_FLOW_SOURCE_ID
+import com.tomtom.online.sdk.samples.ktx.documentation.MapPropertiesInitialization.Companion.TRAFFIC_INCIDENTS_SOURCE_ID
 import com.tomtom.sdk.examples.R
 import kotlinx.android.synthetic.main.control_buttons_map_custom_style.*
 import kotlinx.android.synthetic.main.default_map_fragment.*
@@ -73,4 +78,21 @@ class CustomMapStyleFragment : ExampleFragment() {
         })
     }
 
+    @Suppress("unused")
+    private fun loadCustomStyle() {
+        mainViewModel.applyOnMap(MapAction {
+            let { tomtomMap ->
+                //tag::doc_set_custom_style[]
+                tomtomMap.uiSettings.setStyleUrl(
+                    "asset://styles/custom-traffic.json",
+                    LayerSetConfiguration.Builder()
+                        .mapTilesConfiguration(MAP_TILES_SOURCE_ID)
+                        .trafficFlowTilesConfiguration(TRAFFIC_FLOW_SOURCE_ID)
+                        .trafficIncidentsTilesConfiguration(TRAFFIC_INCIDENTS_SOURCE_ID)
+                        .build()
+                )
+                //end::doc_set_custom_style[]
+            }
+        })
+    }
 }

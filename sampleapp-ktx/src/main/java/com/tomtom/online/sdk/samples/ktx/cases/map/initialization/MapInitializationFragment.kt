@@ -19,6 +19,7 @@ import com.tomtom.online.sdk.common.location.LatLng
 import com.tomtom.online.sdk.map.*
 import com.tomtom.online.sdk.samples.ktx.MapAction
 import com.tomtom.online.sdk.samples.ktx.cases.ExampleFragment
+import com.tomtom.sdk.examples.BuildConfig
 import com.tomtom.sdk.examples.R
 import kotlinx.android.synthetic.main.control_buttons_map_initialization.*
 import kotlinx.android.synthetic.main.default_map_fragment.*
@@ -69,8 +70,10 @@ class MapInitializationFragment : ExampleFragment() {
             .pitch(5.0)
             .bearing(MapConstants.ORIENTATION_NORTH.toDouble())
             .build()
+        val apiKeys = mapOf(ApiKeyType.MAPS_API_KEY to BuildConfig.MAPS_API_KEY)
         val mapProperties = MapProperties.Builder()
             .cameraPosition(cameraPosition)
+            .keys(apiKeys)
             .build()
         mapFragment = MapFragment.newInstance(mapProperties)
         //end::doc_map_initialization_point[]
@@ -93,8 +96,10 @@ class MapInitializationFragment : ExampleFragment() {
             .pitch(5.0)
             .bearing(MapConstants.ORIENTATION_NORTH.toDouble())
             .build()
+        val apiKeys = mapOf(ApiKeyType.MAPS_API_KEY to BuildConfig.MAPS_API_KEY)
         val mapProperties = MapProperties.Builder()
             .cameraFocusArea(focusArea)
+            .keys(apiKeys)
             .build()
         mapFragment = MapFragment.newInstance(mapProperties)
         //end::doc_map_initialization_bounding_box[]

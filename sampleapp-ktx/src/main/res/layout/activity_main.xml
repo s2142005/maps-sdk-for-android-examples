@@ -46,7 +46,9 @@
             android:name="com.tomtom.online.sdk.map.MapFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tomtom:mapStyleSource="STYLE_MERGER" />
+            tomtom:mapStyleSource="STYLE_MERGER"
+            tomtom:mapsApiKey="@string/maps_api_key"
+            tomtom:trafficApiKey="@string/traffic_api_key" />
 
         <fragment
             android:id="@+id/main_nav_fragment"

@@ -11,17 +11,15 @@
 
 package com.tomtom.online.sdk.samples.ktx.cases.map.staticimage
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.tomtom.online.sdk.common.config.loader.SingleManifestValueLoader
-import com.tomtom.online.sdk.common.config.provider.ConfigProvider
 import com.tomtom.online.sdk.samples.ktx.cases.ExampleFragment
 import com.tomtom.online.sdk.staticimage.StaticImage.LAYER_HYBRID
 import com.tomtom.online.sdk.staticimage.StaticImage.STYLE_NIGHT
+import com.tomtom.sdk.examples.BuildConfig
 import com.tomtom.sdk.examples.R
 import kotlinx.android.synthetic.main.fragment_map_static_image.*
 
@@ -35,7 +33,7 @@ class StaticImageFragment : ExampleFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         confViewActions()
-        confImageViews(getMapsApiKey(requireContext()))
+        confImageViews(BuildConfig.MAPS_API_KEY)
     }
 
     private fun confViewActions() {
@@ -58,10 +56,6 @@ class StaticImageFragment : ExampleFragment() {
 
     private fun displayToastMessage(messageId: Int) {
         Toast.makeText(context, messageId, Toast.LENGTH_SHORT).show()
-    }
-
-    private fun getMapsApiKey(context: Context): String {
-        return SingleManifestValueLoader(context, ConfigProvider.ONLINE_MAPS_KEY).value
     }
 
     companion object {

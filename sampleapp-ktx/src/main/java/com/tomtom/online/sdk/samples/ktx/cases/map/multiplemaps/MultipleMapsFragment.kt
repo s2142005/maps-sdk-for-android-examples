@@ -31,8 +31,10 @@ class MultipleMapsFragment : ExampleFragment() {
     private lateinit var miniMapFragment: MapFragment
     private lateinit var viewModel: MultipleMapsViewModel
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_multiple_maps, container, false)
     }
 
@@ -80,12 +82,14 @@ class MultipleMapsFragment : ExampleFragment() {
             uiSettings.setStyleUrl(NIGHT_STYLE_URL_PATH)
             logoSettings.applyInvertedLogo()
 
-            updateGesturesDetectionSettings(GesturesDetectionSettingsBuilder.create()
+            updateGesturesDetectionSettings(
+                GesturesDetectionSettingsBuilder.create()
                     .zoomEnabled(false)
                     .panningEnabled(false)
                     .rotationEnabled(false)
                     .tiltEnabled(false)
-                    .build())
+                    .build()
+            )
         })
     }
 
@@ -116,11 +120,12 @@ class MultipleMapsFragment : ExampleFragment() {
 
                 val miniMapBearing = cameraPosition.bearing
 
-                val miniMapPosition = CameraPosition.builder(centerOfMap)
-                        .zoom(miniMapZoomLevel)
-                        .bearing(miniMapBearing)
-                        .animationDuration(SECOND_MAP_ANIMATION_TIME)
-                        .build()
+                val miniMapPosition = CameraPosition.builder()
+                    .focusPosition(centerOfMap)
+                    .zoom(miniMapZoomLevel)
+                    .bearing(miniMapBearing)
+                    .animationDuration(SECOND_MAP_ANIMATION_TIME)
+                    .build()
 
                 viewModel.applyOnMiniMap(MapAction {
                     uiSettings.cameraPosition = miniMapPosition

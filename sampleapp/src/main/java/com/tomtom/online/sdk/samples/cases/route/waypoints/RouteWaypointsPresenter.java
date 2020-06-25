@@ -28,6 +28,9 @@ import com.tomtom.online.sdk.samples.utils.Locations;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * An extended version of the {@link RoutePlannerPresenter} which allows to plan a route with Waypoints.
+ */
 public class RouteWaypointsPresenter extends RoutePlannerPresenter {
 
     private static final int DEFAULT_ZOOM_LEVEL = 4;
@@ -79,7 +82,8 @@ public class RouteWaypointsPresenter extends RoutePlannerPresenter {
     @Override
     public void centerOnDefaultLocation() {
         LatLng location = Locations.AMSTERDAM_BERLIN_CENTER_LOCATION;
-        tomtomMap.centerOn(CameraPosition.builder(location)
+        tomtomMap.centerOn(CameraPosition.builder()
+                .focusPosition(location)
                 .bearing(MapConstants.ORIENTATION_NORTH)
                 .zoom(DEFAULT_ZOOM_LEVEL)
                 .build());

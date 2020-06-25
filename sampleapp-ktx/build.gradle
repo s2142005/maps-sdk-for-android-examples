@@ -23,6 +23,14 @@ android {
         versionName buildVersionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
+
+        buildConfigField("String", "MAPS_API_KEY", "\"$mapsApiKey\"")
+        buildConfigField("String", "TRAFFIC_API_KEY", "\"$trafficApiKey\"")
+        buildConfigField("String", "GEOFENCING_API_KEY", "\"$geofencingApiKey\"")
+        buildConfigField("String", "SEARCH_API_KEY", "\"$searchApiKey\"")
+        buildConfigField("String", "ROUTING_API_KEY", "\"$routingApiKey\"")
+        resValue("string", "maps_api_key", "$mapsApiKey")
+        resValue("string", "traffic_api_key", "$trafficApiKey")
     }
 
     compileOptions {
@@ -70,7 +78,7 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:$rootProject.androidXVersions.recyclerview"
     implementation "androidx.activity:activity-ktx:$rootProject.androidXVersions.activityktx"
     implementation "androidx.appcompat:appcompat:$rootProject.androidXVersions.appcompat"
-    implementation ("androidx.legacy:legacy-support-v4:$rootProject.androidXVersions.legacysupportv4") {
+    implementation("androidx.legacy:legacy-support-v4:$rootProject.androidXVersions.legacysupportv4") {
         exclude group: 'com.google.guava', module: 'listenablefuture'
     }
     implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.androidXVersions.lifecycleextensions"

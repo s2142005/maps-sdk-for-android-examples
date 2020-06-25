@@ -10,6 +10,7 @@
  */
 package com.tomtom.online.sdk.samples.cases.map.layers.styles;
 
+import com.tomtom.online.sdk.map.LayerSetConfiguration;
 import com.tomtom.online.sdk.map.MapConstants;
 import com.tomtom.online.sdk.map.TomtomMap;
 import com.tomtom.online.sdk.samples.activities.BaseFunctionalExamplePresenter;
@@ -18,6 +19,10 @@ import com.tomtom.online.sdk.samples.fragments.FunctionalExampleFragment;
 import com.tomtom.online.sdk.samples.utils.Locations;
 
 public class CustomMapStylePresenter extends BaseFunctionalExamplePresenter {
+
+     private static final String TRAFFIC_FLOW_SOURCE_ID = "tomtom-flow-vector-reduced-sensitivity";
+     private static final String TRAFFIC_INCIDENTS_SOURCE_ID = "tomtom-incidents-vector";
+     private static final String MAP_TILES_SOURCE_ID = "tomtom-raster-basic-main";
 
     @Override
     public void bind(FunctionalExampleFragment view, TomtomMap map) {
@@ -59,5 +64,19 @@ public class CustomMapStylePresenter extends BaseFunctionalExamplePresenter {
         tomtomMap.getUiSettings().loadDefaultStyle();
         tomtomMap.getLogoSettings().applyDefaultLogo();
         //end::set_default_style[]
+    }
+
+    @SuppressWarnings("unused")
+    public void showCustomStyle() {
+        //tag::doc_set_custom_style[]
+        tomtomMap.getUiSettings().setStyleUrl(
+                "asset://styles/custom-traffic.json",
+                new LayerSetConfiguration.Builder()
+                .mapTilesConfiguration(MAP_TILES_SOURCE_ID)
+                .trafficFlowTilesConfiguration(TRAFFIC_FLOW_SOURCE_ID)
+                .trafficIncidentsTilesConfiguration(TRAFFIC_INCIDENTS_SOURCE_ID)
+                .build()
+        );
+        //end::doc_set_custom_style[]
     }
 }

@@ -79,7 +79,7 @@ class ReportServiceFragment : ExampleFragment() {
     private fun confViewModel() {
         viewModel = ViewModelProviders.of(this).get(ReportServiceViewModel::class.java)
         viewModel.reportResponse.observe(
-            this, ResourceObserver(
+            viewLifecycleOwner, ResourceObserver(
                 hideLoading = ::hideLoading,
                 showLoading = ::showLoading,
                 onSuccess = ::processResponse,

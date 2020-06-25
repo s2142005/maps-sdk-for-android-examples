@@ -14,13 +14,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!--tag::doc_xml_map_layout[]-->
+    <!-- tag::doc_xml_map_layout[] -->
 
     <fragment
         android:id="@+id/map_fragment"
         android:name="com.tomtom.online.sdk.map.MapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-    <!--end::doc_xml_map_layout[]-->
+    <!-- end::doc_xml_map_layout[] -->
 
 </FrameLayout>
