@@ -12,9 +12,9 @@ package com.tomtom.online.sdk.helpers;
 
 import android.content.Context;
 
-import com.tomtom.online.sdk.common.util.AssetUtils;
+import androidx.annotation.NonNull;
 
-import org.jetbrains.annotations.NotNull;
+import com.tomtom.online.sdk.common.util.AssetUtils;
 
 import timber.log.Timber;
 
@@ -25,7 +25,7 @@ import timber.log.Timber;
  */
 public class AssetsHelper {
 
-    @NotNull
+    @NonNull
     public static String getAssetFileContent(Context context, String path) {
         try {
             return AssetUtils.getAssetFile(context, path);
@@ -34,7 +34,7 @@ public class AssetsHelper {
         }
     }
 
-    @NotNull
+    @NonNull
     private static String rethrowWithMessage() {
         Timber.w("Failed to load file from assets");
         throw new RuntimeException("Failed to load file from assets");

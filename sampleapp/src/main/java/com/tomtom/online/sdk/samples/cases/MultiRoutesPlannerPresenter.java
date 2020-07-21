@@ -12,7 +12,6 @@ package com.tomtom.online.sdk.samples.cases;
 
 import android.annotation.SuppressLint;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 
 import com.tomtom.online.sdk.map.Route;
@@ -21,24 +20,21 @@ import com.tomtom.online.sdk.map.RouteStyle;
 import com.tomtom.online.sdk.map.TomtomMap;
 import com.tomtom.online.sdk.map.TomtomMapCallback;
 import com.tomtom.online.sdk.routing.RoutingApi;
-import com.tomtom.online.sdk.routing.data.FullRoute;
-import com.tomtom.online.sdk.routing.data.RouteResponse;
+import com.tomtom.online.sdk.routing.route.RoutePlan;
+import com.tomtom.online.sdk.routing.route.information.FullRoute;
 import com.tomtom.online.sdk.samples.fragments.FunctionalExampleFragment;
 import com.tomtom.online.sdk.samples.utils.formatter.DistanceFormatter;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import io.reactivex.Single;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Function;
+import io.reactivex.Observable;
 
 import static com.tomtom.online.sdk.common.func.FuncUtils.*;
 
 public abstract class MultiRoutesPlannerPresenter extends RoutePlannerPresenter {
 
-    private MultiRoutesQueryAdapter[] multiRoutesQueryAdapters;
+    private MultiRoutesSpecificationAdapter[] multiRoutesSpecificationAdapters;
 
     public MultiRoutesPlannerPresenter(MultiRoutesRoutingUiListener viewModel) {
         super(viewModel);
@@ -57,57 +53,33 @@ public abstract class MultiRoutesPlannerPresenter extends RoutePlannerPresenter 
     }
 
     @SuppressLint("CheckResult")
-    public void showRoutes(final MultiRoutesQueryAdapter... multiRoutesQueryAdapters) {
-        this.multiRoutesQueryAdapters = multiRoutesQueryAdapters;
+    public void showRoutes(final MultiRoutesSpecificationAdapter... multiRoutesSpecificationAdapters) {
+        this.multiRoutesSpecificationAdapters = multiRoutesSpecificationAdapters;
         getRoutesMap().clear();
-
-        final List<Single<RouteResponse>> listOfRxSingleRouteResponses = createListOfRxSingleRouteResponses(multiRoutesQueryAdapters);
-        final Function<Object[], List<RouteResponse>> mergeRouteResponsesFunction = createMergeRouteResponsesFunction();
-
-        createCombinedRequest(listOfRxSingleRouteResponses, mergeRouteResponsesFunction, multiRoutesQueryAdapters);
+        displayRoutes(multiRoutesSpecificationAdapters);
     }
 
-    @NonNull
-    private List<Single<RouteResponse>> createListOfRxSingleRouteResponses(MultiRoutesQueryAdapter[] multiRoutesQueryAdapters) {
-        final List<Single<RouteResponse>> listOfObservableRouteResponses = new ArrayList<>();
-
-        forEach(Arrays.asList(multiRoutesQueryAdapters),
-                query -> listOfObservableRouteResponses.add(getRoutePlannerAPI().planRoute(query.getRouteQuery())));
-        return listOfObservableRouteResponses;
+    private void displayRoutes(MultiRoutesSpecificationAdapter... multiRoutesSpecificationAdapters) {
+        List<RoutePlan> routes = new ArrayList<>();
+        Observable.fromArray(multiRoutesSpecificationAdapters)
+                .map(adapter -> getRoutePlannerAPI().planRoute(adapter.getRouteSpecification()))
+                .subscribeOn(getWorkingScheduler())
+                .observeOn(getResultScheduler())
+                .subscribe(routeResult -> {
+                            if (routeResult.isSuccess()) {
+                                routes.add(routeResult.value());
+                            }
+                        }, (error -> proceedWithError(error.getMessage())),
+                        (() -> {
+                            displayFullRoutesWithMultiRoutesAdapter(routes, multiRoutesSpecificationAdapters);
+                            selectPrimaryRoute();
+                            finishRouting();
+                        }));
     }
 
     @VisibleForTesting
     protected RoutingApi getRoutePlannerAPI() {
-        return routePlannerAPI;
-    }
-
-    @NonNull
-    private Function<Object[], List<RouteResponse>> createMergeRouteResponsesFunction() {
-        return objects -> {
-            ArrayList<RouteResponse> responses = new ArrayList<>();
-
-            for (Object obj : objects) {
-                if (obj instanceof RouteResponse) {
-                    responses.add((RouteResponse) obj);
-                }
-            }
-
-            return responses;
-        };
-    }
-
-    @VisibleForTesting
-    public void createCombinedRequest(List<Single<RouteResponse>> listOfObservableRouteResponses, Function<Object[], List<RouteResponse>> mergeRouteResponses, final MultiRoutesQueryAdapter[] multiRoutesQueryAdapters) {
-        Disposable subscribe = Single.zip(listOfObservableRouteResponses, mergeRouteResponses)
-                .observeOn(getResultScheduler())
-                .subscribeOn(getWorkingScheduler())
-                .subscribe(routeResponses -> {
-                    displayFullRoutesWithMultiRoutesAdapter(routeResponses, multiRoutesQueryAdapters);
-                    selectPrimaryRoute();
-                    finishRouting();
-                }, throwable -> proceedWithError(throwable.getMessage()));
-
-        compositeDisposable.add(subscribe);
+        return routingApi;
     }
 
     private void finishRouting() {
@@ -117,14 +89,14 @@ public abstract class MultiRoutesPlannerPresenter extends RoutePlannerPresenter 
 
     private void selectPrimaryRoute() {
         forEachIndexed(tomtomMap.getRouteSettings().getRoutes(), (route, index) -> {
-            if (route.getTag() instanceof String && multiRoutesQueryAdapters[index].isPrimary()) {
+            if (route.getTag() instanceof String && multiRoutesSpecificationAdapters[index].isPrimary()) {
                 selectRoute(route);
             }
         });
     }
 
-    private void displayFullRoutesWithMultiRoutesAdapter(List<RouteResponse> routeResponses, final MultiRoutesQueryAdapter[] multiRoutesQueryAdapters) {
-        forEachIndexed(routeResponses, (response, index) -> displayFullRoutes(response, multiRoutesQueryAdapters[index]));
+    private void displayFullRoutesWithMultiRoutesAdapter(List<RoutePlan> routePlans, final MultiRoutesSpecificationAdapter[] multiRoutesQueryAdapters) {
+        forEachIndexed(routePlans, (routePlan, index) -> displayFullRoutes(routePlan, multiRoutesQueryAdapters[index]));
     }
 
     @Override
@@ -133,11 +105,10 @@ public abstract class MultiRoutesPlannerPresenter extends RoutePlannerPresenter 
     }
 
     @VisibleForTesting
-    public void displayFullRoutes(RouteResponse routeResponse, MultiRoutesQueryAdapter multiRoutesQueryAdapter) {
-        List<FullRoute> routes = routeResponse.getRoutes();
+    public void displayFullRoutes(RoutePlan routePlan, MultiRoutesSpecificationAdapter multiRoutesQueryAdapter) {
+        List<FullRoute> routes = routePlan.getRoutes();
 
         for (FullRoute route : routes) {
-
             //tag::doc_display_route[]
             RouteBuilder routeBuilder = new RouteBuilder(route.getCoordinates())
                     .tag(multiRoutesQueryAdapter.getRouteTag())

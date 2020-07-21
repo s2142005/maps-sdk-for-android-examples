@@ -19,9 +19,10 @@ import com.tomtom.online.sdk.map.MapConstants;
 import com.tomtom.online.sdk.map.RouteSettings;
 import com.tomtom.online.sdk.map.TomtomMap;
 import com.tomtom.online.sdk.map.TomtomMapCallback;
-import com.tomtom.online.sdk.routing.data.FullRoute;
-import com.tomtom.online.sdk.routing.data.RouteQuery;
-import com.tomtom.online.sdk.routing.data.RouteQueryBuilder;
+import com.tomtom.online.sdk.routing.route.RouteCalculationDescriptor;
+import com.tomtom.online.sdk.routing.route.RouteDescriptor;
+import com.tomtom.online.sdk.routing.route.RouteSpecification;
+import com.tomtom.online.sdk.routing.route.information.FullRoute;
 import com.tomtom.online.sdk.samples.activities.FunctionalExampleModel;
 import com.tomtom.online.sdk.samples.cases.RoutePlannerPresenter;
 import com.tomtom.online.sdk.samples.cases.RoutingUiListener;
@@ -75,22 +76,29 @@ public class RouteSupportingPointsPresenter extends RoutePlannerPresenter {
     public void startRouting(int minDeviationDistance) {
         tomtomMap.clearRoute();
         viewModel.showRoutingInProgressDialog();
-        showRoute(getRouteQuery(minDeviationDistance));
+        showRoute(getRouteSpecification(minDeviationDistance));
     }
 
     @VisibleForTesting
-    protected RouteQuery getRouteQuery(int minDeviationDistance) {
-
+    protected RouteSpecification getRouteSpecification(int minDeviationDistance) {
         //tag::doc_route_supporting_points[]
-        RouteQuery queryBuilder = RouteQueryBuilder.create(EXAMPLE_ORIGIN, EXAMPLE_DESTINATION)
-                .withMaxAlternatives(1)
-                .withMinDeviationTime(0)
-                .withSupportingPoints(SUPPORTING_POINTS)
-                .withMinDeviationDistance(minDeviationDistance)
-                .withConsiderTraffic(false)
+        RouteDescriptor routeDescriptor = new RouteDescriptor.Builder()
+                .considerTraffic(false)
+                .build();
+
+        RouteCalculationDescriptor routeCalculationDescriptor = new RouteCalculationDescriptor.Builder()
+                .routeDescription(routeDescriptor)
+                .maxAlternatives(1)
+                .minDeviationTime(0)
+                .supportingPoints(SUPPORTING_POINTS)
+                .minDeviationDistance(minDeviationDistance)
+                .build();
+
+        RouteSpecification routeSpecification = new RouteSpecification.Builder(EXAMPLE_ORIGIN, EXAMPLE_DESTINATION)
+                .routeCalculationDescriptor(routeCalculationDescriptor)
                 .build();
         //end::doc_route_supporting_points[]
-        return queryBuilder;
+        return routeSpecification;
     }
 
     private TomtomMapCallback.OnRouteClickListener onRouteClickListener = route -> {

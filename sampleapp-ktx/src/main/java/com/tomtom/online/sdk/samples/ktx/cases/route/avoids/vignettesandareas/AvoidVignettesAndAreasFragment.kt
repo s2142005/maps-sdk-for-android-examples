@@ -23,7 +23,7 @@ import com.tomtom.online.sdk.map.PolylineBuilder
 import com.tomtom.online.sdk.map.RouteStyle
 import com.tomtom.online.sdk.map.RouteStyleBuilder
 import com.tomtom.online.sdk.map.TomtomMap
-import com.tomtom.online.sdk.routing.data.FullRoute
+import com.tomtom.online.sdk.routing.route.information.FullRoute
 import com.tomtom.online.sdk.samples.ktx.MapAction
 import com.tomtom.online.sdk.samples.ktx.cases.route.RouteDrawer
 import com.tomtom.online.sdk.samples.ktx.cases.route.RouteFragment

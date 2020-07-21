@@ -16,7 +16,7 @@ import android.graphics.drawable.Drawable;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
-import com.tomtom.online.sdk.routing.data.Instruction;
+import com.tomtom.online.sdk.routing.route.information.Instruction;
 import com.tomtom.online.sdk.samples.R;
 
 //Dummy implementation, just to get the example

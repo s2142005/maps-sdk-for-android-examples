@@ -13,13 +13,18 @@ package com.tomtom.online.sdk.samples.cases.map.route;
 import android.graphics.Color;
 
 import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 
 import com.tomtom.online.sdk.map.Icon;
 import com.tomtom.online.sdk.map.RouteStyle;
 import com.tomtom.online.sdk.map.RouteStyleBuilder;
-import com.tomtom.online.sdk.routing.data.RouteQuery;
-import com.tomtom.online.sdk.routing.data.RouteQueryBuilder;
+import com.tomtom.online.sdk.routing.RoutingException;
+import com.tomtom.online.sdk.routing.route.RouteCalculationDescriptor;
+import com.tomtom.online.sdk.routing.route.RouteCallback;
+import com.tomtom.online.sdk.routing.route.RouteDescriptor;
+import com.tomtom.online.sdk.routing.route.RoutePlan;
+import com.tomtom.online.sdk.routing.route.RouteSpecification;
 import com.tomtom.online.sdk.samples.R;
 import com.tomtom.online.sdk.samples.activities.FunctionalExampleModel;
 import com.tomtom.online.sdk.samples.cases.RoutePlannerPresenter;
@@ -34,35 +39,37 @@ public class RouteCustomizationPresenter extends RoutePlannerPresenter {
         super(viewModel);
     }
 
-
     @Override
     public FunctionalExampleModel getModel() {
         return new RouteCustomizationFunctionalExample();
     }
 
-    void displayRoute(RouteStyle routeStyle, Icon startIcon, Icon endIcon) {
+    void displayCustomRoute() {
         tomtomMap.clearRoute();
         viewModel.showRoutingInProgressDialog();
-        showRoute(getRouteQuery(), routeStyle, startIcon, endIcon);
+        showRoute(getRouteSpecification(), routeCallback);
+    }
+
+    void displayDefaultRoute() {
+        tomtomMap.clearRoute();
+        viewModel.showRoutingInProgressDialog();
+        showRoute(getRouteSpecification());
     }
 
     @VisibleForTesting
-    protected RouteQuery getRouteQuery() {
+    protected RouteSpecification getRouteSpecification() {
         AmsterdamToRotterdamRouteConfig routeConfig = new AmsterdamToRotterdamRouteConfig();
-        return RouteQueryBuilder.create(routeConfig.getOrigin(), routeConfig.getDestination())
-                .withMaxAlternatives(0)
-                .withConsiderTraffic(false)
+        RouteDescriptor routeDescriptor = new RouteDescriptor.Builder()
+                .considerTraffic(false)
                 .build();
-    }
 
-    public void startRoutingWithCustomRoute() {
+        RouteCalculationDescriptor routeCalculationDescriptor = new RouteCalculationDescriptor.Builder()
+                .routeDescription(routeDescriptor)
+                .build();
 
-        RouteStyle routeStyle = createCustomRouteStyle();
-
-        Icon startIcon = loadStartIcon();
-        Icon endIcon = loadEndIconForCustomStyle();
-
-        displayRoute(routeStyle, startIcon, endIcon);
+        return new RouteSpecification.Builder(routeConfig.getOrigin(), routeConfig.getDestination())
+                .routeCalculationDescriptor(routeCalculationDescriptor)
+                .build();
     }
 
     @VisibleForTesting
@@ -77,19 +84,8 @@ public class RouteCustomizationPresenter extends RoutePlannerPresenter {
         //end::doc_create_custom_route_style[]
     }
 
-    public void startRoutingWithBasicRoute() {
-        Icon startIcon = loadStartIcon();
-        Icon endIcon = loadEndIconForBasicStyle();
-
-        displayRoute(RouteStyle.DEFAULT_ROUTE_STYLE, startIcon, endIcon);
-    }
-
     Icon loadStartIcon() {
         return prepareRouteIconFromDrawable(R.drawable.ic_map_route_departure, DEFAULT_ICON_SCALE);
-    }
-
-    Icon loadEndIconForBasicStyle() {
-        return prepareRouteIconFromDrawable(R.drawable.ic_map_route_destination, DEFAULT_ICON_SCALE);
     }
 
     Icon loadEndIconForCustomStyle() {
@@ -99,4 +95,16 @@ public class RouteCustomizationPresenter extends RoutePlannerPresenter {
     private Icon prepareRouteIconFromDrawable(@DrawableRes int routeIcon, double scale) {
         return Icon.Factory.fromResources(view.getContext(), routeIcon, scale);
     }
+
+    private RouteCallback routeCallback = new RouteCallback() {
+        @Override
+        public void onSuccess(@NonNull RoutePlan routePlan) {
+            displayRoutes(routePlan, createCustomRouteStyle(), loadStartIcon(), loadEndIconForCustomStyle());
+        }
+
+        @Override
+        public void onError(@NonNull RoutingException error) {
+            proceedWithError(error.getMessage());
+        }
+    };
 }

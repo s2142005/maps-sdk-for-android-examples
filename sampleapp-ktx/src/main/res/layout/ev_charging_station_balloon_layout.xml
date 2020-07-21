@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) TomTom International B.V., 2015.
+  ~ All rights reserved.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/offset_default"
+    android:layout_marginLeft="@dimen/balloon_margin"
+    android:layout_marginEnd="@dimen/offset_default"
+    android:layout_marginRight="@dimen/balloon_margin"
+    android:background="@drawable/center_balloon_bg_black"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent"
+        android:gravity="center"
+        android:minWidth="@dimen/balloon_min_width"
+        android:minHeight="@dimen/balloon_min_height"
+        android:paddingLeft="@dimen/offset_default_small"
+        android:paddingTop="@dimen/offset_default_small"
+        android:paddingRight="@dimen/offset_default_small"
+        android:paddingBottom="@dimen/offset_default_small">
+
+        <LinearLayout
+            android:id="@+id/balloon_items_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_waypoint" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/ev_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/charging_station_waypoint"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/subtitle_font_size" />
+
+                <TextView
+                    android:id="@+id/ev_waiting_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>

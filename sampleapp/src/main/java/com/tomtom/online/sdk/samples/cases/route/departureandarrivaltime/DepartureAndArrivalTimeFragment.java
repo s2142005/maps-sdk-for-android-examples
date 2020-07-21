@@ -11,7 +11,8 @@
 package com.tomtom.online.sdk.samples.cases.route.departureandarrivaltime;
 
 import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog;
-import com.tomtom.online.sdk.routing.data.FullRoute;
+import com.tomtom.online.sdk.common.util.DateFormatter;
+import com.tomtom.online.sdk.routing.route.information.FullRoute;
 import com.tomtom.online.sdk.samples.R;
 import com.tomtom.online.sdk.samples.cases.RoutePlannerFragment;
 import com.tomtom.online.sdk.samples.utils.views.OptionsButtonsView;
@@ -20,7 +21,8 @@ import org.joda.time.DateTime;
 
 import static com.google.common.base.Optional.*;
 
-public class DepartureAndArrivalTimeFragment extends RoutePlannerFragment<DepartureAndArrivalTimePresenter> {
+public class DepartureAndArrivalTimeFragment extends
+        RoutePlannerFragment<DepartureAndArrivalTimePresenter> {
 
     enum ExampleType {
         NONE,
@@ -99,14 +101,15 @@ public class DepartureAndArrivalTimeFragment extends RoutePlannerFragment<Depart
     @Override
     public void routeUpdated(FullRoute route) {
         super.routeUpdated(route);
-        if(exampleType == ExampleType.DEPARTURE){
-            String arrivalTime = fromNullable(route.getSummary().getArrivalTimeWithZone())
+        if (exampleType == ExampleType.DEPARTURE) {
+            String arrivalTime = fromNullable(route.getSummary().getArrivalTime())
+                    .transform(rawTime -> new DateFormatter().formatWithTimeZone(rawTime))
                     .transform(time -> time.toString(TIME_FORMAT)).or("N/A");
             getInfoBarView().setLeftIcon(R.drawable.maneuver_arrival_flag);
             getInfoBarView().setLeftText(arrivalTime);
-        }
-        else if(exampleType == ExampleType.ARRIVAL){
-            String departureTime = fromNullable(route.getSummary().getDepartureTimeWithZone())
+        } else if (exampleType == ExampleType.ARRIVAL) {
+            String departureTime = fromNullable(route.getSummary().getArrivalTime())
+                    .transform(rawTime -> new DateFormatter().formatWithTimeZone(rawTime))
                     .transform(time -> time.toString(TIME_FORMAT)).or("N/A");
             getInfoBarView().setLeftIcon(R.drawable.ic_arrival_time);
             getInfoBarView().setLeftText(departureTime);

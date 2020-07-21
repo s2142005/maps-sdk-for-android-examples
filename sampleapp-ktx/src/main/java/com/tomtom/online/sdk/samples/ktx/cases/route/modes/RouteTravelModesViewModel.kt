@@ -12,7 +12,10 @@
 package com.tomtom.online.sdk.samples.ktx.cases.route.modes
 
 import android.app.Application
-import com.tomtom.online.sdk.routing.data.*
+import com.tomtom.online.sdk.routing.route.RouteCalculationDescriptor
+import com.tomtom.online.sdk.routing.route.RouteDescriptor
+import com.tomtom.online.sdk.routing.route.RouteSpecification
+import com.tomtom.online.sdk.routing.route.description.TravelMode
 import com.tomtom.online.sdk.samples.ktx.cases.route.RouteViewModel
 import com.tomtom.online.sdk.samples.ktx.utils.routes.AmsterdamToRotterdamRouteConfig
 import com.tomtom.online.sdk.samples.ktx.utils.routes.RouteConfigExample
@@ -42,21 +45,26 @@ class RouteTravelModesViewModel(application: Application) : RouteViewModel(appli
     }
 
     private fun planRoute(travelMode: TravelMode, routeConfig: RouteConfigExample = AMSTERDAM_TO_ROTTERDAM_ROUTE) {
-        val routeQuery = prepareRouteQuery(travelMode, routeConfig)
-        planRoute(routeQuery)
+        val routeSpecification = prepareRouteSpecification(travelMode, routeConfig)
+        planRoute(routeSpecification)
     }
 
-    private fun prepareRouteQuery(travelMode: TravelMode, routeConfig: RouteConfigExample): RouteQuery {
+    private fun prepareRouteSpecification(travelMode: TravelMode, routeConfig: RouteConfigExample): RouteSpecification {
         val origin = routeConfig.origin
         val destination = routeConfig.destination
         //tag::doc_route_travel_mode[]
-        val routeQuery = RouteQueryBuilder.create(origin, destination)
-                .withReport(Report.EFFECTIVE_SETTINGS)
-                .withInstructionsType(InstructionsType.TEXT)
-                .withTravelMode(travelMode)
-                .withConsiderTraffic(false)
-                .build()
+        val routeDescriptor = RouteDescriptor.Builder()
+            .travelMode(travelMode)
+            .considerTraffic(false)
+            .build()
+
+        val routeCalculationDescriptor = RouteCalculationDescriptor.Builder()
+            .routeDescription(routeDescriptor)
+            .build()
+
+        return RouteSpecification.Builder(origin, destination)
+            .routeCalculationDescriptor(routeCalculationDescriptor)
+            .build()
         //end::doc_route_travel_mode[]
-        return routeQuery
     }
 }

@@ -12,7 +12,7 @@
 package com.tomtom.online.sdk.samples.ktx.cases.driving.tracking
 
 import android.app.Application
-import com.tomtom.online.sdk.routing.data.FullRoute
+import com.tomtom.online.sdk.routing.route.information.FullRoute
 import com.tomtom.online.sdk.samples.ktx.cases.driving.DrivingViewModel
 import com.tomtom.online.sdk.samples.ktx.utils.driving.ChevronSimulatorUpdater
 import com.tomtom.online.sdk.samples.ktx.utils.driving.RouteSimulator

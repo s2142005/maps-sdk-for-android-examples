@@ -13,15 +13,18 @@ package com.tomtom.online.sdk.samples.ktx.cases.route
 
 import android.content.Context
 import com.tomtom.online.sdk.common.rx.RxContext
-import com.tomtom.online.sdk.data.reachablerange.ReachableRangeQuery
-import com.tomtom.online.sdk.data.reachablerange.ReachableRangeResponse
 import com.tomtom.online.sdk.routing.OnlineRoutingApi
-import com.tomtom.online.sdk.routing.data.FullRoute
-import com.tomtom.online.sdk.routing.data.RouteQuery
-import com.tomtom.online.sdk.routing.data.RouteQueryBuilder
-import com.tomtom.online.sdk.routing.data.batch.BatchRoutingQuery
-import com.tomtom.online.sdk.routing.data.RouteResponse
-import com.tomtom.online.sdk.routing.data.batch.BatchRoutingResponse
+import com.tomtom.online.sdk.routing.batch.BatchRoutesCallback
+import com.tomtom.online.sdk.routing.batch.BatchRoutesSpecification
+import com.tomtom.online.sdk.routing.ev.EvRouteCallback
+import com.tomtom.online.sdk.routing.ev.EvRouteSpecification
+import com.tomtom.online.sdk.routing.reachablerange.ReachableAreaCallback
+import com.tomtom.online.sdk.routing.reachablerange.ReachableRangeSpecification
+import com.tomtom.online.sdk.routing.route.RouteCallback
+import com.tomtom.online.sdk.routing.route.RoutePlan
+import com.tomtom.online.sdk.routing.route.RouteSpecification
+import com.tomtom.online.sdk.routing.route.information.FullRoute
+import com.tomtom.online.sdk.routing.rx.RxRoutingApi
 import com.tomtom.online.sdk.samples.ktx.utils.arch.Resource
 import com.tomtom.online.sdk.samples.ktx.utils.arch.ResourceLiveData
 import com.tomtom.sdk.examples.BuildConfig
@@ -38,88 +41,64 @@ class RoutingRequester(context: Context) : RxContext {
     private val routingApi = OnlineRoutingApi.create(context, BuildConfig.ROUTING_API_KEY)
     //end::doc_initialise_routing[]
 
-    fun planBatchRoutes(routeQuery: BatchRoutingQuery, result: ResourceLiveData<BatchRoutingResponse>) {
-        result.value = Resource.loading(null)
+    //tag::doc_initialise_rx_routing[]
+    private val rxRoutingApi = RxRoutingApi(context, BuildConfig.ROUTING_API_KEY)
+    //end::doc_initialise_rx_routing[]
 
-        disposable.set( //tag::doc_execute_batch_routing[]
-                routingApi.planBatchRoute(routeQuery)
-                //end::doc_execute_batch_routing[]
-                .subscribeOn(workingScheduler)
-                .observeOn(resultScheduler)
-                .subscribe(
-                        { response -> result.value = Resource.success(response) },
-                        { error -> result.value = Resource.error(null, Error(error.message)) }
-                )
-        )
+    fun planBatchRoutes(batchRoutesSpecification: BatchRoutesSpecification, batchRoutesCallback: BatchRoutesCallback) {
+        //tag::doc_execute_batch_routing[]
+        routingApi.planRoutes(batchRoutesSpecification, batchRoutesCallback)
+        //end::doc_execute_batch_routing[]
     }
 
-    fun planRoutes(routeQuery: RouteQuery, result: ResourceLiveData<List<FullRoute>>) {
-        result.value = Resource.loading(null)
-
+    fun planRoute(routeSpecification: RouteSpecification, routeCallback: RouteCallback) {
         //tag::doc_execute_routing[]
-        disposable.set(routingApi.planRoute(routeQuery)
-                .subscribeOn(workingScheduler)
-                .observeOn(resultScheduler)
-                .subscribe(
-                        { response -> result.value = Resource.success(response.routes) },
-                        { error -> result.value = Resource.error(null, Error(error.message)) }
-                )
-        )
+        routingApi.planRoute(routeSpecification, routeCallback)
         //end::doc_execute_routing[]
     }
 
-    fun planRoutes(routeQueries: List<RouteQuery>, result: ResourceLiveData<List<FullRoute>>) {
-        result.value = Resource.loading(null)
+    @Suppress("unused")
+    fun planRxRoute(routeSpecification: RouteSpecification, result: ResourceLiveData<RoutePlan>) {
+        //tag::doc_execute_rx_routing[]
+        val disposable = rxRoutingApi.planRoute(routeSpecification)
+            .subscribeOn(workingScheduler)
+            .observeOn(resultScheduler)
+            .subscribe(
+                { routePlan -> result.value = Resource.success(routePlan) },
+                { result.value = Resource.error(Error(it)) }
+            )
+        //end::doc_execute_rx_routing[]
+    }
 
+    fun planRoutes(routeSpecifications: List<RouteSpecification>, result: ResourceLiveData<List<FullRoute>>) {
         val routes = ArrayList<FullRoute>()
-
-        disposable.set(Single.concat(createSources(routeQueries))
-                .subscribeOn(workingScheduler)
-                .observeOn(resultScheduler)
-                .subscribe(
-                        { response -> routes.addAll(response.routes) },
-                        { error -> result.value = Resource.error(null, Error(error.message)) },
-                        { result.value = Resource.success(routes) }
-                )
+        disposable.set(Single.concat(
+            rxRoutingApi.planRoute(routeSpecifications.first()),
+            rxRoutingApi.planRoute(routeSpecifications.last())
+        )
+            .subscribeOn(workingScheduler)
+            .observeOn(resultScheduler)
+            .subscribe(
+                { routePlan -> routes.addAll(routePlan.routes) },
+                { error -> result.value = Resource.error(null, Error(error.message)) },
+                { result.value = Resource.success(routes) }
+            )
         )
     }
 
-    fun planRoute(routeQueryBuilder: RouteQueryBuilder, result: ResourceLiveData<FullRoute>) {
-        result.value = Resource.loading(null)
-        val routeQuery = routeQueryBuilder.build()
-
-        disposable.set(routingApi.planRoute(routeQuery)
-                .subscribeOn(workingScheduler)
-                .observeOn(resultScheduler)
-                .subscribe(
-                        { response -> result.value = Resource.success(response.routes.firstOrNull()) },
-                        { error -> result.value = Resource.error(null, Error(error.message)) }
-                )
-        )
-    }
-
-    fun planReachableRange(reachableRangeQuery: ReachableRangeQuery, result: ResourceLiveData<ReachableRangeResponse>) {
-        result.value = Resource.loading(null)
-
+    fun planReachableRange(
+        reachableRangeSpecification: ReachableRangeSpecification,
+        reachableAreaCallback: ReachableAreaCallback
+    ) {
         //tag::doc_route_api_call[]
-        disposable.set(routingApi.findReachableRange(reachableRangeQuery)
-                .subscribeOn(workingScheduler)
-                .observeOn(resultScheduler)
-                .subscribe(
-                        { response -> result.value = Resource.success(response) },
-                        { error -> result.value = Resource.error(null, Error(error.message)) }
-                )
-        )
+        routingApi.planReachableRange(reachableRangeSpecification, reachableAreaCallback)
         //end::doc_route_api_call[]
     }
 
-    private fun createSources(routeQueries: List<RouteQuery>): Iterable<Single<RouteResponse>> {
-        val sources = ArrayList<Single<RouteResponse>>()
-
-        routeQueries.forEach { routeQuery ->
-            sources.add(routingApi.planRoute(routeQuery))
-        }
-        return sources
+    fun planRoute(evRouteSpecification: EvRouteSpecification, evRouteCallback: EvRouteCallback) {
+        //tag::doc_ev_route_api_call[]
+        return routingApi.planRoute(evRouteSpecification, evRouteCallback)
+        //end::doc_ev_route_api_call[]
     }
 
     override fun getWorkingScheduler() = Schedulers.newThread()

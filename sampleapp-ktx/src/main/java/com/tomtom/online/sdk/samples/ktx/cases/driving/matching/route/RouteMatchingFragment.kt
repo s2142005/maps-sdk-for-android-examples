@@ -14,7 +14,7 @@ package com.tomtom.online.sdk.samples.ktx.cases.driving.matching.route
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.tomtom.online.sdk.map.driving.LatLngTraceMatchingDataProvider
-import com.tomtom.online.sdk.routing.data.FullRoute
+import com.tomtom.online.sdk.routing.route.information.FullRoute
 import com.tomtom.online.sdk.samples.ktx.MapAction
 import com.tomtom.online.sdk.samples.ktx.cases.driving.DrivingFragment
 
@@ -50,7 +50,10 @@ class RouteMatchingFragment : DrivingFragment<RouteMatchingViewModel>() {
         viewModel.routes.observe(this, Observer { fullRoutes ->
             fullRoutes?.let {
                 it.data?.first()?.let { firstFullRoute ->
-                    centerOnLocation(firstFullRoute.coordinates.first(), zoomLevel = DEFAULT_ZOOM_LEVEL_FOR_SIMULATION)
+                    centerOnLocation(
+                        firstFullRoute.getCoordinates().first(),
+                        zoomLevel = DEFAULT_ZOOM_LEVEL_FOR_SIMULATION
+                    )
                 }
             }
         })
@@ -74,7 +77,7 @@ class RouteMatchingFragment : DrivingFragment<RouteMatchingViewModel>() {
     }
 
     private fun createMatcher(routes: List<FullRoute>) {
-        viewModel.createMatcher(LatLngTraceMatchingDataProvider.fromPoints(routes.first().coordinates))
+        viewModel.createMatcher(LatLngTraceMatchingDataProvider.fromPoints(routes.first().getCoordinates()))
     }
 
 }

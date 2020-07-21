@@ -13,7 +13,7 @@ package com.tomtom.online.sdk.samples.ktx.utils.routes
 
 import android.location.Location
 import com.tomtom.online.sdk.common.location.LatLng
-import com.tomtom.online.sdk.routing.data.FullRoute
+import com.tomtom.online.sdk.routing.route.information.FullRoute
 import java.util.*
 
 private const val NEXT_POINT_TIME_DIFF_IN_MILLIS = 1200.0
@@ -27,7 +27,7 @@ fun convertFromRoutesToLocations(routes: List<FullRoute>): List<Location> {
     }
 
     var pointTime = Date().time
-    val routePoints = routes[0].coordinates
+    val routePoints = routes[0].getCoordinates()
     val routeLocations = ArrayList<Location>()
 
     for ((pointIdx, point) in routePoints.withIndex()) {

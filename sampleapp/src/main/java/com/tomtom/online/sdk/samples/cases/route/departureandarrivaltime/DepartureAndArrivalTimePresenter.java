@@ -12,11 +12,11 @@ package com.tomtom.online.sdk.samples.cases.route.departureandarrivaltime;
 
 import androidx.annotation.VisibleForTesting;
 
-import com.tomtom.online.sdk.routing.data.RouteQuery;
+import com.tomtom.online.sdk.routing.route.RouteSpecification;
 import com.tomtom.online.sdk.samples.activities.FunctionalExampleModel;
 import com.tomtom.online.sdk.samples.cases.RoutePlannerPresenter;
 import com.tomtom.online.sdk.samples.cases.RoutingUiListener;
-import com.tomtom.online.sdk.samples.cases.route.RouteQueryFactory;
+import com.tomtom.online.sdk.samples.cases.route.RouteSpecificationFactory;
 import com.tomtom.online.sdk.samples.routes.AmsterdamToRotterdamRouteConfig;
 
 import org.joda.time.DateTime;
@@ -40,21 +40,21 @@ public class DepartureAndArrivalTimePresenter extends RoutePlannerPresenter {
 
     public void displayArrivalAtRoute(DateTime arrivalDateTime) {
         viewModel.showRoutingInProgressDialog();
-        showRoute(getArrivalRouteQuery(arrivalDateTime.toDate()));
+        showRoute(getArrivalRouteSpecification(arrivalDateTime.toDate()));
     }
 
     @VisibleForTesting
-    protected RouteQuery getArrivalRouteQuery(Date arrivalTime) {
-        return RouteQueryFactory.createArrivalRouteQuery(arrivalTime, new AmsterdamToRotterdamRouteConfig());
+    protected RouteSpecification getArrivalRouteSpecification(Date arrivalTime) {
+        return RouteSpecificationFactory.createArrivalRouteSpecification(arrivalTime, new AmsterdamToRotterdamRouteConfig());
     }
 
     public void displayDepartureAtRoute(DateTime departureDate) {
         viewModel.showRoutingInProgressDialog();
-        showRoute(getDepartureRouteQuery(departureDate.toDate()));
+        showRoute(getDepartureRouteSpecification(departureDate.toDate()));
     }
 
-    protected RouteQuery getDepartureRouteQuery(Date departureTime) {
-        return RouteQueryFactory.createDepartureRouteQuery(departureTime, new AmsterdamToRotterdamRouteConfig());
+    protected RouteSpecification getDepartureRouteSpecification(Date departureTime) {
+        return RouteSpecificationFactory.createDepartureRouteSpecification(departureTime, new AmsterdamToRotterdamRouteConfig());
     }
 
 }

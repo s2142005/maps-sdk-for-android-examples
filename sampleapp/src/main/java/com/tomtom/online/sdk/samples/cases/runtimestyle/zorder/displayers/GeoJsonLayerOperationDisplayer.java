@@ -20,7 +20,7 @@ import com.tomtom.online.sdk.map.style.layers.Layer;
 import com.tomtom.online.sdk.map.style.layers.LayerFactory;
 import com.tomtom.online.sdk.map.style.sources.GeoJsonSource;
 import com.tomtom.online.sdk.map.style.sources.SourceFactory;
-import com.tomtom.online.sdk.routing.data.FullRoute;
+import com.tomtom.online.sdk.routing.route.information.FullRoute;
 
 public class GeoJsonLayerOperationDisplayer {
 

@@ -17,7 +17,7 @@ import com.tomtom.online.sdk.map.TomtomMap
 
 class WaypointsMarkerDrawer(private val tomtomMap: TomtomMap) {
 
-    fun createMarkersForWaypoints(waypoints: Array<LatLng>) {
+    fun createMarkersForWaypoints(waypoints: List<LatLng>) {
         waypoints.forEach { position ->
             tomtomMap.markerSettings.addMarker(MarkerBuilder(position))
         }

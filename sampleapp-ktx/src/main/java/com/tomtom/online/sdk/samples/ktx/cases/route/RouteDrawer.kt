@@ -15,7 +15,9 @@ import android.content.Context
 import android.graphics.Color
 import com.tomtom.online.sdk.map.*
 import com.tomtom.online.sdk.map.model.LineCapType
-import com.tomtom.online.sdk.routing.data.FullRoute
+import com.tomtom.online.sdk.routing.ev.route.EvFullRoute
+import com.tomtom.online.sdk.routing.ev.route.Leg
+import com.tomtom.online.sdk.routing.route.information.FullRoute
 import com.tomtom.sdk.examples.R
 
 open class RouteDrawer(private val context: Context, private val tomtomMap: TomtomMap) {
@@ -25,24 +27,26 @@ open class RouteDrawer(private val context: Context, private val tomtomMap: Tomt
         var routeIdx = 0
         routes.forEach { route ->
             //tag::doc_display_route[]
-            val routeBuilder = RouteBuilder(route.coordinates)
-                    .style(RouteStyle.DEFAULT_ROUTE_STYLE)
-                    .startIcon(createIcon(R.drawable.ic_map_route_origin))
-                    .endIcon(createIcon(R.drawable.ic_map_route_destination))
-                    .tag(routeIdx.toString())
+            val routeBuilder = RouteBuilder(route.getCoordinates())
+                .style(RouteStyle.DEFAULT_ROUTE_STYLE)
+                .startIcon(createIcon(R.drawable.ic_map_route_origin))
+                .endIcon(createIcon(R.drawable.ic_map_route_destination))
+                .tag(routeIdx.toString())
             tomtomMap.addRoute(routeBuilder)
             //end::doc_display_route[]
             routeIdx++
         }
     }
 
-    fun drawCustom(routes: List<FullRoute>,
-                   style: RouteStyle = createCustomStyle(),
-                   startIconResId: Int = R.drawable.ic_map_route_origin,
-                   endIconResId: Int = R.drawable.ic_map_fav) {
+    fun drawCustom(
+        routes: List<FullRoute>,
+        style: RouteStyle = createCustomStyle(),
+        startIconResId: Int = R.drawable.ic_map_route_origin,
+        endIconResId: Int = R.drawable.ic_map_fav
+    ) {
 
         routes.forEach { route ->
-            val routeBuilder = RouteBuilder(route.coordinates)
+            val routeBuilder = RouteBuilder(route.getCoordinates())
                 .style(style)
                 .startIcon(createIcon(startIconResId))
                 .endIcon(createIcon(endIconResId))
@@ -50,17 +54,39 @@ open class RouteDrawer(private val context: Context, private val tomtomMap: Tomt
         }
     }
 
-    fun drawDotted(routes: List<FullRoute>,
-                   style: RouteStyle = createDottedStyle(),
-                   startIconResId: Int = R.drawable.ic_map_route_origin,
-                   endIconResId: Int = R.drawable.ic_map_route_destination) {
+    fun drawDotted(
+        routes: List<FullRoute>,
+        style: RouteStyle = createDottedStyle(),
+        startIconResId: Int = R.drawable.ic_map_route_origin,
+        endIconResId: Int = R.drawable.ic_map_route_destination
+    ) {
 
         routes.forEach { route ->
-            val routeBuilder = RouteBuilder(route.coordinates)
+            val routeBuilder = RouteBuilder(route.getCoordinates())
                 .style(style)
                 .startIcon(createIcon(startIconResId))
                 .endIcon(createIcon(endIconResId))
             tomtomMap.addRoute(routeBuilder)
+        }
+    }
+
+    fun drawEv(routes: List<EvFullRoute>) {
+        var routeIdx = 0
+        val routeLegs = routes.flatMap { it.legs }
+        routeLegs.forEachIndexed { index, leg ->
+            val routeBuilder = RouteBuilder(leg.points)
+                .style(RouteStyle.DEFAULT_ROUTE_STYLE)
+                .tag(routeIdx.toString())
+            setupEvRouteIcons(index, routeBuilder, routeLegs)
+            tomtomMap.addRoute(routeBuilder)
+            routeIdx++
+        }
+    }
+
+    private fun setupEvRouteIcons(index: Int, routeBuilder: RouteBuilder, routeLegs: List<Leg>) {
+        when (index) {
+            0 -> routeBuilder.startIcon(createIcon(R.drawable.ic_map_route_origin))
+            routeLegs.size - 1 -> routeBuilder.endIcon(createIcon(R.drawable.ic_map_route_destination))
         }
     }
 
@@ -68,8 +94,10 @@ open class RouteDrawer(private val context: Context, private val tomtomMap: Tomt
         //To simplify, mark all as inactive and then selected as active
         //In more advanced flow, one can control style of each route separately
         tomtomMap.routeSettings.routes.forEach { route ->
-            tomtomMap.routeSettings.updateRouteStyle(route.id,
-                    RouteStyle.DEFAULT_INACTIVE_ROUTE_STYLE)
+            tomtomMap.routeSettings.updateRouteStyle(
+                route.id,
+                RouteStyle.DEFAULT_INACTIVE_ROUTE_STYLE
+            )
         }
     }
 
@@ -86,18 +114,19 @@ open class RouteDrawer(private val context: Context, private val tomtomMap: Tomt
     }
 
     private fun createIcon(iconResId: Int): Icon = Icon.Factory.fromResources(
-            context, iconResId, DEFAULT_ICON_SCALE)
+        context, iconResId, DEFAULT_ICON_SCALE
+    )
 
     private fun createCustomStyle(): RouteStyle {
         return (
-                //tag::doc_create_custom_route_style[]
-                RouteStyleBuilder.create()
-                        .withWidth(ROUTE_WIDTH)
-                        .withFillColor(Color.BLACK)
-                        .withOutlineColor(Color.RED)
-                        .build()
-                //end::doc_create_custom_route_style[]
-                )
+            //tag::doc_create_custom_route_style[]
+            RouteStyleBuilder.create()
+                .withWidth(ROUTE_WIDTH)
+                .withFillColor(Color.BLACK)
+                .withOutlineColor(Color.RED)
+                .build()
+            //end::doc_create_custom_route_style[]
+            )
     }
 
     private fun createDottedStyle(): RouteStyle {

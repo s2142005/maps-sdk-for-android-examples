@@ -20,29 +20,29 @@ import com.tomtom.online.sdk.map.RouteSettings;
 import com.tomtom.online.sdk.map.RouteStyle;
 import com.tomtom.online.sdk.map.TomtomMap;
 import com.tomtom.online.sdk.map.TomtomMapCallback;
-import com.tomtom.online.sdk.routing.data.Avoid;
-import com.tomtom.online.sdk.routing.data.FullRoute;
-import com.tomtom.online.sdk.routing.data.RouteQuery;
-import com.tomtom.online.sdk.routing.data.RouteResponse;
-import com.tomtom.online.sdk.routing.data.RouteType;
-import com.tomtom.online.sdk.routing.data.TravelMode;
-import com.tomtom.online.sdk.routing.data.batch.BatchRoutingQuery;
-import com.tomtom.online.sdk.routing.data.batch.BatchRoutingQueryBuilder;
-import com.tomtom.online.sdk.routing.data.batch.BatchRoutingResponse;
+import com.tomtom.online.sdk.routing.RoutingException;
+import com.tomtom.online.sdk.routing.batch.BatchRoutesCallback;
+import com.tomtom.online.sdk.routing.batch.BatchRoutesPlan;
+import com.tomtom.online.sdk.routing.batch.BatchRoutesSpecification;
+import com.tomtom.online.sdk.routing.route.RoutePlan;
+import com.tomtom.online.sdk.routing.route.RouteSpecification;
+import com.tomtom.online.sdk.routing.route.description.AvoidType;
+import com.tomtom.online.sdk.routing.route.description.RouteType;
+import com.tomtom.online.sdk.routing.route.description.TravelMode;
+import com.tomtom.online.sdk.routing.route.information.FullRoute;
 import com.tomtom.online.sdk.samples.R;
 import com.tomtom.online.sdk.samples.activities.FunctionalExampleModel;
 import com.tomtom.online.sdk.samples.cases.RoutePlannerPresenter;
 import com.tomtom.online.sdk.samples.cases.RoutingUiListener;
-import com.tomtom.online.sdk.samples.cases.route.RouteQueryFactory;
+import com.tomtom.online.sdk.samples.cases.route.RouteSpecificationFactory;
 import com.tomtom.online.sdk.samples.fragments.FunctionalExampleFragment;
 import com.tomtom.online.sdk.samples.routes.AmsterdamToOsloRouteConfig;
 import com.tomtom.online.sdk.samples.routes.AmsterdamToRotterdamRouteConfig;
 import com.tomtom.online.sdk.samples.routes.RouteConfigExample;
 import com.tomtom.online.sdk.samples.utils.RouteUtils;
 
+import java.util.ArrayList;
 import java.util.List;
-
-import io.reactivex.disposables.Disposable;
 
 public class BatchRoutePresenter extends RoutePlannerPresenter {
 
@@ -70,52 +70,58 @@ public class BatchRoutePresenter extends RoutePlannerPresenter {
     }
 
     public void startRoutingDependsOnTravelMode() {
-        planRoute(getTravelModeBatchRouteQuery());
+        planRoute(getTravelModeBatchRouteSpecification());
     }
 
     public void startRoutingDependsOnRouteType() {
-        planRoute(getRouteTypeBatchRouteQuery());
+        planRoute(getRouteTypeBatchRouteSpecification());
     }
 
     public void startRoutingDependsOnAvoids() {
-        planRoute(getAvoidsBatchRouteQuery());
+        planRoute(getAvoidsBatchRouteSpecification());
     }
 
-    private void planRoute(BatchRoutingQuery query) {
+    private void planRoute(BatchRoutesSpecification specification) {
         clearRouteSelection();
         viewModel.showRoutingInProgressDialog();
         //tag::doc_execute_batch_routing[]
-        Disposable subscribe = routePlannerAPI.planBatchRoute(query)
-                //end::doc_execute_batch_routing[]
-                .subscribeOn(getWorkingScheduler())
-                .observeOn(getResultScheduler())
-                .subscribe(this::displayRouteAndSetDescription,
-                        throwable -> proceedWithError(throwable.getMessage()));
-
-        compositeDisposable.add(subscribe);
+        routingApi.planRoutes(specification, batchRoutesCallback);
+        //end::doc_execute_batch_routing[]
     }
+
+    private BatchRoutesCallback batchRoutesCallback = new BatchRoutesCallback() {
+        @Override
+        public void onSuccess(@NonNull BatchRoutesPlan routePlan) {
+            displayRouteAndSetDescription(routePlan);
+        }
+
+        @Override
+        public void onError(@NonNull RoutingException error) {
+            proceedWithError(error.getMessage());
+        }
+    };
 
     private void clearRouteSelection() {
         tomtomMap.clearRoute();
         routesMap.clear();
     }
 
-    private void displayRouteAndSetDescription(BatchRoutingResponse batchRoutingResponse) {
+    private void displayRouteAndSetDescription(BatchRoutesPlan batchRoutesPlan) {
         tomtomMap.clearRoute();
         int i = 0;
-        for (RouteResponse routeResponse : batchRoutingResponse.getRouteRoutingResponses()) {
+        for (RoutePlan routeResponse : batchRoutesPlan.getRoutes()) {
             for (FullRoute fullRoute : routeResponse.getRoutes()) {
                 fullRoute.setTag(getContext().getString(routesDescription[i++]));
             }
             displayFullRoutes(routeResponse);
         }
 
-        if (batchRoutingResponse.getRouteRoutingResponses().isEmpty()) {
+        if (batchRoutesPlan.getRoutes().isEmpty()) {
             return;
         }
 
         setRouteActiveIfApply();
-        displayInfoAboutRouteIfApply(batchRoutingResponse);
+        displayInfoAboutRouteIfApply(batchRoutesPlan);
         tomtomMap.displayRoutesOverview();
     }
 
@@ -129,8 +135,8 @@ public class BatchRoutePresenter extends RoutePlannerPresenter {
         });
     }
 
-    private void displayInfoAboutRouteIfApply(BatchRoutingResponse batchRoutingResponse) {
-        List<FullRoute> routes = batchRoutingResponse.getRouteRoutingResponses().get(0).getRoutes();
+    private void displayInfoAboutRouteIfApply(BatchRoutesPlan batchRoutesPlan) {
+        List<FullRoute> routes = batchRoutesPlan.getRoutes().get(0).getRoutes();
         FuncUtils.apply(getFirstFullRoute(routes), this::displayInfoAboutRoute);
     }
 
@@ -154,52 +160,61 @@ public class BatchRoutePresenter extends RoutePlannerPresenter {
     }
 
     @VisibleForTesting
-    protected BatchRoutingQuery getTravelModeBatchRouteQuery() {
+    protected BatchRoutesSpecification getTravelModeBatchRouteSpecification() {
         routesDescription = new int[]{R.string.batch_travel_mode_car_text, R.string.batch_travel_mode_truck_text, R.string.batch_travel_mode_pedestrian_text};
-        //tag::doc_batch_query[]
-        return BatchRoutingQueryBuilder.create()
-                .withRouteQuery(getTravelModeQuery(TravelMode.CAR))
-                .withRouteQuery(getTravelModeQuery(TravelMode.TRUCK))
-                .withRouteQuery(getTravelModeQuery(TravelMode.PEDESTRIAN))
+        List<RouteSpecification> routeSpecifications = new ArrayList<>();
+        routeSpecifications.add(getTravelModeSpecification(TravelMode.CAR));
+        routeSpecifications.add(getTravelModeSpecification(TravelMode.TRUCK));
+        routeSpecifications.add(getTravelModeSpecification(TravelMode.PEDESTRIAN));
+
+        //tag::doc_batch_specification[]
+        return new BatchRoutesSpecification.Builder()
+                .routeSpecifications(routeSpecifications)
                 .build();
-        //end::doc_batch_query[]
+        //end::doc_batch_specification[]
     }
 
     @NonNull
-    private RouteQuery getTravelModeQuery(TravelMode travelMode) {
+    private RouteSpecification getTravelModeSpecification(TravelMode travelMode) {
         //tag::doc_common_params_for_travel_mode[]
-        return RouteQueryFactory.createRouteTravelModesQuery(travelMode, getRouteConfig());
+        return RouteSpecificationFactory.createRouteTravelModesSpecification(travelMode, getRouteConfig());
         //end::doc_common_params_for_travel_mode[]
     }
 
     @VisibleForTesting
-    protected BatchRoutingQuery getRouteTypeBatchRouteQuery() {
+    protected BatchRoutesSpecification getRouteTypeBatchRouteSpecification() {
         routesDescription = new int[]{R.string.batch_route_type_fastest, R.string.batch_route_type_shortest, R.string.batch_route_type_eco};
-        return BatchRoutingQueryBuilder.create()
-                .withRouteQuery(getRouteTypeQuery(RouteType.FASTEST))
-                .withRouteQuery(getRouteTypeQuery(RouteType.SHORTEST))
-                .withRouteQuery(getRouteTypeQuery(RouteType.ECO))
+        List<RouteSpecification> routeSpecifications = new ArrayList<>();
+        routeSpecifications.add(getRouteTypeSpecification(RouteType.FASTEST));
+        routeSpecifications.add(getRouteTypeSpecification(RouteType.SHORTEST));
+        routeSpecifications.add(getRouteTypeSpecification(RouteType.ECO));
+
+        return new BatchRoutesSpecification.Builder()
+                .routeSpecifications(routeSpecifications)
                 .build();
     }
 
     @NonNull
-    private RouteQuery getRouteTypeQuery(RouteType type) {
-        return RouteQueryFactory.createRouteTypesQuery(type, getRouteConfig());
+    private RouteSpecification getRouteTypeSpecification(RouteType type) {
+        return RouteSpecificationFactory.createRouteTypesSpecification(type, getRouteConfig());
     }
 
     @VisibleForTesting
-    protected BatchRoutingQuery getAvoidsBatchRouteQuery() {
+    protected BatchRoutesSpecification getAvoidsBatchRouteSpecification() {
         routesDescription = new int[]{R.string.batch_avoid_motorways, R.string.batch_avoid_toll_roads, R.string.batch_avoid_ferries};
-        return BatchRoutingQueryBuilder.create()
-                .withRouteQuery(getAvoidRouteQuery(Avoid.MOTORWAYS))
-                .withRouteQuery(getAvoidRouteQuery(Avoid.TOLL_ROADS))
-                .withRouteQuery(getAvoidRouteQuery(Avoid.FERRIES))
+        List<RouteSpecification> routeSpecifications = new ArrayList<>();
+        routeSpecifications.add(getAvoidRouteSpecification(AvoidType.MOTORWAYS));
+        routeSpecifications.add(getAvoidRouteSpecification(AvoidType.TOLL_ROADS));
+        routeSpecifications.add(getAvoidRouteSpecification(AvoidType.FERRIES));
+
+        return new BatchRoutesSpecification.Builder()
+                .routeSpecifications(routeSpecifications)
                 .build();
     }
 
     @NonNull
-    private RouteQuery getAvoidRouteQuery(Avoid avoidType) {
-        return RouteQueryFactory.createAvoidRouteQuery(avoidType, getRouteOsloConfig());
+    private RouteSpecification getAvoidRouteSpecification(AvoidType avoidType) {
+        return RouteSpecificationFactory.createAvoidRouteSpecification(avoidType, getRouteOsloConfig());
     }
 
     public RouteConfigExample getRouteOsloConfig() {

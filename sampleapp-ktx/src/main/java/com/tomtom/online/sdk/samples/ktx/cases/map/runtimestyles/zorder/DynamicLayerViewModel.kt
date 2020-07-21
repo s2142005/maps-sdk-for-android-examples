@@ -11,8 +11,7 @@
 package com.tomtom.online.sdk.samples.ktx.cases.map.runtimestyles.zorder
 
 import android.app.Application
-import com.tomtom.online.sdk.routing.data.RouteQuery
-import com.tomtom.online.sdk.routing.data.RouteQueryBuilder
+import com.tomtom.online.sdk.routing.route.RouteSpecification
 import com.tomtom.online.sdk.samples.ktx.cases.route.RouteViewModel
 import com.tomtom.online.sdk.samples.ktx.utils.routes.Locations
 
@@ -22,7 +21,7 @@ class DynamicLayerViewModel(application: Application): RouteViewModel(applicatio
         planRoute(prepareRouteQuery())
     }
 
-    private fun prepareRouteQuery(): RouteQuery {
-        return RouteQueryBuilder.create(Locations.SAN_FRANCISCO, Locations.SANTA_CRUZ).build()
+    private fun prepareRouteQuery(): RouteSpecification {
+        return RouteSpecification.Builder(Locations.SAN_FRANCISCO, Locations.SANTA_CRUZ).build()
     }
 }

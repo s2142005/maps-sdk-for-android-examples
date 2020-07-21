@@ -17,6 +17,14 @@ android {
         applicationId 'com.tomtom.mapssdk.examplesapp'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "MAPS_API_KEY", "\"$mapsApiKey\"")
+        buildConfigField("String", "TRAFFIC_API_KEY", "\"$trafficApiKey\"")
+        buildConfigField("String", "GEOFENCING_API_KEY", "\"$geofencingApiKey\"")
+        buildConfigField("String", "SEARCH_API_KEY", "\"$searchApiKey\"")
+        buildConfigField("String", "ROUTING_API_KEY", "\"$routingApiKey\"")
+        resValue("string", "maps_api_key", "$mapsApiKey")
+        resValue("string", "traffic_api_key", "$trafficApiKey")
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -79,6 +87,9 @@ dependencies {
 
         //dependency for route planner
         implementation("com.tomtom.online:sdk-routing:$rootProject.internalVersions.sdk")
+
+        //dependency for rx routing
+        implementation("com.tomtom.online:sdk-routing-rxjava2:$rootProject.internalVersions.sdk")
 
         //dependency for rx extensions
         implementation("com.tomtom.online:sdk-maps-rx-extensions:$rootProject.internalVersions.sdk")

@@ -14,6 +14,9 @@ package com.tomtom.online.sdk.samples.ktx.cases.map.route
 import android.app.Application
 import com.tomtom.online.sdk.routing.data.RouteQuery
 import com.tomtom.online.sdk.routing.data.RouteQueryBuilder
+import com.tomtom.online.sdk.routing.route.RouteCalculationDescriptor
+import com.tomtom.online.sdk.routing.route.RouteDescriptor
+import com.tomtom.online.sdk.routing.route.RouteSpecification
 import com.tomtom.online.sdk.samples.ktx.cases.route.RouteViewModel
 import com.tomtom.online.sdk.samples.ktx.utils.routes.Locations
 
@@ -35,10 +38,16 @@ class RouteCustomizationViewModel(application: Application) : RouteViewModel(app
         planRoute(routeBuilder)
     }
 
-    private fun prepareQuery(): RouteQuery {
-        return RouteQueryBuilder.create(Locations.AMSTERDAM, Locations.ROTTERDAM)
-                .withMaxAlternatives(0)
-                .withConsiderTraffic(false)
-                .build()
+    private fun prepareQuery(): RouteSpecification {
+        val routeDescriptor = RouteDescriptor.Builder().considerTraffic(false).build()
+
+        val routeCalculationDescriptor = RouteCalculationDescriptor.Builder()
+            .routeDescription(routeDescriptor)
+            .maxAlternatives(0)
+            .build()
+
+        return RouteSpecification.Builder(Locations.AMSTERDAM, Locations.ROTTERDAM)
+            .routeCalculationDescriptor(routeCalculationDescriptor)
+            .build()
     }
 }

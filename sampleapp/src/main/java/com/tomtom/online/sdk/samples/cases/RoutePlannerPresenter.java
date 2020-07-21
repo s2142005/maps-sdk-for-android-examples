@@ -29,9 +29,13 @@ import com.tomtom.online.sdk.map.model.MapModeType;
 import com.tomtom.online.sdk.map.rx.RxContext;
 import com.tomtom.online.sdk.routing.OnlineRoutingApi;
 import com.tomtom.online.sdk.routing.RoutingApi;
-import com.tomtom.online.sdk.routing.data.FullRoute;
-import com.tomtom.online.sdk.routing.data.RouteQuery;
-import com.tomtom.online.sdk.routing.data.RouteResponse;
+import com.tomtom.online.sdk.routing.RoutingException;
+import com.tomtom.online.sdk.routing.route.RouteCallback;
+import com.tomtom.online.sdk.routing.route.RoutePlan;
+import com.tomtom.online.sdk.routing.route.RouteSpecification;
+import com.tomtom.online.sdk.routing.route.information.FullRoute;
+import com.tomtom.online.sdk.routing.rx.RxRoutingApi;
+import com.tomtom.online.sdk.samples.BuildConfig;
 import com.tomtom.online.sdk.samples.R;
 import com.tomtom.online.sdk.samples.activities.BaseFunctionalExamplePresenter;
 import com.tomtom.online.sdk.samples.fragments.FunctionalExampleFragment;
@@ -46,6 +50,7 @@ import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 
 public abstract class RoutePlannerPresenter extends BaseFunctionalExamplePresenter implements
         RxContext {
@@ -57,7 +62,7 @@ public abstract class RoutePlannerPresenter extends BaseFunctionalExamplePresent
     protected CheckedButtonCleaner checkedButtonCleaner;
     protected RoutingUiListener viewModel;
 
-    protected RoutingApi routePlannerAPI;
+    protected RoutingApi routingApi;
 
     /**
      * Choose map which keep orders. To match queries with the order.
@@ -127,8 +132,25 @@ public abstract class RoutePlannerPresenter extends BaseFunctionalExamplePresent
 
     public void createOnlineRoutingApi(Context context) {
         //tag::doc_initialise_routing[]
-        routePlannerAPI = OnlineRoutingApi.create(context);
+        routingApi = OnlineRoutingApi.create(context, BuildConfig.ROUTING_API_KEY);
         //end::doc_initialise_routing[]
+    }
+
+    @SuppressWarnings("unused")
+    public void planRxRoute(Context context, RouteSpecification routeSpecification) {
+        //tag::doc_initialise_rx_routing[]
+        RxRoutingApi routingApi = new RxRoutingApi(context, BuildConfig.ROUTING_API_KEY);
+        //end::doc_initialise_rx_routing[]
+
+        //tag::doc_execute_rx_routing[]
+        Disposable disposable = routingApi.planRoute(routeSpecification)
+                .subscribeOn(getWorkingScheduler())
+                .observeOn(getResultScheduler())
+                .subscribe(
+                        routePlan -> displayFullRoutes(routePlan),
+                        throwable -> proceedWithError(throwable.getMessage())
+                );
+        //end::doc_execute_rx_routing[]
     }
 
     public void confRouteIcons() {
@@ -155,47 +177,36 @@ public abstract class RoutePlannerPresenter extends BaseFunctionalExamplePresent
     }
 
     @SuppressLint("CheckResult")
-    public void showRoute(RouteQuery routeQuery, final RouteStyle routeStyle, final Icon startIcon, final Icon endIcon) {
+    public void showRoute(RouteSpecification routeSpecification, RouteCallback routeCallback) {
         //tag::doc_execute_routing[]
-        Disposable subscribe = routePlannerAPI.planRoute(routeQuery).subscribeOn(getWorkingScheduler())
-                .observeOn(getResultScheduler())
-                .subscribe(routeResult -> displayRoutes(routeResult, routeStyle, startIcon, endIcon),
-                        throwable -> proceedWithError(throwable.getMessage()));
+        routingApi.planRoute(routeSpecification, routeCallback);
         //end::doc_execute_routing[]
-        compositeDisposable.add(subscribe);
     }
 
     @SuppressLint("CheckResult")
-    public void showRoute(RouteQuery routeQuery) {
-        //tag::doc_execute_routing[]
-        Disposable subscribe = routePlannerAPI.planRoute(routeQuery).subscribeOn(getWorkingScheduler())
-                .observeOn(getResultScheduler())
-                .subscribe(
-                        routeResult -> displayRoutes(routeResult),
-                        throwable -> proceedWithError(throwable.getMessage()));
-        //end::doc_execute_routing[]
-        compositeDisposable.add(subscribe);
+    public void showRoute(RouteSpecification routeSpecification) {
+        routingApi.planRoute(routeSpecification, routeCallback);
     }
 
-    protected void displayRoutes(RouteResponse routeResponse) {
-        displayRoutes(routeResponse, RouteStyle.DEFAULT_ROUTE_STYLE, defaultStartIcon, defaultEndIcon);
+    protected void displayRoutes(RoutePlan routePlan) {
+        displayRoutes(routePlan, RouteStyle.DEFAULT_ROUTE_STYLE, defaultStartIcon, defaultEndIcon);
     }
 
-    protected void displayRoutes(RouteResponse routeResponse, RouteStyle routeStyle, Icon startIcon, Icon endIcon) {
+    protected void displayRoutes(RoutePlan routePlan, RouteStyle routeStyle, Icon startIcon, Icon endIcon) {
 
         routesMap.clear();
 
-        displayFullRoutes(routeResponse, routeStyle, startIcon, endIcon);
+        displayFullRoutes(routePlan, routeStyle, startIcon, endIcon);
 
         tomtomMap.displayRoutesOverview();
     }
 
-    protected void displayFullRoutes(RouteResponse routeResponse) {
-        displayFullRoutes(routeResponse, RouteStyle.DEFAULT_ROUTE_STYLE, defaultStartIcon, defaultEndIcon);
+    protected void displayFullRoutes(RoutePlan routePlan) {
+        displayFullRoutes(routePlan, RouteStyle.DEFAULT_ROUTE_STYLE, defaultStartIcon, defaultEndIcon);
     }
 
-    protected void displayFullRoutes(RouteResponse routeResponse, RouteStyle routeStyle, Icon startIcon, Icon endIcon) {
-        List<FullRoute> routes = routeResponse.getRoutes();
+    protected void displayFullRoutes(RoutePlan routePlan, RouteStyle routeStyle, Icon startIcon, Icon endIcon) {
+        List<FullRoute> routes = routePlan.getRoutes();
 
         for (FullRoute route : routes) {
             addMapRoute(routeStyle, startIcon, endIcon, route);
@@ -260,4 +271,16 @@ public abstract class RoutePlannerPresenter extends BaseFunctionalExamplePresent
         float batteryConsumption = route.getSummary().getBatteryConsumptionInkWh();
         return Math.max(fuelConsumption, batteryConsumption);
     }
+
+    private RouteCallback routeCallback = new RouteCallback() {
+        @Override
+        public void onSuccess(@NonNull RoutePlan routePlan) {
+            displayRoutes(routePlan);
+        }
+
+        @Override
+        public void onError(@NonNull RoutingException error) {
+            proceedWithError(error.getMessage());
+        }
+    };
 }

@@ -17,7 +17,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.tomtom.online.sdk.map.ChevronBuilder
 import com.tomtom.online.sdk.map.Icon
 import com.tomtom.online.sdk.map.TomtomMap
-import com.tomtom.online.sdk.routing.data.FullRoute
+import com.tomtom.online.sdk.routing.route.information.FullRoute
 import com.tomtom.online.sdk.samples.ktx.MapAction
 import com.tomtom.online.sdk.samples.ktx.cases.driving.DrivingFragment
 import com.tomtom.online.sdk.samples.ktx.utils.driving.ChevronSimulatorUpdater

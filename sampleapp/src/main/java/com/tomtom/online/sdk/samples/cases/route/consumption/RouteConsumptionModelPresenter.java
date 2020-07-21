@@ -13,15 +13,14 @@ package com.tomtom.online.sdk.samples.cases.route.consumption;
 import com.tomtom.online.sdk.map.RouteSettings;
 import com.tomtom.online.sdk.map.TomtomMap;
 import com.tomtom.online.sdk.map.TomtomMapCallback;
-import com.tomtom.online.sdk.routing.data.FullRoute;
-import com.tomtom.online.sdk.routing.data.RouteQuery;
+import com.tomtom.online.sdk.routing.route.RouteSpecification;
+import com.tomtom.online.sdk.routing.route.information.FullRoute;
 import com.tomtom.online.sdk.samples.activities.FunctionalExampleModel;
 import com.tomtom.online.sdk.samples.cases.RoutePlannerPresenter;
 import com.tomtom.online.sdk.samples.cases.RoutingUiListener;
-import com.tomtom.online.sdk.samples.cases.route.RouteQueryFactory;
+import com.tomtom.online.sdk.samples.cases.route.RouteSpecificationFactory;
 import com.tomtom.online.sdk.samples.fragments.FunctionalExampleFragment;
 import com.tomtom.online.sdk.samples.routes.AmsterdamToUtrechtRouteConfig;
-import com.tomtom.online.sdk.samples.routes.RouteConfigExample;
 import com.tomtom.online.sdk.samples.utils.RouteUtils;
 
 public class RouteConsumptionModelPresenter extends RoutePlannerPresenter {
@@ -50,22 +49,22 @@ public class RouteConsumptionModelPresenter extends RoutePlannerPresenter {
     public void startRoutingElectric() {
         tomtomMap.clearRoute();
         viewModel.showRoutingInProgressDialog();
-        showRoute(getRouteQueryElectric());
+        showRoute(getRouteSpecificationElectric());
     }
 
 
     public void startRoutingCombustion() {
         tomtomMap.clearRoute();
         viewModel.showRoutingInProgressDialog();
-        showRoute(getRouteQueryCombustion());
+        showRoute(getRouteSpecificationCombustion());
     }
 
-    protected RouteQuery getRouteQueryElectric() {
-        return RouteQueryFactory.createRouteConsumptionElectricQuery(new AmsterdamToUtrechtRouteConfig());
+    protected RouteSpecification getRouteSpecificationElectric() {
+        return RouteSpecificationFactory.createRouteConsumptionElectricSpecification(new AmsterdamToUtrechtRouteConfig());
     }
 
-    protected RouteQuery getRouteQueryCombustion() {
-        return  RouteQueryFactory.createRouteConsumptionCombustionQuery(new AmsterdamToUtrechtRouteConfig());
+    protected RouteSpecification getRouteSpecificationCombustion() {
+        return RouteSpecificationFactory.createRouteConsumptionCombustionSpecification(new AmsterdamToUtrechtRouteConfig());
     }
 
     private TomtomMapCallback.OnRouteClickListener onRouteClickListener = route -> {

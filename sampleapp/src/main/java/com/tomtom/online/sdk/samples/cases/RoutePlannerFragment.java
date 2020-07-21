@@ -18,8 +18,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 
-import com.tomtom.online.sdk.routing.data.FullRoute;
-import com.tomtom.online.sdk.routing.data.Summary;
+import com.tomtom.online.sdk.common.util.DateFormatter;
+import com.tomtom.online.sdk.routing.route.description.Summary;
+import com.tomtom.online.sdk.routing.route.information.FullRoute;
 import com.tomtom.online.sdk.samples.R;
 import com.tomtom.online.sdk.samples.utils.CheckedButtonCleaner;
 import com.tomtom.online.sdk.samples.utils.formatter.DistanceFormatter;
@@ -30,7 +31,8 @@ import org.joda.time.DateTime;
 import java.io.Serializable;
 import java.util.Map;
 
-public abstract class RoutePlannerFragment<T extends RoutePlannerPresenter> extends ExampleFragment<T>
+public abstract class RoutePlannerFragment<T extends RoutePlannerPresenter> extends
+        ExampleFragment<T>
         implements CheckedButtonCleaner, RoutingUiListener {
 
     private static final String KEY_ROUTES = "KEY_ROUTES";
@@ -100,7 +102,7 @@ public abstract class RoutePlannerFragment<T extends RoutePlannerPresenter> exte
         int distance = routeSummary.getLengthInMeters();
         getInfoBarView().setRightText(DistanceFormatter.format(distance));
 
-        DateTime timeZoneDate = routeSummary.getArrivalTimeWithZone();
+        DateTime timeZoneDate = new DateFormatter().formatWithTimeZone(routeSummary.getArrivalTime());
         String arrivalTime = getString(R.string.date_not_available);
         if (timeZoneDate != null) {
             arrivalTime = timeZoneDate.toString(TIME_FORMAT);

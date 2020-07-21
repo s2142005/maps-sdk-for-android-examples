@@ -17,15 +17,13 @@ import androidx.annotation.NonNull;
 import com.tomtom.online.sdk.common.rx.RxContext;
 import com.tomtom.online.sdk.routing.OnlineRoutingApi;
 import com.tomtom.online.sdk.routing.RoutingApi;
-import com.tomtom.online.sdk.routing.data.matrix.MatrixRoutingQuery;
-import com.tomtom.online.sdk.routing.data.matrix.MatrixRoutingResponse;
+import com.tomtom.online.sdk.routing.matrix.MatrixRoutesCallback;
+import com.tomtom.online.sdk.routing.matrix.MatrixRoutesSpecification;
 
 import java.util.concurrent.Executors;
 
 import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 public class MatrixRouteRequester implements RxContext {
@@ -37,14 +35,11 @@ public class MatrixRouteRequester implements RxContext {
     MatrixRouteRequester(Context context) {
         routePlannerApi = OnlineRoutingApi.create(context);
     }
-    
-    Disposable performMatrixRouting(MatrixRoutingQuery query, Consumer<MatrixRoutingResponse> responseConsumer, Consumer<Throwable> onError) {
-        return  //tag::doc_execute_matrix_routing[]
-                routePlannerApi.planMatrixRoutes(query)
-                //end::doc_execute_matrix_routing[]
-                .subscribeOn(getWorkingScheduler())
-                .observeOn(getResultScheduler())
-                .subscribe(responseConsumer, onError);
+
+    void performMatrixRouting(MatrixRoutesSpecification specification, MatrixRoutesCallback matrixRoutesCallback) {
+        //tag::doc_execute_matrix_routing[]
+        routePlannerApi.planRoutes(specification, matrixRoutesCallback);
+        //end::doc_execute_matrix_routing[]
     }
 
     @NonNull

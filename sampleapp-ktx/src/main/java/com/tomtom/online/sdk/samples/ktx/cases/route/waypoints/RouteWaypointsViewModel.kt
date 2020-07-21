@@ -8,19 +8,19 @@
  * licensee then you are not authorised to use this software in any manner and should
  * immediately return it to TomTom N.V.
  */
-
 package com.tomtom.online.sdk.samples.ktx.cases.route.waypoints
 
 import android.app.Application
 import com.tomtom.online.sdk.common.location.LatLng
-import com.tomtom.online.sdk.routing.data.RouteQuery
-import com.tomtom.online.sdk.routing.data.RouteQueryBuilder
+import com.tomtom.online.sdk.routing.route.RouteCalculationDescriptor
+import com.tomtom.online.sdk.routing.route.RouteDescriptor
+import com.tomtom.online.sdk.routing.route.RouteSpecification
 import com.tomtom.online.sdk.samples.ktx.cases.route.RouteViewModel
 import com.tomtom.online.sdk.samples.ktx.utils.routes.AmsterdamToBerlinRouteConfig
 
 class RouteWaypointsViewModel(application: Application) : RouteViewModel(application) {
 
-    lateinit var waypoints: Array<LatLng>
+    lateinit var waypoints: List<LatLng>
 
     fun planInitialOrderRoute() {
         assignWaypoints()
@@ -33,30 +33,38 @@ class RouteWaypointsViewModel(application: Application) : RouteViewModel(applica
     }
 
     private fun planRouteWithWaypoints() {
-        val routeQuery = prepareRouteQuery(waypoints)
-        planRoute(routeQuery)
+        val routeSpecification = prepareRouteSpecification(waypoints)
+        planRoute(routeSpecification)
     }
 
-    private fun prepareRouteQuery(waypoints: Array<LatLng>): RouteQuery {
+    private fun prepareRouteSpecification(waypoints: List<LatLng>): RouteSpecification {
         val origin = AmsterdamToBerlinRouteConfig().origin
         val destination = AmsterdamToBerlinRouteConfig().destination
         //tag::doc_route_waypoints[]
-        val routeQuery = RouteQueryBuilder.create(origin, destination)
-                .withWayPoints(waypoints)
-                .withConsiderTraffic(false)
-                .build()
+        val routeDescriptor = RouteDescriptor.Builder()
+            .considerTraffic(false)
+            .build()
+
+        val routeCalculationDescriptor = RouteCalculationDescriptor.Builder()
+            .routeDescription(routeDescriptor)
+            .waypoints(waypoints)
+            .build()
+
+        val routeSpecification = RouteSpecification.Builder(origin, destination)
+            .routeCalculationDescriptor(routeCalculationDescriptor)
+            .build()
         //end::doc_route_waypoints[]
-        return routeQuery
+        return routeSpecification
     }
 
     private fun assignWaypoints() {
         //tag::doc_route_waypoints_array[]
-        waypoints = arrayOf(WAYPOINT_HAMBURG, WAYPOINT_ZURICH, WAYPOINT_BRUSSELS)
+        waypoints = listOf(WAYPOINT_HAMBURG, WAYPOINT_ZURICH, WAYPOINT_BRUSSELS)
         //end::doc_route_waypoints_array[]
     }
 
     private fun assignEmptyArray() {
-        waypoints = arrayOf()
+        waypoints = listOf()
     }
 
     companion object {

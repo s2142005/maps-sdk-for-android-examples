@@ -13,12 +13,12 @@ package com.tomtom.online.sdk.samples.cases.search;
 import android.content.Context;
 
 import com.tomtom.online.sdk.map.TomtomMap;
-import com.tomtom.online.sdk.routing.data.FullRoute;
-import com.tomtom.online.sdk.routing.data.RouteQuery;
+import com.tomtom.online.sdk.routing.route.RouteSpecification;
+import com.tomtom.online.sdk.routing.route.information.FullRoute;
 import com.tomtom.online.sdk.samples.activities.FunctionalExampleModel;
 import com.tomtom.online.sdk.samples.cases.RoutePlannerPresenter;
 import com.tomtom.online.sdk.samples.cases.RoutingUiListener;
-import com.tomtom.online.sdk.samples.cases.route.RouteQueryFactory;
+import com.tomtom.online.sdk.samples.cases.route.RouteSpecificationFactory;
 import com.tomtom.online.sdk.samples.fragments.FunctionalExampleFragment;
 import com.tomtom.online.sdk.samples.routes.AmsterdamToHaarlemRouteConfig;
 
@@ -55,8 +55,8 @@ public class SearchAlongRoutePresenter extends RoutePlannerPresenter {
         tomtomMap.clearRoute();
     }
 
-    protected RouteQuery getRouteQuery() {
-        return RouteQueryFactory.createRouteForAlongRouteSearch(new AmsterdamToHaarlemRouteConfig());
+    protected RouteSpecification getRouteQuery() {
+        return RouteSpecificationFactory.createRouteForAlongRouteSearch(new AmsterdamToHaarlemRouteConfig());
     }
 
     public void performSearch(String term) {

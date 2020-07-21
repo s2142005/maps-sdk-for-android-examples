@@ -14,7 +14,7 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 
-import com.tomtom.online.sdk.routing.data.Avoid;
+import com.tomtom.online.sdk.routing.route.description.AvoidType;
 import com.tomtom.online.sdk.samples.R;
 import com.tomtom.online.sdk.samples.cases.RoutePlannerFragment;
 import com.tomtom.online.sdk.samples.utils.views.OptionsButtonsView;
@@ -22,7 +22,7 @@ import com.tomtom.online.sdk.samples.utils.views.OptionsButtonsView;
 public class RouteAvoidsFragment extends RoutePlannerFragment<RouteAvoidsPresenter> {
 
     public static final String ROUTE_AVOID = "route_avoid";
-    private Avoid avoidOnRoute;
+    private AvoidType avoidOnRoute;
 
     @Override
     protected RouteAvoidsPresenter createPresenter() {
@@ -60,7 +60,7 @@ public class RouteAvoidsFragment extends RoutePlannerFragment<RouteAvoidsPresent
     public void onRestoreSavedInstanceState(@Nullable Bundle savedInstanceState) {
         super.onRestoreSavedInstanceState(savedInstanceState);
         if (savedInstanceState != null) {
-            avoidOnRoute = (Avoid) savedInstanceState.getSerializable(ROUTE_AVOID);
+            avoidOnRoute = (AvoidType) savedInstanceState.getSerializable(ROUTE_AVOID);
         }
     }
 
@@ -69,5 +69,4 @@ public class RouteAvoidsFragment extends RoutePlannerFragment<RouteAvoidsPresent
         super.onSaveInstanceState(outState);
         outState.putSerializable(ROUTE_AVOID, presenter.getAvoid());
     }
-
 }

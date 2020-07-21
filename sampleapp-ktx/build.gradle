@@ -62,6 +62,7 @@ dependencies {
         implementation("com.tomtom.online:sdk-traffic:$rootProject.internalVersions.sdk")
         implementation("com.tomtom.online:sdk-search:$rootProject.internalVersions.sdk")
         implementation("com.tomtom.online:sdk-routing:$rootProject.internalVersions.sdk")
+        implementation("com.tomtom.online:sdk-routing-rxjava2:$rootProject.internalVersions.sdk")
         implementation("com.tomtom.online:sdk-maps-rx-extensions:$rootProject.internalVersions.sdk")
         implementation("com.tomtom.online:sdk-maps-ui-extensions:$rootProject.internalVersions.sdk")
         implementation("com.tomtom.online:sdk-maps-static-image:$rootProject.internalVersions.sdk")

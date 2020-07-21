@@ -200,9 +200,8 @@ class ReportServiceFragment : ExampleFragment() {
 
     companion object {
         //tag::doc_projects_ID[]
-        private val PROJECT_UUID_TWO_FENCES =
-            UUID.fromString("fcf6d609-550d-49ff-bcdf-02bba08baa28")
-        private val PROJECT_UUID_ONE_FENCE = UUID.fromString("57287023-a968-492c-8473-7e049a606425")
+        private val PROJECT_UUID_ONE_FENCE = UUID.fromString("19892ca6-1cce-4fc1-b499-2887eeba6361")
+        private val PROJECT_UUID_TWO_FENCES = UUID.fromString("138b8a81-a596-49fa-8dae-496ff6e34400")
         //end::doc_projects_ID[]
         private const val ZOOM_LEVEL_FOR_EXAMPLE = 12.0
     }

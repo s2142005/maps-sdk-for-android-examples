@@ -13,17 +13,16 @@ package com.tomtom.online.sdk.samples.cases.route.maneuvers;
 import androidx.annotation.VisibleForTesting;
 
 import com.tomtom.online.sdk.map.TomtomMap;
-import com.tomtom.online.sdk.routing.data.FullRoute;
-import com.tomtom.online.sdk.routing.data.Instruction;
-import com.tomtom.online.sdk.routing.data.RouteQuery;
+import com.tomtom.online.sdk.routing.route.RouteSpecification;
+import com.tomtom.online.sdk.routing.route.information.FullRoute;
+import com.tomtom.online.sdk.routing.route.information.Instruction;
 import com.tomtom.online.sdk.samples.activities.FunctionalExampleModel;
 import com.tomtom.online.sdk.samples.cases.RoutePlannerPresenter;
 import com.tomtom.online.sdk.samples.cases.RoutingUiListener;
-import com.tomtom.online.sdk.samples.cases.route.RouteQueryFactory;
+import com.tomtom.online.sdk.samples.cases.route.RouteSpecificationFactory;
 import com.tomtom.online.sdk.samples.fragments.FunctionalExampleFragment;
 import com.tomtom.online.sdk.samples.routes.AmsterdamToBerlinRouteConfig;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class ManeuversPresenter extends RoutePlannerPresenter {
@@ -47,22 +46,22 @@ public class ManeuversPresenter extends RoutePlannerPresenter {
     }
 
     @Override
-    //tag::doc_route_maneuvers[]
     protected void displayInfoAboutRoute(FullRoute routeResult) {
         super.displayInfoAboutRoute(routeResult);
-        List<Instruction> instructions = Arrays.asList(routeResult.getGuidance().getInstructions());
+        //tag::doc_route_maneuvers[]
+        List<Instruction> instructions = routeResult.getGuidance().getInstructions();
+        //end::doc_route_maneuvers[]
         maneuversFragment.updateInstructions(instructions);
     }
-    //end::doc_route_maneuvers[]
 
-    public void startRouting(String language){
+    public void startRouting(String language) {
         tomtomMap.clearRoute();
         viewModel.showRoutingInProgressDialog();
-        showRoute(getRouteQuery(language));
+        showRoute(getRouteSpecification(language));
     }
 
     @VisibleForTesting
-    protected RouteQuery getRouteQuery(String language) {
-        return RouteQueryFactory.createRouteManeuversQuery(language, new AmsterdamToBerlinRouteConfig());
+    protected RouteSpecification getRouteSpecification(String language) {
+        return RouteSpecificationFactory.createRouteManeuversSpecification(language, new AmsterdamToBerlinRouteConfig());
     }
 }

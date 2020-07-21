@@ -14,55 +14,57 @@ package com.tomtom.online.sdk.samples.ktx.cases.route.avoids.vignettesandareas
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import com.tomtom.online.sdk.common.location.BoundingBox
-import com.tomtom.online.sdk.routing.data.RouteQuery
+import com.tomtom.online.sdk.routing.route.RouteSpecification
 import com.tomtom.online.sdk.samples.ktx.cases.route.RouteViewModel
 import com.tomtom.online.sdk.samples.ktx.cases.route.RoutingRequester
+import com.tomtom.online.sdk.samples.ktx.utils.arch.Resource
 import com.tomtom.sdk.examples.R
 
 class AvoidVignettesAndAreasViewModel(application: Application) : RouteViewModel(application) {
 
     private val routingRequester = RoutingRequester(application)
 
-    var routesDescription = MutableLiveData<IntArray>(intArrayOf())
+    var routesDescription = MutableLiveData(intArrayOf())
     lateinit var exampleType: ExampleType
 
     fun planBaseRoute() {
         exampleType = ExampleType.NO_AVOID
         routesDescription.value = intArrayOf(R.string.no_avoids)
 
-        val defaultRouteQuery = AvoidVignettesAndAreasQueryFactory()
-                .createBaseRouteForAvoidVignettesAndAreas()
+        val routeSpecification = AvoidVignettesAndAreasSpecificationFactory()
+            .createBaseRouteForAvoidVignettesAndAreas()
 
-        planRoute(defaultRouteQuery)
+        planRoute(routeSpecification)
     }
 
     fun planAvoidVignettesRoute(avoidVignettesList: List<String>) {
         exampleType = ExampleType.AVOID_VIGNETTES
         routesDescription.value = intArrayOf(R.string.avoid_vignettes_text, R.string.no_avoids)
 
-        val defaultRouteQuery = AvoidVignettesAndAreasQueryFactory()
-                .createBaseRouteForAvoidVignettesAndAreas()
-        val avoidVignettesRouteQuery = AvoidVignettesAndAreasQueryFactory()
-                .createRouteForAvoidsVignettes(avoidVignettesList)
+        val routeSpecification = AvoidVignettesAndAreasSpecificationFactory()
+            .createBaseRouteForAvoidVignettesAndAreas()
+        val avoidVignettesRouteSpecification = AvoidVignettesAndAreasSpecificationFactory()
+            .createRouteForAvoidsVignettes(avoidVignettesList)
 
-        planAvoidRoutes(listOf(avoidVignettesRouteQuery, defaultRouteQuery))
+        planAvoidRoutes(listOf(avoidVignettesRouteSpecification, routeSpecification))
     }
 
     fun planAvoidAreaRoute(boundingBox: BoundingBox) {
         exampleType = ExampleType.AVOID_AREAS
         routesDescription.value = intArrayOf(R.string.avoid_area_text, R.string.no_avoids)
 
-        val defaultRouteQuery = AvoidVignettesAndAreasQueryFactory()
-                .createBaseRouteForAvoidVignettesAndAreas()
-        val avoidAreaRouteQuery = AvoidVignettesAndAreasQueryFactory()
-                .createRouteForAvoidsAreas(boundingBox)
+        val routeSpecification = AvoidVignettesAndAreasSpecificationFactory()
+            .createBaseRouteForAvoidVignettesAndAreas()
+        val avoidAreaRouteSpecification = AvoidVignettesAndAreasSpecificationFactory()
+            .createRouteForAvoidsAreas(boundingBox)
 
-        planAvoidRoutes(listOf(avoidAreaRouteQuery, defaultRouteQuery))
+        planAvoidRoutes(listOf(avoidAreaRouteSpecification, routeSpecification))
     }
 
-    private fun planAvoidRoutes(routeQueryList: List<RouteQuery>) {
+    private fun planAvoidRoutes(routeSpecificationList: List<RouteSpecification>) {
         selectedRoute.value = null
-        routingRequester.planRoutes(routeQueryList, routes)
+        routes.value = Resource.loading(null)
+        routingRequester.planRoutes(routeSpecificationList, routes)
     }
 
     enum class ExampleType {

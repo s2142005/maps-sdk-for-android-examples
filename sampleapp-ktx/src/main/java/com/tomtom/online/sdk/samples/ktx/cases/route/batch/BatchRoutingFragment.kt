@@ -17,8 +17,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.tomtom.online.sdk.routing.data.FullRoute
-import com.tomtom.online.sdk.routing.data.batch.BatchRoutingResponse
+import com.tomtom.online.sdk.routing.batch.BatchRoutesPlan
+import com.tomtom.online.sdk.routing.route.information.FullRoute
 import com.tomtom.online.sdk.samples.ktx.MapAction
 import com.tomtom.online.sdk.samples.ktx.cases.route.RouteFragment
 import com.tomtom.online.sdk.samples.ktx.utils.arch.Resource
@@ -30,7 +30,7 @@ import kotlinx.android.synthetic.main.default_routing_fragment.*
 class BatchRoutingFragment : RouteFragment<BatchRoutingViewModel>() {
 
     override fun routingViewModel(): BatchRoutingViewModel = ViewModelProviders.of(this)
-            .get(BatchRoutingViewModel::class.java)
+        .get(BatchRoutingViewModel::class.java)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
@@ -45,19 +45,21 @@ class BatchRoutingFragment : RouteFragment<BatchRoutingViewModel>() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.result.observe(this, ResourceObserver(
-            hideLoading = ::hideLoading,
-            showLoading = ::showLoading,
-            onSuccess = ::processBatchResults,
-            onError = ::showError)
+        viewModel.result.observe(
+            viewLifecycleOwner, ResourceObserver(
+                hideLoading = ::hideLoading,
+                showLoading = ::showLoading,
+                onSuccess = ::processBatchResults,
+                onError = ::showError
+            )
         )
     }
 
-    private fun processBatchResults(response: BatchRoutingResponse) {
+    private fun processBatchResults(batchRoutesPlan: BatchRoutesPlan) {
         val routes = ArrayList<FullRoute>()
 
-        response.routeRoutingResponses.forEach { routeResponse ->
-            routes.addAll(routeResponse.routes)
+        batchRoutesPlan.routes.forEach { routePlan ->
+            routes.addAll(routePlan.routes)
         }
         addTagsToRoutes(routes)
 

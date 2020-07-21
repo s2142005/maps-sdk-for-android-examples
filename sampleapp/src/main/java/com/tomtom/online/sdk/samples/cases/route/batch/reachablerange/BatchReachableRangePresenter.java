@@ -25,22 +25,21 @@ import com.tomtom.online.sdk.map.RouteStyle;
 import com.tomtom.online.sdk.map.TomtomMap;
 import com.tomtom.online.sdk.map.TomtomMapCallback;
 import com.tomtom.online.sdk.routing.RoutingApi;
-import com.tomtom.online.sdk.routing.data.batch.BatchRoutingQuery;
-import com.tomtom.online.sdk.routing.data.batch.BatchRoutingQueryBuilder;
-import com.tomtom.online.sdk.routing.data.batch.BatchRoutingResponse;
+import com.tomtom.online.sdk.routing.RoutingException;
+import com.tomtom.online.sdk.routing.batch.BatchRoutesCallback;
+import com.tomtom.online.sdk.routing.batch.BatchRoutesPlan;
+import com.tomtom.online.sdk.routing.batch.BatchRoutesSpecification;
+import com.tomtom.online.sdk.routing.reachablerange.ReachableRangeSpecification;
 import com.tomtom.online.sdk.samples.R;
 import com.tomtom.online.sdk.samples.activities.FunctionalExampleModel;
 import com.tomtom.online.sdk.samples.cases.MultiRoutesRoutingUiListener;
 import com.tomtom.online.sdk.samples.cases.RoutePlannerPresenter;
 import com.tomtom.online.sdk.samples.cases.RoutingUiListener;
-import com.tomtom.online.sdk.samples.cases.route.reachablerange.ReachableRangeQueryFactory;
+import com.tomtom.online.sdk.samples.cases.route.reachablerange.ReachableRangeSpecificationFactory;
 import com.tomtom.online.sdk.samples.fragments.FunctionalExampleFragment;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-
-import io.reactivex.disposables.Disposable;
 
 public class BatchReachableRangePresenter extends RoutePlannerPresenter {
 
@@ -77,7 +76,7 @@ public class BatchReachableRangePresenter extends RoutePlannerPresenter {
 
     private void setupIfInitialization(FunctionalExampleFragment view) {
         if (!view.isMapRestored()) {
-            findReachableRange(getReachableRangeBatchRouteQuery());
+            planBatchReachableRange(getReachableRangeBatchRouteSpecification());
         }
     }
 
@@ -86,32 +85,38 @@ public class BatchReachableRangePresenter extends RoutePlannerPresenter {
     }
 
     @VisibleForTesting
-    void findReachableRange(BatchRoutingQuery query) {
+    void planBatchReachableRange(BatchRoutesSpecification batchRoutesSpecification) {
         tomtomMap.clear();
         viewModel.showRoutingInProgressDialog();
-        //tag::doc_submit_query_to_batch_routing[]
-        Disposable subscribe = getRoutePlannerAPI().planBatchRoute(query)
-                .subscribeOn(getWorkingScheduler())
-                .observeOn(getResultScheduler())
-                .subscribe(
-                        batchRoutingResponse -> displayRouteAndSetDescription(batchRoutingResponse),
-                        throwable -> proceedWithError(throwable.getMessage()));
-        //end::doc_submit_query_to_batch_routing[]
-        compositeDisposable.add(subscribe);
+        //tag::doc_submit_specification_to_batch_routing[]
+        getRoutePlannerAPI().planRoutes(batchRoutesSpecification, batchRoutesCallback);
+        //end::doc_submit_specification_to_batch_routing[]
     }
+
+    private BatchRoutesCallback batchRoutesCallback = new BatchRoutesCallback() {
+        @Override
+        public void onSuccess(@NonNull BatchRoutesPlan routePlan) {
+            displayRouteAndSetDescription(routePlan);
+        }
+
+        @Override
+        public void onError(@NonNull RoutingException error) {
+            proceedWithError(error.getMessage());
+        }
+    };
 
     @VisibleForTesting
     RoutingApi getRoutePlannerAPI() {
-        return routePlannerAPI;
+        return routingApi;
     }
 
-    private void displayRouteAndSetDescription(BatchRoutingResponse batchRoutingResponse) {
-        FuncUtils.forEachIndexed(batchRoutingResponse.getReachableRangeResponses(),
-                (response, index) -> {
-                    LatLng[] boundingBox = response.getResult().getBoundary();
-                    LatLng center = response.getResult().getCenter();
+    private void displayRouteAndSetDescription(BatchRoutesPlan batchRoutesPlan) {
+        FuncUtils.forEachIndexed(batchRoutesPlan.getReachableRangeAreas(),
+                (area, index) -> {
+                    List<LatLng> boundary = area.getBoundary();
+                    LatLng center = area.getCenter();
 
-                    List<LatLng> closedPolylineCoordinates = normalizeToClosedPolyline(boundingBox);
+                    List<LatLng> closedPolylineCoordinates = normalizeToClosedPolyline(boundary);
 
                     tomtomMap.addMarker(new MarkerBuilder(center).icon(defaultStartIcon));
                     tomtomMap.getOverlaySettings()
@@ -125,12 +130,11 @@ public class BatchReachableRangePresenter extends RoutePlannerPresenter {
     }
 
     @NonNull
-    private List<LatLng> normalizeToClosedPolyline(LatLng[] boundingBox) {
-        List<LatLng> closedPolylineCoordinates = new ArrayList<>(Arrays.asList(boundingBox));
-        if (!closedPolylineCoordinates.isEmpty()) {
-            closedPolylineCoordinates.add(closedPolylineCoordinates.get(0));
+    private List<LatLng> normalizeToClosedPolyline(List<LatLng> boundary) {
+        if (!boundary.isEmpty()) {
+            boundary.add(boundary.get(0));
         }
-        return closedPolylineCoordinates;
+        return boundary;
     }
 
     private String determinePolylineDescription(int index) {
@@ -169,16 +173,19 @@ public class BatchReachableRangePresenter extends RoutePlannerPresenter {
     }
 
     @VisibleForTesting
-    protected BatchRoutingQuery getReachableRangeBatchRouteQuery() {
-        ReachableRangeQueryFactory factory = new ReachableRangeQueryFactory();
-        return
-                //tag::doc_create_batch_reachable_range_query[]
-                BatchRoutingQueryBuilder.create()
-                        .withReachableRangeQuery(factory.createReachableRangeQueryForElectric())
-                        .withReachableRangeQuery(factory.createReachableRangeQueryForCombustion())
-                        .withReachableRangeQuery(factory.createReachableRangeQueryForElectricLimitTo2Hours())
-                        .build();
-        //end::doc_create_batch_reachable_range_query[]
-    }
+    protected BatchRoutesSpecification getReachableRangeBatchRouteSpecification() {
+        ReachableRangeSpecificationFactory factory = new ReachableRangeSpecificationFactory();
 
+        List<ReachableRangeSpecification> batchRoutesSpecifications = new ArrayList<>();
+        batchRoutesSpecifications.add(factory.createReachableRangeSpecificationForElectric());
+        batchRoutesSpecifications.add(factory.createReachableRangeSpecificationForCombustion());
+        batchRoutesSpecifications.add(factory.createReachableRangeSpecificationForElectricLimitTo2Hours());
+
+        return
+                //tag::doc_create_batch_reachable_range_specification[]
+                new BatchRoutesSpecification.Builder()
+                        .reachableRangeSpecifications(batchRoutesSpecifications)
+                        .build();
+        //end::doc_create_batch_reachable_range_specification[]
+    }
 }

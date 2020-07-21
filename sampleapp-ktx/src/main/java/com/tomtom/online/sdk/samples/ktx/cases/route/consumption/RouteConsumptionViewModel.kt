@@ -21,15 +21,15 @@ class RouteConsumptionViewModel(application: Application) : RouteViewModel(appli
     fun planRouteForCombustion() {
         exampleType = ExampleType.COMBUSTION
 
-        val routeQuery = RouteConsumptionQueryFactory().prepareCombustionQuery()
-        planRoute(routeQuery)
+        val routeSpecification = RouteConsumptionSpecificationFactory().prepareCombustionRouteSpecification()
+        planRoute(routeSpecification)
     }
 
     fun planRouteForElectric() {
         exampleType = ExampleType.ELECTRIC
 
-        val routeQuery = RouteConsumptionQueryFactory().prepareElectricQuery()
-        planRoute(routeQuery)
+        val routeSpecification = RouteConsumptionSpecificationFactory().prepareElectricRouteSpecification()
+        planRoute(routeSpecification)
     }
 
     enum class ExampleType {

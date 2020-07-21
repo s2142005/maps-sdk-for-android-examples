@@ -15,7 +15,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProviders
 import com.tomtom.online.sdk.map.TomtomMap
-import com.tomtom.online.sdk.routing.data.FullRoute
+import com.tomtom.online.sdk.routing.route.information.FullRoute
 import com.tomtom.online.sdk.samples.ktx.MapAction
 import com.tomtom.online.sdk.samples.ktx.cases.route.RouteDrawer
 import com.tomtom.online.sdk.samples.ktx.cases.route.RouteFragment

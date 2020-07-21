@@ -24,6 +24,7 @@ public final class Locations {
     public final static LatLng ROTTERDAM_LOCATION = new LatLng(51.935966, 4.482865);
     public final static LatLng AMSTERDAM_LOCATION = new LatLng(52.377271, 4.909466);
     public final static LatLng AMSTERDAM_CENTER_LOCATION = new LatLng(52.373154, 4.890659);
+    public final static LatLng EINDHOVEN_LOCATION = new LatLng(51.441642, 5.4697225);
     public final static LatLng OSLO_LOCATION = new LatLng(59.911491, 10.757933);
     public final static LatLng LONDON_LOCATION = new LatLng(51.507351, -0.127758);
     public final static LatLng AMSTERDAM_HENK_SNEEVLIETWEG = new LatLng(52.345971, 4.844899);

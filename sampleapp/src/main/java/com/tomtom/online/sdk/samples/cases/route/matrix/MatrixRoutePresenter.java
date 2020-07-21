@@ -26,9 +26,10 @@ import com.tomtom.online.sdk.map.MarkerBuilder;
 import com.tomtom.online.sdk.map.OnMapReadyCallback;
 import com.tomtom.online.sdk.map.Polyline;
 import com.tomtom.online.sdk.map.TomtomMap;
-import com.tomtom.online.sdk.routing.data.matrix.MatrixRoutingQuery;
-import com.tomtom.online.sdk.routing.data.matrix.MatrixRoutingQueryBuilder;
-import com.tomtom.online.sdk.routing.data.matrix.MatrixRoutingResponse;
+import com.tomtom.online.sdk.routing.RoutingException;
+import com.tomtom.online.sdk.routing.matrix.MatrixRoutesCallback;
+import com.tomtom.online.sdk.routing.matrix.MatrixRoutesPlan;
+import com.tomtom.online.sdk.routing.matrix.MatrixRoutesSpecification;
 import com.tomtom.online.sdk.samples.R;
 import com.tomtom.online.sdk.samples.activities.FunctionalExampleModel;
 import com.tomtom.online.sdk.samples.cases.route.matrix.data.AmsterdamPoi;
@@ -38,8 +39,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
 import static com.tomtom.online.sdk.map.MapConstants.ORIENTATION_SOUTH;
@@ -58,9 +57,7 @@ public class MatrixRoutePresenter implements LifecycleObserver, MatrixResponseDi
     private MatrixResponseDisplay responseHandler;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-
     MatrixRoutePresenter(final MatrixRouteView view) {
-
         if (view == null) {
             throw new IllegalArgumentException("Fragment can't be null.");
         }
@@ -72,7 +69,7 @@ public class MatrixRoutePresenter implements LifecycleObserver, MatrixResponseDi
         responseHandler = new MatrixResponseDisplay(context, this);
 
         routesTableViewModel = ViewModelProviders.of(view.getFragment()).get(MatrixRoutesTableViewModel.class);
-        routesTableViewModel.getLastMatrixRoutingResponse().observe(view.getFragment(), matrixRoutingResponse -> view.runOnTomtomMap(tomtomMap
+        routesTableViewModel.getLastMatrixRoutingPlan().observe(view.getFragment(), matrixRoutingResponse -> view.runOnTomtomMap(tomtomMap
                 -> proceedWithResponse(matrixRoutingResponse)));
     }
 
@@ -104,9 +101,9 @@ public class MatrixRoutePresenter implements LifecycleObserver, MatrixResponseDi
                 AmsterdamPoi.RESTAURANT_WAGAMAMA,
                 AmsterdamPoi.RESTAURANT_ENVY);
 
-        MatrixRoutingQuery query = MatrixRoutingQueryBuilder.create(origins, destinations).build();
+        MatrixRoutesSpecification specification = new MatrixRoutesSpecification.Builder(origins, destinations).build();
         changeTableHeadersToOneToMany();
-        proceedWithQuery(query);
+        proceedWithSpecification(specification);
     }
 
     private void changeTableHeadersToOneToMany() {
@@ -119,26 +116,25 @@ public class MatrixRoutePresenter implements LifecycleObserver, MatrixResponseDi
         List<LatLng> origins = provideLocationsListForPois(AmsterdamPoi.PASSENGER_ONE, AmsterdamPoi.PASSENGER_TWO);
         List<LatLng> destinations = provideLocationsListForPois(AmsterdamPoi.TAXI_ONE, AmsterdamPoi.TAXI_TWO);
 
-        //tag::doc_matrix_query[]
-        MatrixRoutingQuery query = MatrixRoutingQueryBuilder.create(origins, destinations).build();
-        //end::doc_matrix_query[]
+        //tag::doc_matrix_specification[]
+        MatrixRoutesSpecification matrixRoutesSpecification = new MatrixRoutesSpecification.Builder(origins, destinations).build();
+        //end::doc_matrix_specification[]
 
         changeTableHeadersToManyToMany();
-        proceedWithQuery(query);
+        proceedWithSpecification(matrixRoutesSpecification);
     }
 
     private void changeTableHeadersToManyToMany() {
         view.changeTableHeadersToManyToMany();
     }
 
-    private void proceedWithQuery(MatrixRoutingQuery query) {
-        Disposable subscribe = routeRequester.performMatrixRouting(query, routingResponseConsumer, onError);
-        compositeDisposable.add(subscribe);
+    private void proceedWithSpecification(MatrixRoutesSpecification specification) {
+        routeRequester.performMatrixRouting(specification, routeCallback);
     }
 
-    private void proceedWithResponse(MatrixRoutingResponse matrixRoutingResponse) {
-        view.updateMatrixRoutesList(matrixRoutingResponse);
-        responseHandler.displayPoiOnMap(matrixRoutingResponse);
+    private void proceedWithResponse(MatrixRoutesPlan matrixRoutesPlan) {
+        view.updateMatrixRoutesList(matrixRoutesPlan);
+        responseHandler.displayPoiOnMap(matrixRoutesPlan);
         setupMapAfterResponse();
     }
 
@@ -169,13 +165,6 @@ public class MatrixRoutePresenter implements LifecycleObserver, MatrixResponseDi
         view.hideMatrixRoutesTable();
     }
 
-    private Consumer<MatrixRoutingResponse> routingResponseConsumer = matrixRoutingResponse -> routesTableViewModel.saveMatrixRoutingResponse(matrixRoutingResponse);
-
-    private Consumer<Throwable> onError = throwable -> {
-        Timber.e(throwable, throwable.getMessage());
-        Toast.makeText(context, R.string.matrix_routing_error_message, Toast.LENGTH_LONG).show();
-    };
-
     private void confMapPadding(TomtomMap tomtomMap) {
         int offsetTop = context.getResources().getDimensionPixelSize(R.dimen.matrix_routing_box_height);
         int offsetBottom = context.getResources().getDimensionPixelSize(R.dimen.control_top_panel_height);
@@ -183,6 +172,19 @@ public class MatrixRoutePresenter implements LifecycleObserver, MatrixResponseDi
 
         tomtomMap.setPadding(offsetTop, offsetDefault, offsetBottom, offsetDefault);
     }
+
+    private MatrixRoutesCallback routeCallback = new MatrixRoutesCallback() {
+        @Override
+        public void onSuccess(@NonNull MatrixRoutesPlan routePlan) {
+            routesTableViewModel.saveMatrixRoutingPlan(routePlan);
+        }
+
+        @Override
+        public void onError(@NonNull RoutingException error) {
+            Timber.e(error);
+            Toast.makeText(context, R.string.matrix_routing_error_message, Toast.LENGTH_LONG).show();
+        }
+    };
 
     @Override
     public void onPolylineForPoiCreated(Polyline polyline) {
@@ -196,7 +198,7 @@ public class MatrixRoutePresenter implements LifecycleObserver, MatrixResponseDi
 
     interface MatrixRouteView extends Contextable {
 
-        void updateMatrixRoutesList(MatrixRoutingResponse matrixRoutingResponse);
+        void updateMatrixRoutesList(MatrixRoutesPlan matrixRoutesPlan);
 
         void changeTableHeadersToOneToMany();
 

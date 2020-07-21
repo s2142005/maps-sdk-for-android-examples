@@ -12,7 +12,8 @@ package com.tomtom.online.sdk.samples.cases;
 
 import androidx.annotation.StringRes;
 
-import com.tomtom.online.sdk.routing.data.FullRoute;
+import com.tomtom.online.sdk.routing.route.information.FullRoute;
+
 
 public interface RoutingUiListener {
     void showRoutingInProgressDialog();

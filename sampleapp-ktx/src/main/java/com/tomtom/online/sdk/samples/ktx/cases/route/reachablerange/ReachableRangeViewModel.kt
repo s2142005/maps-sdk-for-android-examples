@@ -13,38 +13,54 @@ package com.tomtom.online.sdk.samples.ktx.cases.route.reachablerange
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import com.tomtom.online.sdk.data.reachablerange.ReachableRangeQuery
-import com.tomtom.online.sdk.data.reachablerange.ReachableRangeResponse
+import com.tomtom.online.sdk.routing.RoutingException
+import com.tomtom.online.sdk.routing.reachablerange.ReachableAreaCallback
+import com.tomtom.online.sdk.routing.reachablerange.ReachableRangeArea
+import com.tomtom.online.sdk.routing.reachablerange.ReachableRangeSpecification
 import com.tomtom.online.sdk.samples.ktx.cases.route.RoutingRequester
+import com.tomtom.online.sdk.samples.ktx.utils.arch.Resource
 import com.tomtom.online.sdk.samples.ktx.utils.arch.ResourceLiveData
 
 class ReachableRangeViewModel(application: Application) : AndroidViewModel(application) {
-
-    var reachableResponse = ResourceLiveData<ReachableRangeResponse>()
+    var reachableRangeArea = ResourceLiveData<ReachableRangeArea>()
 
     fun planReachableRangeForCombustion() {
-        val reachableRangeQuery = ReachableRangeQueryFactory()
-                .createReachableRangeQueryForCombustion()
+        val reachableRangeSpecification = ReachableRangeSpecificationFactory()
+            .createReachableRangeSpecificationForCombustion()
 
-        planReachableRange(reachableRangeQuery)
+        planReachableRange(reachableRangeSpecification)
     }
 
     fun planReachableRangeForElectric() {
-        val reachableRangeQuery = ReachableRangeQueryFactory()
-                .createReachableRangeQueryForElectric()
+        val reachableRangeSpecification = ReachableRangeSpecificationFactory()
+            .createReachableRangeSpecificationForElectric()
 
-        planReachableRange(reachableRangeQuery)
+        planReachableRange(reachableRangeSpecification)
     }
 
     fun planReachableRangeForElectricWithLimitedTime() {
-        val reachableRangeQuery = ReachableRangeQueryFactory()
-                .createReachableRangeQueryForElectricLimitTo2Hours()
+        val reachableRangeSpecification = ReachableRangeSpecificationFactory()
+            .createReachableRangeSpecificationForElectricLimitTo2Hours()
 
-        planReachableRange(reachableRangeQuery)
+        planReachableRange(reachableRangeSpecification)
     }
 
-    private fun planReachableRange(reachableRangeQuery: ReachableRangeQuery) {
-        RoutingRequester(getApplication()).planReachableRange(reachableRangeQuery, reachableResponse)
+    private fun planReachableRange(reachableRangeSpecification: ReachableRangeSpecification) {
+        reachableRangeArea.value = Resource.loading(null)
+
+        RoutingRequester(getApplication())
+            .planReachableRange(reachableRangeSpecification, reachableAreaCallback)
     }
 
+    //tag::doc_reachable_range_result_listener[]
+    private val reachableAreaCallback = object : ReachableAreaCallback {
+        override fun onSuccess(reachableArea: ReachableRangeArea) {
+            reachableRangeArea.value = Resource.success(reachableArea)
+        }
+
+        override fun onError(error: RoutingException) {
+            reachableRangeArea.value = Resource.error(null, Error(error.message))
+        }
+    }
+    //end::doc_reachable_range_result_listener[]
 }

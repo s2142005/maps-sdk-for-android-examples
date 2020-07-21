@@ -12,6 +12,7 @@ package com.tomtom.online.sdk.samples.cases.route.modes;
 
 import android.graphics.Color;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 
 import com.google.common.collect.ImmutableList;
@@ -21,13 +22,16 @@ import com.tomtom.online.sdk.map.RouteStyle;
 import com.tomtom.online.sdk.map.RouteStyleBuilder;
 import com.tomtom.online.sdk.map.TomtomMap;
 import com.tomtom.online.sdk.map.model.LineCapType;
-import com.tomtom.online.sdk.routing.data.RouteQuery;
-import com.tomtom.online.sdk.routing.data.TravelMode;
+import com.tomtom.online.sdk.routing.RoutingException;
+import com.tomtom.online.sdk.routing.route.RouteCallback;
+import com.tomtom.online.sdk.routing.route.RoutePlan;
+import com.tomtom.online.sdk.routing.route.RouteSpecification;
+import com.tomtom.online.sdk.routing.route.description.TravelMode;
 import com.tomtom.online.sdk.samples.R;
 import com.tomtom.online.sdk.samples.activities.FunctionalExampleModel;
 import com.tomtom.online.sdk.samples.cases.RoutePlannerPresenter;
 import com.tomtom.online.sdk.samples.cases.RoutingUiListener;
-import com.tomtom.online.sdk.samples.cases.route.RouteQueryFactory;
+import com.tomtom.online.sdk.samples.cases.route.RouteSpecificationFactory;
 import com.tomtom.online.sdk.samples.fragments.FunctionalExampleFragment;
 import com.tomtom.online.sdk.samples.routes.AmsterdamToRotterdamRouteConfig;
 import com.tomtom.online.sdk.samples.routes.RouteConfigExample;
@@ -57,7 +61,7 @@ public class RouteTravelModesPresenter extends RoutePlannerPresenter {
     public void bind(FunctionalExampleFragment view, TomtomMap map) {
         super.bind(view, map);
         if (travelMode != null) {
-            displayRoute(travelMode);
+            displayRouteWithDefaultStyle(travelMode);
         }
     }
 
@@ -66,35 +70,36 @@ public class RouteTravelModesPresenter extends RoutePlannerPresenter {
         return new RouteTravelModesFunctionalExample();
     }
 
-    private void processRoute(TravelMode travelMode, RouteConfigExample routeConfig, RouteStyle routeStyle) {
+    private void initRoutingProgressDialog() {
         tomtomMap.clearRoute();
         viewModel.showRoutingInProgressDialog();
-        showRoute(getRouteQuery(travelMode, routeConfig), routeStyle, loadIcon(R.drawable.ic_map_route_departure), loadIcon(R.drawable.ic_map_route_destination));
     }
 
-    void displayRoute(TravelMode travelMode, RouteStyle routeStyle) {
-        processRoute(travelMode, WEST_HAARLEM_TO_HAARLEM_KLEVERPARK_ROUTE, routeStyle);
+    void displayRouteWithDefaultStyle(TravelMode travelMode) {
+        initRoutingProgressDialog();
+        showRoute(getRouteSpecification(travelMode, AMSTERDAM_TO_ROTTERDAM_ROUTE));
     }
 
-    void displayRoute(TravelMode travelMode) {
-        processRoute(travelMode, AMSTERDAM_TO_ROTTERDAM_ROUTE, RouteStyle.DEFAULT_ROUTE_STYLE);
+    void displayRouteWithCustomStyle() {
+        initRoutingProgressDialog();
+        showRoute(getRouteSpecification(TravelMode.PEDESTRIAN, WEST_HAARLEM_TO_HAARLEM_KLEVERPARK_ROUTE), routeCallback);
     }
 
     @VisibleForTesting
-    protected RouteQuery getRouteQuery(TravelMode travelMode, RouteConfigExample routeConfig) {
-        return RouteQueryFactory.createRouteTravelModesQuery(travelMode, routeConfig);
+    protected RouteSpecification getRouteSpecification(TravelMode travelMode, RouteConfigExample routeConfig) {
+        return RouteSpecificationFactory.createRouteTravelModesSpecification(travelMode, routeConfig);
     }
 
     public void startTravelModeTruck() {
-        displayRoute(TravelMode.TRUCK);
+        displayRouteWithDefaultStyle(TravelMode.TRUCK);
     }
 
     public void startTravelModePedestrian() {
-        displayRoute(TravelMode.PEDESTRIAN, createDottedRouteStyle());
+        displayRouteWithCustomStyle();
     }
 
     public void startTravelModeCar() {
-        displayRoute(TravelMode.CAR);
+        displayRouteWithDefaultStyle(TravelMode.CAR);
     }
 
     public TravelMode getTravelMode() {
@@ -119,4 +124,15 @@ public class RouteTravelModesPresenter extends RoutePlannerPresenter {
                 .build();
     }
 
+    private RouteCallback routeCallback = new RouteCallback() {
+        @Override
+        public void onSuccess(@NonNull RoutePlan routePlan) {
+            displayRoutes(routePlan, createDottedRouteStyle(), loadIcon(R.drawable.ic_map_route_departure), loadIcon(R.drawable.ic_map_route_destination));
+        }
+
+        @Override
+        public void onError(@NonNull RoutingException error) {
+            proceedWithError(error.getMessage());
+        }
+    };
 }

@@ -13,8 +13,8 @@ package com.tomtom.online.sdk.samples.cases.runtimestyle.zorder;
 import com.tomtom.online.sdk.map.Icon;
 import com.tomtom.online.sdk.map.RouteStyle;
 import com.tomtom.online.sdk.map.TomtomMap;
-import com.tomtom.online.sdk.routing.data.FullRoute;
-import com.tomtom.online.sdk.routing.data.RouteQueryBuilder;
+import com.tomtom.online.sdk.routing.route.RouteSpecification;
+import com.tomtom.online.sdk.routing.route.information.FullRoute;
 import com.tomtom.online.sdk.samples.activities.FunctionalExampleModel;
 import com.tomtom.online.sdk.samples.cases.RoutePlannerPresenter;
 import com.tomtom.online.sdk.samples.cases.RoutingUiListener;
@@ -25,7 +25,6 @@ import com.tomtom.online.sdk.samples.fragments.FunctionalExampleFragment;
 import com.tomtom.online.sdk.samples.utils.Locations;
 
 public class ZOrderPresenter extends RoutePlannerPresenter {
-
 
     public static double DEFAULT_ZOOM_LEVEL_FOR_EXAMPLE = 7.5;
 
@@ -64,7 +63,11 @@ public class ZOrderPresenter extends RoutePlannerPresenter {
     private void planExampleRoute() {
         tomtomMap.clearRoute();
         viewModel.showRoutingInProgressDialog();
-        showRoute(RouteQueryBuilder.create(Locations.SAN_FRANCISCO, Locations.SANTA_CRUZ).build());
+        showRoute(createDefaultRoute());
+    }
+
+    private RouteSpecification createDefaultRoute() {
+        return new RouteSpecification.Builder(Locations.SAN_FRANCISCO, Locations.SANTA_CRUZ).build();
     }
 
     @Override

@@ -12,42 +12,55 @@
 package com.tomtom.online.sdk.samples.ktx.cases.route.avoids
 
 import android.app.Application
-import com.tomtom.online.sdk.routing.data.*
+import com.tomtom.online.sdk.routing.route.RouteCalculationDescriptor
+import com.tomtom.online.sdk.routing.route.RouteDescriptor
+import com.tomtom.online.sdk.routing.route.RouteSpecification
+import com.tomtom.online.sdk.routing.route.calculation.InstructionsType
+import com.tomtom.online.sdk.routing.route.description.AvoidType
+import com.tomtom.online.sdk.routing.route.diagnostic.ReportType
 import com.tomtom.online.sdk.samples.ktx.cases.route.RouteViewModel
 import com.tomtom.online.sdk.samples.ktx.utils.routes.AmsterdamToOsloRouteConfig
 
 class RouteAvoidViewModel(application: Application) : RouteViewModel(application) {
 
     fun avoidMotorways() {
-        planRoute(Avoid.MOTORWAYS)
+        planRoute(AvoidType.MOTORWAYS)
     }
 
     fun avoidTollRoads() {
-        planRoute(Avoid.TOLL_ROADS)
+        planRoute(AvoidType.TOLL_ROADS)
     }
 
     fun avoidFerries() {
-        planRoute(Avoid.FERRIES)
+        planRoute(AvoidType.FERRIES)
     }
 
-    private fun planRoute(avoidType: Avoid) {
-        val routeQuery = prepareRouteQuery(avoidType)
-        planRoute(routeQuery)
+    private fun planRoute(avoidType: AvoidType) {
+        val routeSpecification = prepareRouteSpecification(avoidType)
+        planRoute(routeSpecification)
     }
 
-    private fun prepareRouteQuery(avoidType: Avoid): RouteQuery {
+    private fun prepareRouteSpecification(avoidType: AvoidType): RouteSpecification {
         val origin = AmsterdamToOsloRouteConfig().origin
         val destination = AmsterdamToOsloRouteConfig().destination
         //tag::doc_route_avoids[]
-        val routeQuery = RouteQueryBuilder.create(origin, destination)
-                .withMaxAlternatives(MAX_ALTERNATIVES)
-                .withReport(Report.NONE)
-                .withInstructionsType(InstructionsType.NONE)
-                .withAvoidType(avoidType)
-                .withConsiderTraffic(false)
-                .build()
+        val routeDescriptor = RouteDescriptor.Builder()
+            .avoidType(listOf(avoidType))
+            .considerTraffic(false)
+            .build()
+
+        val routeCalculationDescriptor = RouteCalculationDescriptor.Builder()
+            .routeDescription(routeDescriptor)
+            .maxAlternatives(MAX_ALTERNATIVES)
+            .reportType(ReportType.NONE)
+            .instructionType(InstructionsType.NONE)
+            .build()
+
+        val routeSpecification = RouteSpecification.Builder(origin, destination)
+            .routeCalculationDescriptor(routeCalculationDescriptor)
+            .build()
         //end::doc_route_avoids[]
-        return routeQuery
+        return routeSpecification
     }
 
     companion object {

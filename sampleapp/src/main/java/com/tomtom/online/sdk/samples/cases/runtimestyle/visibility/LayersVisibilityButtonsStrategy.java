@@ -10,10 +10,10 @@
  */
 package com.tomtom.online.sdk.samples.cases.runtimestyle.visibility;
 
+import androidx.annotation.NonNull;
+
 import com.tomtom.online.sdk.map.style.layers.Visibility;
 import com.tomtom.online.sdk.samples.cases.ButtonStrategy;
-
-import org.jetbrains.annotations.NotNull;
 
 import timber.log.Timber;
 
@@ -42,7 +42,7 @@ public class LayersVisibilityButtonsStrategy extends ButtonStrategy {
         }
     }
 
-    @NotNull
+    @NonNull
     private Visibility isLayerVisible(int i, boolean[] newValues) {
         return newValues[i] ? Visibility.VISIBLE : Visibility.NONE;
     }

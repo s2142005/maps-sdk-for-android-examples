@@ -13,8 +13,12 @@ package com.tomtom.online.sdk.samples.ktx.cases.route
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import com.tomtom.online.sdk.routing.data.FullRoute
-import com.tomtom.online.sdk.routing.data.RouteQuery
+import com.tomtom.online.sdk.routing.RoutingException
+import com.tomtom.online.sdk.routing.route.RouteCallback
+import com.tomtom.online.sdk.routing.route.RoutePlan
+import com.tomtom.online.sdk.routing.route.RouteSpecification
+import com.tomtom.online.sdk.routing.route.information.FullRoute
+import com.tomtom.online.sdk.samples.ktx.utils.arch.Resource
 import com.tomtom.online.sdk.samples.ktx.utils.arch.ResourceLiveData
 import com.tomtom.online.sdk.samples.ktx.utils.arch.SingleLiveEvent
 
@@ -23,14 +27,25 @@ abstract class RouteViewModel(application: Application) : AndroidViewModel(appli
     internal val routes = ResourceLiveData<List<FullRoute>>()
     internal var selectedRoute = SingleLiveEvent<Pair<FullRoute, Int>>()
 
-    fun planRoute(routeQuery: RouteQuery) {
+    fun planRoute(routeSpecification: RouteSpecification) {
         selectedRoute.value = null
-        RoutingRequester(getApplication()).planRoutes(routeQuery, routes)
+        routes.value = Resource.loading(null)
+        RoutingRequester(getApplication()).planRoute(routeSpecification, routeCallback)
     }
 
     fun selectRouteIdx(idx: Int) {
         routes.value?.data?.let { filteredRoutes ->
             selectedRoute.value = Pair(filteredRoutes[idx], idx)
+        }
+    }
+
+    private val routeCallback = object : RouteCallback {
+        override fun onSuccess(routePlan: RoutePlan) {
+            routes.value = Resource.success(routePlan.routes)
+        }
+
+        override fun onError(error: RoutingException) {
+            routes.value = Resource.error(null, Error(error.message))
         }
     }
 }

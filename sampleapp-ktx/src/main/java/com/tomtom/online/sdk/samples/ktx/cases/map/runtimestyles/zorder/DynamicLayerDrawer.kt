@@ -12,7 +12,7 @@ package com.tomtom.online.sdk.samples.ktx.cases.map.runtimestyles.zorder
 
 import android.content.Context
 import com.tomtom.online.sdk.map.TomtomMap
-import com.tomtom.online.sdk.routing.data.FullRoute
+import com.tomtom.online.sdk.routing.route.information.FullRoute
 import com.tomtom.online.sdk.samples.ktx.cases.map.runtimestyles.zorder.layer.GeoJsonLayerCreator
 import com.tomtom.online.sdk.samples.ktx.cases.map.runtimestyles.zorder.layer.ImageLayerCreator
 

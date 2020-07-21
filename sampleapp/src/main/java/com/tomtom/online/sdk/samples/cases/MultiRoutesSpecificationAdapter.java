@@ -11,21 +11,21 @@
 package com.tomtom.online.sdk.samples.cases;
 
 import com.tomtom.online.sdk.map.RouteStyle;
-import com.tomtom.online.sdk.routing.data.RouteQuery;
+import com.tomtom.online.sdk.routing.route.RouteSpecification;
 
-public class MultiRoutesQueryAdapter {
+public class MultiRoutesSpecificationAdapter {
 
-    private final RouteQuery routeQuery;
+    private final RouteSpecification routeSpecification;
     private RouteStyle routeStyle = RouteStyle.DEFAULT_ROUTE_STYLE;
     private String routeTag = "";
     private boolean primary;
 
-    public MultiRoutesQueryAdapter(RouteQuery routeQuery) {
-        this.routeQuery = routeQuery;
+    public MultiRoutesSpecificationAdapter(RouteSpecification routeSpecification) {
+        this.routeSpecification = routeSpecification;
     }
 
-    public RouteQuery getRouteQuery() {
-        return routeQuery;
+    public RouteSpecification getRouteSpecification() {
+        return routeSpecification;
     }
 
     public void setRouteStyle(RouteStyle routeStyle) {

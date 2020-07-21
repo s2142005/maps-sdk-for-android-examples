@@ -14,7 +14,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.RadioButton;
 
 import androidx.annotation.NonNull;
@@ -23,10 +22,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.tomtom.online.sdk.map.MapFragment;
 import com.tomtom.online.sdk.map.MapView;
 import com.tomtom.online.sdk.map.OnMapReadyCallback;
-import com.tomtom.online.sdk.routing.data.matrix.MatrixRoutingResponse;
+import com.tomtom.online.sdk.routing.matrix.MatrixRoutesPlan;
 import com.tomtom.online.sdk.samples.R;
 import com.tomtom.online.sdk.samples.activities.ActionBarModel;
 import com.tomtom.online.sdk.samples.cases.map.traffic.incident.helpers.FunctionalExampleFragmentAdapter;
@@ -108,8 +106,8 @@ public class MatrixRouteFragment extends FunctionalExampleFragmentAdapter implem
         }
     }
 
-    public void updateMatrixRoutesList(MatrixRoutingResponse matrixRoutingResponse) {
-        matrixRoutesListAdapter.updateListWithMatrixResponse(matrixRoutingResponse);
+    public void updateMatrixRoutesList(MatrixRoutesPlan matrixRoutesPlan) {
+        matrixRoutesListAdapter.updateListWithMatrixResponse(matrixRoutesPlan);
         matrixRoutesList.setVisibility(View.VISIBLE);
         matrixRouteTableHeader.setVisibility(View.VISIBLE);
     }

@@ -21,7 +21,7 @@ import com.tomtom.core.maps.gestures.GesturesDetectionSettings
 import com.tomtom.core.maps.gestures.GesturesDetectionSettingsBuilder
 import com.tomtom.online.sdk.common.location.LatLng
 import com.tomtom.online.sdk.map.*
-import com.tomtom.online.sdk.routing.data.FullRoute
+import com.tomtom.online.sdk.routing.route.information.FullRoute
 import com.tomtom.online.sdk.samples.ktx.MapAction
 import com.tomtom.online.sdk.samples.ktx.cases.ExampleFragment
 import com.tomtom.online.sdk.samples.ktx.cases.route.RouteDrawer
@@ -68,7 +68,7 @@ abstract class DrivingFragment<T : DrivingViewModel> : ExampleFragment() {
 
     private fun confViewModel() {
         viewModel = routingViewModel()
-        viewModel.routes.observe(this, ResourceObserver(
+        viewModel.routes.observe(viewLifecycleOwner, ResourceObserver(
             hideLoading = ::hideLoading,
             showLoading = ::showLoading,
             onSuccess = ::processRoutingResults,

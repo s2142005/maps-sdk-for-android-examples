@@ -13,12 +13,12 @@ package com.tomtom.online.sdk.samples.cases.route.types;
 import androidx.annotation.VisibleForTesting;
 
 import com.tomtom.online.sdk.map.TomtomMap;
-import com.tomtom.online.sdk.routing.data.RouteQuery;
-import com.tomtom.online.sdk.routing.data.RouteType;
+import com.tomtom.online.sdk.routing.route.RouteSpecification;
+import com.tomtom.online.sdk.routing.route.description.RouteType;
 import com.tomtom.online.sdk.samples.activities.FunctionalExampleModel;
 import com.tomtom.online.sdk.samples.cases.RoutePlannerPresenter;
 import com.tomtom.online.sdk.samples.cases.RoutingUiListener;
-import com.tomtom.online.sdk.samples.cases.route.RouteQueryFactory;
+import com.tomtom.online.sdk.samples.cases.route.RouteSpecificationFactory;
 import com.tomtom.online.sdk.samples.fragments.FunctionalExampleFragment;
 import com.tomtom.online.sdk.samples.routes.AmsterdamToRotterdamRouteConfig;
 
@@ -47,12 +47,12 @@ public class RouteTypesPresenter extends RoutePlannerPresenter {
     void displayRoute(RouteType routeType) {
         tomtomMap.clearRoute();
         viewModel.showRoutingInProgressDialog();
-        showRoute(getRouteQuery(routeType));
+        showRoute(getRouteSpecification(routeType));
     }
 
     @VisibleForTesting
-    protected RouteQuery getRouteQuery(RouteType routeType) {
-        return RouteQueryFactory.createRouteTypesQuery(routeType, new AmsterdamToRotterdamRouteConfig());
+    protected RouteSpecification getRouteSpecification(RouteType routeType) {
+        return RouteSpecificationFactory.createRouteTypesSpecification(routeType, new AmsterdamToRotterdamRouteConfig());
     }
 
     public void startRoutingShortest() {

@@ -21,10 +21,10 @@ import com.tomtom.online.sdk.samples.ktx.utils.routes.Locations
 
 class ReachableRangeDrawer(private val tomtomMap: TomtomMap) {
 
-    fun drawPolygonForReachableRange(coordinates: Array<LatLng>) {
+    fun drawPolygonForReachableRange(coordinates: List<LatLng>) {
         tomtomMap.overlaySettings.addOverlay(
                 PolygonBuilder.create()
-                        .coordinates(coordinates.asList())
+                        .coordinates(coordinates)
                         .color(OVERLAYS_COLOR)
                         .opacity(OVERLAYS_OPACITY)
                         .build()

@@ -12,7 +12,12 @@
 package com.tomtom.online.sdk.samples.ktx.cases.route.types
 
 import android.app.Application
-import com.tomtom.online.sdk.routing.data.*
+import com.tomtom.online.sdk.routing.route.RouteCalculationDescriptor
+import com.tomtom.online.sdk.routing.route.RouteDescriptor
+import com.tomtom.online.sdk.routing.route.RouteSpecification
+import com.tomtom.online.sdk.routing.route.calculation.InstructionsType
+import com.tomtom.online.sdk.routing.route.description.RouteType
+import com.tomtom.online.sdk.routing.route.diagnostic.ReportType
 import com.tomtom.online.sdk.samples.ktx.cases.route.RouteViewModel
 import com.tomtom.online.sdk.samples.ktx.utils.routes.AmsterdamToRotterdamRouteConfig
 
@@ -31,22 +36,29 @@ class RouteTypesViewModel(application: Application) : RouteViewModel(application
     }
 
     private fun planRoute(routeType: RouteType) {
-        val routeQuery = prepareRouteQuery(routeType)
-        planRoute(routeQuery)
+        val routeSpecification = prepareRouteSpecification(routeType)
+        planRoute(routeSpecification)
     }
 
-    private fun prepareRouteQuery(routeType: RouteType): RouteQuery {
+    private fun prepareRouteSpecification(routeType: RouteType): RouteSpecification {
         val origin = AmsterdamToRotterdamRouteConfig().origin
         val destination = AmsterdamToRotterdamRouteConfig().destination
         //tag::doc_route_type[]
-        val routeQuery = RouteQueryBuilder.create(origin, destination)
-                .withReport(Report.EFFECTIVE_SETTINGS)
-                .withInstructionsType(InstructionsType.TEXT)
-                .withRouteType(routeType)
-                .withConsiderTraffic(false)
-                .build()
-        //end::doc_route_type[]
-        return routeQuery
-    }
+        val routeDescriptor = RouteDescriptor.Builder()
+            .routeType(routeType)
+            .considerTraffic(false)
+            .build()
 
+        val routeCalculationDescriptor = RouteCalculationDescriptor.Builder()
+            .routeDescription(routeDescriptor)
+            .reportType(ReportType.EFFECTIVE_SETTINGS)
+            .instructionType(InstructionsType.TEXT)
+            .build()
+
+        val routeSpecification = RouteSpecification.Builder(origin, destination)
+            .routeCalculationDescriptor(routeCalculationDescriptor)
+            .build()
+        //end::doc_route_type[]
+        return routeSpecification
+    }
 }

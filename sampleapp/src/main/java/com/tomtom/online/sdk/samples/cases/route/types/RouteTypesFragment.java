@@ -14,7 +14,7 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 
-import com.tomtom.online.sdk.routing.data.RouteType;
+import com.tomtom.online.sdk.routing.route.description.RouteType;
 import com.tomtom.online.sdk.samples.R;
 import com.tomtom.online.sdk.samples.cases.RoutePlannerFragment;
 import com.tomtom.online.sdk.samples.utils.views.OptionsButtonsView;

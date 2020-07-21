@@ -14,11 +14,11 @@ import android.view.View
 import android.widget.TextView
 import com.tomtom.online.sdk.map.BaseMarkerBalloon
 import com.tomtom.online.sdk.map.Marker
-import com.tomtom.online.sdk.map.R
 import com.tomtom.online.sdk.map.SingleLayoutBalloonViewAdapter
 import com.tomtom.online.sdk.samples.ktx.cases.search.openinghours.OpeningHoursMarkerBalloon.Companion.KEY_TEXT_HOURS
 import com.tomtom.online.sdk.samples.ktx.cases.search.openinghours.OpeningHoursMarkerBalloon.Companion.KEY_TEXT_WEEKDAYS
 import com.tomtom.online.sdk.samples.ktx.cases.search.openinghours.OpeningHoursMarkerBalloon.Companion.KEY_TITLE
+import com.tomtom.sdk.examples.R
 
 class OpeningHoursBalloonViewAdapter : SingleLayoutBalloonViewAdapter(R.layout.opening_hours_balloon_layout) {
 

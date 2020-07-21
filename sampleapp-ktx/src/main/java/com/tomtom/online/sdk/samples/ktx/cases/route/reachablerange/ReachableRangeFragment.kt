@@ -22,6 +22,7 @@ import com.tomtom.online.sdk.data.reachablerange.ReachableRangeResponse
 import com.tomtom.online.sdk.map.Icon
 import com.tomtom.online.sdk.map.MapConstants
 import com.tomtom.online.sdk.routing.ReachableRangeResultListener
+import com.tomtom.online.sdk.routing.reachablerange.ReachableRangeArea
 import com.tomtom.online.sdk.samples.ktx.MapAction
 import com.tomtom.online.sdk.samples.ktx.cases.ExampleFragment
 import com.tomtom.online.sdk.samples.ktx.utils.arch.Resource
@@ -35,8 +36,10 @@ class ReachableRangeFragment : ExampleFragment() {
 
     lateinit var viewModel: ReachableRangeViewModel
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.default_map_fragment, container, false)
     }
 
@@ -69,20 +72,23 @@ class ReachableRangeFragment : ExampleFragment() {
 
     private fun confViewModel() {
         viewModel = ViewModelProviders.of(this).get(ReachableRangeViewModel::class.java)
-        viewModel.reachableResponse.observe(this, ResourceObserver(
-            hideLoading = ::hideLoading,
-            showLoading = ::showLoading,
-            onSuccess = ::processReachableRangeResults,
-            onError = ::showError))
+        viewModel.reachableRangeArea.observe(
+            viewLifecycleOwner, ResourceObserver(
+                hideLoading = ::hideLoading,
+                showLoading = ::showLoading,
+                onSuccess = ::processReachableRangeResults,
+                onError = ::showError
+            )
+        )
     }
 
-    private fun processReachableRangeResults(reachableRangeResponse: ReachableRangeResponse) {
-        val coordinatesList = reachableRangeResponse.result.boundary
+    private fun processReachableRangeResults(reachableRangeArea: ReachableRangeArea) {
+        val coordinatesList = reachableRangeArea.boundary
         drawReachableRange(coordinatesList)
         centerOnBoundingBox(coordinatesList)
     }
 
-    private fun drawReachableRange(coordinatesList: Array<LatLng>) {
+    private fun drawReachableRange(coordinatesList: List<LatLng>) {
         mainViewModel.applyOnMap(MapAction {
             //remove old results
             clear()
@@ -104,7 +110,7 @@ class ReachableRangeFragment : ExampleFragment() {
         })
     }
 
-    private fun centerOnBoundingBox(coordinatesList: Array<LatLng>) {
+    private fun centerOnBoundingBox(coordinatesList: List<LatLng>) {
         val boundingBox = BoundingBox.fromCoordinates(coordinatesList.toList())
 
         mainViewModel.applyOnMap(MapAction {
@@ -112,18 +118,4 @@ class ReachableRangeFragment : ExampleFragment() {
             centerOnLocation(boundingBox.center, zoomLevel)
         })
     }
-
-    @Suppress("unused")
-    //tag::doc_reachable_range_result_listener[]
-    private val reachableRangeResultListener = object : ReachableRangeResultListener {
-        override fun onReachableRangeResponse(reachableRangeResponse: ReachableRangeResponse) {
-            processReachableRangeResults(reachableRangeResponse)
-        }
-
-        override fun onReachableRangeError(error: Throwable) {
-            Resource.error(null, Error(error.message))
-        }
-    }
-    //end::doc_reachable_range_result_listener[]
-
 }

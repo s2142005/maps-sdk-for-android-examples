@@ -19,7 +19,6 @@ import androidx.annotation.VisibleForTesting;
 import com.google.common.base.Optional;
 import com.tomtom.online.sdk.common.location.BoundingBox;
 import com.tomtom.online.sdk.common.location.LatLng;
-import com.tomtom.online.sdk.data.reachablerange.ReachableRangeResponse;
 import com.tomtom.online.sdk.map.CameraPosition;
 import com.tomtom.online.sdk.map.Icon;
 import com.tomtom.online.sdk.map.MapConstants;
@@ -29,15 +28,16 @@ import com.tomtom.online.sdk.map.Polygon;
 import com.tomtom.online.sdk.map.PolygonBuilder;
 import com.tomtom.online.sdk.map.TomtomMap;
 import com.tomtom.online.sdk.routing.OnlineRoutingApi;
-import com.tomtom.online.sdk.routing.ReachableRangeResultListener;
 import com.tomtom.online.sdk.routing.RoutingApi;
+import com.tomtom.online.sdk.routing.RoutingException;
+import com.tomtom.online.sdk.routing.reachablerange.ReachableAreaCallback;
+import com.tomtom.online.sdk.routing.reachablerange.ReachableRangeArea;
 import com.tomtom.online.sdk.samples.R;
 import com.tomtom.online.sdk.samples.activities.BaseFunctionalExamplePresenter;
 import com.tomtom.online.sdk.samples.activities.FunctionalExampleModel;
 import com.tomtom.online.sdk.samples.fragments.FunctionalExampleFragment;
 import com.tomtom.online.sdk.samples.utils.Locations;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class ReachableRangePresenter extends BaseFunctionalExamplePresenter {
@@ -47,14 +47,14 @@ public class ReachableRangePresenter extends BaseFunctionalExamplePresenter {
     private static final float OVERLAYS_OPACITY = 0.5f;
     private static final String OVERLAY_TAG = "RANGE_OVERLAY";
 
-    private ReachableRangeQueryFactory reachableRangeQueryFactory;
+    private ReachableRangeSpecificationFactory reachableRangeSpecificationFactory;
     private RoutingApi routingApi;
 
     @Override
     public void bind(FunctionalExampleFragment view, TomtomMap map) {
         super.bind(view, map);
         routingApi = provideOnlineRoutingApi(view);
-        reachableRangeQueryFactory = provideReachableRangeQueryFactory();
+        reachableRangeSpecificationFactory = provideReachableRangeSpecificationFactory();
         if (!view.isMapRestored()) {
             centerOnLocation(Locations.AMSTERDAM_CENTER_LOCATION, MapConstants.DEFAULT_ZOOM_LEVEL);
         }
@@ -73,8 +73,8 @@ public class ReachableRangePresenter extends BaseFunctionalExamplePresenter {
 
     @NonNull
     @VisibleForTesting
-    protected ReachableRangeQueryFactory provideReachableRangeQueryFactory() {
-        return new ReachableRangeQueryFactory();
+    protected ReachableRangeSpecificationFactory provideReachableRangeSpecificationFactory() {
+        return new ReachableRangeSpecificationFactory();
     }
 
     @NonNull
@@ -97,21 +97,21 @@ public class ReachableRangePresenter extends BaseFunctionalExamplePresenter {
     }
 
     public void startReachableRangeCalculationForElectric() {
-        routingApi.findReachableRange(reachableRangeQueryFactory.createReachableRangeQueryForElectric(),
-                reachableRangeResultListener);
+        routingApi.planReachableRange(reachableRangeSpecificationFactory.createReachableRangeSpecificationForElectric(),
+                reachableAreaCallback);
     }
 
     public void startReachableRangeCalculationForFuel() {
         //tag::doc_route_api_call[]
-        routingApi.findReachableRange(
-                reachableRangeQueryFactory.createReachableRangeQueryForCombustion(),
-                reachableRangeResultListener);
+        routingApi.planReachableRange(
+                reachableRangeSpecificationFactory.createReachableRangeSpecificationForCombustion(),
+                reachableAreaCallback);
         //end::doc_route_api_call[]
     }
 
     public void startReachableRangeCalculationFor2HLimit() {
-        routingApi.findReachableRange(reachableRangeQueryFactory.createReachableRangeQueryForElectricLimitTo2Hours(),
-                reachableRangeResultListener);
+        routingApi.planReachableRange(reachableRangeSpecificationFactory.createReachableRangeSpecificationForElectricLimitTo2Hours(),
+                reachableAreaCallback);
     }
 
     @VisibleForTesting
@@ -134,14 +134,14 @@ public class ReachableRangePresenter extends BaseFunctionalExamplePresenter {
 
     @VisibleForTesting
     //tag::doc_reachable_range_result_listener[]
-    protected ReachableRangeResultListener reachableRangeResultListener = new ReachableRangeResultListener() {
+    protected ReachableAreaCallback reachableAreaCallback = new ReachableAreaCallback() {
         @Override
-        public void onReachableRangeResponse(ReachableRangeResponse response) {
-            doActionOnReachableRangeResponse(response);
+        public void onSuccess(@NonNull ReachableRangeArea reachableArea) {
+            doActionOnReachableRangeResponse(reachableArea);
         }
 
         @Override
-        public void onReachableRangeError(Throwable error) {
+        public void onError(@NonNull RoutingException error) {
             doActionOnReachableRangeError();
         }
     };
@@ -152,8 +152,8 @@ public class ReachableRangePresenter extends BaseFunctionalExamplePresenter {
         getView().enableOptionsView();
     }
 
-    private void doActionOnReachableRangeResponse(ReachableRangeResponse response) {
-        List<LatLng> coordinates = Arrays.asList(response.getResult().getBoundary());
+    private void doActionOnReachableRangeResponse(ReachableRangeArea reachableArea) {
+        List<LatLng> coordinates = reachableArea.getBoundary();
         drawPolygonForReachableRange(coordinates);
         centerOnBoundingBox(coordinates);
     }

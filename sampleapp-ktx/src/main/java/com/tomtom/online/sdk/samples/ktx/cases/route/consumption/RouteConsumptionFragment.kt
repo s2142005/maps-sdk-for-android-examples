@@ -16,7 +16,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
-import com.tomtom.online.sdk.routing.data.FullRoute
+import com.tomtom.online.sdk.routing.route.information.FullRoute
 import com.tomtom.online.sdk.samples.ktx.MapAction
 import com.tomtom.online.sdk.samples.ktx.cases.route.RouteFragment
 import com.tomtom.online.sdk.samples.ktx.cases.route.consumption.RouteConsumptionViewModel.ExampleType
@@ -28,10 +28,12 @@ import kotlinx.android.synthetic.main.default_routing_fragment.*
 class RouteConsumptionFragment : RouteFragment<RouteConsumptionViewModel>() {
 
     override fun routingViewModel(): RouteConsumptionViewModel = ViewModelProviders.of(this)
-            .get(RouteConsumptionViewModel::class.java)
+        .get(RouteConsumptionViewModel::class.java)
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.default_routing_fragment, container, false)
     }
 
@@ -71,19 +73,19 @@ class RouteConsumptionFragment : RouteFragment<RouteConsumptionViewModel>() {
     }
 
     override fun updateInfoBarSubtitle(route: FullRoute) {
-        val routeSummary = route.summary
+        route.summary?.let { routeSummary ->
+            val distance = routeSummary.lengthInMeters
+            val formattedDistance = DistanceFormatter.format(distance)
 
-        val distance = routeSummary.lengthInMeters
-        val formattedDistance = DistanceFormatter.format(distance)
-
-        when (viewModel.exampleType) {
-            ExampleType.ELECTRIC ->
-                infoBarView.subtitleTextView.text =
+            when (viewModel.exampleType) {
+                ExampleType.ELECTRIC ->
+                    infoBarView.subtitleTextView.text =
                         formatText(routeSummary.batteryConsumptionInkWh, CONSUMPTION_UNIT_ELECTRIC, formattedDistance)
 
-            ExampleType.COMBUSTION ->
-                infoBarView.subtitleTextView.text =
+                ExampleType.COMBUSTION ->
+                    infoBarView.subtitleTextView.text =
                         formatText(routeSummary.fuelConsumptionInLiters, CONSUMPTION_UNIT_COMBUSTION, formattedDistance)
+            }
         }
     }
 

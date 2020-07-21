@@ -13,18 +13,18 @@ package com.tomtom.online.sdk.samples.cases.route.avoid;
 import androidx.annotation.VisibleForTesting;
 
 import com.tomtom.online.sdk.map.TomtomMap;
-import com.tomtom.online.sdk.routing.data.Avoid;
-import com.tomtom.online.sdk.routing.data.RouteQuery;
+import com.tomtom.online.sdk.routing.route.RouteSpecification;
+import com.tomtom.online.sdk.routing.route.description.AvoidType;
 import com.tomtom.online.sdk.samples.activities.FunctionalExampleModel;
 import com.tomtom.online.sdk.samples.cases.RoutePlannerPresenter;
 import com.tomtom.online.sdk.samples.cases.RoutingUiListener;
-import com.tomtom.online.sdk.samples.cases.route.RouteQueryFactory;
+import com.tomtom.online.sdk.samples.cases.route.RouteSpecificationFactory;
 import com.tomtom.online.sdk.samples.fragments.FunctionalExampleFragment;
 import com.tomtom.online.sdk.samples.routes.AmsterdamToOsloRouteConfig;
 
 public class RouteAvoidsPresenter extends RoutePlannerPresenter {
 
-    private Avoid avoidOnRoute;
+    private AvoidType avoidOnRoute;
 
     public RouteAvoidsPresenter(RoutingUiListener viewModel) {
         super(viewModel);
@@ -43,34 +43,34 @@ public class RouteAvoidsPresenter extends RoutePlannerPresenter {
         return new RouteAvoidsFunctionalExample();
     }
 
-    void displayRoute(Avoid routeAvoid) {
+    void displayRoute(AvoidType routeAvoid) {
         tomtomMap.clearRoute();
         viewModel.showRoutingInProgressDialog();
-        showRoute(getRouteQuery(routeAvoid));
+        showRoute(getRouteSpecification(routeAvoid));
     }
 
     @VisibleForTesting
-    protected RouteQuery getRouteQuery(Avoid routeAvoid) {
-       return RouteQueryFactory.createAvoidRouteQuery(routeAvoid,  new AmsterdamToOsloRouteConfig());
+    protected RouteSpecification getRouteSpecification(AvoidType routeAvoid) {
+        return RouteSpecificationFactory.createAvoidRouteSpecification(routeAvoid, new AmsterdamToOsloRouteConfig());
     }
 
     public void startRoutingAvoidTollRoads() {
-        displayRoute(Avoid.TOLL_ROADS);
+        displayRoute(AvoidType.TOLL_ROADS);
     }
 
     public void startRoutingAvoidFerries() {
-        displayRoute(Avoid.FERRIES);
+        displayRoute(AvoidType.FERRIES);
     }
 
     public void startRoutingAvoidMotorways() {
-        displayRoute(Avoid.MOTORWAYS);
+        displayRoute(AvoidType.MOTORWAYS);
     }
 
-    public Avoid getAvoid() {
+    public AvoidType getAvoid() {
         return avoidOnRoute;
     }
 
-    public void setAvoid(Avoid avoidOnRoute) {
+    public void setAvoid(AvoidType avoidOnRoute) {
         this.avoidOnRoute = avoidOnRoute;
     }
 

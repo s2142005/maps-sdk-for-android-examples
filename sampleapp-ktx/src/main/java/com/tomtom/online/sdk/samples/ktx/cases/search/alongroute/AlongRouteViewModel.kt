@@ -12,12 +12,14 @@
 package com.tomtom.online.sdk.samples.ktx.cases.search.alongroute
 
 import android.app.Application
-import com.tomtom.online.sdk.routing.data.FullRoute
-import com.tomtom.online.sdk.routing.data.InstructionsType
-import com.tomtom.online.sdk.routing.data.Report
-import com.tomtom.online.sdk.routing.data.RouteQueryBuilder
+import com.tomtom.online.sdk.routing.RoutingException
+import com.tomtom.online.sdk.routing.route.*
+import com.tomtom.online.sdk.routing.route.calculation.InstructionsType
+import com.tomtom.online.sdk.routing.route.diagnostic.ReportType
+import com.tomtom.online.sdk.routing.route.information.FullRoute
 import com.tomtom.online.sdk.samples.ktx.cases.route.RoutingRequester
 import com.tomtom.online.sdk.samples.ktx.cases.search.SearchViewModel
+import com.tomtom.online.sdk.samples.ktx.utils.arch.Resource
 import com.tomtom.online.sdk.samples.ktx.utils.arch.ResourceListLiveData
 import com.tomtom.online.sdk.samples.ktx.utils.arch.ResourceLiveData
 import com.tomtom.online.sdk.samples.ktx.utils.routes.AmsterdamToHaarlemRouteConfig
@@ -61,33 +63,55 @@ class AlongRouteViewModel(application: Application) : SearchViewModel(applicatio
 
     fun planDefaultRoute() {
         val routeConfig = AmsterdamToHaarlemRouteConfig()
-        val routeQueryBuilder = prepareRouteQuery(routeConfig)
-        routingRequester.planRoute(routeQueryBuilder, routingResult)
+        val routeSpecification = prepareRouteQuery(routeConfig)
+
+        results.value = Resource.loading(null)
+        routingRequester.planRoute(routeSpecification, routeCallback)
     }
 
     private fun prepareAlongRouteQueryForTerm(term: String, route: FullRoute): AlongRouteSearchQuery {
         //tag::doc_search_along_route_query[]
-        val query = AlongRouteSearchQueryBuilder(term,
-                route.coordinates,
-                SEARCH_MAX_DETOUR_TIME)
-                .withLimit(SEARCH_MAX_LIMIT)
-                .build()
+        val query = AlongRouteSearchQueryBuilder(
+            term,
+            route.getCoordinates(),
+            SEARCH_MAX_DETOUR_TIME
+        )
+            .withLimit(SEARCH_MAX_LIMIT)
+            .build()
         //end::doc_search_along_route_query[]
         return query
     }
 
-    private fun prepareRouteQuery(routeConfig: RouteConfigExample) =
-            RouteQueryBuilder
-                    .create(routeConfig.origin, routeConfig.destination)
-                    .withReport(Report.NONE)
-                    .withInstructionsType(InstructionsType.NONE)
-                    .withConsiderTraffic(false)
+    private fun prepareRouteQuery(routeConfig: RouteConfigExample): RouteSpecification {
+        val routeDescriptor = RouteDescriptor.Builder()
+            .considerTraffic(false)
+            .build()
+
+        val routeCalculationDescriptor = RouteCalculationDescriptor.Builder()
+            .routeDescription(routeDescriptor)
+            .reportType(ReportType.NONE)
+            .instructionType(InstructionsType.NONE)
+            .build()
+
+        return RouteSpecification.Builder(routeConfig.origin, routeConfig.destination)
+            .routeCalculationDescriptor(routeCalculationDescriptor)
+            .build()
+    }
+
+    private val routeCallback = object : RouteCallback {
+        override fun onSuccess(routePlan: RoutePlan) {
+            routingResult.value = Resource.success(routePlan.routes.first())
+        }
+
+        override fun onError(error: RoutingException) {
+            routingResult.value = Resource.error(null, Error(error.message))
+        }
+    }
 
     companion object {
         private const val SEARCH_MAX_DETOUR_TIME = 3600
         private const val SEARCH_MAX_LIMIT = 10
     }
-
 }
 
 

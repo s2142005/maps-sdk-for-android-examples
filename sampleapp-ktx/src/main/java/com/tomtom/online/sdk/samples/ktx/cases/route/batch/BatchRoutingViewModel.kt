@@ -13,48 +13,62 @@ package com.tomtom.online.sdk.samples.ktx.cases.route.batch
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import com.tomtom.online.sdk.routing.data.batch.BatchRoutingQuery
-import com.tomtom.online.sdk.routing.data.batch.BatchRoutingResponse
+import com.tomtom.online.sdk.routing.RoutingException
+import com.tomtom.online.sdk.routing.batch.BatchRoutesCallback
+import com.tomtom.online.sdk.routing.batch.BatchRoutesPlan
+import com.tomtom.online.sdk.routing.batch.BatchRoutesSpecification
 import com.tomtom.online.sdk.samples.ktx.cases.route.RouteViewModel
 import com.tomtom.online.sdk.samples.ktx.cases.route.RoutingRequester
+import com.tomtom.online.sdk.samples.ktx.utils.arch.Resource
 import com.tomtom.online.sdk.samples.ktx.utils.arch.ResourceLiveData
 import com.tomtom.sdk.examples.R
 
 class BatchRoutingViewModel(application: Application) : RouteViewModel(application) {
 
-    val result = ResourceLiveData<BatchRoutingResponse>()
-    var routesDescription = MutableLiveData<IntArray>(intArrayOf())
+    val result = ResourceLiveData<BatchRoutesPlan>()
+    var routesDescription = MutableLiveData(intArrayOf())
 
     private val routingRequester = RoutingRequester(application)
 
     fun startRoutingDependsOnTravelMode() {
         routesDescription.value = intArrayOf(R.string.batch_travel_mode_car_text, R.string.batch_travel_mode_truck_text, R.string.batch_travel_mode_pedestrian_text)
 
-        val routeQuery = BatchRoutingQueryFactory()
-                .prepareTravelModeBatchRouteQuery()
+        val batchRoutesSpecification = BatchRoutingSpecificationFactory()
+                .prepareTravelModeBatchRouteSpecification()
 
-        planBatchRoutes(routeQuery)
+        planBatchRoutes(batchRoutesSpecification)
     }
 
     fun startRoutingDependsOnRouteType() {
         routesDescription.value = intArrayOf(R.string.batch_route_type_fastest, R.string.batch_route_type_shortest, R.string.batch_route_type_eco)
-        val routeQuery = BatchRoutingQueryFactory()
-                .prepareRouteTypeBatchRouteQuery()
+        val batchRoutesSpecification = BatchRoutingSpecificationFactory()
+                .prepareRouteTypeBatchRouteSpecification()
 
-        planBatchRoutes(routeQuery)
+        planBatchRoutes(batchRoutesSpecification)
     }
 
     fun startRoutingDependsOnAvoids() {
         routesDescription.value = intArrayOf(R.string.batch_avoid_motorways, R.string.batch_avoid_toll_roads, R.string.batch_avoid_ferries)
 
-        val routeQueryBuilder = BatchRoutingQueryFactory()
-                .prepareAvoidsBatchRouteQuery()
+        val batchRoutesSpecification = BatchRoutingSpecificationFactory()
+                .prepareAvoidsBatchRouteSpecification()
 
-        planBatchRoutes(routeQueryBuilder)
+        planBatchRoutes(batchRoutesSpecification)
     }
 
-    private fun planBatchRoutes(batchRouteQuery: BatchRoutingQuery) {
+    private fun planBatchRoutes(batchRoutesSpecification: BatchRoutesSpecification) {
         selectedRoute.value = null
-        routingRequester.planBatchRoutes(batchRouteQuery, result)
+        result.value = Resource.loading(null)
+        routingRequester.planBatchRoutes(batchRoutesSpecification, batchRoutesCallback)
+    }
+
+    private val batchRoutesCallback = object : BatchRoutesCallback {
+        override fun onSuccess(routePlan: BatchRoutesPlan) {
+            result.value = Resource.success(routePlan)
+        }
+
+        override fun onError(error: RoutingException) {
+            result.value = Resource.error(null, Error(error.message))
+        }
     }
 }

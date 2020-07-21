@@ -31,9 +31,9 @@ public class RouteCustomizationFragment extends RoutePlannerFragment<RouteCustom
     public void onChange(final boolean[] oldValues, final boolean[] newValues) {
         presenter.centerOnDefaultLocation();
         if (newValues[0]) {
-            presenter.startRoutingWithBasicRoute();
+            presenter.displayDefaultRoute();
         } else if (newValues[1]) {
-            presenter.startRoutingWithCustomRoute();
+            presenter.displayCustomRoute();
         }
     }
 }

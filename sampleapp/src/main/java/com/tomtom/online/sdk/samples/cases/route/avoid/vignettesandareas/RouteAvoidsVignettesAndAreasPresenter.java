@@ -18,13 +18,13 @@ import com.tomtom.online.sdk.map.CameraPosition;
 import com.tomtom.online.sdk.map.MapConstants;
 import com.tomtom.online.sdk.map.PolylineBuilder;
 import com.tomtom.online.sdk.map.RouteStyleBuilder;
-import com.tomtom.online.sdk.routing.data.RouteQuery;
+import com.tomtom.online.sdk.routing.route.RouteSpecification;
 import com.tomtom.online.sdk.samples.R;
 import com.tomtom.online.sdk.samples.activities.FunctionalExampleModel;
 import com.tomtom.online.sdk.samples.cases.MultiRoutesPlannerPresenter;
-import com.tomtom.online.sdk.samples.cases.MultiRoutesQueryAdapter;
+import com.tomtom.online.sdk.samples.cases.MultiRoutesSpecificationAdapter;
 import com.tomtom.online.sdk.samples.cases.MultiRoutesRoutingUiListener;
-import com.tomtom.online.sdk.samples.cases.route.RouteQueryFactory;
+import com.tomtom.online.sdk.samples.cases.route.RouteSpecificationFactory;
 import com.tomtom.online.sdk.samples.routes.CzechRepublicToRomaniaRouteConfig;
 import com.tomtom.online.sdk.samples.routes.RouteConfigExample;
 
@@ -58,13 +58,13 @@ public class RouteAvoidsVignettesAndAreasPresenter extends MultiRoutesPlannerPre
     public void startRoutingNoAvoids() {
         setupRouteDisplay();
 
-        RouteQuery baseRouteQuery = RouteQueryFactory.createBaseRouteForAvoidsVignettesAndAreas(routeConfig);
+        RouteSpecification routeSpecification = RouteSpecificationFactory.createBaseRouteForAvoidsVignettesAndAreas(routeConfig);
 
-        MultiRoutesQueryAdapter baseQueryAdapter = new MultiRoutesQueryAdapter(baseRouteQuery);
-        baseQueryAdapter.setRouteTag(view.getString(R.string.label_no_avoids));
-        baseQueryAdapter.setPrimary(true);
+        MultiRoutesSpecificationAdapter baseSpecificationAdapter = new MultiRoutesSpecificationAdapter(routeSpecification);
+        baseSpecificationAdapter.setRouteTag(view.getString(R.string.label_no_avoids));
+        baseSpecificationAdapter.setPrimary(true);
 
-        showRoutes(baseQueryAdapter);
+        showRoutes(baseSpecificationAdapter);
     }
 
     @Override
@@ -84,20 +84,19 @@ public class RouteAvoidsVignettesAndAreasPresenter extends MultiRoutesPlannerPre
         avoidVignettesList.add("CZE");
         avoidVignettesList.add("SVK");
 
-        RouteQuery routeQuery = RouteQueryFactory.createRouteForAvoidsVignettesAndAreas(avoidVignettesList, routeConfig);
+        RouteSpecification routeSpecification = RouteSpecificationFactory.createRouteForAvoidsVignettesAndAreas(avoidVignettesList, routeConfig);
         //end::doc_route_avoid_vignettes[]
-        RouteQuery baseRouteQuery = RouteQueryFactory.createBaseRouteForAvoidsVignettesAndAreas(routeConfig);
+        RouteSpecification baseRouteSpecification = RouteSpecificationFactory.createBaseRouteForAvoidsVignettesAndAreas(routeConfig);
 
-        MultiRoutesQueryAdapter baseQueryAdapter = new MultiRoutesQueryAdapter(baseRouteQuery);
-        baseQueryAdapter.setRouteTag(view.getString(R.string.label_no_avoids));
+        MultiRoutesSpecificationAdapter baseSpecificationAdapter = new MultiRoutesSpecificationAdapter(baseRouteSpecification);
+        baseSpecificationAdapter.setRouteTag(view.getString(R.string.label_no_avoids));
 
-        MultiRoutesQueryAdapter withAvoidingVignettesQueryAdapter = new MultiRoutesQueryAdapter(routeQuery);
-        withAvoidingVignettesQueryAdapter.setRouteStyle(RouteStyleBuilder.create().withFillColor(Color.MAGENTA).build());
-        withAvoidingVignettesQueryAdapter.setRouteTag(view.getString(R.string.label_with_avoiding_vignettes));
-        withAvoidingVignettesQueryAdapter.setPrimary(true);
+        MultiRoutesSpecificationAdapter withAvoidingVignettesSpecificationAdapter = new MultiRoutesSpecificationAdapter(routeSpecification);
+        withAvoidingVignettesSpecificationAdapter.setRouteStyle(RouteStyleBuilder.create().withFillColor(Color.MAGENTA).build());
+        withAvoidingVignettesSpecificationAdapter.setRouteTag(view.getString(R.string.label_with_avoiding_vignettes));
+        withAvoidingVignettesSpecificationAdapter.setPrimary(true);
 
-
-        showRoutes(baseQueryAdapter, withAvoidingVignettesQueryAdapter);
+        showRoutes(baseSpecificationAdapter, withAvoidingVignettesSpecificationAdapter);
     }
 
     public void startRoutingAvoidArea() {
@@ -115,20 +114,23 @@ public class RouteAvoidsVignettesAndAreasPresenter extends MultiRoutesPlannerPre
         //tag::doc_route_avoid_area[]
         BoundingBox boundingBox = new BoundingBox(ARAD_TOP_LEFT_NEIGHBORHOOD, ARAD_BOTTOM_RIGHT_NEIGHBORHOOD);
 
-        RouteQuery routeQuery = RouteQueryFactory.createRouteForAvoidsArea(boundingBox, routeConfig);
+        List<BoundingBox> avoidAreas = new ArrayList<>();
+        avoidAreas.add(boundingBox);
+
+        RouteSpecification routeSpecification = RouteSpecificationFactory.createRouteForAvoidsArea(avoidAreas, routeConfig);
         //end::doc_route_avoid_area[]
 
-        RouteQuery baseRouteQuery = RouteQueryFactory.createBaseRouteForAvoidsVignettesAndAreas(routeConfig);
+        RouteSpecification baseRouteSpecification = RouteSpecificationFactory.createBaseRouteForAvoidsVignettesAndAreas(routeConfig);
 
-        MultiRoutesQueryAdapter baseQueryAdapter = new MultiRoutesQueryAdapter(baseRouteQuery);
-        baseQueryAdapter.setRouteTag(view.getString(R.string.label_no_avoids));
+        MultiRoutesSpecificationAdapter baseSpecificationAdapter = new MultiRoutesSpecificationAdapter(baseRouteSpecification);
+        baseSpecificationAdapter.setRouteTag(view.getString(R.string.label_no_avoids));
 
-        MultiRoutesQueryAdapter withAvoidingAreaQueryAdapter = new MultiRoutesQueryAdapter(routeQuery);
-        withAvoidingAreaQueryAdapter.setRouteStyle(RouteStyleBuilder.create().withFillColor(Color.GREEN).build());
-        withAvoidingAreaQueryAdapter.setRouteTag(view.getString(R.string.label_with_avoiding_area));
-        withAvoidingAreaQueryAdapter.setPrimary(true);
+        MultiRoutesSpecificationAdapter withAvoidingAreaSpecificationAdapter = new MultiRoutesSpecificationAdapter(routeSpecification);
+        withAvoidingAreaSpecificationAdapter.setRouteStyle(RouteStyleBuilder.create().withFillColor(Color.GREEN).build());
+        withAvoidingAreaSpecificationAdapter.setRouteTag(view.getString(R.string.label_with_avoiding_area));
+        withAvoidingAreaSpecificationAdapter.setPrimary(true);
 
-        showRoutes(baseQueryAdapter, withAvoidingAreaQueryAdapter);
+        showRoutes(baseSpecificationAdapter, withAvoidingAreaSpecificationAdapter);
     }
 
 }

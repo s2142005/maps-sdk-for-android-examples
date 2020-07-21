@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) TomTom International B.V., 2015.
+  ~ All rights reserved.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/balloon_margin"
+    android:layout_marginRight="@dimen/balloon_margin"
+    android:background="@drawable/center_balloon_bg"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent"
+        android:gravity="center"
+        android:minWidth="@dimen/balloon_min_width"
+        android:minHeight="@dimen/balloon_min_height"
+        android:paddingLeft="@dimen/offset_default_small"
+        android:paddingTop="@dimen/offset_default_small"
+        android:paddingRight="@dimen/offset_default_small"
+        android:paddingBottom="@dimen/offset_default_small">
+
+        <LinearLayout
+            android:id="@+id/balloon_items_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/balloon_text_container"
+                android:layout_width="@dimen/opening_hours_balloon_width"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/text_weekdays"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/opening_hours_balloon_text_size" />
+
+                <TextView
+                    android:id="@+id/text_hours"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/opening_hours_balloon_text_size" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

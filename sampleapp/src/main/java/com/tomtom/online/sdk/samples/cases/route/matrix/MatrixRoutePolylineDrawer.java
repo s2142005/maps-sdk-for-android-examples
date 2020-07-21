@@ -13,12 +13,13 @@ package com.tomtom.online.sdk.samples.cases.route.matrix;
 import android.graphics.Color;
 
 import com.tomtom.online.sdk.common.location.LatLng;
+import com.tomtom.online.sdk.common.util.DateFormatter;
 import com.tomtom.online.sdk.map.Polyline;
 import com.tomtom.online.sdk.map.PolylineBuilder;
-import com.tomtom.online.sdk.routing.data.Summary;
-import com.tomtom.online.sdk.routing.data.matrix.MatrixRoutingResponse;
-import com.tomtom.online.sdk.routing.data.matrix.MatrixRoutingResult;
-import com.tomtom.online.sdk.routing.data.matrix.MatrixRoutingResultKey;
+import com.tomtom.online.sdk.routing.matrix.MatrixRoutesPlan;
+import com.tomtom.online.sdk.routing.matrix.route.MatrixRoute;
+import com.tomtom.online.sdk.routing.matrix.route.MatrixRouteKey;
+import com.tomtom.online.sdk.routing.route.description.Summary;
 import com.tomtom.online.sdk.samples.cases.route.matrix.data.AmsterdamPoi;
 
 import org.joda.time.DateTime;
@@ -29,14 +30,13 @@ import java.util.List;
 class MatrixRoutePolylineDrawer {
 
     private final List<LatLng> originDestinationLine = new ArrayList<>();
-    private MatrixRoutingResponse matrixRoutingResponse;
-    private MatrixRoutingResultKey matrixRoutingResultKey;
+    private MatrixRoutesPlan matrixRoutesPlan;
+    private MatrixRouteKey matrixRoutingKey;
 
-    MatrixRoutePolylineDrawer(MatrixRoutingResponse matrixRoutingResponse, MatrixRoutingResultKey matrixRoutingResultKey) {
-        this.matrixRoutingResponse = matrixRoutingResponse;
-        this.matrixRoutingResultKey = matrixRoutingResultKey;
+    MatrixRoutePolylineDrawer(MatrixRoutesPlan matrixRoutesPlan, MatrixRouteKey matrixRoutingKey) {
+        this.matrixRoutesPlan = matrixRoutesPlan;
+        this.matrixRoutingKey = matrixRoutingKey;
     }
-
 
     Polyline createPolylineForPoi(AmsterdamPoi originPoi, AmsterdamPoi destinationPoi) {
         originDestinationLine.add(originPoi.getLocation());
@@ -44,24 +44,26 @@ class MatrixRoutePolylineDrawer {
 
         return PolylineBuilder.create()
                 .coordinates(originDestinationLine)
-                .color(determineColor(matrixRoutingResultKey, matrixRoutingResponse))
+                .color(determineColor(matrixRoutingKey, matrixRoutesPlan))
                 .build();
     }
 
-    private int determineColor(MatrixRoutingResultKey matrixRoutingResultKey, MatrixRoutingResponse matrixRoutingResponse) {
+    private int determineColor(MatrixRouteKey matrixRoutingKey, MatrixRoutesPlan matrixRoutesPlan) {
 
-        Summary summary = matrixRoutingResponse.getResults().get(matrixRoutingResultKey).getSummary();
+        Summary summary = matrixRoutesPlan.getRoutes().get(matrixRoutingKey).getSummary();
         if (summary == null) {
             return Color.GRAY;
         }
-        DateTime currentRouteEta = summary.getArrivalTimeWithZone();
+        DateFormatter dateFormatter = new DateFormatter();
+
+        DateTime currentRouteEta = dateFormatter.formatWithTimeZone(summary.getArrivalTime());
         DateTime minEta = currentRouteEta;
 
-        for (MatrixRoutingResultKey key : matrixRoutingResponse.getResults().keySet()) {
-            if (key.getOrigin().equals(matrixRoutingResultKey.getOrigin())) {
-                final MatrixRoutingResult result = matrixRoutingResponse.getResults().get(key);
+        for (MatrixRouteKey key : matrixRoutesPlan.getRoutes().keySet()) {
+            if (key.getOrigin().equals(matrixRoutingKey.getOrigin())) {
+                final MatrixRoute result = matrixRoutesPlan.getRoutes().get(key);
                 if (result.getSummary() != null) {
-                    final DateTime arrivalTime = result.getSummary().getArrivalTimeWithZone();
+                    final DateTime arrivalTime = dateFormatter.formatWithTimeZone(result.getSummary().getArrivalTime());
                     if (arrivalTime.isBefore(minEta)) {
                         minEta = arrivalTime;
                     }

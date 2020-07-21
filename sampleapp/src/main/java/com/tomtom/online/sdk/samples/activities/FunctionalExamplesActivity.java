@@ -30,6 +30,7 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.navigation.NavigationView;
 import com.google.common.base.Optional;
 import com.tomtom.online.sdk.common.location.LatLng;
+import com.tomtom.online.sdk.common.permission.AppPermissionHandler;
 import com.tomtom.online.sdk.map.ApiKeyType;
 import com.tomtom.online.sdk.map.BaseGpsPositionIndicator;
 import com.tomtom.online.sdk.map.CameraPosition;
@@ -100,6 +101,9 @@ public class FunctionalExamplesActivity extends AppCompatActivity
 
         mapView = new MapView(getApplicationContext());
         mapView.addOnMapReadyCallback(onMapReadyCallback);
+        mapView.addOnMapReadyCallback(tomtomMap -> {
+            initLocationPermissions();
+        });
         mapView.setId(R.id.map_view);
 
         FrameLayout frameLayout = findViewById(R.id.map_container);
@@ -107,6 +111,12 @@ public class FunctionalExamplesActivity extends AppCompatActivity
 
         Timber.d("Phone language " + Locale.getDefault().getLanguage());
         restoreState(savedInstanceState);
+    }
+
+    private void initLocationPermissions() {
+        AppPermissionHandler permissionHandler = new AppPermissionHandler(this);
+        permissionHandler.addLocationChecker();
+        permissionHandler.askForNotGrantedPermissions();
     }
 
     private void restoreState(Bundle savedInstanceState) {

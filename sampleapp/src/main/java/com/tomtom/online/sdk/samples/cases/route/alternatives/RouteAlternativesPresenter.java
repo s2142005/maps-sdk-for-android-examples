@@ -15,12 +15,12 @@ import androidx.annotation.VisibleForTesting;
 import com.tomtom.online.sdk.map.RouteSettings;
 import com.tomtom.online.sdk.map.TomtomMap;
 import com.tomtom.online.sdk.map.TomtomMapCallback;
-import com.tomtom.online.sdk.routing.data.FullRoute;
-import com.tomtom.online.sdk.routing.data.RouteQuery;
+import com.tomtom.online.sdk.routing.route.RouteSpecification;
+import com.tomtom.online.sdk.routing.route.information.FullRoute;
 import com.tomtom.online.sdk.samples.activities.FunctionalExampleModel;
 import com.tomtom.online.sdk.samples.cases.RoutePlannerPresenter;
 import com.tomtom.online.sdk.samples.cases.RoutingUiListener;
-import com.tomtom.online.sdk.samples.cases.route.RouteQueryFactory;
+import com.tomtom.online.sdk.samples.cases.route.RouteSpecificationFactory;
 import com.tomtom.online.sdk.samples.fragments.FunctionalExampleFragment;
 import com.tomtom.online.sdk.samples.routes.AmsterdamToRotterdamRouteConfig;
 import com.tomtom.online.sdk.samples.utils.RouteUtils;
@@ -52,12 +52,12 @@ public class RouteAlternativesPresenter extends RoutePlannerPresenter {
 
         tomtomMap.clearRoute();
         viewModel.showRoutingInProgressDialog();
-        showRoute(getRouteQuery(maxAlternatives));
+        showRoute(getRouteSpecification(maxAlternatives));
     }
 
     @VisibleForTesting
-    protected RouteQuery getRouteQuery(int maxAlternatives) {
-        return RouteQueryFactory.createRouteAlternativesQuery(maxAlternatives, new AmsterdamToRotterdamRouteConfig());
+    protected RouteSpecification getRouteSpecification(int maxAlternatives) {
+        return RouteSpecificationFactory.createRouteAlternativesSpecification(maxAlternatives, new AmsterdamToRotterdamRouteConfig());
     }
 
     private TomtomMapCallback.OnRouteClickListener onRouteClickListener = route -> {

@@ -12,7 +12,7 @@ package com.tomtom.online.sdk.samples.cases.search;
 
 import android.content.Context;
 
-import com.tomtom.online.sdk.routing.data.FullRoute;
+import com.tomtom.online.sdk.routing.route.information.FullRoute;
 import com.tomtom.online.sdk.search.OnlineSearchApi;
 import com.tomtom.online.sdk.search.SearchApi;
 import com.tomtom.online.sdk.search.api.alongroute.AlongRouteSearchResultListener;

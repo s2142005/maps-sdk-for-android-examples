@@ -32,6 +32,9 @@
             android:id="@+id/action_routingMenuFragment_to_routeWaypointsFragment"
             app:destination="@id/routeWaypointsFragment" />
         <action
+            android:id="@+id/action_routingMenuFragment_to_longEvFragment"
+            app:destination="@id/routeLongEvFragment" />
+        <action
             android:id="@+id/action_routingMenuFragment_to_routeAlternativesFragment"
             app:destination="@id/routeAlternativesFragment" />
         <action
@@ -71,6 +74,10 @@
         android:id="@+id/routeWaypointsFragment"
         android:name="com.tomtom.online.sdk.samples.ktx.cases.route.waypoints.RouteWaypointsFragment"
         android:label="@string/menu_route_waypoints_title" />
+    <fragment
+        android:id="@+id/routeLongEvFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.route.ev.LongEvFragment"
+        android:label="@string/menu_long_ev_title" />
     <fragment
         android:id="@+id/routeConsumptionFragment"
         android:name="com.tomtom.online.sdk.samples.ktx.cases.route.consumption.RouteConsumptionFragment"

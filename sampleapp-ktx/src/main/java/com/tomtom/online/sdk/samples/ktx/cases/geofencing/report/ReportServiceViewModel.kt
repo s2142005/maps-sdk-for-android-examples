@@ -44,5 +44,4 @@ class ReportServiceViewModel(application: Application) : AndroidViewModel(applic
     companion object {
         private const val QUERY_RANGE = 5000f //in meters
     }
-
 }

@@ -14,17 +14,17 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.tomtom.online.sdk.routing.data.matrix.MatrixRoutingResponse;
+import com.tomtom.online.sdk.routing.matrix.MatrixRoutesPlan;
 
 public class MatrixRoutesTableViewModel extends ViewModel {
 
-    private MutableLiveData<MatrixRoutingResponse> matrixRoutingResponseLiveData = new MutableLiveData<>();
+    private MutableLiveData<MatrixRoutesPlan> matrixRoutingResponseLiveData = new MutableLiveData<>();
 
-    public void saveMatrixRoutingResponse(MatrixRoutingResponse matrixRoutingResponse) {
-        matrixRoutingResponseLiveData.postValue(matrixRoutingResponse);
+    public void saveMatrixRoutingPlan(MatrixRoutesPlan matrixRoutesPlan) {
+        matrixRoutingResponseLiveData.postValue(matrixRoutesPlan);
     }
 
-    public LiveData<MatrixRoutingResponse> getLastMatrixRoutingResponse() {
+    public LiveData<MatrixRoutesPlan> getLastMatrixRoutingPlan() {
         return matrixRoutingResponseLiveData;
     }
 }

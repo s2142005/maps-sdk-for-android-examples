@@ -16,9 +16,10 @@ import com.tomtom.online.sdk.common.location.LatLng;
 import com.tomtom.online.sdk.map.CameraPosition;
 import com.tomtom.online.sdk.map.MapConstants;
 import com.tomtom.online.sdk.map.MarkerBuilder;
-import com.tomtom.online.sdk.routing.data.RouteQuery;
-import com.tomtom.online.sdk.routing.data.RouteQueryBuilder;
-import com.tomtom.online.sdk.routing.data.RouteResponse;
+import com.tomtom.online.sdk.routing.route.RouteCalculationDescriptor;
+import com.tomtom.online.sdk.routing.route.RouteDescriptor;
+import com.tomtom.online.sdk.routing.route.RoutePlan;
+import com.tomtom.online.sdk.routing.route.RouteSpecification;
 import com.tomtom.online.sdk.samples.activities.FunctionalExampleModel;
 import com.tomtom.online.sdk.samples.cases.RoutePlannerPresenter;
 import com.tomtom.online.sdk.samples.cases.RoutingUiListener;
@@ -66,12 +67,12 @@ public class RouteWaypointsPresenter extends RoutePlannerPresenter {
     public void initialOrder() {
         clearMap();
         addDefaultWaypoints();
-        displayRoute(getRouteQuery());
+        displayRoute(getRouteSpecification());
     }
 
     public void noWaypoints() {
         clearMap();
-        displayRoute(getRouteQuery());
+        displayRoute(getRouteSpecification());
     }
 
     private void clearMap() {
@@ -89,30 +90,38 @@ public class RouteWaypointsPresenter extends RoutePlannerPresenter {
                 .build());
     }
 
-    protected void displayRoute(RouteQuery routeQuery) {
+    protected void displayRoute(RouteSpecification routeSpecification) {
         viewModel.showRoutingInProgressDialog();
         tomtomMap.clearRoute();
-        showRoute(routeQuery);
+        showRoute(routeSpecification);
     }
 
     @Override
-    protected void displayRoutes(RouteResponse routeResponse) {
+    protected void displayRoutes(RoutePlan routePlan) {
         for (LatLng waypoint : wayPoints) {
             tomtomMap.addMarker(new MarkerBuilder(waypoint));
         }
-        super.displayRoutes(routeResponse);
+        super.displayRoutes(routePlan);
     }
 
     @VisibleForTesting
-    protected RouteQuery getRouteQuery() {
+    protected RouteSpecification getRouteSpecification() {
         AmsterdamToBerlinRouteConfig routeConfig = new AmsterdamToBerlinRouteConfig();
         //tag::doc_route_waypoints[]
-        LatLng[] wayPointsArray = wayPoints.toArray(new LatLng[wayPoints.size()]);
-        RouteQuery routeQuery = RouteQueryBuilder.create(routeConfig.getOrigin(), routeConfig.getDestination())
-                .withWayPoints(wayPointsArray)
-                .withConsiderTraffic(false).build();
+        RouteDescriptor routeDescriptor = new RouteDescriptor.Builder()
+                .considerTraffic(false)
+                .build();
+
+        RouteCalculationDescriptor routeCalculationDescriptor = new RouteCalculationDescriptor.Builder()
+                .routeDescription(routeDescriptor)
+                .waypoints(wayPoints)
+                .build();
+
+        RouteSpecification routeSpecification = new RouteSpecification.Builder(routeConfig.getOrigin(), routeConfig.getDestination())
+                .routeCalculationDescriptor(routeCalculationDescriptor)
+                .build();
         //end::doc_route_waypoints[]
-        return routeQuery;
+        return routeSpecification;
     }
 
     private void addWaypoint(LatLng latLng) {

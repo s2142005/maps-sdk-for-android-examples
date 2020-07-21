@@ -16,8 +16,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import com.tomtom.online.sdk.common.util.DateFormatter
 import com.tomtom.online.sdk.map.TomtomMap
-import com.tomtom.online.sdk.routing.data.FullRoute
+import com.tomtom.online.sdk.routing.route.information.FullRoute
 import com.tomtom.online.sdk.samples.ktx.MapAction
 import com.tomtom.online.sdk.samples.ktx.cases.ExampleFragment
 import com.tomtom.online.sdk.samples.ktx.utils.arch.ResourceObserver
@@ -33,8 +34,10 @@ abstract class RouteFragment<T : RouteViewModel> : ExampleFragment() {
 
     abstract fun routingViewModel(): T
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.default_routing_fragment, container, false)
     }
 
@@ -58,11 +61,14 @@ abstract class RouteFragment<T : RouteViewModel> : ExampleFragment() {
 
     private fun confViewModel() {
         viewModel = routingViewModel()
-        viewModel.routes.observe(this, ResourceObserver(
-            hideLoading = ::hideLoading,
-            showLoading = ::showLoading,
-            onSuccess = ::processRoutingResults,
-            onError = ::showError))
+        viewModel.routes.observe(
+            viewLifecycleOwner, ResourceObserver(
+                hideLoading = ::hideLoading,
+                showLoading = ::showLoading,
+                onSuccess = ::processRoutingResults,
+                onError = ::showError
+            )
+        )
         viewModel.selectedRoute.observe(this, Observer { highlightSelectedRoute() })
     }
 
@@ -134,18 +140,16 @@ abstract class RouteFragment<T : RouteViewModel> : ExampleFragment() {
     }
 
     open fun updateInfoBarSubtitle(route: FullRoute) {
-
         val routeSummary = route.summary
+        var arrivalTime = getString(R.string.routing_response_information_not_available)
+        var formattedDistance = getString(R.string.routing_response_information_not_available)
 
-        var arrivalTime = getString(R.string.routing_response_date_not_available)
-        val timeToArrival = routeSummary.arrivalTimeWithZone
-        timeToArrival?.let { arrivalTime = timeToArrival.toString(TIME_FORMAT) }
+        val dateWithTimezone = DateFormatter().formatWithTimeZone(routeSummary.arrivalTime)
+        arrivalTime = dateWithTimezone.toString(TIME_FORMAT)
+        formattedDistance = DistanceFormatter.format(routeSummary.lengthInMeters)
 
-        val distance = routeSummary.lengthInMeters
-        val formattedDistance = DistanceFormatter.format(distance)
-
-        infoBarView.subtitleTextView.text = getString(R.string.routing_info_bar_subtitle,
-                arrivalTime, formattedDistance)
+        infoBarView.subtitleTextView.text =
+            getString(R.string.routing_info_bar_subtitle, arrivalTime, formattedDistance)
     }
 
     open fun showInfoBar() {

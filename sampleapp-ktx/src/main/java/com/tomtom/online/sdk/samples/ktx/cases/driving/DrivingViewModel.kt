@@ -14,10 +14,14 @@ package com.tomtom.online.sdk.samples.ktx.cases.driving
 import android.app.Application
 import android.location.Location
 import androidx.lifecycle.AndroidViewModel
-import com.tomtom.online.sdk.routing.data.FullRoute
-import com.tomtom.online.sdk.routing.data.RouteQuery
-import com.tomtom.online.sdk.routing.data.RouteQueryBuilder
+import com.tomtom.online.sdk.routing.RoutingException
+import com.tomtom.online.sdk.routing.route.RouteCalculationDescriptor
+import com.tomtom.online.sdk.routing.route.RouteCallback
+import com.tomtom.online.sdk.routing.route.RoutePlan
+import com.tomtom.online.sdk.routing.route.RouteSpecification
+import com.tomtom.online.sdk.routing.route.information.FullRoute
 import com.tomtom.online.sdk.samples.ktx.cases.route.RoutingRequester
+import com.tomtom.online.sdk.samples.ktx.utils.arch.Resource
 import com.tomtom.online.sdk.samples.ktx.utils.arch.ResourceLiveData
 import com.tomtom.online.sdk.samples.ktx.utils.arch.SingleLiveEvent
 import com.tomtom.online.sdk.samples.ktx.utils.routes.LodzCityCenterRouteConfig
@@ -36,16 +40,29 @@ open class DrivingViewModel(application: Application) : AndroidViewModel(applica
     }
 
     fun planDefaultRoute() {
-        planRoute(
-                RouteQueryBuilder(DEFAULT_ROUTE.origin, DEFAULT_ROUTE.destination)
-                        .withWayPointsList(DEFAULT_ROUTE.waypoints)
-                        .build()
-        )
+        val routeSpecification = RouteSpecification.Builder(DEFAULT_ROUTE.origin, DEFAULT_ROUTE.destination)
+            .routeCalculationDescriptor(
+                RouteCalculationDescriptor.Builder()
+                    .waypoints(DEFAULT_ROUTE.waypoints!!)
+                    .build()
+            )
+            .build()
+        planRoute(routeSpecification)
     }
 
-    private fun planRoute(routeQuery: RouteQuery) {
+    private fun planRoute(routeSpecification: RouteSpecification) {
         selectedRoute.value = null
-        RoutingRequester(getApplication()).planRoutes(routeQuery, routes)
+        RoutingRequester(getApplication()).planRoute(routeSpecification, routeCallback)
+    }
+
+    private val routeCallback = object : RouteCallback {
+        override fun onSuccess(routePlan: RoutePlan) {
+            routes.value = Resource.success(routePlan.routes)
+        }
+
+        override fun onError(error: RoutingException) {
+            routes.value = Resource.error(null, Error(error.message))
+        }
     }
 }
 

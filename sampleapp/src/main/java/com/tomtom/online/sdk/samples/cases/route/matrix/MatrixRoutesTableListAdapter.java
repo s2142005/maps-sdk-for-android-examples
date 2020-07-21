@@ -19,8 +19,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.tomtom.online.sdk.routing.data.matrix.MatrixRoutingResponse;
-import com.tomtom.online.sdk.routing.data.matrix.MatrixRoutingResult;
+import com.tomtom.online.sdk.common.util.DateFormatter;
+import com.tomtom.online.sdk.routing.matrix.MatrixRoutesPlan;
+import com.tomtom.online.sdk.routing.matrix.route.MatrixRoute;
 import com.tomtom.online.sdk.samples.R;
 import com.tomtom.online.sdk.samples.cases.route.matrix.data.AmsterdamPoi;
 import com.tomtom.online.sdk.samples.utils.formatter.DistanceFormatter;
@@ -32,9 +33,10 @@ import java.util.List;
 
 import timber.log.Timber;
 
-class MatrixRoutesTableListAdapter extends RecyclerView.Adapter<MatrixRoutesTableListAdapter.MatrixRouteItemViewHolder> {
+class MatrixRoutesTableListAdapter extends
+        RecyclerView.Adapter<MatrixRoutesTableListAdapter.MatrixRouteItemViewHolder> {
 
-    private List<MatrixRoutingResult> itemList = new ArrayList<>();
+    private List<MatrixRoute> itemList = new ArrayList<>();
 
     @NonNull
     @Override
@@ -46,12 +48,12 @@ class MatrixRoutesTableListAdapter extends RecyclerView.Adapter<MatrixRoutesTabl
     @SuppressLint("DefaultLocale")
     @Override
     public void onBindViewHolder(@NonNull MatrixRouteItemViewHolder holder, int position) {
-        final MatrixRoutingResult item = itemList.get(position);
+        final MatrixRoute item = itemList.get(position);
         String etaString = "N/A";
         Timber.d("summary " + item.getSummary());
         if (item.getSummary() != null) {
-            Timber.d("raw arrival time " + item.getSummary().getRawArrivalTime());
-            DateTime arrivalTime = item.getSummary().getArrivalTimeWithZone();
+            Timber.d("raw arrival time " + item.getSummary().getArrivalTime());
+            DateTime arrivalTime = new DateFormatter().formatWithTimeZone(item.getSummary().getArrivalTime());
             if (arrivalTime != null) {
                 etaString = arrivalTime.toString("HH:mm");
             }
@@ -72,9 +74,9 @@ class MatrixRoutesTableListAdapter extends RecyclerView.Adapter<MatrixRoutesTabl
         return itemList.size();
     }
 
-    public void updateListWithMatrixResponse(MatrixRoutingResponse response) {
+    public void updateListWithMatrixResponse(MatrixRoutesPlan matrixRoutesPlan) {
         itemList.clear();
-        itemList.addAll(response.getResults().values());
+        itemList.addAll(matrixRoutesPlan.getRoutes().values());
         notifyDataSetChanged();
     }
 

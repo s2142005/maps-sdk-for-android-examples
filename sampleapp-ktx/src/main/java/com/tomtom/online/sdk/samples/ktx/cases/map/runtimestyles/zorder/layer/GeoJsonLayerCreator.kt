@@ -18,7 +18,7 @@ import com.tomtom.online.sdk.common.geojson.geometry.LineString
 import com.tomtom.online.sdk.map.TomtomMap
 import com.tomtom.online.sdk.map.style.layers.LayerFactory
 import com.tomtom.online.sdk.map.style.sources.SourceFactory
-import com.tomtom.online.sdk.routing.data.FullRoute
+import com.tomtom.online.sdk.routing.route.information.FullRoute
 import com.tomtom.online.sdk.samples.ktx.cases.map.runtimestyles.zorder.DynamicLayerType
 import com.tomtom.online.sdk.samples.ktx.cases.map.runtimestyles.zorder.json.JsonLayerCreator
 import com.tomtom.online.sdk.samples.ktx.cases.map.runtimestyles.zorder.json.JsonLayerDescriptor
@@ -45,7 +45,7 @@ class GeoJsonLayerCreator(private val tomtomMap: TomtomMap) {
 
     private fun addGeoJsonSource(route: FullRoute, sourceId: String) {
         val lineString = LineString.builder()
-            .coordinates(route.coordinates)
+            .coordinates(route.getCoordinates())
             .build()
 
         val feature = Feature.builder()

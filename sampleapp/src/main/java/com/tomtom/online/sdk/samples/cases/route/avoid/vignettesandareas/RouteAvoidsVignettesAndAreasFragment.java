@@ -47,5 +47,4 @@ public class RouteAvoidsVignettesAndAreasFragment extends RoutePlannerFragment<R
         getInfoBarView().setLeftText(left);
         getInfoBarView().setRightText(right);
     }
-
 }

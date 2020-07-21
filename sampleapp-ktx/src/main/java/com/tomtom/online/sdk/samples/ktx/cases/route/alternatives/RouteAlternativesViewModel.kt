@@ -12,8 +12,9 @@
 package com.tomtom.online.sdk.samples.ktx.cases.route.alternatives
 
 import android.app.Application
-import com.tomtom.online.sdk.routing.data.RouteQuery
-import com.tomtom.online.sdk.routing.data.RouteQueryBuilder
+import com.tomtom.online.sdk.routing.route.RouteCalculationDescriptor
+import com.tomtom.online.sdk.routing.route.RouteDescriptor
+import com.tomtom.online.sdk.routing.route.RouteSpecification
 import com.tomtom.online.sdk.samples.ktx.cases.route.RouteViewModel
 import com.tomtom.online.sdk.samples.ktx.utils.routes.AmsterdamToRotterdamRouteConfig
 
@@ -32,20 +33,28 @@ class RouteAlternativesViewModel(application: Application) : RouteViewModel(appl
     }
 
     private fun planRoute(alternatives: Int) {
-        val routeQuery = prepareRouteQuery(alternatives)
-        planRoute(routeQuery)
+        val routeSpecification = prepareRouteSpecification(alternatives)
+        planRoute(routeSpecification)
     }
 
-    private fun prepareRouteQuery(maxAlternatives: Int): RouteQuery {
+    private fun prepareRouteSpecification(maxAlternatives: Int): RouteSpecification {
         val origin = AmsterdamToRotterdamRouteConfig().origin
         val destination = AmsterdamToRotterdamRouteConfig().destination
         //tag::doc_route_alternatives[]
-        val routeQuery = RouteQueryBuilder.create(origin, destination)
-                .withMaxAlternatives(maxAlternatives)
-                .withConsiderTraffic(false)
-                .build()
+        val routeDescriptor = RouteDescriptor.Builder()
+            .considerTraffic(false)
+            .build()
+
+        val routeCalculationDescriptor = RouteCalculationDescriptor.Builder()
+            .routeDescription(routeDescriptor)
+            .maxAlternatives(maxAlternatives)
+            .build()
+
+        val routeSpecification = RouteSpecification.Builder(origin, destination)
+            .routeCalculationDescriptor(routeCalculationDescriptor)
+            .build()
         //end::doc_route_alternatives[]
-        return routeQuery
+        return routeSpecification
     }
 
     companion object {

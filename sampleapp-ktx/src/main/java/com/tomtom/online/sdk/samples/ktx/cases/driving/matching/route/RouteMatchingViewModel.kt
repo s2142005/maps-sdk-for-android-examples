@@ -18,7 +18,7 @@ import com.tomtom.online.sdk.map.driving.Matcher
 import com.tomtom.online.sdk.map.driving.MatcherFactory
 import com.tomtom.online.sdk.map.driving.MatcherListener
 import com.tomtom.online.sdk.matching.MatchingDataProvider
-import com.tomtom.online.sdk.routing.data.FullRoute
+import com.tomtom.online.sdk.routing.route.information.FullRoute
 import com.tomtom.online.sdk.samples.ktx.cases.driving.ChevronMatchedStateUpdate
 import com.tomtom.online.sdk.samples.ktx.cases.driving.DrivingViewModel
 import com.tomtom.online.sdk.samples.ktx.utils.driving.BaseSimulator
