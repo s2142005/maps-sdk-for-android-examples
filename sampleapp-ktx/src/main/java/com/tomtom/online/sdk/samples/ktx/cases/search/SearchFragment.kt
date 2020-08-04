@@ -66,11 +66,13 @@ abstract class SearchFragment<T : SearchViewModel> : ExampleFragment() {
     override fun onResume() {
         super.onResume()
         locationViewModel.startLocationUpdates()
+        locationViewModel.addLocationUpdateListener()
     }
 
     override fun onPause() {
         super.onPause()
         locationViewModel.stopLocationUpdates()
+        locationViewModel.removeLocationUpdateListener()
     }
 
     override fun onExampleEnded() {

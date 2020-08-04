@@ -16,17 +16,25 @@ import android.location.Location
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.tomtom.online.sdk.location.BasicLocationSource
 import com.tomtom.online.sdk.location.LocationSource
-import com.tomtom.online.sdk.location.LocationSourceFactory
 import com.tomtom.online.sdk.location.LocationUpdateListener
 
 class LocationViewModel(application: Application) : AndroidViewModel(application), LocationUpdateListener {
 
-    private val locationProvider: LocationSource = LocationSourceFactory().createDefaultLocationSource(application, this)
+    private val locationProvider: LocationSource = BasicLocationSource(application)
     private var lastKnownLocation = MutableLiveData<Location>()
 
     override fun onLocationChanged(location: Location?) {
         lastKnownLocation.value = location
+    }
+
+    fun addLocationUpdateListener() {
+        locationProvider.addLocationUpdateListener(this)
+    }
+
+    fun removeLocationUpdateListener() {
+        locationProvider.removeLocationUpdateListener(this)
     }
 
     fun startLocationUpdates() = locationProvider.activate()

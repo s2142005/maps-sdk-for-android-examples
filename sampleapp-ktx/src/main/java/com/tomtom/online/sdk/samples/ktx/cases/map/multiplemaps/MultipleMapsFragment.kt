@@ -17,10 +17,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.tomtom.core.maps.MapChangedListenerAdapter
-import com.tomtom.core.maps.gestures.GesturesDetectionSettingsBuilder
 import com.tomtom.online.sdk.map.CameraPosition
 import com.tomtom.online.sdk.map.MapFragment
+import com.tomtom.online.sdk.map.TomtomMapCallback
+import com.tomtom.online.sdk.map.gestures.GesturesConfiguration
 import com.tomtom.online.sdk.samples.ktx.MapAction
 import com.tomtom.online.sdk.samples.ktx.cases.ExampleFragment
 import com.tomtom.online.sdk.samples.ktx.utils.routes.Locations
@@ -62,7 +62,7 @@ class MultipleMapsFragment : ExampleFragment() {
 
     private fun confViewModel() {
         viewModel = ViewModelProviders.of(this).get(MultipleMapsViewModel::class.java)
-        viewModel.miniMapAction().observe(this, Observer { action ->
+        viewModel.miniMapAction().observe(viewLifecycleOwner, Observer { action ->
             miniMapFragment.getAsyncMap { tomtomMap -> run { action.invoke(tomtomMap) } }
         })
     }
@@ -82,8 +82,8 @@ class MultipleMapsFragment : ExampleFragment() {
             uiSettings.setStyleUrl(NIGHT_STYLE_URL_PATH)
             logoSettings.applyInvertedLogo()
 
-            updateGesturesDetectionSettings(
-                GesturesDetectionSettingsBuilder.create()
+            updateGesturesConfiguration(
+                GesturesConfiguration.Builder()
                     .zoomEnabled(false)
                     .panningEnabled(false)
                     .rotationEnabled(false)
@@ -94,21 +94,18 @@ class MultipleMapsFragment : ExampleFragment() {
     }
 
     private fun registerListener() {
-        mainViewModel.applyOnMap(MapAction { addOnMapChangedListener(onMapChanged) })
+        mainViewModel.applyOnMap(MapAction { addOnCameraMoveFinishedListener(onCameraMoveFinished) })
     }
 
     private fun unregisterListener() {
-        mainViewModel.applyOnMap(MapAction { removeOnMapChangedListener(onMapChanged) })
+        mainViewModel.applyOnMap(MapAction { removeOnCameraMoveFinishedListener(onCameraMoveFinished) })
     }
 
-    private val onMapChanged = object : MapChangedListenerAdapter() {
-        override fun onCameraDidChange() {
-
-            //This callback is not called too often, only when animation / map move is finished
-            //To have more frequent updates, one can register for onMapViewPortChanged
-            //However, this may cause performance issues as onMapViewPortChanged
-            //Is called very often.
-
+    private val onCameraMoveFinished = object : TomtomMapCallback.OnCameraMoveFinishedListener {
+        override fun onCameraMoveFinished() {
+            //This callback is not called too often, only when map centering animation or map transition using gestures is finished.
+            //To have more frequent updates, one can register for onCameraChanged listener
+            //However, this may cause performance issues as onCameraChanged is called very often.
             mainViewModel.applyOnMap(MapAction {
 
                 val cameraPosition = uiSettings.cameraPosition
@@ -119,7 +116,6 @@ class MultipleMapsFragment : ExampleFragment() {
                 }
 
                 val miniMapBearing = cameraPosition.bearing
-
                 val miniMapPosition = CameraPosition.builder()
                     .focusPosition(centerOfMap)
                     .zoom(miniMapZoomLevel)

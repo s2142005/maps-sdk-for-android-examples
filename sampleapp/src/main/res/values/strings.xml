@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
 
     Copyright (c) 2015-2017 TomTom N.V. All rights reserved.
 
@@ -121,9 +120,19 @@
     <string name="map_3d">3D mode</string>
     <string name="menu_map_display">Map display</string>
     <string name="menu_events">Map events</string>
-    <string name="menu_events_on_map_click">Single Press</string>
-    <string name="menu_events_on_map_long_click">Long Press</string>
+    <string name="menu_events_on_map_click">Single Click</string>
+    <string name="menu_events_on_map_long_click">Long Click</string>
+    <string name="menu_events_on_map_double_click">Double Click</string>
     <string name="menu_events_on_map_panning">Panning</string>
+    <string name="menu_events_on_camera_changed">Camera changed</string>
+    <string name="menu_events_on_camera_move_started">Camera move started</string>
+    <string name="menu_events_on_camera_move">Camera move</string>
+    <string name="menu_events_on_camera_move_finished">Camera move finished</string>
+    <string name="menu_events_on_camera_move_canceled">Camera move canceled</string>
+
+    <string name="menu_events_on_map_panning_started">Panning started</string>
+    <string name="menu_events_on_map_panning_ongoing">Panning ongoing</string>
+    <string name="menu_events_on_map_panning_ended">Panning ended</string>
 
     <string name="map_center_amsterdam">Amsterdam</string>
     <string name="map_center_berlin">Berlin</string>

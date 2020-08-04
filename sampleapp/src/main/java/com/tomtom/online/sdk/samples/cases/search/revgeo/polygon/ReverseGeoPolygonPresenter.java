@@ -15,13 +15,12 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 
-import com.tomtom.core.maps.gestures.GesturesDetectionSettings;
-import com.tomtom.core.maps.gestures.GesturesDetectionSettingsBuilder;
 import com.tomtom.online.sdk.common.func.FuncUtils;
 import com.tomtom.online.sdk.common.location.LatLng;
 import com.tomtom.online.sdk.map.MapConstants;
 import com.tomtom.online.sdk.map.TomtomMap;
 import com.tomtom.online.sdk.map.TomtomMapCallback;
+import com.tomtom.online.sdk.map.gestures.GesturesConfiguration;
 import com.tomtom.online.sdk.samples.activities.BaseFunctionalExamplePresenter;
 import com.tomtom.online.sdk.samples.activities.FunctionalExampleModel;
 import com.tomtom.online.sdk.samples.cases.search.ReverseGeoMarker;
@@ -38,7 +37,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.SerialDisposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class ReverseGeoPolygonPresenter extends BaseFunctionalExamplePresenter implements RevGeoUiCallback {
+public class ReverseGeoPolygonPresenter extends BaseFunctionalExamplePresenter implements
+        RevGeoUiCallback {
 
     static final String ACTIVE_ENTITY_TYPE_COUNTRY = "Country";
     static final String ACTIVE_ENTITY_TYPE_CITY = "Municipality";
@@ -129,7 +129,7 @@ public class ReverseGeoPolygonPresenter extends BaseFunctionalExamplePresenter i
         clearMap();
         tomtomMap.removeOnMarkerClickListener(onMarkerClickListener);
         tomtomMap.removeOnMapLongClickListener(onMapLongClickListener);
-        tomtomMap.updateGesturesDetectionSettings(GesturesDetectionSettings.createDefault());
+        tomtomMap.updateGesturesConfiguration(new GesturesConfiguration.Builder().build());
     }
 
     public void centerOnDefaultLocation() {
@@ -144,10 +144,11 @@ public class ReverseGeoPolygonPresenter extends BaseFunctionalExamplePresenter i
     protected void setupTomtomMap() {
         tomtomMap.addOnMarkerClickListener(onMarkerClickListener);
         tomtomMap.addOnMapLongClickListener(onMapLongClickListener);
-        GesturesDetectionSettings gestureSettings = GesturesDetectionSettingsBuilder.create()
-                .enableEventsIntercepting(true)
-                .build();
-        tomtomMap.updateGesturesDetectionSettings(gestureSettings);
+        tomtomMap.updateGesturesConfiguration(
+                new GesturesConfiguration.Builder()
+                        .enableEventsIntercepting(true)
+                        .build()
+        );
     }
 
     protected void createSearchAPI() {

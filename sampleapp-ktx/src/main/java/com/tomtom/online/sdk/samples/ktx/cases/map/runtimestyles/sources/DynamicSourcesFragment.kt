@@ -15,9 +15,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.tomtom.core.maps.OnMapTapListener
 import com.tomtom.online.sdk.common.func.FuncUtils
 import com.tomtom.online.sdk.common.geojson.FeatureCollection
+import com.tomtom.online.sdk.common.location.LatLng
+import com.tomtom.online.sdk.map.TomtomMapCallback
 import com.tomtom.online.sdk.samples.ktx.MapAction
 import com.tomtom.online.sdk.samples.ktx.cases.ExampleFragment
 import com.tomtom.online.sdk.samples.ktx.utils.routes.Locations
@@ -38,14 +39,14 @@ class DynamicSourcesFragment : ExampleFragment() {
     override fun onResume() {
         super.onResume()
         mainViewModel.applyOnMap(MapAction {
-            gestureDetector.addOnMapTapListener(geoJsonTapListener)
+            addOnMapClickListener(geoJsonTapListener)
         })
     }
 
     override fun onPause() {
         super.onPause()
         mainViewModel.applyOnMap(MapAction {
-            gestureDetector.removeOnMapTapListener(geoJsonTapListener)
+            removeOnMapClickListener(geoJsonTapListener)
         })
     }
 
@@ -89,11 +90,11 @@ class DynamicSourcesFragment : ExampleFragment() {
         })
     }
 
-    private val geoJsonTapListener = object : OnMapTapListener {
-        override fun onMapTap(x: Float, y: Float) {
+    private val geoJsonTapListener = object : TomtomMapCallback.OnMapClickListener {
+        override fun onMapClick(latLng: LatLng) {
             mainViewModel.applyOnMap(MapAction {
                 let { tomtomMap ->
-                    val point = PointF(x, y)
+                    val point = tomtomMap.pixelForLatLng(latLng)
                     //tag::query_style_for_features[]
                     val layerIds = listOf(GEOJSON_LAYER_ID)
                     val featureCollection = tomtomMap.displaySettings.featuresAtPoint(point, layerIds)
@@ -102,12 +103,7 @@ class DynamicSourcesFragment : ExampleFragment() {
                 }
             })
         }
-
-        override fun onMapLongTap(x: Float, y: Float) {
-            //not used right now
-        }
     }
-
 
     private fun processFeatureCollection(featureCollection: FeatureCollection) {
         //tag::process_feature_list[]

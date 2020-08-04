@@ -20,10 +20,12 @@ import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import com.google.common.base.Joiner
 import com.tomtom.core.maps.MapChangedListenerAdapter
-import com.tomtom.core.maps.OnMapTapListener
 import com.tomtom.online.sdk.common.geojson.Feature
 import com.tomtom.online.sdk.common.geojson.FeatureCollection
+import com.tomtom.online.sdk.common.location.LatLng
+import com.tomtom.online.sdk.map.CameraPosition
 import com.tomtom.online.sdk.map.MapFragment
+import com.tomtom.online.sdk.map.TomtomMapCallback
 import com.tomtom.online.sdk.samples.ktx.MapAction
 import com.tomtom.online.sdk.samples.ktx.cases.ExampleFragment
 import com.tomtom.online.sdk.samples.ktx.utils.routes.Locations
@@ -35,8 +37,7 @@ class InteractiveLayersFragment : ExampleFragment() {
 
     private lateinit var mapViewPort: RectF
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_map_events, container, false)
     }
 
@@ -70,32 +71,28 @@ class InteractiveLayersFragment : ExampleFragment() {
 
     private fun registerListeners() {
         mainViewModel.applyOnMap(MapAction {
-            addOnMapChangedListener(showMessageWhenCameraChanges)
-            gestureDetector.addOnMapTapListener(showMessageWhenOnMapTap)
+            addOnCameraChangedListener(showMessageWhenCameraChanges)
+            addOnMapClickListener(showMessageWhenOnMapTap)
         })
         infoTextView.viewTreeObserver.addOnGlobalLayoutListener(infoTextViewLayoutListener)
     }
 
     private fun unregisterListeners() {
         mainViewModel.applyOnMap(MapAction {
-            removeOnMapChangedListener(showMessageWhenCameraChanges)
-            gestureDetector.removeOnMapTapListener(showMessageWhenOnMapTap)
+            removeOnCameraChangedListener(showMessageWhenCameraChanges)
+            removeOnMapClickListener(showMessageWhenOnMapTap)
         })
         infoTextView.viewTreeObserver.removeOnGlobalLayoutListener(infoTextViewLayoutListener)
     }
 
-    private val showMessageWhenOnMapTap = object : OnMapTapListener {
-        override fun onMapTap(x: Float, y: Float) {
-            findFeaturesAtPoint(x, y)
-        }
-
-        override fun onMapLongTap(x: Float, y: Float) {
-            findFeaturesAtPoint(x, y)
+    private val showMessageWhenOnMapTap = object : TomtomMapCallback.OnMapClickListener {
+        override fun onMapClick(latLng: LatLng) {
+            findFeaturesAtPosition(latLng)
         }
     }
 
-    private val showMessageWhenCameraChanges = object : MapChangedListenerAdapter() {
-        override fun onCameraDidChange() {
+    private val showMessageWhenCameraChanges = object : TomtomMapCallback.OnCameraChangedListener {
+        override fun onCameraChanged(cameraPosition: CameraPosition) {
             findFeaturesInViewPort()
         }
     }
@@ -123,26 +120,27 @@ class InteractiveLayersFragment : ExampleFragment() {
                 //tag::query_style_for_features_in_viewport[]
                 val featureCollection = tomtomMap.displaySettings.featuresInScreenRect(mapViewPort, LAYER_LIST)
                 //end::query_style_for_features_in_viewport[]
-
-                val message = processFeatures(featureCollection, getString(R.string.interactive_layers_viewport_changed_header))
+                val message =
+                    processFeatures(featureCollection, getString(R.string.interactive_layers_viewport_changed_header))
                 displayPermanentToastMessage(message)
             }
         })
     }
 
-    private fun findFeaturesAtPoint(x: Float, y: Float) {
+    private fun findFeaturesAtPosition(latLng: LatLng) {
         mainViewModel.applyOnMap(MapAction {
-            val point = PointF(x, y)
+            val point = pixelForLatLng(latLng)
             val featureCollection = displaySettings.featuresAtPoint(point, LAYER_LIST)
             val message = processFeatures(featureCollection, getString(R.string.interactive_layers_at_point_header))
             displayTimedToastMessage(message)
         })
     }
 
-    private fun processFeatures(featureCollection: FeatureCollection, header: String): String = when (featureCollection.features.size) {
-        0 -> getString(R.string.interactive_layers_no_features_found)
-        else -> prepareMessage(featureCollection.features, header)
-    }
+    private fun processFeatures(featureCollection: FeatureCollection, header: String): String =
+        when (featureCollection.features.size) {
+            0 -> getString(R.string.interactive_layers_no_features_found)
+            else -> prepareMessage(featureCollection.features, header)
+        }
 
     private fun prepareMessage(features: List<Feature>, header: String): String {
         val idList = Observable.fromIterable(features)
@@ -157,10 +155,11 @@ class InteractiveLayersFragment : ExampleFragment() {
     }
 
     private fun calculateViewport() {
-        val mapFragment = activity!!.supportFragmentManager.findFragmentById(R.id.map_fragment) as MapFragment
-        val mapView = mapFragment.view!!
+        val mapFragment = requireActivity().supportFragmentManager.findFragmentById(R.id.map_fragment) as MapFragment
+        val mapView = mapFragment.requireView()
 
-        mapViewPort = RectF(TOP_LEFT_IN_PIXELS.x, TOP_LEFT_IN_PIXELS.y, mapView.width.toFloat(), mapView.height.toFloat())
+        mapViewPort =
+            RectF(TOP_LEFT_IN_PIXELS.x, TOP_LEFT_IN_PIXELS.y, mapView.width.toFloat(), mapView.height.toFloat())
     }
 
     private fun cleanup() {

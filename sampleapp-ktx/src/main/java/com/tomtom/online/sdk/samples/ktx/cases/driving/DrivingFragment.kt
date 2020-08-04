@@ -17,10 +17,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import com.tomtom.core.maps.gestures.GesturesDetectionSettings
-import com.tomtom.core.maps.gestures.GesturesDetectionSettingsBuilder
 import com.tomtom.online.sdk.common.location.LatLng
 import com.tomtom.online.sdk.map.*
+import com.tomtom.online.sdk.map.gestures.GesturesConfiguration
 import com.tomtom.online.sdk.routing.route.information.FullRoute
 import com.tomtom.online.sdk.samples.ktx.MapAction
 import com.tomtom.online.sdk.samples.ktx.cases.ExampleFragment
@@ -36,8 +35,10 @@ abstract class DrivingFragment<T : DrivingViewModel> : ExampleFragment() {
 
     abstract fun routingViewModel(): T
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.default_driving_fragment, container, false)
     }
 
@@ -68,11 +69,14 @@ abstract class DrivingFragment<T : DrivingViewModel> : ExampleFragment() {
 
     private fun confViewModel() {
         viewModel = routingViewModel()
-        viewModel.routes.observe(viewLifecycleOwner, ResourceObserver(
-            hideLoading = ::hideLoading,
-            showLoading = ::showLoading,
-            onSuccess = ::processRoutingResults,
-            onError = ::showError))
+        viewModel.routes.observe(
+            viewLifecycleOwner, ResourceObserver(
+                hideLoading = ::hideLoading,
+                showLoading = ::showLoading,
+                onSuccess = ::processRoutingResults,
+                onError = ::showError
+            )
+        )
         viewModel.selectedRoute.observe(this, Observer { highlightSelectedRoute() })
     }
 
@@ -154,7 +158,8 @@ abstract class DrivingFragment<T : DrivingViewModel> : ExampleFragment() {
                     .fill(GPS_DOT_FILL)
                     .color(GPS_DOT_COLOR)
                     .radius(GPS_DOT_RADIUS)
-                    .build())
+                    .build()
+            )
         })
     }
 
@@ -171,8 +176,10 @@ abstract class DrivingFragment<T : DrivingViewModel> : ExampleFragment() {
     protected fun createChevron() {
         mainViewModel.applyOnMap(MapAction {
             let { tomtomMap ->
-                val activeIcon = Icon.Factory.fromResources(requireContext(), R.drawable.chevron_color, CHEVRON_ICON_SCALE)
-                val inactiveIcon = Icon.Factory.fromResources(requireContext(), R.drawable.chevron_shadow, CHEVRON_ICON_SCALE)
+                val activeIcon =
+                    Icon.Factory.fromResources(requireContext(), R.drawable.chevron_color, CHEVRON_ICON_SCALE)
+                val inactiveIcon =
+                    Icon.Factory.fromResources(requireContext(), R.drawable.chevron_shadow, CHEVRON_ICON_SCALE)
                 //tag::doc_create_chevron[]
                 val chevronBuilder = ChevronBuilder.create(activeIcon, inactiveIcon)
                 chevron = tomtomMap.drivingSettings.addChevron(chevronBuilder)
@@ -197,17 +204,18 @@ abstract class DrivingFragment<T : DrivingViewModel> : ExampleFragment() {
 
     protected fun blockZoomGestures() {
         mainViewModel.applyOnMap(MapAction {
-            updateGesturesDetectionSettings(GesturesDetectionSettingsBuilder
-                .create()
-                .minZoom(MIN_ZOOM_LEVEL_FOR_SIMULATION)
-                .maxZoom(MAX_ZOOM_LEVEL_FOR_SIMULATION)
-                .build())
+            updateGesturesConfiguration(
+                GesturesConfiguration.Builder()
+                    .minZoom(MIN_ZOOM_LEVEL_FOR_SIMULATION)
+                    .maxZoom(MAX_ZOOM_LEVEL_FOR_SIMULATION)
+                    .build()
+            )
         })
     }
 
-    protected fun resetZoomGestures() {
+    private fun resetZoomGestures() {
         mainViewModel.applyOnMap(MapAction {
-            updateGesturesDetectionSettings(GesturesDetectionSettings.createDefault())
+            updateGesturesConfiguration(GesturesConfiguration.Builder().build())
         })
     }
 
@@ -225,5 +233,4 @@ abstract class DrivingFragment<T : DrivingViewModel> : ExampleFragment() {
         private const val GPS_DOT_RADIUS = 3.0
         private const val GPS_DOT_FILL = true
     }
-
 }

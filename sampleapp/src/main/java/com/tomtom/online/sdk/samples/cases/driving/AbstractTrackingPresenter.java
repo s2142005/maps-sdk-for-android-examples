@@ -12,8 +12,6 @@ package com.tomtom.online.sdk.samples.cases.driving;
 
 import android.os.Bundle;
 
-import com.tomtom.core.maps.gestures.GesturesDetectionSettings;
-import com.tomtom.core.maps.gestures.GesturesDetectionSettingsBuilder;
 import com.tomtom.online.sdk.common.location.LatLng;
 import com.tomtom.online.sdk.map.CameraPosition;
 import com.tomtom.online.sdk.map.Chevron;
@@ -21,6 +19,7 @@ import com.tomtom.online.sdk.map.ChevronBuilder;
 import com.tomtom.online.sdk.map.Icon;
 import com.tomtom.online.sdk.map.MapConstants;
 import com.tomtom.online.sdk.map.TomtomMap;
+import com.tomtom.online.sdk.map.gestures.GesturesConfiguration;
 import com.tomtom.online.sdk.samples.R;
 import com.tomtom.online.sdk.samples.activities.BaseFunctionalExamplePresenter;
 import com.tomtom.online.sdk.samples.cases.driving.utils.BaseSimulator;
@@ -109,11 +108,11 @@ public abstract class AbstractTrackingPresenter extends BaseFunctionalExamplePre
     }
 
     protected void blockZoomGestures() {
-        tomtomMap.updateGesturesDetectionSettings(GesturesDetectionSettingsBuilder
-                .create()
+        tomtomMap.updateGesturesConfiguration(new GesturesConfiguration.Builder()
                 .minZoom(MIN_MAP_ZOOM_LEVEL_FOR_EXAMPLE)
                 .maxZoom(MAX_MAP_ZOOM_LEVEL_FOR_EXAMPLE)
-                .build());
+                .build()
+        );
     }
 
     protected void centerOnDefaultPosition() {
@@ -140,7 +139,7 @@ public abstract class AbstractTrackingPresenter extends BaseFunctionalExamplePre
     }
 
     private void clearMap() {
-        tomtomMap.updateGesturesDetectionSettings(GesturesDetectionSettings.createDefault());
+        tomtomMap.updateGesturesConfiguration(new GesturesConfiguration.Builder().build());
         tomtomMap.getDrivingSettings().removeChevrons();
         tomtomMap.clear();
     }

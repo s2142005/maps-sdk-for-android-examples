@@ -10,12 +10,12 @@
  */
 package com.tomtom.online.sdk.samples.cases.map.multiplemaps;
 
-import com.tomtom.core.maps.MapChangedListenerAdapter;
-import com.tomtom.core.maps.gestures.GesturesDetectionSettingsBuilder;
 import com.tomtom.online.sdk.common.location.LatLng;
 import com.tomtom.online.sdk.map.CameraPosition;
 import com.tomtom.online.sdk.map.MapConstants;
 import com.tomtom.online.sdk.map.TomtomMap;
+import com.tomtom.online.sdk.map.TomtomMapCallback;
+import com.tomtom.online.sdk.map.gestures.GesturesConfiguration;
 import com.tomtom.online.sdk.samples.activities.BaseFunctionalExamplePresenter;
 import com.tomtom.online.sdk.samples.activities.FunctionalExampleModel;
 import com.tomtom.online.sdk.samples.fragments.FunctionalExampleFragment;
@@ -42,13 +42,13 @@ public class MultipleMapsPresenter extends BaseFunctionalExamplePresenter {
         if (!view.isMapRestored()) {
             centerMapOnLocation();
         }
-        tomtomMap.addOnMapChangedListener(onMapChanged);
+        tomtomMap.addOnCameraMoveFinishedListener(onMapChanged);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        tomtomMap.removeOnMapChangedListener(onMapChanged);
+        tomtomMap.removeOnCameraMoveFinishedListener(onMapChanged);
     }
 
     @Override
@@ -71,23 +71,25 @@ public class MultipleMapsPresenter extends BaseFunctionalExamplePresenter {
         miniTomtomMap.getUiSettings().getCurrentLocationView().hide();
         miniTomtomMap.getUiSettings().setStyleUrl(NIGHT_STYLE_URL_PATH);
         miniTomtomMap.getLogoSettings().applyInvertedLogo();
-        miniTomtomMap.updateGesturesDetectionSettings(GesturesDetectionSettingsBuilder.create()
-                .zoomEnabled(false)
-                .panningEnabled(false)
-                .rotationEnabled(false)
-                .tiltEnabled(false)
-                .build());
+        miniTomtomMap.updateGesturesConfiguration(
+                new GesturesConfiguration.Builder()
+                        .zoomEnabled(false)
+                        .panningEnabled(false)
+                        .tiltEnabled(false)
+                        .enableEventsIntercepting(false)
+                        .rotationEnabled(false)
+                        .forceMinMaxZoom(false)
+                        .build()
+        );
     }
 
-    private MapChangedListenerAdapter onMapChanged = new MapChangedListenerAdapter() {
+    private TomtomMapCallback.OnCameraMoveFinishedListener onMapChanged = new TomtomMapCallback.OnCameraMoveFinishedListener() {
         @Override
-        public void onCameraDidChange() {
-
-            //This callback is not called too often, only when animation / map move is finished
-            //To have more frequent updates, one can register for onMapViewPortChanged
-            //However, this may cause performance issues as onMapViewPortChanged
-            //Is called very often.
-
+        public void onCameraMoveFinished() {
+            // This callback is not called too often, only when map centering animation or map
+            // transition using gestures is finished.
+            // To have more frequent updates, one can register for onCameraChanged listener
+            // However, this may cause performance issues as onCameraChanged is called very often.
             CameraPosition cameraPosition = tomtomMap.getUiSettings().getCameraPosition();
             LatLng focalLatLng = tomtomMap.getCenterOfMap();
 
@@ -107,5 +109,4 @@ public class MultipleMapsPresenter extends BaseFunctionalExamplePresenter {
             }
         }
     };
-
 }

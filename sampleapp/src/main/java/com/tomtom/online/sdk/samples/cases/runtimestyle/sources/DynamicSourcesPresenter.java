@@ -13,10 +13,10 @@ package com.tomtom.online.sdk.samples.cases.runtimestyle.sources;
 import android.graphics.PointF;
 import android.graphics.RectF;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 
 import com.google.common.collect.ImmutableList;
-import com.tomtom.core.maps.OnMapTapListener;
 import com.tomtom.online.sdk.common.func.FuncUtils;
 import com.tomtom.online.sdk.common.geojson.Feature;
 import com.tomtom.online.sdk.common.geojson.FeatureCollection;
@@ -24,6 +24,7 @@ import com.tomtom.online.sdk.common.location.LatLng;
 import com.tomtom.online.sdk.helpers.AssetsHelper;
 import com.tomtom.online.sdk.map.MapConstants;
 import com.tomtom.online.sdk.map.TomtomMap;
+import com.tomtom.online.sdk.map.TomtomMapCallback;
 import com.tomtom.online.sdk.map.style.layers.Layer;
 import com.tomtom.online.sdk.map.style.layers.LayerFactory;
 import com.tomtom.online.sdk.map.style.sources.GeoJsonSource;
@@ -63,13 +64,13 @@ public class DynamicSourcesPresenter extends BaseFunctionalExamplePresenter {
         if (!view.isMapRestored()) {
             centerOnBuckinghamPalace();
         }
-        tomtomMap.getGestureDetector().addOnMapTapListener(onMapTapListener);
+        tomtomMap.addOnMapClickListener(onMapClickListener);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        tomtomMap.getGestureDetector().removeOnMapTapListener(onMapTapListener);
+        tomtomMap.removeOnMapClickListener(onMapClickListener);
     }
 
     @Override
@@ -150,20 +151,15 @@ public class DynamicSourcesPresenter extends BaseFunctionalExamplePresenter {
                 MapConstants.ORIENTATION_NORTH);
     }
 
-    private OnMapTapListener onMapTapListener = new OnMapTapListener() {
+    private TomtomMapCallback.OnMapClickListener onMapClickListener = new TomtomMapCallback.OnMapClickListener() {
         @Override
-        public void onMapTap(Float x, Float y) {
-            PointF point = new PointF(x, y);
+        public void onMapClick(@NonNull LatLng latLng) {
+            PointF point = tomtomMap.pixelForLatLng(latLng);
             //tag::query_style_for_features[]
             List<String> layerIds = ImmutableList.of(GEOJSON_LAYER_ID);
             FeatureCollection featureCollection = tomtomMap.getDisplaySettings().featuresAtPoint(point, layerIds);
             //end::query_style_for_features[]
             processFeatureCollection(featureCollection);
-        }
-
-        @Override
-        public void onMapLongTap(Float x, Float y) {
-            //not used right now
         }
     };
 

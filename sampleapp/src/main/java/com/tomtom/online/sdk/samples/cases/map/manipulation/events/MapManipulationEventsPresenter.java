@@ -12,11 +12,11 @@ package com.tomtom.online.sdk.samples.cases.map.manipulation.events;
 
 import androidx.annotation.StringRes;
 
-import com.tomtom.core.maps.gestures.GesturesDetectionSettings;
-import com.tomtom.core.maps.gestures.GesturesDetectionSettingsBuilder;
+import com.tomtom.online.sdk.common.location.LatLng;
 import com.tomtom.online.sdk.map.MapConstants;
 import com.tomtom.online.sdk.map.TomtomMap;
 import com.tomtom.online.sdk.map.TomtomMapCallback;
+import com.tomtom.online.sdk.map.gestures.GesturesConfiguration;
 import com.tomtom.online.sdk.map.rx.RxTomtomMap;
 import com.tomtom.online.sdk.samples.R;
 import com.tomtom.online.sdk.samples.activities.BaseFunctionalExamplePresenter;
@@ -37,27 +37,21 @@ public class MapManipulationEventsPresenter extends BaseFunctionalExamplePresent
 
     private CompositeDisposable rxDisposables = new CompositeDisposable();
 
-    //tag::doc_map_define_map_manipulation_listeners[]
     private TomtomMapCallback.OnMapClickListener onMapClickListener =
             latLng -> displayMessage(
                     R.string.menu_events_on_map_click,
-                    latLng.getLatitude(),
-                    latLng.getLongitude()
+                    latLng
             );
     private TomtomMapCallback.OnMapLongClickListener onMapLongClickListener =
             latLng -> displayMessage(
                     R.string.menu_events_on_map_long_click,
-                    latLng.getLatitude(),
-                    latLng.getLongitude()
+                    latLng
             );
-    private TomtomMapCallback.OnMapViewPortChanged onMapViewPortChangedListener =
-            (focalLatitude, focalLongitude, zoomLevel, perspectiveRatio, yawDegrees) -> displayMessage(
+    private TomtomMapCallback.OnCameraChangedListener onCameraChangedListener =
+            (cameraPosition) -> displayMessage(
                     R.string.menu_events_on_map_panning,
-                    focalLatitude,
-                    focalLongitude
+                    cameraPosition.getFocusPosition()
             );
-
-    //end::doc_map_define_map_manipulation_listeners[]
 
     @Override
     public void bind(FunctionalExampleFragment view, TomtomMap map) {
@@ -92,15 +86,12 @@ public class MapManipulationEventsPresenter extends BaseFunctionalExamplePresent
     }
 
     private void setupTomtomMap() {
-        //tag::doc_map_set_map_manipulation_listeners[]
         tomtomMap.addOnMapClickListener(onMapClickListener);
         tomtomMap.addOnMapLongClickListener(onMapLongClickListener);
-        tomtomMap.addOnMapViewPortChangedListener(onMapViewPortChangedListener);
-        //end::doc_map_set_map_manipulation_listeners[]
+        tomtomMap.addOnCameraChangedListener(onCameraChangedListener);
     }
 
     private void setupRxTomtomMap() {
-
         //tag::doc_map_set_rx_wrapper[]
         RxTomtomMap rxTomtomMap = new RxTomtomMap(tomtomMap);
         //end::doc_map_set_rx_wrapper[]
@@ -111,15 +102,13 @@ public class MapManipulationEventsPresenter extends BaseFunctionalExamplePresent
                 .observeOn(mainThread())
                 .subscribe(latLng -> displayMessage(
                         R.string.menu_events_on_map_click,
-                        latLng.getLatitude(),
-                        latLng.getLongitude()
+                        latLng
                 ));
         //end::doc_map_set_map_manipulation_observables[]
         rxDisposables.add(mapClickDisposable);
     }
 
-
-    private void displayMessage(@StringRes int titleId, double lat, double lon) {
+    private void displayMessage(@StringRes int titleId, LatLng latLng) {
 
         if (view.getContext() == null) {
             return;
@@ -130,63 +119,104 @@ public class MapManipulationEventsPresenter extends BaseFunctionalExamplePresent
         String message = String.format(java.util.Locale.getDefault(),
                 TOAST_MESSAGE,
                 title,
-                lat,
-                lon);
+                latLng.getLatitude(),
+                latLng.getLongitude());
 
         view.showInfoText(message, TOAST_DURATION);
+    }
+
+    @SuppressWarnings("unused")
+    private void exampleForMapManipulationListeners() {
+        //tag::doc_map_define_map_manipulation_listeners[]
+        TomtomMapCallback.OnMapClickListener onMapClickListener =
+                latLng -> displayMessage(R.string.menu_events_on_map_click, latLng);
+
+        TomtomMapCallback.OnMapLongClickListener onMapLongClickListener =
+                latLng -> displayMessage(R.string.menu_events_on_map_long_click, latLng);
+
+        TomtomMapCallback.OnMapDoubleClickListener onMapDoubleClickListener =
+                latLng -> displayMessage(R.string.menu_events_on_map_double_click, latLng);
+
+        TomtomMapCallback.OnMapPanningListener onMapPanningListener = new TomtomMapCallback.OnMapPanningListener() {
+            @Override
+            public void onMapPanningStarted() {
+                displayMessage(R.string.menu_events_on_map_panning_started, tomtomMap.getCenterOfMap());
+            }
+
+            @Override
+            public void onMapPanningOngoing() {
+                displayMessage(R.string.menu_events_on_map_panning_ongoing, tomtomMap.getCenterOfMap());
+            }
+
+            @Override
+            public void onMapPanningEnded() {
+                displayMessage(R.string.menu_events_on_map_panning_ended, tomtomMap.getCenterOfMap());
+            }
+        };
+        //end::doc_map_define_map_manipulation_listeners[]
+
+        //tag::doc_map_set_map_manipulation_listeners[]
+        tomtomMap.addOnMapClickListener(onMapClickListener);
+        tomtomMap.addOnMapLongClickListener(onMapLongClickListener);
+        tomtomMap.addOnMapDoubleClickListener(onMapDoubleClickListener);
+        tomtomMap.addOnMapPanningListener(onMapPanningListener);
+        //end::doc_map_set_map_manipulation_listeners[]
+
+        //tag::doc_map_unregister_map_manipulation_listeners[]
+        tomtomMap.removeOnMapClickListener(onMapClickListener);
+        tomtomMap.removeOnMapLongClickListener(onMapLongClickListener);
+        tomtomMap.removeOnMapDoubleClickListener(onMapDoubleClickListener);
+        tomtomMap.removeOnMapPanningListener(onMapPanningListener);
+        //end::doc_map_unregister_map_manipulation_listeners[]
     }
 
     // This method is only here to provide dynamic code snippet for documentation.
     @SuppressWarnings("unused")
     private void exampleForGesturesDetectionEnabling() {
-
         //tag::doc_gesture_disable_zoom[]
-        tomtomMap.updateGesturesDetectionSettings(
-                GesturesDetectionSettingsBuilder.create()
+        tomtomMap.updateGesturesConfiguration(
+                new GesturesConfiguration.Builder()
                         .zoomEnabled(false)
                         .build()
         );
         //end::doc_gesture_disable_zoom[]
 
         //tag::doc_gesture_disable_tilt[]
-        tomtomMap.updateGesturesDetectionSettings(
-                GesturesDetectionSettingsBuilder.create()
+        tomtomMap.updateGesturesConfiguration(
+                new GesturesConfiguration.Builder()
                         .tiltEnabled(false)
                         .build()
         );
         //end::doc_gesture_disable_tilt[]
 
         //tag::doc_gesture_disable_rotation[]
-        tomtomMap.updateGesturesDetectionSettings(
-                GesturesDetectionSettingsBuilder.create()
+        tomtomMap.updateGesturesConfiguration(
+                new GesturesConfiguration.Builder()
                         .rotationEnabled(false)
                         .build()
         );
         //end::doc_gesture_disable_rotation[]
 
-
         //tag::doc_gesture_disable_panning[]
-        tomtomMap.updateGesturesDetectionSettings(
-                GesturesDetectionSettingsBuilder.create()
+        tomtomMap.updateGesturesConfiguration(
+                new GesturesConfiguration.Builder()
                         .panningEnabled(false)
                         .build()
         );
         //end::doc_gesture_disable_panning[]
 
-
         //tag::doc_gesture_disable_rotation_panning[]
-        tomtomMap.updateGesturesDetectionSettings(
-                GesturesDetectionSettingsBuilder.create()
+        tomtomMap.updateGesturesConfiguration(
+                new GesturesConfiguration.Builder()
                         .rotationEnabled(false)
                         .panningEnabled(false)
                         .build()
         );
         //end::doc_gesture_disable_rotation_panning[]
 
-
         //tag::doc_gesture_enable_all[]
-        tomtomMap.updateGesturesDetectionSettings(
-                GesturesDetectionSettingsBuilder.create()
+        tomtomMap.updateGesturesConfiguration(
+                new GesturesConfiguration.Builder()
                         .rotationEnabled(true)
                         .panningEnabled(true)
                         .zoomEnabled(true)
@@ -195,14 +225,8 @@ public class MapManipulationEventsPresenter extends BaseFunctionalExamplePresent
         );
         //end::doc_gesture_enable_all[]
 
-
         //tag::doc_gesture_enable_all_default[]
-        tomtomMap.updateGesturesDetectionSettings(
-                GesturesDetectionSettings.createDefault()
-        );
+        tomtomMap.updateGesturesConfiguration(new GesturesConfiguration.Builder().build());
         //end::doc_gesture_enable_all_default[]
-
     }
-
-
 }
