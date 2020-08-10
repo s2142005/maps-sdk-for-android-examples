@@ -120,8 +120,8 @@ class ChevronTrackingFragment : DrivingFragment<ChevronTrackingViewModel>() {
     }
 
     private fun createChevron(tomtomMap: TomtomMap) {
-        val activeIcon = Icon.Factory.fromResources(requireContext(), R.drawable.chevron_color, CHEVRON_ICON_SCALE)
-        val inactiveIcon = Icon.Factory.fromResources(requireContext(), R.drawable.chevron_shadow, CHEVRON_ICON_SCALE)
+        val activeIcon = Icon.Factory.fromResources(requireContext(), R.drawable.chevron_color)
+        val inactiveIcon = Icon.Factory.fromResources(requireContext(), R.drawable.chevron_shadow)
         //tag::doc_create_chevron[]
         val chevronBuilder = ChevronBuilder.create(activeIcon, inactiveIcon)
         chevron = tomtomMap.drivingSettings.addChevron(chevronBuilder)

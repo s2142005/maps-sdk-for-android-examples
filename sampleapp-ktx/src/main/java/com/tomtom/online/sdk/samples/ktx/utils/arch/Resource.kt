@@ -18,11 +18,11 @@ class Resource<out T> constructor(val status: Status, val data: T?, val error: E
     }
 
     companion object {
-        fun <T> loading(data: T?): Resource<T> = Resource(Status.LOADING, data, null)
+        fun <T> loading(data: T? = null): Resource<T> = Resource(Status.LOADING, data, null)
 
-        fun <T> success(data: T?): Resource<T> = Resource(Status.SUCCESS, data, null)
+        fun <T> success(data: T? = null): Resource<T> = Resource(Status.SUCCESS, data, null)
 
-        fun <T> error(data: T?, error: Error?): Resource<T> = Resource(Status.ERROR, data, error)
+        fun <T> error(data: T? = null, error: Error? = null): Resource<T> = Resource(Status.ERROR, data, error)
 
         fun <T> error(error: Error): Resource<T> = Resource(Status.ERROR, null, error)
     }

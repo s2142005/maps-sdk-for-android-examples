@@ -74,6 +74,12 @@
     <string name="btn_text_atm">ATM</string>
     <string name="btn_text_grocery">Grocery</string>
 
+    <string name="menu_ev_stations_search_title">EV Charging Stations</string>
+    <string name="menu_ev_stations_search_description">EV Charging Stations Availability provides information about the current availability of charging points.</string>
+    <string name="btn_text_along_route">Along Route</string>
+    <string name="btn_text_fuzzy">Fuzzy</string>
+    <string name="btn_text_geometry">Geometry</string>
+
     <string name="menu_batch_search_title">Batch search</string>
     <string name="menu_batch_search_description">Search for categories near the origin point.</string>
     <string name="btn_text_batch_parking">Parking</string>

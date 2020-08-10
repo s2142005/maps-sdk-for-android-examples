@@ -108,6 +108,10 @@
         android:name="com.tomtom.online.sdk.samples.ktx.cases.search.geometry.GeometrySearchFragment"
         android:label="@string/menu_geometry_search_title" />
     <fragment
+        android:id="@+id/evStationsFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.search.evstations.EvStationsFragment"
+        android:label="@string/menu_ev_stations_search_title" />
+    <fragment
         android:id="@+id/batchSearchFragment"
         android:name="com.tomtom.online.sdk.samples.ktx.cases.search.batch.BatchSearchFragment"
         android:label="@string/menu_batch_search_title" />

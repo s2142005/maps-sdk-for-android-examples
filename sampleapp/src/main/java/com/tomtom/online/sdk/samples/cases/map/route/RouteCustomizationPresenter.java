@@ -85,15 +85,15 @@ public class RouteCustomizationPresenter extends RoutePlannerPresenter {
     }
 
     Icon loadStartIcon() {
-        return prepareRouteIconFromDrawable(R.drawable.ic_map_route_departure, DEFAULT_ICON_SCALE);
+        return prepareRouteIconFromDrawable(R.drawable.ic_map_route_departure);
     }
 
     Icon loadEndIconForCustomStyle() {
-        return prepareRouteIconFromDrawable(R.drawable.ic_map_fav, DEFAULT_SCALE_FOR_SAMPLE_APP_ICONS);
+        return prepareRouteIconFromDrawable(R.drawable.ic_map_fav);
     }
 
-    private Icon prepareRouteIconFromDrawable(@DrawableRes int routeIcon, double scale) {
-        return Icon.Factory.fromResources(view.getContext(), routeIcon, scale);
+    private Icon prepareRouteIconFromDrawable(@DrawableRes int routeIcon) {
+        return Icon.Factory.fromResources(view.getContext(), routeIcon);
     }
 
     private RouteCallback routeCallback = new RouteCallback() {

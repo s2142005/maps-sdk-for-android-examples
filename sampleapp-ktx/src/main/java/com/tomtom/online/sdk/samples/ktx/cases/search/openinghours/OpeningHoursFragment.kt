@@ -16,6 +16,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import com.tomtom.online.sdk.map.MarkerBuilder
+import com.tomtom.online.sdk.map.TextBalloonViewAdapter
 import com.tomtom.online.sdk.samples.ktx.MapAction
 import com.tomtom.online.sdk.samples.ktx.cases.search.SearchFragment
 import com.tomtom.online.sdk.samples.ktx.utils.arch.ResourceObserver
@@ -54,6 +55,11 @@ class OpeningHoursFragment : SearchFragment<OpeningHoursViewModel>() {
         //Not applicable
     }
 
+    override fun onExampleEnded() {
+        super.onExampleEnded()
+        restoreDefaultBalloonAdapter()
+    }
+
     private fun showMarkers(list: List<FuzzySearchResult>) {
         mainViewModel.applyOnMap(MapAction {
             list.filter {
@@ -66,6 +72,12 @@ class OpeningHoursFragment : SearchFragment<OpeningHoursViewModel>() {
                 markerSettings.addMarker(MarkerBuilder(it.position).tag(it.id).markerBalloon(balloon))
             }
             zoomToAllMarkers()
+        })
+    }
+
+    private fun restoreDefaultBalloonAdapter() {
+        mainViewModel.applyOnMap(MapAction {
+            markerSettings.markerBalloonViewAdapter = TextBalloonViewAdapter()
         })
     }
 

@@ -17,6 +17,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import com.tomtom.online.sdk.common.util.DateFormatter
+import com.tomtom.online.sdk.map.TextBalloonViewAdapter
 import com.tomtom.online.sdk.map.TomtomMap
 import com.tomtom.online.sdk.routing.ev.route.EvFullRoute
 import com.tomtom.online.sdk.samples.ktx.MapAction
@@ -82,6 +83,7 @@ class LongEvFragment : RouteFragment<LongEvViewModel>() {
     override fun onExampleEnded() {
         super.onExampleEnded()
         clearMarkers()
+        restoreDefaultBalloonAdapter()
     }
 
     override fun updateInfoBarTitle() {
@@ -114,6 +116,12 @@ class LongEvFragment : RouteFragment<LongEvViewModel>() {
 
     private fun clearMarkers() {
         mainViewModel.applyOnMap(MapAction { markerSettings.removeMarkers() })
+    }
+
+    private fun restoreDefaultBalloonAdapter() {
+        mainViewModel.applyOnMap(MapAction {
+            markerSettings.markerBalloonViewAdapter = TextBalloonViewAdapter()
+        })
     }
 
     companion object {

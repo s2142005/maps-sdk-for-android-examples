@@ -28,7 +28,7 @@ class LongEvMarkerDrawer(private val context: Context, private val tomtomMap: To
             tomtomMap.markerSettings.markerBalloonViewAdapter = LongEvBalloonViewAdapter()
             tomtomMap.markerSettings.addMarker(
                 MarkerBuilder(it.coordinates).markerBalloon(balloon)
-                    .icon(Icon.Factory.fromResources(context, R.drawable.ic_pin_ev_station, RouteDrawer.DEFAULT_ICON_SCALE))
+                    .icon(Icon.Factory.fromResources(context, R.drawable.ic_pin_ev_station))
             )
         }
     }

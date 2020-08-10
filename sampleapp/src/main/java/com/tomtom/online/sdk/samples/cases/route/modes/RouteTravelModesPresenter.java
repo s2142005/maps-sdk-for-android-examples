@@ -111,7 +111,7 @@ public class RouteTravelModesPresenter extends RoutePlannerPresenter {
     }
 
     Icon loadIcon(int iconResId) {
-        return Icon.Factory.fromResources(view.getContext(), iconResId, DEFAULT_ICON_SCALE);
+        return Icon.Factory.fromResources(view.getContext(), iconResId);
     }
 
     private RouteStyle createDottedRouteStyle() {

@@ -12,8 +12,8 @@ package com.tomtom.online.sdk.samples.ktx.cases.search.geometry
 
 import android.app.Application
 import com.tomtom.online.sdk.samples.ktx.cases.search.SearchViewModel
-import com.tomtom.online.sdk.samples.ktx.cases.search.geometry.DefaultGeometryCreator.createDefaultCircleGeometry
-import com.tomtom.online.sdk.samples.ktx.cases.search.geometry.DefaultGeometryCreator.createDefaultPolygonGeometry
+import com.tomtom.online.sdk.samples.ktx.utils.geometry.DefaultGeometryCreator.createDefaultCircleGeometry
+import com.tomtom.online.sdk.samples.ktx.utils.geometry.DefaultGeometryCreator.createDefaultPolygonGeometry
 import com.tomtom.online.sdk.samples.ktx.utils.arch.ResourceListLiveData
 import com.tomtom.online.sdk.search.data.geometry.Geometry
 import com.tomtom.online.sdk.search.data.geometry.GeometrySearchQuery

@@ -41,9 +41,13 @@ import io.reactivex.schedulers.Schedulers
 class SearchRequester(context: Context) : RxContext {
 
     private val disposable = SerialDisposable()
+
     //tag::doc_create_search_object[]
     private val searchApi = OnlineSearchApi.create(context, BuildConfig.SEARCH_API_KEY)
     //end::doc_create_search_object[]
+
+    val evChargingStations =
+        EvChargingStationsSearchRequester(searchApi, disposable, workingScheduler, resultScheduler)
 
     fun search(searchQuery: FuzzySearchQuery, results: ResourceListLiveData<FuzzySearchResult>) {
         results.value = Resource.loading(null)
@@ -129,7 +133,10 @@ class SearchRequester(context: Context) : RxContext {
         )
     }
 
-    fun autocompleteSearch(autocompleteQuery: AutocompleteSearchQuery, results: ResourceLiveData<AutocompleteSearchResponse>) {
+    fun autocompleteSearch(
+        autocompleteQuery: AutocompleteSearchQuery,
+        results: ResourceLiveData<AutocompleteSearchResponse>
+    ) {
         results.value = Resource.loading(null)
         disposable.set(
             //tag::doc_autocomplete_search_request[]
@@ -173,5 +180,4 @@ class SearchRequester(context: Context) : RxContext {
     companion object {
         const val STANDARD_RADIUS = 30000F
     }
-
 }

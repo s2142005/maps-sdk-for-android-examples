@@ -29,7 +29,7 @@ open class RouteDrawer(private val context: Context, private val tomtomMap: Tomt
             //tag::doc_display_route[]
             val routeBuilder = RouteBuilder(route.getCoordinates())
                 .style(RouteStyle.DEFAULT_ROUTE_STYLE)
-                .startIcon(createIcon(R.drawable.ic_map_route_origin))
+                .startIcon(createIcon(R.drawable.ic_map_route_departure))
                 .endIcon(createIcon(R.drawable.ic_map_route_destination))
                 .tag(routeIdx.toString())
             tomtomMap.addRoute(routeBuilder)
@@ -41,7 +41,7 @@ open class RouteDrawer(private val context: Context, private val tomtomMap: Tomt
     fun drawCustom(
         routes: List<FullRoute>,
         style: RouteStyle = createCustomStyle(),
-        startIconResId: Int = R.drawable.ic_map_route_origin,
+        startIconResId: Int = R.drawable.ic_map_route_departure,
         endIconResId: Int = R.drawable.ic_map_fav
     ) {
 
@@ -57,7 +57,7 @@ open class RouteDrawer(private val context: Context, private val tomtomMap: Tomt
     fun drawDotted(
         routes: List<FullRoute>,
         style: RouteStyle = createDottedStyle(),
-        startIconResId: Int = R.drawable.ic_map_route_origin,
+        startIconResId: Int = R.drawable.ic_map_route_departure,
         endIconResId: Int = R.drawable.ic_map_route_destination
     ) {
 
@@ -85,7 +85,7 @@ open class RouteDrawer(private val context: Context, private val tomtomMap: Tomt
 
     private fun setupEvRouteIcons(index: Int, routeBuilder: RouteBuilder, routeLegs: List<Leg>) {
         when (index) {
-            0 -> routeBuilder.startIcon(createIcon(R.drawable.ic_map_route_origin))
+            0 -> routeBuilder.startIcon(createIcon(R.drawable.ic_map_route_departure))
             routeLegs.size - 1 -> routeBuilder.endIcon(createIcon(R.drawable.ic_map_route_destination))
         }
     }
@@ -113,20 +113,18 @@ open class RouteDrawer(private val context: Context, private val tomtomMap: Tomt
         tomtomMap.routeSettings.updateRouteStyle(routeId, routeStyle)
     }
 
-    private fun createIcon(iconResId: Int): Icon = Icon.Factory.fromResources(
-        context, iconResId, DEFAULT_ICON_SCALE
-    )
+    private fun createIcon(iconResId: Int): Icon = Icon.Factory.fromResources(context, iconResId)
 
     private fun createCustomStyle(): RouteStyle {
         return (
-            //tag::doc_create_custom_route_style[]
-            RouteStyleBuilder.create()
-                .withWidth(ROUTE_WIDTH)
-                .withFillColor(Color.BLACK)
-                .withOutlineColor(Color.RED)
-                .build()
-            //end::doc_create_custom_route_style[]
-            )
+                //tag::doc_create_custom_route_style[]
+                RouteStyleBuilder.create()
+                    .withWidth(ROUTE_WIDTH)
+                    .withFillColor(Color.BLACK)
+                    .withOutlineColor(Color.RED)
+                    .build()
+                //end::doc_create_custom_route_style[]
+                )
     }
 
     private fun createDottedStyle(): RouteStyle {
@@ -140,7 +138,6 @@ open class RouteDrawer(private val context: Context, private val tomtomMap: Tomt
     }
 
     companion object {
-        const val DEFAULT_ICON_SCALE = 2.0
         const val ROUTE_WIDTH = 2.0
         private const val DOTTED_ROUTE_WIDTH = 0.3
         private const val DASH_LENGTH = 0.01

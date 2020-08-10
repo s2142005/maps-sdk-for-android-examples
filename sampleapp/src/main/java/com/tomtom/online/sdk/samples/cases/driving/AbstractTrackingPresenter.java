@@ -145,8 +145,8 @@ public abstract class AbstractTrackingPresenter extends BaseFunctionalExamplePre
     }
 
     private void createChevron() {
-        Icon activeIcon = Icon.Factory.fromResources(getContext(), R.drawable.chevron_color, CHEVRON_ICON_SCALE);
-        Icon inactiveIcon = Icon.Factory.fromResources(getContext(), R.drawable.chevron_shadow, CHEVRON_ICON_SCALE);
+        Icon activeIcon = Icon.Factory.fromResources(getContext(), R.drawable.chevron_color);
+        Icon inactiveIcon = Icon.Factory.fromResources(getContext(), R.drawable.chevron_shadow);
         //tag::doc_create_chevron[]
         ChevronBuilder chevronBuilder = ChevronBuilder.create(activeIcon, inactiveIcon);
         chevron = tomtomMap.getDrivingSettings().addChevron(chevronBuilder);

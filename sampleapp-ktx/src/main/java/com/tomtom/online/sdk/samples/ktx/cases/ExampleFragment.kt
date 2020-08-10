@@ -92,14 +92,14 @@ abstract class ExampleFragment : Fragment(), ExampleLifecycle {
         })
     }
 
-    protected fun centerOnArea(topLeft: LatLng, bottomRight: LatLng) {
+    protected fun centerOnArea(topLeft: LatLng, bottomRight: LatLng, orientation: Int = MapConstants.ORIENTATION_SOUTH) {
         mainViewModel.applyOnMap(MapAction {
             let { tomtomMap ->
                 //tag::doc_map_center_on_area[]
                 val areaBox = BoundingBox(topLeft, bottomRight)
                 val cameraFocusArea = CameraFocusArea.Builder(areaBox)
                     .apply {
-                        bearing(MapConstants.ORIENTATION_SOUTH.toDouble())
+                        bearing(orientation.toDouble())
                         pitch(45.0)
                     }
                     .build()

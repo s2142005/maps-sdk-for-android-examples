@@ -8,7 +8,7 @@
  * licensee then you are not authorised to use this software in any manner and should
  * immediately return it to TomTom N.V.
  */
-package com.tomtom.online.sdk.samples.ktx.cases.search.geometry
+package com.tomtom.online.sdk.samples.ktx.utils.geometry
 
 import android.graphics.Color
 import com.google.common.collect.ImmutableList
@@ -67,7 +67,9 @@ object DefaultGeometryCreator {
     }
 
     fun createDefaultCircleGeometry(): CircleGeometry {
-        return CircleGeometry(CIRCLE_CENTER, CIRCLE_RADIUS)
+        return CircleGeometry(
+            CIRCLE_CENTER,
+            CIRCLE_RADIUS
+        )
     }
-
 }

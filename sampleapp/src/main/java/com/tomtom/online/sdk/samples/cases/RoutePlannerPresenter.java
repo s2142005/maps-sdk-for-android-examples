@@ -57,7 +57,6 @@ public abstract class RoutePlannerPresenter extends BaseFunctionalExamplePresent
 
     protected static final int DEFAULT_ZOOM_FOR_EXAMPLE = 10;
     protected static final int DEFAULT_MAP_PADDING = 0;
-    protected static final double DEFAULT_ICON_SCALE = 2.0;
 
     protected CheckedButtonCleaner checkedButtonCleaner;
     protected RoutingUiListener viewModel;
@@ -154,8 +153,8 @@ public abstract class RoutePlannerPresenter extends BaseFunctionalExamplePresent
     }
 
     public void confRouteIcons() {
-        defaultStartIcon = Icon.Factory.fromResources(view.getContext(), R.drawable.ic_map_route_departure, DEFAULT_ICON_SCALE);
-        defaultEndIcon = Icon.Factory.fromResources(view.getContext(), R.drawable.ic_map_route_destination, DEFAULT_ICON_SCALE);
+        defaultStartIcon = Icon.Factory.fromResources(view.getContext(), R.drawable.ic_map_route_departure);
+        defaultEndIcon = Icon.Factory.fromResources(view.getContext(), R.drawable.ic_map_route_destination);
     }
 
     @Override

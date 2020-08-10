@@ -20,8 +20,8 @@ import com.tomtom.online.sdk.map.MarkerBuilder
 import com.tomtom.online.sdk.map.SimpleMarkerBalloon
 import com.tomtom.online.sdk.samples.ktx.MapAction
 import com.tomtom.online.sdk.samples.ktx.cases.search.SearchFragment
-import com.tomtom.online.sdk.samples.ktx.cases.search.geometry.DefaultGeometryCreator.createDefaultCircleOverlay
-import com.tomtom.online.sdk.samples.ktx.cases.search.geometry.DefaultGeometryCreator.createDefaultPolygonOverlay
+import com.tomtom.online.sdk.samples.ktx.utils.geometry.DefaultGeometryCreator.createDefaultCircleOverlay
+import com.tomtom.online.sdk.samples.ktx.utils.geometry.DefaultGeometryCreator.createDefaultPolygonOverlay
 import com.tomtom.online.sdk.samples.ktx.utils.arch.ResourceObserver
 import com.tomtom.online.sdk.samples.ktx.utils.routes.Locations
 import com.tomtom.online.sdk.search.data.geometry.GeometrySearchResult
@@ -55,7 +55,7 @@ class GeometrySearchFragment : SearchFragment<GeometrySearchViewModel>() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.results.observe(this, ResourceObserver(
+        viewModel.results.observe(viewLifecycleOwner, ResourceObserver(
             hideLoading = ::hideLoading,
             showLoading = ::showLoading,
             onSuccess = ::displayResults,

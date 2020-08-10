@@ -92,6 +92,13 @@ class SearchMenuFragment : MenuFragment() {
                 onClickNavigateTo = R.id.geometrySearchFragment
             ),
             MenuItem(
+                title = R.string.menu_ev_stations_search_title,
+                icon = R.drawable.ic_map_menu_icon,
+                description = R.string.menu_ev_stations_search_description,
+                banner = R.drawable.ic_menu_search_ev_stations,
+                onClickNavigateTo = R.id.evStationsFragment
+            ),
+            MenuItem(
                 title = R.string.menu_search_entry_points_title,
                 icon = R.drawable.ic_map_menu_icon,
                 description = R.string.menu_search_entry_points_description,

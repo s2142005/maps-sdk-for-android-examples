@@ -177,9 +177,9 @@ abstract class DrivingFragment<T : DrivingViewModel> : ExampleFragment() {
         mainViewModel.applyOnMap(MapAction {
             let { tomtomMap ->
                 val activeIcon =
-                    Icon.Factory.fromResources(requireContext(), R.drawable.chevron_color, CHEVRON_ICON_SCALE)
+                    Icon.Factory.fromResources(requireContext(), R.drawable.chevron_color)
                 val inactiveIcon =
-                    Icon.Factory.fromResources(requireContext(), R.drawable.chevron_shadow, CHEVRON_ICON_SCALE)
+                    Icon.Factory.fromResources(requireContext(), R.drawable.chevron_shadow)
                 //tag::doc_create_chevron[]
                 val chevronBuilder = ChevronBuilder.create(activeIcon, inactiveIcon)
                 chevron = tomtomMap.drivingSettings.addChevron(chevronBuilder)
@@ -228,7 +228,6 @@ abstract class DrivingFragment<T : DrivingViewModel> : ExampleFragment() {
         const val DEFAULT_MAP_BEARING_SMOOTHING: Long = 1
         const val DEFAULT_ROUTE_IDX = 0
 
-        private const val CHEVRON_ICON_SCALE = 2.5
         private const val GPS_DOT_COLOR = Color.RED
         private const val GPS_DOT_RADIUS = 3.0
         private const val GPS_DOT_FILL = true
