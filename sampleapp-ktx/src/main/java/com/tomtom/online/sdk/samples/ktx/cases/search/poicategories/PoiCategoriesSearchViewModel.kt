@@ -15,26 +15,36 @@ import android.app.Application
 import com.tomtom.online.sdk.samples.ktx.cases.search.SearchViewModel
 import com.tomtom.online.sdk.samples.ktx.utils.arch.Resource
 import com.tomtom.online.sdk.samples.ktx.utils.arch.ResourceLiveData
-import com.tomtom.online.sdk.search.data.poicategories.PoiCategoriesQueryBuilder
-import com.tomtom.online.sdk.search.data.poicategories.PoiCategoriesResponse
+import com.tomtom.online.sdk.search.SearchException
+import com.tomtom.online.sdk.search.poicategories.PoiCategoriesCallback
+import com.tomtom.online.sdk.search.poicategories.PoiCategoriesSpecification
+import com.tomtom.online.sdk.search.poicategories.PoiCategory
 
 class PoiCategoriesSearchViewModel(application: Application) : SearchViewModel(application) {
 
-    val poiCategoriesResult = ResourceLiveData<PoiCategoriesResponse>()
+    val poiCategoriesResult = ResourceLiveData<List<PoiCategory>>()
 
-    override fun search(query: String) {
+    override fun search(term: String) {
         //Not applicable
     }
 
     fun searchPoiCategories() {
         if (poiCategoriesResult.value?.status != Resource.Status.SUCCESS) {
-            //tag::doc_create_poi_categories_query[]
-            val poiCategoriesQuery = PoiCategoriesQueryBuilder.create()
-                .withLanguage("en-GB")
-                .build()
-            //end::doc_create_poi_categories_query[]
-            searchRequester.poiCategoriesSearch(poiCategoriesQuery, poiCategoriesResult)
+            poiCategoriesResult.value = Resource.loading(null)
+            //tag::doc_create_poi_categories_specification[]
+            val poiCategoriesSpecification = PoiCategoriesSpecification("en-GB")
+            //end::doc_create_poi_categories_specification[]
+            searchRequester.poiCategoriesSearch(poiCategoriesSpecification, poiCategoriesCallback)
         }
     }
 
+    private val poiCategoriesCallback = object : PoiCategoriesCallback {
+        override fun onSuccess(poiCategories: List<PoiCategory>) {
+            poiCategoriesResult.value = Resource.success(poiCategories)
+        }
+
+        override fun onError(error: SearchException) {
+            poiCategoriesResult.value = Resource.error(null, Error(error.message))
+        }
+    }
 }

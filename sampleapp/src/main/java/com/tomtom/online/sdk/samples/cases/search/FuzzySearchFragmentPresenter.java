@@ -13,8 +13,10 @@ package com.tomtom.online.sdk.samples.cases.search;
 import androidx.annotation.VisibleForTesting;
 
 import com.tomtom.online.sdk.common.location.LatLng;
-import com.tomtom.online.sdk.search.data.fuzzy.FuzzySearchQueryBuilder;
-import com.tomtom.online.sdk.search.data.fuzzy.FuzzySearchQuery;
+import com.tomtom.online.sdk.common.location.LatLngBias;
+import com.tomtom.online.sdk.search.fuzzy.FuzzySearchSpecification;
+import com.tomtom.online.sdk.search.fuzzy.FuzzyLocationDescriptor;
+import com.tomtom.online.sdk.search.fuzzy.FuzzySearchEngineDescriptor;
 
 public class FuzzySearchFragmentPresenter extends SearchFragmentPresenter {
 
@@ -28,36 +30,46 @@ public class FuzzySearchFragmentPresenter extends SearchFragmentPresenter {
     }
 
     public void performFuzzySearch(String query, int maxLevel) {
-
         LatLng position = getLastKnownPosition();
-        final FuzzySearchQuery searchQuery = getSearchQueryForFuzzySearch(query, maxLevel, position);
-        performSearch(searchQuery);
+        final FuzzySearchSpecification searchSpecification = getFuzzySearchSpecification(query, maxLevel, position);
+        performSearch(searchSpecification);
     }
 
     @VisibleForTesting
-    FuzzySearchQuery getSearchQueryForFuzzySearch(String query, int maxLevel, LatLng position) {
-        return
-                //tag::doc_create_fuzzy_search_query[]
-                FuzzySearchQueryBuilder.create(query)
-                .withPosition(position)
-                .withMinFuzzyLevel(1)
-                .withMaxFuzzyLevel(maxLevel).build();
-                //end::doc_create_fuzzy_search_query[]
+    FuzzySearchSpecification getFuzzySearchSpecification(String term, int maxLevel, LatLng position) {
+        //tag::doc_create_fuzzy_search_specification[]
+        FuzzySearchEngineDescriptor fuzzySearchEngineDescriptor = new FuzzySearchEngineDescriptor.Builder()
+                .minFuzzyLevel(1)
+                .maxFuzzyLevel(maxLevel)
+                .build();
+
+        FuzzyLocationDescriptor fuzzyLocationDescriptor = new FuzzyLocationDescriptor.Builder()
+                .positionBias(new LatLngBias(position))
+                .build();
+
+        return new FuzzySearchSpecification.Builder(term)
+                .searchEngineDescriptor(fuzzySearchEngineDescriptor)
+                .locationDescriptor(fuzzyLocationDescriptor)
+                .build();
+        //end::doc_create_fuzzy_search_specification[]
     }
 
-    public void performNonFuzzySearch(String query) {
-
+    public void performNonFuzzySearch(String term) {
         LatLng position = getLastKnownPosition();
-        final FuzzySearchQuery searchQuery = getSearchQueryForNonFuzzySearch(query, position);
-        performSearch(searchQuery);
+        final FuzzySearchSpecification searchSpecification = getSearchSpecificationForNonFuzzySearch(term, position);
+        performSearch(searchSpecification);
     }
 
     @VisibleForTesting
-    FuzzySearchQuery getSearchQueryForNonFuzzySearch(String query, LatLng position) {
+    FuzzySearchSpecification getSearchSpecificationForNonFuzzySearch(String query, LatLng position) {
+        FuzzyLocationDescriptor fuzzyLocationDescriptor = new FuzzyLocationDescriptor.Builder()
+                .positionBias(new LatLngBias(position))
+                .build();
         return
                 //tag::doc_create_standard_search_query[]
-                FuzzySearchQueryBuilder.create(query)
-                .withPosition(position).build();
-                //end::doc_create_standard_search_query[]
+                new FuzzySearchSpecification.Builder(query)
+                        .locationDescriptor(fuzzyLocationDescriptor)
+                        .build();
+        //end::doc_create_standard_search_query[]
     }
 }

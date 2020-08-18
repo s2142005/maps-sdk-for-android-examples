@@ -10,10 +10,10 @@
  */
 package com.tomtom.online.sdk.samples.utils.formatter;
 
-import com.tomtom.online.sdk.search.data.fuzzy.FuzzySearchResult;
+import com.tomtom.online.sdk.search.fuzzy.FuzzySearchDetails;
 
 public interface SearchResultFormatter {
-    String formatTitleWithDistance(FuzzySearchResult resultItem, double distance);
+    String formatTitleWithDistance(FuzzySearchDetails fuzzySearchDetails, double distance);
 
-    String formatTitle(FuzzySearchResult searchRes);
+    String formatTitle(FuzzySearchDetails fuzzySearchDetails);
 }

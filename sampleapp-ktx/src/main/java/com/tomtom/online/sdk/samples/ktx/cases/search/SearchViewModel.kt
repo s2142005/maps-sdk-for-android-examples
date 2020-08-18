@@ -16,16 +16,19 @@ import android.location.Location
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import com.tomtom.online.sdk.common.location.LatLng
-import com.tomtom.online.sdk.common.location.LatLngAcc
+import com.tomtom.online.sdk.common.location.LatLngBias
 import com.tomtom.online.sdk.samples.ktx.utils.arch.Resource
 import com.tomtom.online.sdk.samples.ktx.utils.arch.ResourceListLiveData
 import com.tomtom.online.sdk.samples.ktx.utils.arch.SingleLiveEvent
-import com.tomtom.online.sdk.search.data.fuzzy.FuzzySearchQuery
-import com.tomtom.online.sdk.search.data.fuzzy.FuzzySearchResult
+import com.tomtom.online.sdk.search.SearchException
+import com.tomtom.online.sdk.search.fuzzy.FuzzySearchDetails
+import com.tomtom.online.sdk.search.fuzzy.FuzzyOutcome
+import com.tomtom.online.sdk.search.fuzzy.FuzzyOutcomeCallback
+import com.tomtom.online.sdk.search.fuzzy.FuzzySearchSpecification
 
 abstract class SearchViewModel(application: Application) : AndroidViewModel(application) {
 
-    val searchResults = ResourceListLiveData<FuzzySearchResult>()
+    val searchResults = ResourceListLiveData<FuzzySearchDetails>()
 
     protected val searchRequester = SearchRequester(application)
     private val selectedTab = SingleLiveEvent<Int>()
@@ -35,15 +38,17 @@ abstract class SearchViewModel(application: Application) : AndroidViewModel(appl
         selectedTab.value = 0
     }
 
-    abstract fun search(query: String)
+    abstract fun search(term: String)
 
-    fun search(searchQuery: FuzzySearchQuery) {
-        searchRequester.search(searchQuery, searchResults)
+    fun search(searchSpecification: FuzzySearchSpecification) {
+        searchResults.value = Resource.loading(null)
+        searchRequester.search(searchSpecification, fuzzyOutcomeCallback)
     }
 
     fun addPosition(): LatLng? = lastKnownLocation?.let { location -> LatLng(location) }
 
-    fun addPreciseness(): LatLngAcc? = lastKnownLocation?.let { location -> LatLngAcc(LatLng(location), SearchRequester.STANDARD_RADIUS) }
+    fun addPreciseness(): LatLngBias? =
+        lastKnownLocation?.let { location -> LatLngBias(LatLng(location), SearchRequester.STANDARD_RADIUS.toDouble()) }
 
     fun clearResults() {
         searchResults.value = Resource.success(listOf())
@@ -61,4 +66,13 @@ abstract class SearchViewModel(application: Application) : AndroidViewModel(appl
 
     fun selectedTabOrNull(): Int? = selectedTab.value
 
+    val fuzzyOutcomeCallback = object : FuzzyOutcomeCallback {
+        override fun onSuccess(fuzzyOutcome: FuzzyOutcome) {
+            searchResults.value = Resource.success(fuzzyOutcome.fuzzyDetailsList)
+        }
+
+        override fun onError(error: SearchException) {
+            searchResults.value = Resource.error(null, Error(error.message))
+        }
+    }
 }

@@ -16,20 +16,23 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.tomtom.online.sdk.samples.ktx.utils.formatter.DistanceFormatter
-import com.tomtom.online.sdk.search.data.fuzzy.FuzzySearchResult
+import com.tomtom.online.sdk.search.fuzzy.FuzzySearchDetails
 import com.tomtom.sdk.examples.R
 import kotlinx.android.synthetic.main.search_result_list_item.view.*
 
-class SearchResultsAdapter(private val searchResults: MutableList<FuzzySearchResult> = mutableListOf()) : RecyclerView.Adapter<SearchResultViewHolder>() {
+class SearchResultsAdapter(private val searchResults: MutableList<FuzzySearchDetails> = mutableListOf()) :
+    RecyclerView.Adapter<SearchResultViewHolder>() {
 
-    fun updateData(searchResults: List<FuzzySearchResult>) {
+    fun updateData(searchResults: List<FuzzySearchDetails>) {
         this.searchResults.clear()
         this.searchResults.addAll(searchResults)
         notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchResultViewHolder =
-        SearchResultViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.search_result_list_item, parent, false))
+        SearchResultViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.search_result_list_item, parent, false)
+        )
 
     override fun getItemCount(): Int = searchResults.size
 
@@ -44,9 +47,9 @@ class SearchResultViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private val primaryAddressTv = itemView.primaryAddressTv
     private val secondaryAddressTv = itemView.secondaryAddressTv
 
-    fun bind(fuzzySearchResult: FuzzySearchResult) {
+    fun bind(fuzzySearchResult: FuzzySearchDetails) {
         distanceTv.text = DistanceFormatter.format(fuzzySearchResult.distance.toInt())
-        primaryAddressTv.text = fuzzySearchResult.address.freeformAddress
-        secondaryAddressTv.text = fuzzySearchResult.address.country
+        primaryAddressTv.text = fuzzySearchResult.address?.freeFormAddress
+        secondaryAddressTv.text = fuzzySearchResult.address?.country
     }
 }

@@ -13,6 +13,8 @@ package com.tomtom.online.sdk.samples.cases.search.entrypoints;
 import android.content.Context;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
 import com.tomtom.online.sdk.map.CameraPosition;
 import com.tomtom.online.sdk.map.Icon;
 import com.tomtom.online.sdk.map.MapConstants;
@@ -22,9 +24,9 @@ import com.tomtom.online.sdk.samples.activities.BaseFunctionalExamplePresenter;
 import com.tomtom.online.sdk.samples.activities.FunctionalExampleModel;
 import com.tomtom.online.sdk.samples.fragments.FunctionalExampleFragment;
 import com.tomtom.online.sdk.samples.utils.Locations;
-import com.tomtom.online.sdk.search.api.SearchError;
-import com.tomtom.online.sdk.search.api.fuzzy.FuzzySearchResultListener;
-import com.tomtom.online.sdk.search.data.fuzzy.FuzzySearchResponse;
+import com.tomtom.online.sdk.search.SearchException;
+import com.tomtom.online.sdk.search.fuzzy.FuzzyOutcome;
+import com.tomtom.online.sdk.search.fuzzy.FuzzyOutcomeCallback;
 
 public class EntryPointsSearchPresenter extends BaseFunctionalExamplePresenter {
 
@@ -91,14 +93,20 @@ public class EntryPointsSearchPresenter extends BaseFunctionalExamplePresenter {
         searchRequester.performSearch(term);
     }
 
-    private FuzzySearchResultListener resultListener = new FuzzySearchResultListener() {
+    private FuzzyOutcomeCallback resultListener = new FuzzyOutcomeCallback() {
         @Override
-        public void onSearchResult(FuzzySearchResponse fuzzySearchResponse) {
+        public void onError(@NonNull SearchException error) {
+            view.showInfoText(error.getMessage(), Toast.LENGTH_LONG);
+            view.enableOptionsView();
+            tomtomMap.clear();
+        }
 
+        @Override
+        public void onSuccess(@NonNull FuzzyOutcome fuzzyOutcome) {
             view.enableOptionsView();
             tomtomMap.clear();
 
-            if (fuzzySearchResponse.getResults().isEmpty()) {
+            if (fuzzyOutcome.getFuzzyDetailsList().isEmpty()) {
                 view.showInfoText(R.string.entry_points_no_results, Toast.LENGTH_LONG);
                 return;
             }
@@ -108,14 +116,7 @@ public class EntryPointsSearchPresenter extends BaseFunctionalExamplePresenter {
 
             String markerBalloonText = context.getString(R.string.entry_points_type);
 
-            new EntryPointsMarkerDrawer(tomtomMap, markerBalloonText).handleResultsFromFuzzy(fuzzySearchResponse, icon);
-        }
-
-        @Override
-        public void onSearchError(SearchError error) {
-            view.showInfoText(error.getMessage(), Toast.LENGTH_LONG);
-            view.enableOptionsView();
-            tomtomMap.clear();
+            new EntryPointsMarkerDrawer(tomtomMap, markerBalloonText).handleResultsFromFuzzy(fuzzyOutcome, icon);
         }
     };
 }

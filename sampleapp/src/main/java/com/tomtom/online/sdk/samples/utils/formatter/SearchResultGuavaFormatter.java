@@ -11,7 +11,7 @@
 package com.tomtom.online.sdk.samples.utils.formatter;
 
 import com.google.common.base.Joiner;
-import com.tomtom.online.sdk.search.data.fuzzy.FuzzySearchResult;
+import com.tomtom.online.sdk.search.fuzzy.FuzzySearchDetails;
 
 public class SearchResultGuavaFormatter implements SearchResultFormatter {
 
@@ -19,10 +19,10 @@ public class SearchResultGuavaFormatter implements SearchResultFormatter {
     public static final String UNIT = "km";
 
     @Override
-    public String formatTitleWithDistance(FuzzySearchResult resultItem, double distance) {
+    public String formatTitleWithDistance(FuzzySearchDetails fuzzySearchDetails, double distance) {
         return Joiner.on(SEPARATOR)
                 .skipNulls()
-                .join(new String[]{getDistanceInBrackets(distance), formatTitle(resultItem)})
+                .join(new String[]{getDistanceInBrackets(distance), formatTitle(fuzzySearchDetails)})
                 .trim();
     }
 
@@ -31,13 +31,13 @@ public class SearchResultGuavaFormatter implements SearchResultFormatter {
     }
 
     @Override
-    public String formatTitle(FuzzySearchResult resultItem) {
+    public String formatTitle(FuzzySearchDetails fuzzySearchDetails) {
         return Joiner.on(SEPARATOR)
                 .skipNulls()
                 .join(new String[]{
-                        resultItem.getPoi().getName(),
-                        resultItem.getAddress().getFreeformAddress(),
-                        resultItem.getAddress().getCountry()
+                        fuzzySearchDetails.getPoi().getName(),
+                        fuzzySearchDetails.getAddress().getFreeFormAddress(),
+                        fuzzySearchDetails.getAddress().getCountry()
                 })
                 .trim();
     }

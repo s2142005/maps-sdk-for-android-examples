@@ -16,21 +16,24 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.common.collect.ImmutableList;
 import com.tomtom.online.sdk.common.location.LatLng;
-import com.tomtom.online.sdk.common.location.LatLngAcc;
+import com.tomtom.online.sdk.common.location.LatLngBias;
 import com.tomtom.online.sdk.common.util.Contextable;
 import com.tomtom.online.sdk.location.LocationUpdateListener;
-import com.tomtom.online.sdk.search.data.fuzzy.FuzzySearchQuery;
-import com.tomtom.online.sdk.search.data.fuzzy.FuzzySearchQueryBuilder;
-import com.tomtom.online.sdk.search.data.fuzzy.FuzzySearchResponse;
-import com.tomtom.online.sdk.search.data.fuzzy.FuzzySearchResult;
+import com.tomtom.online.sdk.search.SearchException;
+import com.tomtom.online.sdk.search.fuzzy.FuzzySearchDetails;
+import com.tomtom.online.sdk.search.fuzzy.FuzzyOutcome;
+import com.tomtom.online.sdk.search.fuzzy.FuzzyOutcomeCallback;
+import com.tomtom.online.sdk.search.fuzzy.FuzzySearchSpecification;
+import com.tomtom.online.sdk.search.fuzzy.FuzzyLocationDescriptor;
+import com.tomtom.online.sdk.search.fuzzy.FuzzySearchEngineDescriptor;
 
 import java.io.Serializable;
 
-import io.reactivex.observers.DisposableSingleObserver;
 import timber.log.Timber;
 
 public class SearchFragmentPresenter implements SearchPresenter, LocationUpdateListener,
@@ -40,7 +43,7 @@ public class SearchFragmentPresenter implements SearchPresenter, LocationUpdateL
     public static final int STANDARD_RADIUS = 30 * 1000; //30 km
 
     protected SearchView searchView;
-    protected ImmutableList<FuzzySearchResult> lastSearchResult;
+    protected ImmutableList<FuzzySearchDetails> lastSearchResult;
 
     private SearchFragmentService searchFragmentService;
     private LocationProvider locationProvider;
@@ -58,7 +61,7 @@ public class SearchFragmentPresenter implements SearchPresenter, LocationUpdateL
         if (savedInstanceState != null) {
             Serializable serializable = savedInstanceState.getSerializable(LAST_SEARCH_QUERY_BUNDLE_KEY);
             if (serializable instanceof ImmutableList) {
-                lastSearchResult = (ImmutableList<FuzzySearchResult>) serializable;
+                lastSearchResult = (ImmutableList<FuzzySearchDetails>) serializable;
             }
             if (lastSearchResult != null) {
                 searchView.updateSearchResults(lastSearchResult);
@@ -129,72 +132,76 @@ public class SearchFragmentPresenter implements SearchPresenter, LocationUpdateL
         searchView.getSearchProgressBar().setVisibility(View.GONE);
     }
 
-    protected void performSearch(FuzzySearchQuery query) {
-
+    protected void performSearch(FuzzySearchSpecification specification) {
         disableSearchUI();
         cancelPreviousSearch();
 
-        performSearchWithoutBlockingUI(query);
+        performSearchWithoutBlockingUi(specification);
     }
 
-    protected void performSearchWithoutBlockingUI(FuzzySearchQuery query) {
-        Timber.d("performSearch " + query);
+    protected void performSearchWithoutBlockingUi(FuzzySearchSpecification specification) {
+        Timber.d("performSearch %s", specification);
         searchView.getSearchProgressBar().setVisibility(View.VISIBLE);
 
         lastSearchResult = null;
 
-        searchFragmentService.performSearch(query,
-                //tag::doc_create_search_callback[]
-                new DisposableSingleObserver<FuzzySearchResponse>() {
-            @Override
-            public void onSuccess(FuzzySearchResponse fuzzySearchResponse) {
-                lastSearchResult = fuzzySearchResponse.getResults();
-                searchView.updateSearchResults(fuzzySearchResponse.getResults());
-                searchFinished();
-            }
-
-            @Override
-            public void onError(Throwable throwable) {
-                searchView.showSearchFailedMessage(throwable.getMessage());
-                searchView.updateSearchResults(ImmutableList.of());
-                searchFinished();
-            }
-            //end::doc_create_search_callback[]
-        });
+        searchFragmentService.performSearch(specification, fuzzyOutcomeCallback);
     }
+
+    //tag::doc_create_search_callback[]
+    private FuzzyOutcomeCallback fuzzyOutcomeCallback = new FuzzyOutcomeCallback() {
+        @Override
+        public void onSuccess(@NonNull FuzzyOutcome fuzzyOutcome) {
+            lastSearchResult = ImmutableList.copyOf(fuzzyOutcome.getFuzzyDetailsList());
+            searchView.updateSearchResults(ImmutableList.copyOf(fuzzyOutcome.getFuzzyDetailsList()));
+            searchFinished();
+        }
+
+        @Override
+        public void onError(@NonNull SearchException error) {
+            searchView.showSearchFailedMessage(error.getMessage());
+            searchView.updateSearchResults(ImmutableList.of());
+            searchFinished();
+        }
+    };
+    //end::doc_create_search_callback[]
 
     protected SearchFragmentService getSearchFragmentService() {
         return searchFragmentService;
     }
 
-    protected FuzzySearchQuery createSimpleQuery(String text) {
+    protected FuzzySearchSpecification createSimpleQuery(String text) {
         Timber.d("createSimpleQuery(): %s", text);
-        return FuzzySearchQueryBuilder.create(text).build();
+        //tag::doc_create_basic_specification[]
+        return new FuzzySearchSpecification.Builder(text).build();
+        //end::doc_create_basic_specification[]
     }
 
-    protected FuzzySearchQuery createSimpleQuery(String text, String lang) {
+    protected FuzzySearchSpecification createSimpleQuery(String text, String lang) {
         Timber.d("createSimpleQuery(): %s, %s", text, lang);
-        //tag::doc_create_simple_query_with_lang[]
-        return FuzzySearchQueryBuilder.create(text).withLanguage(lang).build();
-        //end::doc_create_simple_query_with_lang[]
+        //tag::doc_create_simple_specification_with_lang[]
+        FuzzySearchEngineDescriptor fuzzySearchEngineDescriptor = new FuzzySearchEngineDescriptor.Builder()
+                .language(lang)
+                .build();
+        return new FuzzySearchSpecification.Builder(text)
+                .searchEngineDescriptor(fuzzySearchEngineDescriptor)
+                .build();
+        //end::doc_create_simple_specification_with_lang[]
     }
 
-    @SuppressWarnings("unused")
-    private FuzzySearchQuery getSimpleQueryBuilderWithTerm(String text) {
-        //tag::doc_create_basic_query[]
-        return FuzzySearchQueryBuilder.create(text).build();
-        //end::doc_create_basic_query[]
-    }
-
-    protected FuzzySearchQuery createQueryWithPosition(String text, LatLng position) {
-
+    protected FuzzySearchSpecification createQueryWithPosition(String text, LatLng position) {
         if (position == null) {
             throw new IllegalArgumentException("Position cannot be null");
         }
 
-        //tag::doc_create_query_with_position[]
-        return FuzzySearchQueryBuilder.create(text).withPreciseness(new LatLngAcc(position, STANDARD_RADIUS)).build();
-        //end::doc_create_query_with_position[]
+        //tag::doc_create_specification_with_position[]
+        FuzzyLocationDescriptor fuzzyLocationDescriptor = new FuzzyLocationDescriptor.Builder()
+                .positionBias(new LatLngBias(position, STANDARD_RADIUS))
+                .build();
+        return new FuzzySearchSpecification.Builder(text)
+                .locationDescriptor(fuzzyLocationDescriptor)
+                .build();
+        //end::doc_create_specification_with_position[]
     }
 
     @Override

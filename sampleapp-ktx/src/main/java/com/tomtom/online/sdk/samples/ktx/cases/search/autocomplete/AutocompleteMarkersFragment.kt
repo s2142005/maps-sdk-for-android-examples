@@ -21,11 +21,13 @@ import com.tomtom.online.sdk.samples.ktx.MapAction
 import com.tomtom.online.sdk.samples.ktx.cases.search.SearchFragment
 import com.tomtom.online.sdk.samples.ktx.utils.arch.ResourceObserver
 import com.tomtom.online.sdk.search.data.fuzzy.FuzzySearchResult
+import com.tomtom.online.sdk.search.fuzzy.FuzzySearchDetails
 import com.tomtom.sdk.examples.R
 
 class AutocompleteMarkersFragment : SearchFragment<AutocompleteSearchViewModel>() {
 
-    override fun searchViewModel() = ViewModelProviders.of(requireActivity()).get(AutocompleteSearchViewModel::class.java)
+    override fun searchViewModel() =
+        ViewModelProviders.of(requireActivity()).get(AutocompleteSearchViewModel::class.java)
 
     override fun setupSearchView() {
         //Not applicable
@@ -42,7 +44,7 @@ class AutocompleteMarkersFragment : SearchFragment<AutocompleteSearchViewModel>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = searchViewModel()
-        viewModel.searchResult.observe(
+        viewModel.searchResults.observe(
             viewLifecycleOwner, ResourceObserver(
                 hideLoading = ::hideLoading,
                 showLoading = ::showLoading,
@@ -52,7 +54,7 @@ class AutocompleteMarkersFragment : SearchFragment<AutocompleteSearchViewModel>(
         )
     }
 
-    private fun displayResults(searchResults: List<FuzzySearchResult>) {
+    private fun displayResults(searchResults: List<FuzzySearchDetails>) {
         mainViewModel.applyOnMap(MapAction {
             markerSettings.removeMarkers()
             searchResults.forEach { searchResult ->

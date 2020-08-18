@@ -13,18 +13,25 @@ package com.tomtom.online.sdk.samples.ktx.cases.search.typeahead
 
 import android.app.Application
 import com.tomtom.online.sdk.samples.ktx.cases.search.SearchViewModel
-import com.tomtom.online.sdk.search.data.fuzzy.FuzzySearchQueryBuilder
+import com.tomtom.online.sdk.search.fuzzy.FuzzySearchSpecification
+import com.tomtom.online.sdk.search.fuzzy.FuzzyLocationDescriptor
+import com.tomtom.online.sdk.search.fuzzy.FuzzySearchEngineDescriptor
 
 class TypeaheadSearchViewModel(application: Application) : SearchViewModel(application) {
 
-    override fun search(query: String) {
-        //tag::doc_create_typeahead_search_query[]
-        val searchQuery = FuzzySearchQueryBuilder.create(query)
-                .withPosition(addPosition())
-                .withTypeAhead(true)
-                .build()
-        //end::doc_create_typeahead_search_query[]
+    override fun search(term: String) {
+        val locationDescriptorBuilder = FuzzyLocationDescriptor.Builder()
+        addPreciseness()?.let(locationDescriptorBuilder::positionBias)
 
-        search(searchQuery)
+        //tag::doc_create_typeahead_search_specification[]
+        val searchEngineDescriptor = FuzzySearchEngineDescriptor.Builder()
+            .typeAhead(true)
+            .build()
+        val fuzzySearchSpecification = FuzzySearchSpecification.Builder(term)
+            .searchEngineDescriptor(searchEngineDescriptor)
+            .locationDescriptor(locationDescriptorBuilder.build())
+            .build()
+        //end::doc_create_typeahead_search_specification[]
+        search(fuzzySearchSpecification)
     }
 }

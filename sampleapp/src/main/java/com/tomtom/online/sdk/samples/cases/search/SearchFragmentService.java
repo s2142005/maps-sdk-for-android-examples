@@ -13,16 +13,15 @@ package com.tomtom.online.sdk.samples.cases.search;
 import androidx.annotation.NonNull;
 
 import com.tomtom.online.sdk.common.rx.RxContext;
-import com.tomtom.online.sdk.search.data.fuzzy.FuzzySearchQuery;
-import com.tomtom.online.sdk.search.data.fuzzy.FuzzySearchResponse;
 import com.tomtom.online.sdk.search.extensions.SearchService;
 import com.tomtom.online.sdk.search.extensions.SearchServiceConnectionCallback;
+import com.tomtom.online.sdk.search.fuzzy.FuzzyOutcomeCallback;
+import com.tomtom.online.sdk.search.fuzzy.FuzzySearchSpecification;
 
 import java.util.concurrent.Executors;
 
 import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
 public class SearchFragmentService implements RxContext, SearchServiceConnectionCallback {
@@ -34,12 +33,9 @@ public class SearchFragmentService implements RxContext, SearchServiceConnection
     SearchFragmentService() {
     }
 
-    public void performSearch(FuzzySearchQuery query, DisposableSingleObserver<FuzzySearchResponse> observer) {
+    public void performSearch(FuzzySearchSpecification specification, FuzzyOutcomeCallback fuzzyOutcomeCallback) {
         //tag::doc_perform_search[]
-        searchService.search(query)
-                .subscribeOn(getWorkingScheduler())
-                .observeOn(getResultScheduler())
-                .subscribe(observer);
+        searchService.search(specification, fuzzyOutcomeCallback);
         //end::doc_perform_search[]
     }
 

@@ -12,26 +12,29 @@ package com.tomtom.online.sdk.samples.ktx.cases.search
 
 import android.content.Context
 import com.tomtom.online.sdk.common.rx.RxContext
+import com.tomtom.online.sdk.common.rx.Singles
 import com.tomtom.online.sdk.samples.ktx.utils.arch.Resource
 import com.tomtom.online.sdk.samples.ktx.utils.arch.ResourceListLiveData
 import com.tomtom.online.sdk.samples.ktx.utils.arch.ResourceLiveData
 import com.tomtom.online.sdk.search.OnlineSearchApi
+import com.tomtom.online.sdk.search.autocomplete.AutocompleteSpecification
+import com.tomtom.online.sdk.search.autocomplete.AutocompleteSuggestionCallback
 import com.tomtom.online.sdk.search.data.alongroute.AlongRouteSearchQuery
 import com.tomtom.online.sdk.search.data.alongroute.AlongRouteSearchResult
-import com.tomtom.online.sdk.search.data.autocomplete.AutocompleteSearchQuery
-import com.tomtom.online.sdk.search.data.autocomplete.AutocompleteSearchResponse
 import com.tomtom.online.sdk.search.data.batch.BatchSearchQuery
 import com.tomtom.online.sdk.search.data.batch.BatchSearchResponse
 import com.tomtom.online.sdk.search.data.fuzzy.FuzzySearchQuery
 import com.tomtom.online.sdk.search.data.fuzzy.FuzzySearchResponse
-import com.tomtom.online.sdk.search.data.fuzzy.FuzzySearchResult
 import com.tomtom.online.sdk.search.data.geometry.GeometrySearchQuery
 import com.tomtom.online.sdk.search.data.geometry.GeometrySearchResult
-import com.tomtom.online.sdk.search.data.poicategories.PoiCategoriesQuery
-import com.tomtom.online.sdk.search.data.poicategories.PoiCategoriesResponse
 import com.tomtom.online.sdk.search.data.reversegeocoder.ReverseGeocoderFullAddress
 import com.tomtom.online.sdk.search.data.reversegeocoder.ReverseGeocoderSearchQuery
 import com.tomtom.online.sdk.search.extensions.SearchService
+import com.tomtom.online.sdk.search.fuzzy.FuzzySearchDetails
+import com.tomtom.online.sdk.search.fuzzy.FuzzyOutcomeCallback
+import com.tomtom.online.sdk.search.fuzzy.FuzzySearchSpecification
+import com.tomtom.online.sdk.search.poicategories.PoiCategoriesCallback
+import com.tomtom.online.sdk.search.poicategories.PoiCategoriesSpecification
 import com.tomtom.sdk.examples.BuildConfig
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.SerialDisposable
@@ -49,13 +52,17 @@ class SearchRequester(context: Context) : RxContext {
     val evChargingStations =
         EvChargingStationsSearchRequester(searchApi, disposable, workingScheduler, resultScheduler)
 
-    fun search(searchQuery: FuzzySearchQuery, results: ResourceListLiveData<FuzzySearchResult>) {
+    fun search(searchSpecification: FuzzySearchSpecification, fuzzyOutcomeCallback: FuzzyOutcomeCallback) {
+        searchApi.search(searchSpecification, fuzzyOutcomeCallback)
+    }
+
+    fun search(searchSpecification: FuzzySearchSpecification, results: ResourceListLiveData<FuzzySearchDetails>) {
         results.value = Resource.loading(null)
-        disposable.set(searchApi.search(searchQuery)
+        disposable.set(Singles.fromResult { searchApi.search(searchSpecification) }
             .subscribeOn(workingScheduler)
             .observeOn(resultScheduler)
             .subscribe(
-                { response -> results.value = Resource.success(response.results) },
+                { response -> results.value = Resource.success(response.fuzzyDetailsList) },
                 { error -> results.value = Resource.error(Error(error.message)) }
             )
         )
@@ -118,37 +125,19 @@ class SearchRequester(context: Context) : RxContext {
         )
     }
 
-    fun poiCategoriesSearch(poiCategoriesQuery: PoiCategoriesQuery, results: ResourceLiveData<PoiCategoriesResponse>) {
-        results.value = Resource.loading(null)
-        disposable.set(
-            //tag::doc_poi_categories_search_request[]
-            searchApi.poiCategoriesSearch(poiCategoriesQuery)
-                //end::doc_poi_categories_search_request[]
-                .subscribeOn(workingScheduler)
-                .observeOn(resultScheduler)
-                .subscribe(
-                    { response -> results.value = Resource.success(response) },
-                    { error -> results.value = Resource.error(Error(error.message)) }
-                )
-        )
+    fun poiCategoriesSearch(poiCategoriesSpecification: PoiCategoriesSpecification, callback: PoiCategoriesCallback) {
+        //tag::doc_poi_categories_search_request[]
+        searchApi.poiCategoriesSearch(poiCategoriesSpecification, callback)
+        //end::doc_poi_categories_search_request[]
     }
 
     fun autocompleteSearch(
-        autocompleteQuery: AutocompleteSearchQuery,
-        results: ResourceLiveData<AutocompleteSearchResponse>
+        autocompleteSpecification: AutocompleteSpecification,
+        callback: AutocompleteSuggestionCallback
     ) {
-        results.value = Resource.loading(null)
-        disposable.set(
-            //tag::doc_autocomplete_search_request[]
-            searchApi.autocompleteSearch(autocompleteQuery)
-                //end::doc_autocomplete_search_request[]
-                .subscribeOn(workingScheduler)
-                .observeOn(resultScheduler)
-                .subscribe(
-                    { response -> results.value = Resource.success(response) },
-                    { error -> results.value = Resource.error(Error(error.message)) }
-                )
-        )
+        //tag::doc_autocomplete_search_request[]
+        searchApi.autocompleteSearch(autocompleteSpecification, callback)
+        //end::doc_autocomplete_search_request[]
     }
 
     @Suppress("unused")

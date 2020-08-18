@@ -12,44 +12,68 @@
 package com.tomtom.online.sdk.samples.ktx.cases.search.autocomplete
 
 import android.app.Application
+import com.tomtom.online.sdk.common.location.LatLngBias
 import com.tomtom.online.sdk.samples.ktx.cases.search.SearchViewModel
-import com.tomtom.online.sdk.samples.ktx.utils.arch.ResourceListLiveData
+import com.tomtom.online.sdk.samples.ktx.utils.arch.Resource
 import com.tomtom.online.sdk.samples.ktx.utils.arch.ResourceLiveData
 import com.tomtom.online.sdk.samples.ktx.utils.routes.Locations
-import com.tomtom.online.sdk.search.data.autocomplete.AutocompleteSearchQueryBuilder
-import com.tomtom.online.sdk.search.data.autocomplete.AutocompleteSearchResponse
-import com.tomtom.online.sdk.search.data.autocomplete.response.SegmentType
-import com.tomtom.online.sdk.search.data.fuzzy.FuzzySearchQueryBuilder
-import com.tomtom.online.sdk.search.data.fuzzy.FuzzySearchResult
+import com.tomtom.online.sdk.search.SearchException
+import com.tomtom.online.sdk.search.autocomplete.*
+import com.tomtom.online.sdk.search.autocomplete.entity.SegmentType
+import com.tomtom.online.sdk.search.fuzzy.FuzzySearchSpecification
+import com.tomtom.online.sdk.search.fuzzy.FuzzyLocationDescriptor
+import com.tomtom.online.sdk.search.fuzzy.FuzzySearchEngineDescriptor
 
 class AutocompleteSearchViewModel(application: Application) : SearchViewModel(application) {
 
-    val autocompleteResult = ResourceLiveData<AutocompleteSearchResponse>()
-    val searchResult = ResourceListLiveData<FuzzySearchResult>()
+    val autocompleteResult = ResourceLiveData<AutocompleteSuggestion>()
 
-    override fun search(query: String) {
-        //tag::doc_create_poi_categories_query[]
-        val autocompleteQuery = AutocompleteSearchQueryBuilder.create(query, "en-GB")
-            .withRadius(10_000)
-            .withPosition(Locations.AMSTERDAM)
-            .withCountry("NL")
-            .withLimit(10)
+    override fun search(term: String) {
+        autocompleteResult.value = Resource.loading(null)
+        //tag::doc_create_poi_categories_specification[]
+        val searchEngineDescriptor = AutocompleteSearchEngineDescriptor.Builder()
+            .limit(10)
             .build()
-        //end::doc_create_poi_categories_query[]
 
-        searchRequester.autocompleteSearch(autocompleteQuery, autocompleteResult)
+        val locationDescriptor = AutocompleteLocationDescriptor.Builder()
+            .positionBias(LatLngBias(Locations.AMSTERDAM, 10000.0))
+            .countryCodes(setOf("NL"))
+            .build()
+
+        val autocompleteSpecification = AutocompleteSpecification.Builder(term, "en-GB")
+            .searchEngineDescriptor(searchEngineDescriptor)
+            .locationDescriptor(locationDescriptor)
+            .build()
+        //end::doc_create_poi_categories_specification[]
+        searchRequester.autocompleteSearch(autocompleteSpecification, autocompleteSuggestionCallback)
     }
 
-    fun searchForPlaces(query: String, type: SegmentType) {
-        val builder = FuzzySearchQueryBuilder.create(query)
-            .withPosition(Locations.AMSTERDAM)
+    fun searchForPlaces(term: String, type: SegmentType) {
+        val searchEngineDescriptor = FuzzySearchEngineDescriptor.Builder()
+        val locationDescriptor = FuzzyLocationDescriptor.Builder()
+            .positionBias(LatLngBias(Locations.AMSTERDAM))
+            .build()
         when (type) {
-            SegmentType.BRAND -> builder.withBrandSet(query)
-            SegmentType.CATEGORY -> builder.withCategory(true)
+            SegmentType.BRAND -> searchEngineDescriptor.brandSet(listOf(term))
+            SegmentType.CATEGORY -> searchEngineDescriptor.category(true)
             else -> {
             }
         }
-        val searchQuery = builder.build()
-        searchRequester.search(searchQuery, searchResult)
+
+        val fuzzySearchSpecification = FuzzySearchSpecification.Builder(term)
+            .locationDescriptor(locationDescriptor)
+            .searchEngineDescriptor(searchEngineDescriptor.build())
+            .build()
+        searchRequester.search(fuzzySearchSpecification, fuzzyOutcomeCallback)
+    }
+
+    private val autocompleteSuggestionCallback = object : AutocompleteSuggestionCallback {
+        override fun onSuccess(autocompleteSuggestion: AutocompleteSuggestion) {
+            autocompleteResult.value = Resource.success(autocompleteSuggestion)
+        }
+
+        override fun onError(error: SearchException) {
+            searchResults.value = Resource.error(null, Error(error.message))
+        }
     }
 }

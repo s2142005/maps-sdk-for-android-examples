@@ -24,10 +24,10 @@ import com.tomtom.online.sdk.samples.ktx.MapAction
 import com.tomtom.online.sdk.samples.ktx.cases.ExampleFragment
 import com.tomtom.online.sdk.samples.ktx.extensions.hideKeyboard
 import com.tomtom.online.sdk.samples.ktx.utils.arch.ResourceObserver
-import com.tomtom.online.sdk.search.data.fuzzy.FuzzySearchResult
 import com.tomtom.online.sdk.search.extensions.SearchService
 import com.tomtom.online.sdk.search.extensions.SearchServiceConnectionCallback
 import com.tomtom.online.sdk.search.extensions.SearchServiceManager
+import com.tomtom.online.sdk.search.fuzzy.FuzzySearchDetails
 import com.tomtom.sdk.examples.R
 import kotlinx.android.synthetic.main.default_search_fragment.*
 
@@ -116,7 +116,7 @@ abstract class SearchFragment<T : SearchViewModel> : ExampleFragment() {
         }
     }
 
-    open fun displaySearchResults(searchResults: List<FuzzySearchResult>) {
+    open fun displaySearchResults(searchResults: List<FuzzySearchDetails>) {
         searchResultsAdapter?.updateData(searchResults)
     }
 

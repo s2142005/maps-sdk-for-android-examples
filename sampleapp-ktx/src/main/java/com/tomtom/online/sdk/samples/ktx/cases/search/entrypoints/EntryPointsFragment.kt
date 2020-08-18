@@ -19,7 +19,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.tomtom.online.sdk.map.Icon
 import com.tomtom.online.sdk.samples.ktx.MapAction
 import com.tomtom.online.sdk.samples.ktx.cases.search.SearchFragment
-import com.tomtom.online.sdk.search.data.fuzzy.FuzzySearchResult
+import com.tomtom.online.sdk.search.fuzzy.FuzzySearchDetails
 import com.tomtom.sdk.examples.R
 import kotlinx.android.synthetic.main.control_buttons_entrypoints.*
 import kotlinx.android.synthetic.main.fragment_search_with_map.*
@@ -51,7 +51,7 @@ class EntryPointsFragment : SearchFragment<EntryPointsViewModel>() {
         centerOnLocation()
     }
 
-    override fun displaySearchResults(searchResults: List<FuzzySearchResult>) {
+    override fun displaySearchResults(searchResults: List<FuzzySearchDetails>) {
         context?.apply {
             val icon = Icon.Factory.fromResources(this, R.drawable.ic_marker_entry_point)
             val markerBalloonText = getString(R.string.entry_points_type)

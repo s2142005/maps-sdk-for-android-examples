@@ -14,22 +14,30 @@ import android.content.Context;
 
 import com.tomtom.online.sdk.search.OnlineSearchApi;
 import com.tomtom.online.sdk.search.SearchApi;
-import com.tomtom.online.sdk.search.api.fuzzy.FuzzySearchResultListener;
-import com.tomtom.online.sdk.search.data.fuzzy.FuzzySearchQueryBuilder;
+import com.tomtom.online.sdk.search.fuzzy.FuzzyOutcomeCallback;
+import com.tomtom.online.sdk.search.fuzzy.FuzzySearchSpecification;
+import com.tomtom.online.sdk.search.fuzzy.FuzzySearchEngineDescriptor;
 
 public class EntryPointsSearchRequester {
 
     private Context context;
-    private FuzzySearchResultListener searchResultCallback;
+    private FuzzyOutcomeCallback fuzzyOutcomeCallback;
     private final static String IDX_POI = "POI";
 
-    EntryPointsSearchRequester(Context context, FuzzySearchResultListener searchResultCallback) {
+    EntryPointsSearchRequester(Context context, FuzzyOutcomeCallback fuzzyOutcomeCallback) {
         this.context = context;
-        this.searchResultCallback = searchResultCallback;
+        this.fuzzyOutcomeCallback = fuzzyOutcomeCallback;
     }
 
     public void performSearch(String term) {
+        FuzzySearchEngineDescriptor fuzzySearchEngineDescriptor = new FuzzySearchEngineDescriptor.Builder()
+                .idx(IDX_POI)
+                .build();
+        FuzzySearchSpecification searchSpecification = new FuzzySearchSpecification.Builder(term)
+                .searchEngineDescriptor(fuzzySearchEngineDescriptor)
+                .build();
+
         SearchApi searchAPI = OnlineSearchApi.create(context);
-        searchAPI.search(FuzzySearchQueryBuilder.create(term).withIdx(IDX_POI).build(), searchResultCallback);
+        searchAPI.search(searchSpecification, fuzzyOutcomeCallback);
     }
 }

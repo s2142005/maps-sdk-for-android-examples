@@ -12,33 +12,42 @@
 package com.tomtom.online.sdk.samples.ktx.cases.search.address
 
 import android.app.Application
+import com.tomtom.online.sdk.common.location.LatLngBias
 import com.tomtom.online.sdk.samples.ktx.cases.search.SearchViewModel
-import com.tomtom.online.sdk.search.data.fuzzy.FuzzySearchQuery
-import com.tomtom.online.sdk.search.data.fuzzy.FuzzySearchQueryBuilder
+import com.tomtom.online.sdk.search.fuzzy.FuzzySearchSpecification
+import com.tomtom.online.sdk.search.fuzzy.FuzzyLocationDescriptor
 
 class AddressSearchViewModel(application: Application) : SearchViewModel(application) {
 
     private var globalSearch = true
 
-    override fun search(query: String) {
-        val searchQuery = if (globalSearch) createGlobalQuery(query) else createLocalQuery(query)
-        search(searchQuery)
+    override fun search(term: String) {
+        val searchSpecification = if (globalSearch) createGlobalSpecification(term) else createLocalSpecification(term)
+        search(searchSpecification)
     }
 
-    private fun createLocalQuery(query: String): FuzzySearchQuery {
-        return (
-                //tag::doc_create_query_with_position[]
-                FuzzySearchQueryBuilder.create(query)
-                        .withPreciseness(addPreciseness())
-                        .build()
-                //end::doc_create_query_with_position[]
-                )
-    }
-
-    private fun createGlobalQuery(query: String): FuzzySearchQuery {
-        return FuzzySearchQueryBuilder.create(query)
-                .withPosition(addPosition())
+    private fun createLocalSpecification(term: String): FuzzySearchSpecification {
+        return addPreciseness()?.let { preciseness ->
+            //tag::doc_create_specification_with_position[]
+            val locationDescriptor = FuzzyLocationDescriptor.Builder()
+                .positionBias(preciseness)
                 .build()
+            return FuzzySearchSpecification.Builder(term)
+                .locationDescriptor(locationDescriptor)
+                .build()
+            //end::doc_create_specification_with_position[]
+        } ?: FuzzySearchSpecification.Builder(term).build()
+    }
+
+    private fun createGlobalSpecification(term: String): FuzzySearchSpecification {
+        return addPosition()?.let { position ->
+            val locationDescriptor = FuzzyLocationDescriptor.Builder()
+                .positionBias(LatLngBias(position))
+                .build()
+            return FuzzySearchSpecification.Builder(term)
+                .locationDescriptor(locationDescriptor)
+                .build()
+        } ?: FuzzySearchSpecification.Builder(term).build()
     }
 
     fun enableGlobalSearch() {
@@ -50,11 +59,11 @@ class AddressSearchViewModel(application: Application) : SearchViewModel(applica
     }
 
     @Suppress("unused")
-    private fun createBasicQuery(text: String): FuzzySearchQuery {
+    private fun createBasicSpecification(text: String): FuzzySearchSpecification {
         return (
-                //tag::doc_create_basic_query[]
-                FuzzySearchQueryBuilder.create(text).build()
-                //end::doc_create_basic_query[]
-                )
+            //tag::doc_create_basic_specification[]
+            FuzzySearchSpecification.Builder(text).build()
+            //end::doc_create_basic_specification[]
+            )
     }
 }

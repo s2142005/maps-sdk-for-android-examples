@@ -20,7 +20,7 @@ class BatchSearchViewModel(application: Application) : SearchViewModel(applicati
 
     val results = ResourceLiveData<BatchSearchResponse>()
 
-    override fun search(query: String) {
+    override fun search(term: String) {
         // Not applicable to this example.
     }
 

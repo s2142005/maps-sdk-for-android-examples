@@ -23,8 +23,8 @@ import com.jakewharton.rxbinding2.support.v7.widget.RxSearchView
 import com.tomtom.online.sdk.samples.ktx.cases.search.SearchFragment
 import com.tomtom.online.sdk.samples.ktx.cases.search.poicategories.PoiCategoriesAdapter
 import com.tomtom.online.sdk.samples.ktx.utils.arch.ResourceObserver
-import com.tomtom.online.sdk.search.data.autocomplete.AutocompleteSearchResponse
-import com.tomtom.online.sdk.search.data.autocomplete.response.Segment
+import com.tomtom.online.sdk.search.autocomplete.AutocompleteSuggestion
+import com.tomtom.online.sdk.search.autocomplete.entity.Segment
 import com.tomtom.sdk.examples.R
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.SerialDisposable
@@ -117,8 +117,8 @@ class AutocompleteSearchFragment : SearchFragment<AutocompleteSearchViewModel>()
         autocompleteAdapter.updateData(emptyList())
     }
 
-    private fun showAutocompleteSuggestions(autocompleteSearchResponse: AutocompleteSearchResponse) {
-        autocompleteAdapter.updateData(autocompleteSearchResponse.results.flatMap { it.segments })
+    private fun showAutocompleteSuggestions(autocompleteSuggestion: AutocompleteSuggestion) {
+        autocompleteAdapter.updateData(autocompleteSuggestion.segments)
     }
 
     companion object {

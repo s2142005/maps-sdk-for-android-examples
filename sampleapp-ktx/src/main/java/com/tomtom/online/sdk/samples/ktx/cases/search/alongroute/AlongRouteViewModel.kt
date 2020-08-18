@@ -36,7 +36,7 @@ class AlongRouteViewModel(application: Application) : SearchViewModel(applicatio
     private val routingRequester = RoutingRequester(application)
 
 
-    override fun search(query: String) {
+    override fun search(term: String) {
         // Not applicable to this example.
     }
 

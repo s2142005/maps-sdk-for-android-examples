@@ -12,23 +12,31 @@
 package com.tomtom.online.sdk.samples.ktx.cases.search.languageparam
 
 import android.app.Application
+import com.tomtom.online.sdk.common.location.LatLngBias
 import com.tomtom.online.sdk.samples.ktx.cases.search.SearchViewModel
 import com.tomtom.online.sdk.samples.ktx.utils.arch.LanguageSelector
-import com.tomtom.online.sdk.search.data.fuzzy.FuzzySearchQueryBuilder
+import com.tomtom.online.sdk.search.fuzzy.FuzzySearchSpecification
+import com.tomtom.online.sdk.search.fuzzy.FuzzyLocationDescriptor
+import com.tomtom.online.sdk.search.fuzzy.FuzzySearchEngineDescriptor
 
 class LanguageParamViewModel(application: Application) : SearchViewModel(application) {
 
     private var languageSelector: LanguageSelector = LanguageSelector.EN
 
-    override fun search(query: String) {
-        //tag::doc_create_simple_query_with_lang[]
-        val searchQuery = FuzzySearchQueryBuilder.create(query)
-                .withLanguage(languageSelector.code)
-                .withPosition(addPosition())
-                .build()
-        //end::doc_create_simple_query_with_lang[]
+    override fun search(term: String) {
+        val locationDescriptor = FuzzyLocationDescriptor.Builder()
+        addPosition()?.let { position -> locationDescriptor.positionBias(LatLngBias(position)) }
+        //tag::doc_create_simple_specification_with_lang[]
+        val searchEngineDescriptor = FuzzySearchEngineDescriptor.Builder()
+            .language(languageSelector.code)
+            .build()
 
-        search(searchQuery)
+        val fuzzySearchSpecification = FuzzySearchSpecification.Builder(term)
+            .searchEngineDescriptor(searchEngineDescriptor)
+            .locationDescriptor(locationDescriptor.build())
+            .build()
+        //end::doc_create_simple_specification_with_lang[]
+        search(fuzzySearchSpecification)
     }
 
     fun enableEnglish() {

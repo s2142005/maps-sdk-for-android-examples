@@ -12,37 +12,48 @@ package com.tomtom.online.sdk.samples.cases.search.openinghours;
 
 import android.content.Context;
 
+import com.tomtom.online.sdk.common.location.LatLngBias;
 import com.tomtom.online.sdk.samples.utils.Locations;
 import com.tomtom.online.sdk.search.OnlineSearchApi;
 import com.tomtom.online.sdk.search.SearchApi;
-import com.tomtom.online.sdk.search.api.autocomplete.AutocompleteSearchResultListener;
-import com.tomtom.online.sdk.search.api.fuzzy.FuzzySearchResultListener;
-import com.tomtom.online.sdk.search.data.autocomplete.AutocompleteSearchQuery;
-import com.tomtom.online.sdk.search.data.autocomplete.AutocompleteSearchQueryBuilder;
-import com.tomtom.online.sdk.search.data.common.OpeningHoursMode;
-import com.tomtom.online.sdk.search.data.fuzzy.FuzzySearchQuery;
-import com.tomtom.online.sdk.search.data.fuzzy.FuzzySearchQueryBuilder;
+import com.tomtom.online.sdk.search.fuzzy.FuzzyOutcomeCallback;
+import com.tomtom.online.sdk.search.fuzzy.FuzzySearchSpecification;
+import com.tomtom.online.sdk.search.fuzzy.FuzzyLocationDescriptor;
+import com.tomtom.online.sdk.search.fuzzy.FuzzySearchEngineDescriptor;
+import com.tomtom.online.sdk.search.time.TimeDescriptor;
+import com.tomtom.online.sdk.search.time.OpeningHoursMode;
 
 @SuppressWarnings("unused")
 class OpeningHoursRequester {
     private final Context context;
-    private FuzzySearchResultListener fuzzySearchResultListener;
+    private FuzzyOutcomeCallback fuzzyOutcomeCallback;
 
-    OpeningHoursRequester(Context context, FuzzySearchResultListener fuzzySearchResultListener) {
+    OpeningHoursRequester(Context context, FuzzyOutcomeCallback fuzzyOutcomeCallback) {
         this.context = context;
-        this.fuzzySearchResultListener = fuzzySearchResultListener;
+        this.fuzzyOutcomeCallback = fuzzyOutcomeCallback;
     }
 
     void performPoiCategoriesSearch(String query) {
         SearchApi searchAPI = createSearchAPI();
-        //tag::doc_create_opening_hours_query[]
-        FuzzySearchQuery openingHoursQuery = FuzzySearchQueryBuilder.create("Petrol station")
-                .withOpeningHours(OpeningHoursMode.NEXT_SEVEN_DAYS)
-                .withPosition(Locations.AMSTERDAM_LOCATION)
-                .withLanguage("en-GB")
+
+        //tag::doc_create_opening_hours_specification[]
+        TimeDescriptor timeDescriptor = new TimeDescriptor(OpeningHoursMode.NEXT_SEVEN_DAYS);
+
+        FuzzySearchEngineDescriptor fuzzySearchEngineDescriptor = new FuzzySearchEngineDescriptor.Builder()
+                .language("en-GB")
                 .build();
-        searchAPI.search(openingHoursQuery, fuzzySearchResultListener);
-        //end::doc_create_opening_hours_query[]
+
+        FuzzyLocationDescriptor fuzzyLocationDescriptor = new FuzzyLocationDescriptor.Builder()
+                .positionBias(new LatLngBias(Locations.AMSTERDAM_LOCATION))
+                .build();
+
+        FuzzySearchSpecification openingHoursSpecification = new FuzzySearchSpecification.Builder("Petrol station")
+                .searchEngineDescriptor(fuzzySearchEngineDescriptor)
+                .locationDescriptor(fuzzyLocationDescriptor)
+                .timeDescriptor(timeDescriptor)
+                .build();
+        searchAPI.search(openingHoursSpecification, fuzzyOutcomeCallback);
+        //end::doc_create_opening_hours_specification[]
     }
 
     SearchApi createSearchAPI() {

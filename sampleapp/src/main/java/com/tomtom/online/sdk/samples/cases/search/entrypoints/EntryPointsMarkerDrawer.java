@@ -14,9 +14,9 @@ import com.tomtom.online.sdk.map.Icon;
 import com.tomtom.online.sdk.map.MarkerBuilder;
 import com.tomtom.online.sdk.map.SimpleMarkerBalloon;
 import com.tomtom.online.sdk.map.TomtomMap;
-import com.tomtom.online.sdk.search.data.common.EntryPoint;
-import com.tomtom.online.sdk.search.data.fuzzy.FuzzySearchResponse;
-import com.tomtom.online.sdk.search.data.fuzzy.FuzzySearchResult;
+import com.tomtom.online.sdk.search.fuzzy.FuzzySearchDetails;
+import com.tomtom.online.sdk.search.fuzzy.FuzzyOutcome;
+import com.tomtom.online.sdk.search.information.EntryPoint;
 
 class EntryPointsMarkerDrawer {
 
@@ -28,9 +28,9 @@ class EntryPointsMarkerDrawer {
         this.markerBalloonText = markerBalloonText;
     }
 
-    private void addMarker(FuzzySearchResult fuzzySearchResult) {
-        tomtomMap.addMarker(new MarkerBuilder(fuzzySearchResult.getPosition())
-                .markerBalloon(new SimpleMarkerBalloon(fuzzySearchResult.getPoi().getName()))
+    private void addMarker(FuzzySearchDetails fuzzySearchDetails) {
+        tomtomMap.addMarker(new MarkerBuilder(fuzzySearchDetails.getPosition())
+                .markerBalloon(new SimpleMarkerBalloon(fuzzySearchDetails.getPoi().getName()))
         );
     }
 
@@ -43,16 +43,15 @@ class EntryPointsMarkerDrawer {
     //end::doc_entry_points_add_marker[]
 
 
-    void handleResultsFromFuzzy(FuzzySearchResponse fuzzySearchResponse, Icon icon) {
+    void handleResultsFromFuzzy(FuzzyOutcome fuzzyOutcome, Icon icon) {
+        FuzzySearchDetails fuzzySearchDetails = fuzzyOutcome.getFuzzyDetailsList().get(0);
 
-        FuzzySearchResult fuzzySearchResult = fuzzySearchResponse.getResults().get(0);
-
-        addMarker(fuzzySearchResult);
+        addMarker(fuzzySearchDetails);
 
         //tag::doc_entry_points_search_request[]
-        for (EntryPoint entryPoint : fuzzySearchResult.getEntryPoints()) {
+        for (EntryPoint entryPoint : fuzzySearchDetails.getEntryPoints()) {
             SimpleMarkerBalloon markerBalloon = new SimpleMarkerBalloon(
-                    String.format(markerBalloonText, entryPoint.getType()));
+                    String.format(markerBalloonText, entryPoint.getType().toString().toLowerCase()));
 
             addMarkerWithIcon(entryPoint, markerBalloon, icon);
         }

@@ -12,30 +12,40 @@
 package com.tomtom.online.sdk.samples.ktx.cases.search.openinghours
 
 import android.app.Application
+import com.tomtom.online.sdk.common.location.LatLngBias
 import com.tomtom.online.sdk.samples.ktx.cases.search.SearchViewModel
 import com.tomtom.online.sdk.samples.ktx.utils.arch.ResourceListLiveData
 import com.tomtom.online.sdk.samples.ktx.utils.routes.Locations
-import com.tomtom.online.sdk.search.data.common.OpeningHoursMode
-import com.tomtom.online.sdk.search.data.fuzzy.FuzzySearchQueryBuilder
-import com.tomtom.online.sdk.search.data.fuzzy.FuzzySearchResult
+import com.tomtom.online.sdk.search.fuzzy.*
+import com.tomtom.online.sdk.search.time.OpeningHoursMode
+import com.tomtom.online.sdk.search.time.TimeDescriptor
 
 class OpeningHoursViewModel(application: Application) : SearchViewModel(application) {
 
-    val searchResult = ResourceListLiveData<FuzzySearchResult>()
+    val openingHoursResults = ResourceListLiveData<FuzzySearchDetails>()
 
-    override fun search(query: String) {
+    override fun search(term: String) {
         //Not applicable
     }
 
     fun searchForPetrolStationsWithOpeningHours() {
-        //tag::doc_create_opening_hours_search_query[]
-        val openingHoursQuery = FuzzySearchQueryBuilder.create("Petrol station")
-            .withOpeningHours(OpeningHoursMode.NEXT_SEVEN_DAYS)
-            .withPosition(Locations.AMSTERDAM)
-            .withLanguage("en-GB")
-            .build()
-        //end::doc_create_opening_hours_search_query[]
+        //tag::doc_create_opening_hours_search_specification[]
+        val timeDescriptor = TimeDescriptor(OpeningHoursMode.NEXT_SEVEN_DAYS)
 
-        searchRequester.search(openingHoursQuery, searchResult)
+        val searchEngineDescriptor = FuzzySearchEngineDescriptor.Builder()
+            .language("en-GB")
+            .build()
+
+        val locationDescriptorBuilder = FuzzyLocationDescriptor.Builder()
+            .positionBias(LatLngBias(Locations.AMSTERDAM))
+            .build()
+
+        val openingHoursQuery = FuzzySearchSpecification.Builder("Petrol station")
+            .searchEngineDescriptor(searchEngineDescriptor)
+            .locationDescriptor(locationDescriptorBuilder)
+            .timeDescriptor(timeDescriptor)
+            .build()
+        //end::doc_create_opening_hours_search_specification[]
+        searchRequester.search(openingHoursQuery, openingHoursResults)
     }
 }

@@ -13,8 +13,10 @@ package com.tomtom.online.sdk.samples.cases.search;
 import androidx.annotation.VisibleForTesting;
 
 import com.tomtom.online.sdk.common.location.LatLng;
-import com.tomtom.online.sdk.search.data.fuzzy.FuzzySearchQueryBuilder;
-import com.tomtom.online.sdk.search.data.fuzzy.FuzzySearchQuery;
+import com.tomtom.online.sdk.common.location.LatLngBias;
+import com.tomtom.online.sdk.search.fuzzy.FuzzySearchSpecification;
+import com.tomtom.online.sdk.search.fuzzy.FuzzyLocationDescriptor;
+import com.tomtom.online.sdk.search.fuzzy.FuzzySearchEngineDescriptor;
 
 public class TypeAheadSearchFragmentPresenter extends SearchFragmentPresenter {
 
@@ -25,18 +27,25 @@ public class TypeAheadSearchFragmentPresenter extends SearchFragmentPresenter {
     @Override
     public void performSearch(final String text) {
         LatLng position = getLastKnownPosition();
-        final FuzzySearchQuery searchQuery = getSearchQuery(text, position);
-        performSearchWithoutBlockingUI(searchQuery);
+        final FuzzySearchSpecification searchSpecification = getSearchSpecification(text, position);
+        performSearchWithoutBlockingUi(searchSpecification);
     }
 
     @VisibleForTesting
-    FuzzySearchQuery getSearchQuery(String text, LatLng position) {
-        return
-                //tag::doc_create_typeahead_search_query[]
-                FuzzySearchQueryBuilder.create(text)
-                        .withPosition(position)
-                        .withTypeAhead(true).build();
-                //end::doc_create_typeahead_search_query[]
-    }
+    FuzzySearchSpecification getSearchSpecification(String text, LatLng position) {
+        FuzzyLocationDescriptor fuzzyLocationDescriptor = new FuzzyLocationDescriptor.Builder()
+                .positionBias(new LatLngBias(position))
+                .build();
 
+        //tag::doc_create_typeahead_search_specification[]
+        FuzzySearchEngineDescriptor fuzzySearchEngineDescriptor = new FuzzySearchEngineDescriptor.Builder()
+                .typeAhead(true)
+                .build();
+
+        return new FuzzySearchSpecification.Builder(text)
+                .searchEngineDescriptor(fuzzySearchEngineDescriptor)
+                .locationDescriptor(fuzzyLocationDescriptor)
+                .build();
+        //end::doc_create_typeahead_search_specification[]
+    }
 }

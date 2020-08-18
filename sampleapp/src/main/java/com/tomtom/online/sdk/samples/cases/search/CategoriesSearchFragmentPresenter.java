@@ -14,8 +14,10 @@ import androidx.annotation.VisibleForTesting;
 
 import com.tomtom.online.sdk.common.location.LatLng;
 import com.tomtom.online.sdk.common.location.LatLngAcc;
-import com.tomtom.online.sdk.search.data.fuzzy.FuzzySearchQueryBuilder;
-import com.tomtom.online.sdk.search.data.fuzzy.FuzzySearchQuery;
+import com.tomtom.online.sdk.common.location.LatLngBias;
+import com.tomtom.online.sdk.search.fuzzy.FuzzySearchSpecification;
+import com.tomtom.online.sdk.search.fuzzy.FuzzyLocationDescriptor;
+import com.tomtom.online.sdk.search.fuzzy.FuzzySearchEngineDescriptor;
 
 public class CategoriesSearchFragmentPresenter extends SearchFragmentPresenter {
 
@@ -29,18 +31,24 @@ public class CategoriesSearchFragmentPresenter extends SearchFragmentPresenter {
         searchView.disableToggleButtons();
 
         LatLng position = getLastKnownPosition();
-        final FuzzySearchQuery searchQuery = getSearchQuery(text, position);
-        performSearch(searchQuery);
+        final FuzzySearchSpecification searchSpecification = getSearchQuery(text, position);
+        performSearch(searchSpecification);
     }
 
     @VisibleForTesting
-    FuzzySearchQuery getSearchQuery(String text, LatLng position) {
-        return
-                //tag::doc_create_category_query_plain_text[]
-                FuzzySearchQueryBuilder.create(text)
-                        .withPreciseness(new LatLngAcc(position, STANDARD_RADIUS))
-                        .withTypeAhead(true)
-                        .withCategory(true).build();
-        //end::doc_create_category_query_plain_text[]
+    FuzzySearchSpecification getSearchQuery(String text, LatLng position) {
+        //tag::doc_create_category_specification_plain_text[]
+        FuzzySearchEngineDescriptor fuzzySearchEngineDescriptor = new FuzzySearchEngineDescriptor.Builder()
+                .typeAhead(true)
+                .category(true)
+                .build();
+        FuzzyLocationDescriptor fuzzyLocationDescriptor = new FuzzyLocationDescriptor.Builder()
+                .positionBias(new LatLngBias(position, STANDARD_RADIUS))
+                .build();
+        return new FuzzySearchSpecification.Builder(text)
+                .searchEngineDescriptor(fuzzySearchEngineDescriptor)
+                .locationDescriptor(fuzzyLocationDescriptor)
+                .build();
+        //end::doc_create_category_specification_plain_text[]
     }
 }

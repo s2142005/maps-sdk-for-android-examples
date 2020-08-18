@@ -12,34 +12,48 @@ package com.tomtom.online.sdk.samples.cases.search.autocomplete;
 
 import android.content.Context;
 
+import com.tomtom.online.sdk.common.location.LatLngBias;
 import com.tomtom.online.sdk.samples.utils.Locations;
 import com.tomtom.online.sdk.search.OnlineSearchApi;
 import com.tomtom.online.sdk.search.SearchApi;
-import com.tomtom.online.sdk.search.api.autocomplete.AutocompleteSearchResultListener;
-import com.tomtom.online.sdk.search.data.autocomplete.AutocompleteSearchQuery;
-import com.tomtom.online.sdk.search.data.autocomplete.AutocompleteSearchQueryBuilder;
+import com.tomtom.online.sdk.search.autocomplete.AutocompleteLocationDescriptor;
+import com.tomtom.online.sdk.search.autocomplete.AutocompleteSearchEngineDescriptor;
+import com.tomtom.online.sdk.search.autocomplete.AutocompleteSpecification;
+import com.tomtom.online.sdk.search.autocomplete.AutocompleteSuggestionCallback;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @SuppressWarnings("unused")
 class AutocompleteRequester {
     private final Context context;
-    private AutocompleteSearchResultListener autocompleteSearchResultListener;
+    private AutocompleteSuggestionCallback autocompleteSuggestionCallback;
+    private final Set<String> countryCodes = new HashSet<>();
 
-    AutocompleteRequester(Context context, AutocompleteSearchResultListener autocompleteSearchResultListener) {
+    AutocompleteRequester(Context context, AutocompleteSuggestionCallback autocompleteSuggestionCallback) {
         this.context = context;
-        this.autocompleteSearchResultListener = autocompleteSearchResultListener;
+        this.autocompleteSuggestionCallback = autocompleteSuggestionCallback;
+        this.countryCodes.add("NL");
     }
 
-    void performPoiCategoriesSearch(String query) {
+    void performPoiCategoriesSearch(String term) {
         SearchApi searchAPI = createSearchAPI();
-        //tag::doc_create_autocomplete_query[]
-        AutocompleteSearchQuery autocompleteQuery = AutocompleteSearchQueryBuilder.create(query, "en-GB")
-                .withRadius(10_000)
-                .withPosition(Locations.AMSTERDAM_LOCATION)
-                .withCountry("NL")
-                .withLimit(10)
+        //tag::doc_create_autocomplete_specification[]
+        AutocompleteSearchEngineDescriptor searchEngineDescriptor = new AutocompleteSearchEngineDescriptor.Builder()
+                .limit(10)
                 .build();
-        searchAPI.autocompleteSearch(autocompleteQuery);
-        //end::doc_create_autocomplete_query[]
+
+        AutocompleteLocationDescriptor locationDescriptor = new AutocompleteLocationDescriptor.Builder()
+                .countryCodes(countryCodes)
+                .positionBias(new LatLngBias(Locations.AMSTERDAM_LOCATION))
+                .build();
+
+        AutocompleteSpecification autocompleteSpecification = new AutocompleteSpecification.Builder(term, "en-GB")
+                .locationDescriptor(locationDescriptor)
+                .searchEngineDescriptor(searchEngineDescriptor)
+                .build();
+        searchAPI.autocompleteSearch(autocompleteSpecification, autocompleteSuggestionCallback);
+        //end::doc_create_autocomplete_specification[]
     }
 
     SearchApi createSearchAPI() {

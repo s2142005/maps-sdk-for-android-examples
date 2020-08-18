@@ -15,7 +15,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.tomtom.online.sdk.search.data.autocomplete.response.Segment
+import com.tomtom.online.sdk.search.autocomplete.entity.Segment
 import com.tomtom.sdk.examples.R
 import kotlinx.android.synthetic.main.list_item_autocomplete.view.*
 

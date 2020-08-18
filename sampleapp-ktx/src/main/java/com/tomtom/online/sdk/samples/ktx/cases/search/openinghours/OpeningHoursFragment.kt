@@ -21,7 +21,7 @@ import com.tomtom.online.sdk.samples.ktx.MapAction
 import com.tomtom.online.sdk.samples.ktx.cases.search.SearchFragment
 import com.tomtom.online.sdk.samples.ktx.utils.arch.ResourceObserver
 import com.tomtom.online.sdk.samples.ktx.utils.formatter.OpeningHoursFormatter
-import com.tomtom.online.sdk.search.data.fuzzy.FuzzySearchResult
+import com.tomtom.online.sdk.search.fuzzy.FuzzySearchDetails
 import com.tomtom.sdk.examples.R
 
 class OpeningHoursFragment : SearchFragment<OpeningHoursViewModel>() {
@@ -32,7 +32,7 @@ class OpeningHoursFragment : SearchFragment<OpeningHoursViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.searchResult.observe(
+        viewModel.openingHoursResults.observe(
             viewLifecycleOwner, ResourceObserver(
                 hideLoading = ::hideLoading,
                 showLoading = ::showLoading,
@@ -60,17 +60,21 @@ class OpeningHoursFragment : SearchFragment<OpeningHoursViewModel>() {
         restoreDefaultBalloonAdapter()
     }
 
-    private fun showMarkers(list: List<FuzzySearchResult>) {
+    private fun showMarkers(list: List<FuzzySearchDetails>) {
         mainViewModel.applyOnMap(MapAction {
-            list.filter {
-                it.poi.openingHours.isPresent
-            }.forEach {
-                val weekdays = OpeningHoursFormatter.format(it.poi.openingHours.get())
-                val balloon =
-                    OpeningHoursMarkerBalloon(it.poi.name, weekdays.first, weekdays.second)
-                markerSettings.markerBalloonViewAdapter = OpeningHoursBalloonViewAdapter()
-                markerSettings.addMarker(MarkerBuilder(it.position).tag(it.id).markerBalloon(balloon))
-            }
+            list.filter { it.poi?.openingHours != null }
+                .forEach { fuzzyDetails ->
+                    fuzzyDetails.poi?.let { poi ->
+                        val weekdays = OpeningHoursFormatter.format(poi.openingHours!!)
+                        val balloon = OpeningHoursMarkerBalloon(poi.name, weekdays.first, weekdays.second)
+                        markerSettings.markerBalloonViewAdapter = OpeningHoursBalloonViewAdapter()
+                        markerSettings.addMarker(
+                            MarkerBuilder(fuzzyDetails.position)
+                                .tag(fuzzyDetails.id)
+                                .markerBalloon(balloon)
+                        )
+                    }
+                }
             zoomToAllMarkers()
         })
     }
@@ -80,5 +84,4 @@ class OpeningHoursFragment : SearchFragment<OpeningHoursViewModel>() {
             markerSettings.markerBalloonViewAdapter = TextBalloonViewAdapter()
         })
     }
-
 }

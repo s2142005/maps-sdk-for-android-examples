@@ -12,22 +12,31 @@
 package com.tomtom.online.sdk.samples.ktx.cases.search.maxfuzzinessparam
 
 import android.app.Application
+import com.tomtom.online.sdk.common.location.LatLngBias
 import com.tomtom.online.sdk.samples.ktx.cases.search.SearchViewModel
-import com.tomtom.online.sdk.search.data.fuzzy.FuzzySearchQueryBuilder
+import com.tomtom.online.sdk.search.fuzzy.FuzzySearchSpecification
+import com.tomtom.online.sdk.search.fuzzy.FuzzyLocationDescriptor
+import com.tomtom.online.sdk.search.fuzzy.FuzzySearchEngineDescriptor
 
 class MaxFuzzinessParamViewModel(application: Application) : SearchViewModel(application) {
 
     private var maxFuzzyLevel = 1
 
-    override fun search(query: String) {
-        //tag::doc_create_fuzzy_search_query[]
-        val fuzzyQuery = FuzzySearchQueryBuilder.create(query)
-                .withPosition(addPosition())
-                .withMinFuzzyLevel(1)
-                .withMaxFuzzyLevel(maxFuzzyLevel)
-                .build()
-        //end::doc_create_fuzzy_search_query[]
-        search(fuzzyQuery)
+    override fun search(term: String) {
+        val locationDescriptorBuilder = FuzzyLocationDescriptor.Builder()
+        addPosition()?.let { locationDescriptorBuilder.positionBias(LatLngBias(it)) }
+        //tag::doc_create_fuzzy_search_specification[]
+        val searchEngineDescriptor = FuzzySearchEngineDescriptor.Builder()
+            .minFuzzyLevel(1)
+            .maxFuzzyLevel(maxFuzzyLevel)
+            .build()
+
+        val fuzzySearchSpecification = FuzzySearchSpecification.Builder(term)
+            .searchEngineDescriptor(searchEngineDescriptor)
+            .locationDescriptor(locationDescriptorBuilder.build())
+            .build()
+        //end::doc_create_fuzzy_search_specification[]
+        search(fuzzySearchSpecification)
     }
 
     fun switchMaxFuzzyLevelToOne() {
@@ -41,5 +50,4 @@ class MaxFuzzinessParamViewModel(application: Application) : SearchViewModel(app
     fun switchMaxFuzzyLevelToThree() {
         maxFuzzyLevel = 3
     }
-
 }

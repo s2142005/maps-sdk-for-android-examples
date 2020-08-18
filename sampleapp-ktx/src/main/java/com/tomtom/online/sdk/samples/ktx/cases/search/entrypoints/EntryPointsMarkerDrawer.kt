@@ -14,38 +14,40 @@ import com.tomtom.online.sdk.map.Icon
 import com.tomtom.online.sdk.map.MarkerBuilder
 import com.tomtom.online.sdk.map.SimpleMarkerBalloon
 import com.tomtom.online.sdk.map.TomtomMap
-import com.tomtom.online.sdk.search.data.common.EntryPoint
-import com.tomtom.online.sdk.search.data.fuzzy.FuzzySearchResult
+import com.tomtom.online.sdk.search.fuzzy.FuzzySearchDetails
+import com.tomtom.online.sdk.search.information.EntryPoint
 
 internal class EntryPointsMarkerDrawer(private val tomtomMap: TomtomMap, private val markerBalloonText: String) {
 
-    private fun addMarker(fuzzySearchResult: FuzzySearchResult) {
-        tomtomMap.addMarker(MarkerBuilder(fuzzySearchResult.position)
-                .markerBalloon(SimpleMarkerBalloon(fuzzySearchResult.poi.name))
+    private fun addMarker(fuzzySearchDetails: FuzzySearchDetails) {
+        tomtomMap.addMarker(
+            MarkerBuilder(fuzzySearchDetails.position)
+                .markerBalloon(SimpleMarkerBalloon(fuzzySearchDetails.poi?.name))
         )
     }
 
     //tag::doc_entry_points_add_marker[]
     private fun addMarkerWithIcon(entryPoint: EntryPoint, balloon: SimpleMarkerBalloon, icon: Icon) {
-        tomtomMap.addMarker(MarkerBuilder(entryPoint.position)
+        tomtomMap.addMarker(
+            MarkerBuilder(entryPoint.position)
                 .markerBalloon(balloon)
-                .icon(icon))
+                .icon(icon)
+        )
     }
     //end::doc_entry_points_add_marker[]
 
-    fun handleResultsFromFuzzy(fuzzySearchResult: FuzzySearchResult, icon: Icon) {
+    fun handleResultsFromFuzzy(fuzzySearchDetails: FuzzySearchDetails, icon: Icon) {
         tomtomMap.markerSettings.removeMarkers()
-        addMarker(fuzzySearchResult)
+        addMarker(fuzzySearchDetails)
 
         //tag::doc_entry_points_search_request[]
-        fuzzySearchResult.entryPoints.forEach { entryPoint ->
+        fuzzySearchDetails.entryPoints.forEach { entryPoint ->
             val markerBalloon = SimpleMarkerBalloon(
-                    String.format(markerBalloonText, entryPoint.type))
-
+                String.format(markerBalloonText, entryPoint.type.toString().toLowerCase())
+            )
             addMarkerWithIcon(entryPoint, markerBalloon, icon)
         }
         //end::doc_entry_points_search_request[]
-
         tomtomMap.markerSettings.zoomToAllMarkers()
     }
 }

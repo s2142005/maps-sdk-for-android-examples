@@ -14,29 +14,26 @@ import android.content.Context;
 
 import com.tomtom.online.sdk.search.OnlineSearchApi;
 import com.tomtom.online.sdk.search.SearchApi;
-import com.tomtom.online.sdk.search.api.poicategories.PoiCategoriesSearchResultListener;
-import com.tomtom.online.sdk.search.data.poicategories.PoiCategoriesQuery;
-import com.tomtom.online.sdk.search.data.poicategories.PoiCategoriesQueryBuilder;
+import com.tomtom.online.sdk.search.poicategories.PoiCategoriesCallback;
+import com.tomtom.online.sdk.search.poicategories.PoiCategoriesSpecification;
 
 @SuppressWarnings("unused")
 class PoiCategoriesRequester {
 
     private final Context context;
-    private PoiCategoriesSearchResultListener poiCategoriesSearchListener;
+    private PoiCategoriesCallback poiCategoriesCallback;
 
-    PoiCategoriesRequester(Context context, PoiCategoriesSearchResultListener poiCategoriesSearchListener) {
+    PoiCategoriesRequester(Context context, PoiCategoriesCallback poiCategoriesCallback) {
         this.context = context;
-        this.poiCategoriesSearchListener = poiCategoriesSearchListener;
+        this.poiCategoriesCallback = poiCategoriesCallback;
     }
 
     void performPoiCategoriesSearch() {
         SearchApi searchAPI = createSearchAPI();
-        //tag::doc_create_poi_categories_query[]
-        PoiCategoriesQuery poiCategoriesQuery = PoiCategoriesQueryBuilder.create()
-                .withLanguage("en-GB")
-                .build();
-        searchAPI.poiCategoriesSearch(poiCategoriesQuery);
-        //end::doc_create_poi_categories_query[]
+        //tag::doc_create_poi_categories_specification[]
+        PoiCategoriesSpecification poiCategoriesSpecification = new PoiCategoriesSpecification("en-GB");
+        searchAPI.poiCategoriesSearch(poiCategoriesSpecification, poiCategoriesCallback);
+        //end::doc_create_poi_categories_specification[]
     }
 
     SearchApi createSearchAPI() {

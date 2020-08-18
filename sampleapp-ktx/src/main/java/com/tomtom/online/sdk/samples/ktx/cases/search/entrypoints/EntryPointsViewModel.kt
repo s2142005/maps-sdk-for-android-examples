@@ -12,18 +12,26 @@
 package com.tomtom.online.sdk.samples.ktx.cases.search.entrypoints
 
 import android.app.Application
+import com.tomtom.online.sdk.common.location.LatLngBias
 import com.tomtom.online.sdk.samples.ktx.cases.search.SearchViewModel
 import com.tomtom.online.sdk.samples.ktx.utils.routes.Locations
-import com.tomtom.online.sdk.search.data.fuzzy.FuzzySearchQueryBuilder
+import com.tomtom.online.sdk.search.fuzzy.FuzzySearchSpecification
+import com.tomtom.online.sdk.search.fuzzy.FuzzyLocationDescriptor
+import com.tomtom.online.sdk.search.fuzzy.FuzzySearchEngineDescriptor
 
 class EntryPointsViewModel(application: Application) : SearchViewModel(application) {
 
-    override fun search(query: String) {
-        val queryBuilder = FuzzySearchQueryBuilder
-                .create(query)
-                .withIdx(IDX_POI)
-                .withPosition(Locations.AMSTERDAM_CENTER)
-                .build()
+    override fun search(term: String) {
+        val searchEngineDescriptor = FuzzySearchEngineDescriptor.Builder()
+            .idx(IDX_POI)
+            .build()
+        val locationDescriptor = FuzzyLocationDescriptor.Builder()
+            .positionBias(LatLngBias(Locations.AMSTERDAM_CENTER))
+            .build()
+        val queryBuilder = FuzzySearchSpecification.Builder(term)
+            .searchEngineDescriptor(searchEngineDescriptor)
+            .locationDescriptor(locationDescriptor)
+            .build()
 
         search(queryBuilder)
     }
@@ -31,5 +39,4 @@ class EntryPointsViewModel(application: Application) : SearchViewModel(applicati
     companion object {
         private const val IDX_POI = "POI"
     }
-
 }

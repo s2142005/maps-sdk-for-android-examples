@@ -38,9 +38,9 @@ import com.tomtom.online.sdk.samples.R;
 import com.tomtom.online.sdk.samples.utils.formatter.SearchResultFormatter;
 import com.tomtom.online.sdk.samples.utils.formatter.SearchResultGuavaFormatter;
 import com.tomtom.online.sdk.samples.utils.views.RadioModifierView;
-import com.tomtom.online.sdk.search.data.fuzzy.FuzzySearchResult;
 import com.tomtom.online.sdk.search.extensions.SearchServiceConnectionCallback;
 import com.tomtom.online.sdk.search.extensions.SearchServiceManager;
+import com.tomtom.online.sdk.search.fuzzy.FuzzySearchDetails;
 
 import timber.log.Timber;
 
@@ -52,7 +52,7 @@ public class SearchFragment extends SearchFunctionalFragment implements SearchVi
     public static final String SEARCH_REQUEST_CODE_KEY = "SEARCH_REQUEST_CODE";
     public static final String ARE_LIST_ITEMS_CLICKABLE_KEY = "ARE_LIST_ITEMS_CLICKABLE";
 
-    protected ImmutableList<FuzzySearchResult> searchResults = ImmutableList.of();
+    protected ImmutableList<FuzzySearchDetails> searchResults = ImmutableList.of();
     protected SearchPresenter searchPresenter; //Available for category search
 
     protected EditText searchTextView;
@@ -228,7 +228,7 @@ public class SearchFragment extends SearchFunctionalFragment implements SearchVi
         if (!areListItemsClickable) {
             return;
         }
-        FuzzySearchResult searchResult = searchResults.get(position);
+        FuzzySearchDetails fuzzySearchDetails = searchResults.get(position);
         getActivity().getSupportFragmentManager().popBackStack();
     };
 
@@ -309,7 +309,7 @@ public class SearchFragment extends SearchFunctionalFragment implements SearchVi
     }
 
     @Override
-    public void updateSearchResults(ImmutableList<FuzzySearchResult> results) {
+    public void updateSearchResults(ImmutableList<FuzzySearchDetails> results) {
         searchResults = results;
         searchAdapter.refresh();
     }
@@ -364,7 +364,7 @@ public class SearchFragment extends SearchFunctionalFragment implements SearchVi
         return searchProgressBar;
     }
 
-    private class SearchAdapter extends ArrayAdapter<FuzzySearchResult> {
+    private class SearchAdapter extends ArrayAdapter<FuzzySearchDetails> {
 
         public SearchAdapter(Context context) {
             super(context, R.layout.search_result_item);
@@ -372,7 +372,7 @@ public class SearchFragment extends SearchFunctionalFragment implements SearchVi
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            final FuzzySearchResult resultItem = getItem(position);
+            final FuzzySearchDetails resultItem = getItem(position);
 
             if (convertView == null) {
                 convertView = LayoutInflater.from(getContext()).inflate(android.R.layout.simple_list_item_1, parent, false);
@@ -384,10 +384,10 @@ public class SearchFragment extends SearchFunctionalFragment implements SearchVi
             return convertView;
         }
 
-        public String formatResults(FuzzySearchResult resultItem) {
+        public String formatResults(FuzzySearchDetails fuzzySearchDetails) {
             SearchResultFormatter formatter = new SearchResultGuavaFormatter();
 
-            LatLng itemLocation = resultItem.getPosition();
+            LatLng itemLocation = fuzzySearchDetails.getPosition();
             LatLng gpsLocation = searchPresenter.getLastKnownPosition();
 
             if (gpsLocation == null) {
@@ -396,7 +396,7 @@ public class SearchFragment extends SearchFunctionalFragment implements SearchVi
 
             double distance = DistanceCalculator.calcDistInKilometers(itemLocation, gpsLocation);
 
-            String resultText = formatter.formatTitleWithDistance(resultItem, distance);
+            String resultText = formatter.formatTitleWithDistance(fuzzySearchDetails, distance);
             return resultText;
         }
 
@@ -406,5 +406,4 @@ public class SearchFragment extends SearchFunctionalFragment implements SearchVi
         }
 
     }
-
 }

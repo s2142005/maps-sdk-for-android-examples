@@ -22,7 +22,7 @@ class RevGeoViewModel(application: Application) : SearchViewModel(application) {
 
     val revGeoSearchResults = ResourceListLiveData<ReverseGeocoderFullAddress>()
 
-    override fun search(query: String) {
+    override fun search(term: String) {
         // Not needed for rev geo
     }
 

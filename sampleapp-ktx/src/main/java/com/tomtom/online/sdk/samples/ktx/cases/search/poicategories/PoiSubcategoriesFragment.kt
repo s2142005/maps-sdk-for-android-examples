@@ -19,10 +19,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.tomtom.online.sdk.samples.ktx.cases.search.SearchFragment
 import com.tomtom.online.sdk.samples.ktx.cases.search.poicategories.PoiCategoriesAdapter.Companion.DATA_POI_CATEGORY_NAME
 import com.tomtom.online.sdk.samples.ktx.cases.search.poicategories.PoiCategoriesAdapter.Companion.DATA_POI_SUBCATEGORIES
-import com.tomtom.online.sdk.search.data.poicategories.PoiCategory
+import com.tomtom.online.sdk.search.poicategories.PoiCategory
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.default_search_fragment.*
-
 
 class PoiSubcategoriesFragment : SearchFragment<PoiCategoriesSearchViewModel>() {
 
@@ -69,5 +68,4 @@ class PoiSubcategoriesFragment : SearchFragment<PoiCategoriesSearchViewModel>() 
     private fun showPoiCategories(poiCategories: List<PoiCategory>) {
         poiCategoriesAdapter.updateData(poiCategories)
     }
-
 }

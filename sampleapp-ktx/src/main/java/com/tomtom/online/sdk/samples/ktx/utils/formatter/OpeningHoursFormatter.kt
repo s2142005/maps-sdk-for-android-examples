@@ -11,9 +11,9 @@
 package com.tomtom.online.sdk.samples.ktx.utils.formatter
 
 import android.annotation.SuppressLint
-import com.google.common.collect.ImmutableList
-import com.tomtom.online.sdk.search.data.common.OpeningHours
-import com.tomtom.online.sdk.search.data.common.TimeRange
+import com.tomtom.online.sdk.search.time.OpeningHours
+import com.tomtom.online.sdk.search.time.TimeRange
+import org.joda.time.DateTime
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -39,11 +39,11 @@ object OpeningHoursFormatter {
     }
 
     private fun format24h(
-        timeRanges: ImmutableList<TimeRange>,
+        timeRanges: List<TimeRange>,
         builderWeekdays: StringBuilder,
         builderHours: StringBuilder
     ): Pair<String, String> {
-        var startDate = timeRanges.first().startDate
+        var startDate = DateTime(timeRanges.first().startDate)
         repeat(7) {
             builderWeekdays.append("${formatWeekday(startDate.toDate())}$NEW_LINE")
             builderHours.append("$OPEN_24H$NEW_LINE")
@@ -58,8 +58,8 @@ object OpeningHoursFormatter {
         builderHours: StringBuilder
     ): Pair<String, String> {
         timeRanges.forEach {
-            builderWeekdays.append("${formatWeekday(it.startDate.toDate())}$NEW_LINE")
-            builderHours.append("${formatHour(it.startDate.toDate())} - ${formatHour(it.endDate.toDate())}$NEW_LINE")
+            builderWeekdays.append("${formatWeekday(it.startDate)}$NEW_LINE")
+            builderHours.append("${formatHour(it.startDate)} - ${formatHour(it.endDate)}$NEW_LINE")
         }
         return Pair(builderWeekdays.toString(), builderHours.toString())
     }

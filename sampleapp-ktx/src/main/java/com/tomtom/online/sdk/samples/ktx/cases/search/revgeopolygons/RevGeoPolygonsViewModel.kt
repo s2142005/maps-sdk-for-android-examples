@@ -28,7 +28,7 @@ class RevGeoPolygonsViewModel(application: Application) : SearchViewModel(applic
         entityType.value = ENTITY_TYPE_COUNTRY
     }
 
-    override fun search(query: String) {
+    override fun search(term: String) {
         // Not needed for rev geo
     }
 

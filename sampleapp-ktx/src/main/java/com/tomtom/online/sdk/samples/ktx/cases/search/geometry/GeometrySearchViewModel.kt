@@ -24,7 +24,7 @@ class GeometrySearchViewModel(application: Application) : SearchViewModel(applic
 
     val results = ResourceListLiveData<GeometrySearchResult>()
 
-    override fun search(query: String) {
+    override fun search(term: String) {
     }
 
     fun searchForParking() {

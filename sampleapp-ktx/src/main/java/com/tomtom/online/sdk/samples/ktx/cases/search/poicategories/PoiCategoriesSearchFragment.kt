@@ -21,8 +21,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tomtom.online.sdk.samples.ktx.cases.search.SearchFragment
 import com.tomtom.online.sdk.samples.ktx.utils.arch.ResourceObserver
-import com.tomtom.online.sdk.search.data.poicategories.PoiCategoriesResponse
-import com.tomtom.online.sdk.search.data.poicategories.PoiCategory
+import com.tomtom.online.sdk.search.poicategories.PoiCategory
 import com.tomtom.sdk.examples.R
 import kotlinx.android.synthetic.main.default_search_fragment.*
 
@@ -76,8 +75,8 @@ class PoiCategoriesSearchFragment : SearchFragment<PoiCategoriesSearchViewModel>
         }
     }
 
-    private fun showPoiCategories(poiCategoriesResponse: PoiCategoriesResponse) {
-        poiCategoriesAdapter.updateData(poiCategoriesResponse.poiCategories)
+    private fun showPoiCategories(poiCategories: List<PoiCategory>) {
+        poiCategoriesAdapter.updateData(poiCategories)
     }
 
     override fun onPoiCategoryClicked(poiCategory: PoiCategory) {

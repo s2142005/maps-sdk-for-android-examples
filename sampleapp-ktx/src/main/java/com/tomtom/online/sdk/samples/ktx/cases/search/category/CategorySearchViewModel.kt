@@ -13,17 +13,29 @@ package com.tomtom.online.sdk.samples.ktx.cases.search.category
 
 import android.app.Application
 import com.tomtom.online.sdk.samples.ktx.cases.search.SearchViewModel
-import com.tomtom.online.sdk.search.data.fuzzy.FuzzySearchQueryBuilder
+import com.tomtom.online.sdk.search.fuzzy.FuzzySearchSpecification
+import com.tomtom.online.sdk.search.fuzzy.FuzzyLocationDescriptor
+import com.tomtom.online.sdk.search.fuzzy.FuzzySearchEngineDescriptor
 
 class CategorySearchViewModel(application: Application) : SearchViewModel(application) {
 
-    override fun search(query: String) {
-        //tag::doc_create_category_query_plain_text[]
-        val categorySearchQuery = FuzzySearchQueryBuilder.create(query)
-                .withPreciseness(addPreciseness())
-                .withCategory(true)
+    override fun search(term: String) {
+        addPreciseness()?.let { preciseness ->
+            //tag::doc_create_category_specification_plain_text[]
+            val locationDescriptor = FuzzyLocationDescriptor.Builder()
+                .positionBias(preciseness)
                 .build()
-        //end::doc_create_category_query_plain_text[]
-        search(categorySearchQuery)
+
+            val searchEngineDescriptor = FuzzySearchEngineDescriptor.Builder()
+                .category(true)
+                .build()
+
+            val categorySearchSpecification = FuzzySearchSpecification.Builder(term)
+                .searchEngineDescriptor(searchEngineDescriptor)
+                .locationDescriptor(locationDescriptor)
+                .build()
+            //end::doc_create_category_specification_plain_text[]
+            search(categorySearchSpecification)
+        }
     }
 }
