@@ -12,22 +12,24 @@ package com.tomtom.online.sdk.samples.cases.driving;
 
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-
 import com.tomtom.online.sdk.common.location.LatLng;
-import com.tomtom.online.sdk.common.service.ServiceException;
 import com.tomtom.online.sdk.map.ChevronPosition;
 import com.tomtom.online.sdk.map.Route;
 import com.tomtom.online.sdk.map.RouteBuilder;
 import com.tomtom.online.sdk.routing.OnlineRoutingApi;
-import com.tomtom.online.sdk.routing.RouteCallback;
 import com.tomtom.online.sdk.routing.RoutingApi;
-import com.tomtom.online.sdk.routing.data.FullRoute;
-import com.tomtom.online.sdk.routing.data.RouteQuery;
-import com.tomtom.online.sdk.routing.data.RouteQueryBuilder;
-import com.tomtom.online.sdk.routing.data.RouteResponse;
+import com.tomtom.online.sdk.routing.RoutingException;
+import com.tomtom.online.sdk.routing.route.RouteCalculationDescriptor;
+import com.tomtom.online.sdk.routing.route.RouteCallback;
+import com.tomtom.online.sdk.routing.route.RouteDescriptor;
+import com.tomtom.online.sdk.routing.route.RoutePlan;
+import com.tomtom.online.sdk.routing.route.RouteSpecification;
+import com.tomtom.online.sdk.routing.route.information.FullRoute;
+import com.tomtom.online.sdk.samples.BuildConfig;
 import com.tomtom.online.sdk.samples.routes.LodzCityCenterRouteConfig;
 import com.tomtom.online.sdk.samples.routes.RouteConfigExample;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -48,18 +50,25 @@ public abstract class AbstractRoutingPresenter extends AbstractTrackingPresenter
     }
 
     private void planRoute() {
-        RoutingApi routingApi = OnlineRoutingApi.create(getContext());
-        routingApi.planRoute(getRouteQuery(), routeCallback);
+        RoutingApi routingApi = OnlineRoutingApi.create(getContext(), BuildConfig.ROUTING_API_KEY);
+        routingApi.planRoute(getRouteSpecification(), routeCallback);
     }
 
-    private RouteQuery getRouteQuery() {
-        return RouteQueryBuilder.create(ROUTE_CONFIG.getOrigin(), ROUTE_CONFIG.getDestination())
-                .withWayPointsList(ROUTE_CONFIG.getWaypoints())
+    private RouteSpecification getRouteSpecification() {
+        RouteDescriptor descriptor = new RouteDescriptor.Builder()
+                .considerTraffic(false)
+                .build();
+        RouteCalculationDescriptor calculationDescriptor = new RouteCalculationDescriptor.Builder()
+                .routeDescription(descriptor)
+                .waypoints(ROUTE_CONFIG.getWaypoints())
+                .build();
+        return new RouteSpecification.Builder(ROUTE_CONFIG.getOrigin(), ROUTE_CONFIG.getDestination())
+                .routeCalculationDescriptor(calculationDescriptor)
                 .build();
     }
 
-    private FullRoute getFirstRouteFromResponse(RouteResponse getFirstRouteFromResponse) {
-        return getFirstRouteFromResponse.getRoutes().get(0);
+    private FullRoute getFirstRouteFromResponse(RoutePlan routePlan) {
+        return routePlan.getRoutes().get(0);
     }
 
     private LatLng getRouteOrigin(FullRoute fullRoute) {
@@ -87,14 +96,14 @@ public abstract class AbstractRoutingPresenter extends AbstractTrackingPresenter
 
     private RouteCallback routeCallback = new RouteCallback() {
         @Override
-        public void onRoutePlannerResponse(@NonNull RouteResponse routeResult) {
-            FullRoute route = getFirstRouteFromResponse(routeResult);
+        public void onSuccess(@NotNull RoutePlan routePlan) {
+            FullRoute route = getFirstRouteFromResponse(routePlan);
             onRouteReady(route);
         }
 
         @Override
-        public void onRoutePlannerError(ServiceException exception) {
-            onRouteError(exception);
+        public void onError(@NotNull RoutingException error) {
+            onRouteError(error);
         }
     };
 
@@ -105,7 +114,7 @@ public abstract class AbstractRoutingPresenter extends AbstractTrackingPresenter
         restoreSimulator();
     }
 
-    protected void onRouteError(ServiceException exception) {
+    protected void onRouteError(RoutingException exception) {
         Toast.makeText(getContext(), exception.getMessage(), Toast.LENGTH_LONG).show();
     }
 

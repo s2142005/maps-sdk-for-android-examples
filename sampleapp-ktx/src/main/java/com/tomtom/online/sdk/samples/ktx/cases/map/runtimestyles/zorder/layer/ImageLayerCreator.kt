@@ -12,6 +12,7 @@ package com.tomtom.online.sdk.samples.ktx.cases.map.runtimestyles.zorder.layer
 
 import android.content.Context
 import androidx.annotation.DrawableRes
+import androidx.core.content.ContextCompat
 import com.tomtom.online.sdk.common.location.LatLng
 import com.tomtom.online.sdk.map.TomtomMap
 import com.tomtom.online.sdk.map.style.layers.LayerFactory
@@ -40,7 +41,7 @@ class ImageLayerCreator(private val context: Context, private val tomtomMap: Tom
 
     private fun addImageSource(sourceId: String, coordinate: LatLng, @DrawableRes imageResId: Int) {
         val source = SourceFactory.createImageSource(sourceId, quadWithDelta(coordinate, 0.25))
-        source.setImage(context.resources.getDrawable(imageResId))
+        ContextCompat.getDrawable(context, imageResId)?.let { source.setImage(it) }
 
         tomtomMap.styleSettings.addSource(source)
     }

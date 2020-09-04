@@ -11,6 +11,7 @@
 package com.tomtom.online.sdk.samples.ktx.cases.map.runtimestyles.sources
 
 import android.content.Context
+import androidx.core.content.ContextCompat
 import com.google.common.collect.ImmutableList
 import com.tomtom.online.sdk.common.location.LatLng
 import com.tomtom.online.sdk.common.util.AssetUtils
@@ -43,7 +44,7 @@ class DynamicSourcesDrawer(private val context: Context, private val tomtomMap: 
         //IMAGE_SOURCE_ID = unique_source_id
         //IMAGE_CORNERS = Four corners of the image (top left, top right, bottom right, bottom left)
         val source = SourceFactory.createImageSource(IMAGE_SOURCE_ID, IMAGE_CORNERS)
-        source.setImage(context.resources.getDrawable(R.drawable.buckingham_palace_plan))
+        ContextCompat.getDrawable(context, R.drawable.buckingham_palace_plan)?.let { source.setImage(it) }
         tomtomMap.styleSettings.addSource(source)
         //end::add_image_source[]
 

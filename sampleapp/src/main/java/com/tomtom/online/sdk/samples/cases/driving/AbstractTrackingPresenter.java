@@ -116,13 +116,12 @@ public abstract class AbstractTrackingPresenter extends BaseFunctionalExamplePre
     }
 
     protected void centerOnDefaultPosition() {
-        tomtomMap.centerOn(
-                CameraPosition.builder(getDefaultMapPosition())
-                        .zoom(DEFAULT_MAP_ZOOM_LEVEL_FOR_EXAMPLE)
-                        .bearing(MapConstants.ORIENTATION_NORTH)
-                        .animationDuration(NO_ANIMATION_TIME)
-                        .build()
-        );
+        tomtomMap.centerOn(CameraPosition.builder()
+                .focusPosition(getDefaultMapPosition())
+                .zoom(DEFAULT_MAP_ZOOM_LEVEL_FOR_EXAMPLE)
+                .bearing(MapConstants.ORIENTATION_NORTH)
+                .animationDuration(NO_ANIMATION_TIME)
+                .build());
     }
 
     private boolean hasChevrons() {

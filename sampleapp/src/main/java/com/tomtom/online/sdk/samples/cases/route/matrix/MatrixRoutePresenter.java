@@ -22,6 +22,8 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.tomtom.online.sdk.common.location.LatLng;
 import com.tomtom.online.sdk.common.util.Contextable;
+import com.tomtom.online.sdk.map.CameraPosition;
+import com.tomtom.online.sdk.map.MapPadding;
 import com.tomtom.online.sdk.map.MarkerBuilder;
 import com.tomtom.online.sdk.map.OnMapReadyCallback;
 import com.tomtom.online.sdk.map.Polyline;
@@ -79,10 +81,11 @@ public class MatrixRoutePresenter implements LifecycleObserver, MatrixResponseDi
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     public void onCreate() {
-        view.runOnTomtomMap(tomtomMap -> tomtomMap.centerOn(
-                Locations.AMSTERDAM_CENTER_LOCATION.getLatitude(),
-                Locations.AMSTERDAM_CENTER_LOCATION.getLongitude(),
-                DEFAULT_ZOOM_LEVEL_FOR_EXAMPLE, ORIENTATION_SOUTH));
+        view.runOnTomtomMap(tomtomMap -> tomtomMap.centerOn(CameraPosition.builder()
+                .focusPosition(Locations.AMSTERDAM_CENTER_LOCATION)
+                .zoom(DEFAULT_ZOOM_LEVEL_FOR_EXAMPLE)
+                .bearing(ORIENTATION_SOUTH)
+                .build()));
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
@@ -160,7 +163,7 @@ public class MatrixRoutePresenter implements LifecycleObserver, MatrixResponseDi
         view.runOnTomtomMap(tomtomMap -> {
             tomtomMap.getOverlaySettings().removeOverlays();
             tomtomMap.removeMarkers();
-            tomtomMap.setPadding(DEFAULT_MAP_PADDING, DEFAULT_MAP_PADDING, DEFAULT_MAP_PADDING, DEFAULT_MAP_PADDING);
+            tomtomMap.setPadding(new MapPadding(DEFAULT_MAP_PADDING, DEFAULT_MAP_PADDING, DEFAULT_MAP_PADDING, DEFAULT_MAP_PADDING));
         });
         view.hideMatrixRoutesTable();
     }
@@ -169,8 +172,7 @@ public class MatrixRoutePresenter implements LifecycleObserver, MatrixResponseDi
         int offsetTop = context.getResources().getDimensionPixelSize(R.dimen.matrix_routing_box_height);
         int offsetBottom = context.getResources().getDimensionPixelSize(R.dimen.control_top_panel_height);
         int offsetDefault = context.getResources().getDimensionPixelSize(R.dimen.offset_big);
-
-        tomtomMap.setPadding(offsetTop, offsetDefault, offsetBottom, offsetDefault);
+        tomtomMap.setPadding(new MapPadding(offsetTop, offsetDefault, offsetBottom, offsetDefault));
     }
 
     private MatrixRoutesCallback routeCallback = new MatrixRoutesCallback() {

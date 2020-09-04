@@ -15,7 +15,8 @@ import com.tomtom.online.sdk.common.location.LatLng;
 import com.tomtom.online.sdk.map.driving.LatLngTraceMatchingDataProvider;
 import com.tomtom.online.sdk.map.driving.Matcher;
 import com.tomtom.online.sdk.map.driving.MatcherFactory;
-import com.tomtom.online.sdk.routing.data.FullRoute;
+import com.tomtom.online.sdk.matching.MatchingDataProvider;
+import com.tomtom.online.sdk.routing.route.information.FullRoute;
 import com.tomtom.online.sdk.samples.activities.FunctionalExampleModel;
 import com.tomtom.online.sdk.samples.cases.driving.AbstractRoutingPresenter;
 import com.tomtom.online.sdk.samples.cases.driving.ChevronMatcherUpdater;
@@ -79,10 +80,11 @@ public class RouteMatchingPresenter extends AbstractRoutingPresenter {
 
     private void createMatcher() {
         Preconditions.checkArgument(tomtomMap.getRoutes().size() > 0);
-        //tag::doc_create_route_matcher[]
-        matcher = MatcherFactory.createMatcher(LatLngTraceMatchingDataProvider.fromPoints(getFirstRouteFromMap()));
+        //tag::doc_create_route_matcher_provider[]
+        MatchingDataProvider routeMatchingProvider = LatLngTraceMatchingDataProvider.fromPoints(getFirstRouteFromMap());
+        //end::doc_create_route_matcher_provider[]
+        matcher = MatcherFactory.createMatcher(routeMatchingProvider);
         matcher.setMatcherListener(new ChevronMatcherUpdater(getChevron(), tomtomMap));
-        //end::doc_create_route_matcher[]
     }
 
     private BaseSimulator.SimulatorCallback simulatorCallback = location -> matcher.match(location);

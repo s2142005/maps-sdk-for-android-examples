@@ -9,6 +9,8 @@
  * immediately return it to TomTom N.V.
  */
 
+@file:Suppress("DEPRECATION")
+
 package com.tomtom.online.sdk.samples.ktx.cases.map.tiles
 
 import android.os.Bundle
@@ -47,6 +49,7 @@ class MapTilesFragment : ExampleFragment() {
         layoutInflater.inflate(R.layout.control_buttons_map_tiles, mapControlButtonsContainer, true)
     }
 
+    @Suppress("SimpleRedundantLet")
     private fun confViewActions() {
         vector_tiles_btn.setOnClickListener {
             mainViewModel.applyOnMap(MapAction {

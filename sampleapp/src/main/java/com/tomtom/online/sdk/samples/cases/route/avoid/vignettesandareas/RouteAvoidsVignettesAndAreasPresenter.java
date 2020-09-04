@@ -14,16 +14,14 @@ import android.graphics.Color;
 
 import com.tomtom.online.sdk.common.location.BoundingBox;
 import com.tomtom.online.sdk.common.location.LatLng;
-import com.tomtom.online.sdk.map.CameraPosition;
-import com.tomtom.online.sdk.map.MapConstants;
 import com.tomtom.online.sdk.map.PolylineBuilder;
 import com.tomtom.online.sdk.map.RouteStyleBuilder;
 import com.tomtom.online.sdk.routing.route.RouteSpecification;
 import com.tomtom.online.sdk.samples.R;
 import com.tomtom.online.sdk.samples.activities.FunctionalExampleModel;
 import com.tomtom.online.sdk.samples.cases.MultiRoutesPlannerPresenter;
-import com.tomtom.online.sdk.samples.cases.MultiRoutesSpecificationAdapter;
 import com.tomtom.online.sdk.samples.cases.MultiRoutesRoutingUiListener;
+import com.tomtom.online.sdk.samples.cases.MultiRoutesSpecificationAdapter;
 import com.tomtom.online.sdk.samples.cases.route.RouteSpecificationFactory;
 import com.tomtom.online.sdk.samples.routes.CzechRepublicToRomaniaRouteConfig;
 import com.tomtom.online.sdk.samples.routes.RouteConfigExample;
@@ -69,10 +67,7 @@ public class RouteAvoidsVignettesAndAreasPresenter extends MultiRoutesPlannerPre
 
     @Override
     public void centerOnDefaultLocation() {
-        tomtomMap.centerOn(CameraPosition.builder(BUDAPEST_LOCATION)
-                .bearing(MapConstants.ORIENTATION_NORTH)
-                .zoom(DEFAULT_ZOOM_FOR_EXAMPLE)
-                .build());
+        centerOn(BUDAPEST_LOCATION);
     }
 
     public void startRoutingAvoidVignettes() {

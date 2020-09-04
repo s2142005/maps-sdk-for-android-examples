@@ -134,7 +134,7 @@ ext {
                     robolectric        : '4.3',
                     easytesting        : '1.0.16',
                     cglib              : '3.2.8',
-                    mockito            : '3.3.3',
+                    mockito            : '3.5.7',
                     mockito_android    : '3.3.3',
                     easymock           : '3.2',
                     fest               : '2.0M10',
@@ -165,7 +165,7 @@ ext {
             midlet: releaseProps.getProperty('interLibVersion'),
             tbt   : releaseProps.getProperty('interLibVersion'),
             port  : releaseProps.getProperty('interLibVersion'),
-
+            sampleapp : '2.4617'
     ]
     //doc_end_dependencies_version_config
 }

@@ -16,10 +16,9 @@ import com.tomtom.online.sdk.common.location.BoundingBox
 import com.tomtom.online.sdk.common.location.LatLng
 import com.tomtom.online.sdk.map.*
 
-@Suppress("unused")
 internal class MapPropertiesInitialization(val context: Context) {
 
-    @Suppress("unused")
+    @Suppress("unused", "DEPRECATION", "UNUSED_VARIABLE")
     private fun initMapWithProperties() {
         //tag::doc_map_properties_keys[]
         val keysMap = mapOf(

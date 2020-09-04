@@ -13,13 +13,12 @@ package com.tomtom.online.sdk.samples.cases.map.layers.layerstypes;
 import android.app.AlertDialog;
 
 import com.tomtom.online.sdk.common.util.EnumUtils;
-import com.tomtom.online.sdk.map.model.MapLayersType;
-import com.tomtom.online.sdk.map.model.MapTilesType;
 import com.tomtom.online.sdk.samples.R;
 import com.tomtom.online.sdk.samples.cases.ExampleFragment;
 import com.tomtom.online.sdk.samples.utils.views.OptionsButtonsView;
 
-public class MapLayersTypesFragment extends ExampleFragment<MapLayersTypesPresenter> implements MapLayersTypesView {
+public class MapLayersTypesFragment extends ExampleFragment<MapLayersTypesPresenter> implements
+        MapLayersTypesView {
 
     @Override
     protected MapLayersTypesPresenter createPresenter() {
@@ -50,20 +49,22 @@ public class MapLayersTypesFragment extends ExampleFragment<MapLayersTypesPresen
         getInfoBarView().setLeftText(text);
     }
 
+    @SuppressWarnings("deprecation")
     private void showMapTilesTypesDialog() {
         String title = getString(R.string.map_layers_tiles_type_select);
         int selectedItem = presenter.getMapTilesType().ordinal();
-        String[] items = EnumUtils.enumAsStringArray(MapTilesType.class, MapTilesType.values().length);
+        String[] items = EnumUtils.enumAsStringArray(com.tomtom.online.sdk.map.model.MapTilesType.class, com.tomtom.online.sdk.map.model.MapTilesType.values().length);
         showTypesDialog(title, items, selectedItem, which ->
-                presenter.setMapTilesType(MapTilesType.values()[which]));
+                presenter.setMapTilesType(com.tomtom.online.sdk.map.model.MapTilesType.values()[which]));
     }
 
+    @SuppressWarnings("deprecation")
     private void showMapLayersTypesDialog() {
         String title = getString(R.string.map_layers_layers_type_select);
         int selectedItem = presenter.getMapLayersType().ordinal();
-        String[] items = EnumUtils.enumAsStringArray(MapLayersType.class, MapLayersType.values().length);
+        String[] items = EnumUtils.enumAsStringArray(com.tomtom.online.sdk.map.model.MapLayersType.class, com.tomtom.online.sdk.map.model.MapLayersType.values().length);
         showTypesDialog(title, items, selectedItem, which ->
-                presenter.setMapLayersType(MapLayersType.values()[which]));
+                presenter.setMapLayersType(com.tomtom.online.sdk.map.model.MapLayersType.values()[which]));
     }
 
     private void showTypesDialog(String title, String[] items, int selectedItem, TypesDialogItemClickListener onClickListener) {

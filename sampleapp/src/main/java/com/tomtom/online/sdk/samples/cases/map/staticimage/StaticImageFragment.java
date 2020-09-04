@@ -10,7 +10,6 @@
  */
 package com.tomtom.online.sdk.samples.cases.map.staticimage;
 
-import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -23,8 +22,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.tomtom.online.sdk.common.config.loader.SingleManifestValueLoader;
-import com.tomtom.online.sdk.common.config.provider.ConfigProvider;
+import com.tomtom.online.sdk.samples.BuildConfig;
 import com.tomtom.online.sdk.samples.R;
 import com.tomtom.online.sdk.samples.activities.ActionBarModel;
 import com.tomtom.online.sdk.samples.fragments.FunctionalExampleFragment;
@@ -73,15 +71,15 @@ public class StaticImageFragment extends Fragment implements FunctionalExampleFr
     }
 
     /**
-     * Default key from manifest.
+     * Default key build config.
      */
-    private static String getMapApiKey(@NonNull Context context) {
-        return new SingleManifestValueLoader(context, ConfigProvider.ONLINE_MAPS_KEY).getValue();
+    private static String getMapApiKey() {
+        return BuildConfig.MAPS_API_KEY;
     }
 
     private void loadData() {
         //tag::doc_static_image[]
-        StaticImage.builder(getMapApiKey(getContext()))
+        StaticImage.builder(getMapApiKey())
                 .center(Locations.AMSTERDAM_LOCATION) //use center or boundingBox
                 .layerBasic() // basic layer is default
                 .styleMain() // main style is default
@@ -90,11 +88,11 @@ public class StaticImageFragment extends Fragment implements FunctionalExampleFr
                 .build()
                 .downloadInto(staticMap1);
         //end::doc_static_image[]
-        StaticImage.builder(getMapApiKey(getContext())).center(Locations.AMSTERDAM_LOCATION).styleNight().build().downloadInto(staticMap2);
-        StaticImage.builder(getMapApiKey(getContext())).center(Locations.AMSTERDAM_LOCATION).zoom(15).build().downloadInto(staticMap3);
-        StaticImage.builder(getMapApiKey(getContext())).center(Locations.AMSTERDAM_LOCATION).layerHybrid().build().downloadInto(staticMap4);
-        StaticImage.builder(getMapApiKey(getContext())).center(Locations.AMSTERDAM_LOCATION).style("main-azure").build().downloadInto(staticMap5);
-        StaticImage.builder(getMapApiKey(getContext())).center(Locations.AMSTERDAM_LOCATION).styleNight().zoom(8).build().download(getContext(), new ExampleDownloadListener());
+        StaticImage.builder(getMapApiKey()).center(Locations.AMSTERDAM_LOCATION).styleNight().build().downloadInto(staticMap2);
+        StaticImage.builder(getMapApiKey()).center(Locations.AMSTERDAM_LOCATION).zoom(15).build().downloadInto(staticMap3);
+        StaticImage.builder(getMapApiKey()).center(Locations.AMSTERDAM_LOCATION).layerHybrid().build().downloadInto(staticMap4);
+        StaticImage.builder(getMapApiKey()).center(Locations.AMSTERDAM_LOCATION).style("main-azure").build().downloadInto(staticMap5);
+        StaticImage.builder(getMapApiKey()).center(Locations.AMSTERDAM_LOCATION).styleNight().zoom(8).build().download(getContext(), new ExampleDownloadListener());
     }
 
     @Override

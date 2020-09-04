@@ -15,17 +15,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.tomtom.online.sdk.common.location.BoundingBox
-import com.tomtom.online.sdk.map.AnimationDuration
-import com.tomtom.online.sdk.map.CameraFocusArea
-import com.tomtom.online.sdk.map.MapConstants
 import com.tomtom.online.sdk.samples.ktx.MapAction
 import com.tomtom.online.sdk.samples.ktx.cases.ExampleFragment
 import com.tomtom.online.sdk.samples.ktx.utils.routes.Locations
 import com.tomtom.sdk.examples.R
 import kotlinx.android.synthetic.main.control_buttons_map_centering.*
 import kotlinx.android.synthetic.main.default_map_fragment.*
-import java.util.concurrent.TimeUnit
 
 class MapCenteringFragment : ExampleFragment() {
 
@@ -69,7 +64,7 @@ class MapCenteringFragment : ExampleFragment() {
         centerOnArea(topLeft = Locations.AMSTERDAM_HAARLEM, bottomRight = Locations.AMSTERDAM_CENTER)
     }
 
-    @Suppress("unused")
+    @Suppress("unused", "ComplexRedundantLet")
     fun turnOnMyLocation() {
         mainViewModel.applyOnMap(MapAction {
             let { tomtomMap ->
@@ -80,7 +75,7 @@ class MapCenteringFragment : ExampleFragment() {
         })
     }
 
-    @Suppress("unused")
+    @Suppress("unused", "UNUSED_VARIABLE")
     fun getCurrentLocation() {
         mainViewModel.applyOnMap(MapAction {
             let { tomtomMap ->

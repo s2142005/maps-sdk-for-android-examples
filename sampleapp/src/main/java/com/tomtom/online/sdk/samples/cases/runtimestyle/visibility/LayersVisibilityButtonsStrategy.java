@@ -37,6 +37,7 @@ public class LayersVisibilityButtonsStrategy extends ButtonStrategy {
                 break;
             case 2:
                 presenter.setBuiltUpLayerVisibility(isLayerVisible(changedButtonId, newValues));
+                break;
             default:
                 Timber.d("Unregistered button pressed.");
         }

@@ -12,6 +12,7 @@ package com.tomtom.online.sdk.samples.cases.search.poicategories;
 
 import android.content.Context;
 
+import com.tomtom.online.sdk.samples.BuildConfig;
 import com.tomtom.online.sdk.search.OnlineSearchApi;
 import com.tomtom.online.sdk.search.SearchApi;
 import com.tomtom.online.sdk.search.poicategories.PoiCategoriesCallback;
@@ -37,6 +38,6 @@ class PoiCategoriesRequester {
     }
 
     SearchApi createSearchAPI() {
-        return OnlineSearchApi.create(context);
+        return OnlineSearchApi.create(context, BuildConfig.SEARCH_API_KEY);
     }
 }

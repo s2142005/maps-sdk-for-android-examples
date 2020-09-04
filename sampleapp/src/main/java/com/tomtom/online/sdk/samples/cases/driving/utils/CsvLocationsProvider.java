@@ -53,7 +53,7 @@ public class CsvLocationsProvider implements LocationsProvider {
 
         List<Location> result = new ArrayList<>();
 
-        try (InputStream fileStream = context.getAssets().open(assetFileName);
+        try (InputStream fileStream = getInputStreamForAsset();
              BufferedReader fileReader = new BufferedReader(new InputStreamReader(fileStream))) {
 
             //Skip header lines
@@ -92,5 +92,9 @@ public class CsvLocationsProvider implements LocationsProvider {
         location.setAltitude(Double.valueOf(tokens[ALTITUDE_COL_IDX]));
 
         return location;
+    }
+
+    private InputStream getInputStreamForAsset() throws IOException {
+        return context.getAssets().open(assetFileName);
     }
 }

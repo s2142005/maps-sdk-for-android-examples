@@ -11,7 +11,6 @@
 package com.tomtom.online.sdk.samples.cases.map.layers.shapes;
 
 import com.tomtom.online.sdk.common.location.LatLng;
-import com.tomtom.online.sdk.map.MapConstants;
 import com.tomtom.online.sdk.map.TomtomMap;
 import com.tomtom.online.sdk.map.TomtomMapCallback;
 import com.tomtom.online.sdk.samples.R;
@@ -28,7 +27,6 @@ public class ShapesCustomPresenter extends BaseFunctionalExamplePresenter {
 
     private static final int TOAST_DURATION = 2000; //milliseconds
     private final static int POLYLINE_POINTS = 24;
-    private static final int DEFAULT_ZOOM_LEVEL = 10;
 
     private ShapesDrawer shapesDrawer;
 
@@ -36,7 +34,7 @@ public class ShapesCustomPresenter extends BaseFunctionalExamplePresenter {
     public void bind(final FunctionalExampleFragment view, final TomtomMap map) {
         super.bind(view, map);
         if (!view.isMapRestored()) {
-            centerMapOnLocation();
+            centerOn(Locations.AMSTERDAM_LOCATION);
         }
         shapesDrawer = new ShapesDrawer(tomtomMap);
 
@@ -69,16 +67,16 @@ public class ShapesCustomPresenter extends BaseFunctionalExamplePresenter {
 
     public void drawShapePolygon() {
         cleanup();
-        centerMapOnLocation();
+        centerOn(Locations.AMSTERDAM_LOCATION);
         List<LatLng> coordinates = randomCoordinates(Locations.AMSTERDAM_LOCATION, 360.0f);
 
         shapesDrawer.drawShapePolygon(coordinates);
         //end::doc_shape_polygon[]
     }
-//
+
     public void drawShapePolyline() {
         cleanup();
-        centerMapOnLocation();
+        centerOn(Locations.AMSTERDAM_LOCATION);
         List<LatLng> coordinates = randomCoordinates(Locations.AMSTERDAM_LOCATION, 270.0f);
 
         shapesDrawer.drawShapePolyline(coordinates);
@@ -86,20 +84,11 @@ public class ShapesCustomPresenter extends BaseFunctionalExamplePresenter {
 
     public void drawShapeCircle() {
         cleanup();
-        centerMapOnLocation();
+        centerOn(Locations.AMSTERDAM_LOCATION);
 
         //tag::doc_shape_circle[]
         shapesDrawer.drawShapeCircle();
         //end::doc_shape_circle[]
-    }
-
-    private void centerMapOnLocation() {
-        tomtomMap.centerOn(
-                Locations.AMSTERDAM_LOCATION.getLatitude(),
-                Locations.AMSTERDAM_LOCATION.getLongitude(),
-                DEFAULT_ZOOM_LEVEL,
-                MapConstants.ORIENTATION_NORTH
-        );
     }
 
     private List<LatLng> randomCoordinates(LatLng centroid, float degrees) {

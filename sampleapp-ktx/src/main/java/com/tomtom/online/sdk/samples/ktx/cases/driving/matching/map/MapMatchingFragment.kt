@@ -12,6 +12,8 @@
 package com.tomtom.online.sdk.samples.ktx.cases.driving.matching.map
 
 import androidx.lifecycle.ViewModelProviders
+import com.tomtom.online.sdk.map.TomtomMap
+import com.tomtom.online.sdk.matching.MatchingDataProvider
 import com.tomtom.online.sdk.samples.ktx.MapAction
 import com.tomtom.online.sdk.samples.ktx.cases.driving.DrivingFragment
 
@@ -61,8 +63,13 @@ class MapMatchingFragment : DrivingFragment<MapMatchingViewModel>() {
 
     private fun createMatcher() {
         mainViewModel.applyOnMap(MapAction {
-            viewModel.createMatcher(this.asMatchingDataProvider())
+            viewModel.createMatcher(createMapMatchingDataProvider(this))
         })
     }
 
+    private fun createMapMatchingDataProvider(tomtomMap: TomtomMap): MatchingDataProvider {
+        //tag::doc_create_map_matcher_provider[]
+        return tomtomMap.asMatchingDataProvider()
+        //end::doc_create_map_matcher_provider[]
+    }
 }

@@ -10,7 +10,6 @@
  */
 package com.tomtom.online.sdk.samples.cases.map.layers.tilestypes;
 
-import com.tomtom.online.sdk.map.MapConstants;
 import com.tomtom.online.sdk.map.TomtomMap;
 import com.tomtom.online.sdk.map.model.MapTilesType;
 import com.tomtom.online.sdk.samples.activities.BaseFunctionalExamplePresenter;
@@ -24,7 +23,7 @@ public class MapTilesTypesPresenter extends BaseFunctionalExamplePresenter {
     public void bind(FunctionalExampleFragment view, TomtomMap map) {
         super.bind(view, map);
         if (!view.isMapRestored()) {
-            centerOnAmsterdam();
+            centerOn(Locations.AMSTERDAM_LOCATION);
         }
     }
 
@@ -33,24 +32,27 @@ public class MapTilesTypesPresenter extends BaseFunctionalExamplePresenter {
         return new MapTilesTypesFunctionalExample();
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void cleanup() {
         tomtomMap.getUiSettings().setMapTilesType(MapTilesType.VECTOR);
     }
 
+    @SuppressWarnings("deprecation")
     public void showOnlyVectorTiles() {
         //tag::doc_set_vector_tiles[]
         tomtomMap.getUiSettings().setMapTilesType(MapTilesType.VECTOR);
         //end::doc_set_vector_tiles[]
     }
 
+    @SuppressWarnings("deprecation")
     public void showOnlyRasterTiles() {
         //tag::doc_set_raster_tiles[]
         tomtomMap.getUiSettings().setMapTilesType(MapTilesType.RASTER);
         //end::doc_set_raster_tiles[]
     }
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings({"unused", "deprecation"})
     public void showNoTiles() {
         //tag::doc_set_none_tiles[]
         tomtomMap.getUiSettings().setMapTilesType(MapTilesType.NONE);
@@ -69,15 +71,5 @@ public class MapTilesTypesPresenter extends BaseFunctionalExamplePresenter {
         //tag::doc_load_vector_tiles[]
         tomtomMap.getUiSettings().loadDefaultStyle();
         //end::doc_load_vector_tiles[]
-    }
-
-    public void centerOnAmsterdam() {
-
-        tomtomMap.centerOn(
-                Locations.AMSTERDAM_LOCATION.getLatitude(),
-                Locations.AMSTERDAM_LOCATION.getLongitude(),
-                DEFAULT_ZOOM_LEVEL,
-                MapConstants.ORIENTATION_NORTH);
-
     }
 }

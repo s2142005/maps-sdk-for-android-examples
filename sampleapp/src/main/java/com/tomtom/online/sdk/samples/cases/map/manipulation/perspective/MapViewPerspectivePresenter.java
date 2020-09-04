@@ -10,7 +10,6 @@
  */
 package com.tomtom.online.sdk.samples.cases.map.manipulation.perspective;
 
-import com.tomtom.online.sdk.map.MapConstants;
 import com.tomtom.online.sdk.map.TomtomMap;
 import com.tomtom.online.sdk.map.model.MapModeType;
 import com.tomtom.online.sdk.samples.activities.BaseFunctionalExamplePresenter;
@@ -25,7 +24,7 @@ public class MapViewPerspectivePresenter extends BaseFunctionalExamplePresenter 
     public void bind(final FunctionalExampleFragment view, TomtomMap map) {
         super.bind(view, map);
         if (!view.isMapRestored()) {
-            centerOnAmsterdam();
+            centerOn(Locations.AMSTERDAM_LOCATION);
         }
     }
 
@@ -49,9 +48,5 @@ public class MapViewPerspectivePresenter extends BaseFunctionalExamplePresenter 
         //tag::doc_change_map_to_3D[]
         tomtomMap.set3DMode();
         //end::doc_change_map_to_3D[]
-    }
-
-    public void centerOnAmsterdam() {
-        tomtomMap.centerOn(Locations.AMSTERDAM_LOCATION.getLatitude(), Locations.AMSTERDAM_LOCATION.getLongitude(), DEFAULT_ZOOM_LEVEL, MapConstants.ORIENTATION_NORTH);
     }
 }

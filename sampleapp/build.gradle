@@ -75,37 +75,37 @@ android {
 }
 
 dependencies {
-        //doc_dependencies_sample_app_start
-        //dependency for display map and core code
-        implementation("com.tomtom.online:sdk-maps:$rootProject.internalVersions.sdk")
+    implementation("com.tomtom.online:sdk-maps:$rootProject.internalVersions.sampleapp")
+    implementation("com.tomtom.online:sdk-maps-static-image:$rootProject.internalVersions.sampleapp")
+    implementation("com.tomtom.online:sdk-maps-ui-extensions:$rootProject.internalVersions.sampleapp")
+    implementation("com.tomtom.online:sdk-maps-driving-extensions:$rootProject.internalVersions.sampleapp")
+    implementation("com.tomtom.online:sdk-maps-rx-extensions:$rootProject.internalVersions.sampleapp")
+    implementation("com.tomtom.online:sdk-traffic:$rootProject.internalVersions.sampleapp")
+    implementation("com.tomtom.online:sdk-search:$rootProject.internalVersions.sampleapp")
+    implementation("com.tomtom.online:sdk-routing:$rootProject.internalVersions.sampleapp")
+    implementation("com.tomtom.online:sdk-routing-rxjava2:$rootProject.internalVersions.sampleapp")
+    implementation("com.tomtom.online:sdk-geofencing:$rootProject.internalVersions.sampleapp")
 
-        //dependency for traffic
-        implementation("com.tomtom.online:sdk-traffic:$rootProject.internalVersions.sdk")
+    testImplementation "androidx.test:core:$rootProject.androidXVersions.test.core"
+    testImplementation "org.easytesting:fest:$rootProject.libVersions.test.easytesting"
+    testImplementation "cglib:cglib-nodep:$rootProject.libVersions.test.cglib"
+    testImplementation "org.mockito:mockito-core:$rootProject.libVersions.test.mockito"
+    testImplementation "junit:junit:$rootProject.libVersions.test.junit"
+    testImplementation "org.robolectric:robolectric:$rootProject.libVersions.test.robolectric"
+    testImplementation "org.robolectric:shadows-multidex:$rootProject.libVersions.test.robolectric"
+    implementation "androidx.multidex:multidex:$rootProject.androidXVersions.multidex"
+    testImplementation "org.codehaus.groovy:groovy:$rootProject.libVersions.groovy:grooid"
 
-        //dependency for search
-        implementation("com.tomtom.online:sdk-search:$rootProject.internalVersions.sdk")
-
-        //dependency for route planner
-        implementation("com.tomtom.online:sdk-routing:$rootProject.internalVersions.sdk")
-
-        //dependency for rx routing
-        implementation("com.tomtom.online:sdk-routing-rxjava2:$rootProject.internalVersions.sdk")
-
-        //dependency for rx extensions
-        implementation("com.tomtom.online:sdk-maps-rx-extensions:$rootProject.internalVersions.sdk")
-
-        //dependency for maps ui extensions
-        implementation("com.tomtom.online:sdk-maps-ui-extensions:$rootProject.internalVersions.sdk")
-
-        //dependency for static maps extensions
-        implementation("com.tomtom.online:sdk-maps-static-image:$rootProject.internalVersions.sdk")
-
-        //dependency for driving extensions
-        implementation("com.tomtom.online:sdk-maps-driving-extensions:$rootProject.internalVersions.sdk")
-
-        //dependency for geofencing
-        implementation("com.tomtom.online:sdk-geofencing:$rootProject.internalVersions.sdk")
-        //doc_dependencies_sample_app_stop
+    testDebugImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.libVersions.leakcanary"
+    testReleaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.libVersions.leakcanary"
+    androidTestImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.libVersions.leakcanary"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.androidXVersions.test.espresso"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$rootProject.androidXVersions.test.espresso"
+    androidTestImplementation "androidx.test:runner:$rootProject.androidXVersions.test.runner"
+    androidTestImplementation "androidx.test:rules:$rootProject.androidXVersions.test.rules"
+    androidTestImplementation "androidx.test:orchestrator:$rootProject.androidXVersions.test.orchestrator"
+    androidTestImplementation "androidx.test.uiautomator:uiautomator:$rootProject.androidXVersions.test.uiautomator"
+    //del_for_release_stop
 
     implementation "com.google.android.material:material:$rootProject.androidXVersions.material"
     implementation "com.github.florent37:singledateandtimepicker:$rootProject.libVersions.singledateandtimepicker"

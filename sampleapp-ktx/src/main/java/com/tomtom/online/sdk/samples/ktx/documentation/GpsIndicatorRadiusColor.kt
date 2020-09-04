@@ -16,7 +16,7 @@ import com.tomtom.online.sdk.map.OnMapReadyCallback
 @Suppress("unused")
 internal class GpsIndicatorRadiusColor {
 
-    @Suppress("unused")
+    @Suppress("DEPRECATION")
     private fun changeGPSIndicatorRadiusColor() {
         OnMapReadyCallback { tomtomMap ->
             val COLOR_RGBA = Color.argb(128, 128, 128, 128)

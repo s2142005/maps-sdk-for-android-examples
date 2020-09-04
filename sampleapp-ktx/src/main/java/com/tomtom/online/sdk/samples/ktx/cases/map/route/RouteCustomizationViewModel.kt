@@ -12,8 +12,6 @@
 package com.tomtom.online.sdk.samples.ktx.cases.map.route
 
 import android.app.Application
-import com.tomtom.online.sdk.routing.data.RouteQuery
-import com.tomtom.online.sdk.routing.data.RouteQueryBuilder
 import com.tomtom.online.sdk.routing.route.RouteCalculationDescriptor
 import com.tomtom.online.sdk.routing.route.RouteDescriptor
 import com.tomtom.online.sdk.routing.route.RouteSpecification

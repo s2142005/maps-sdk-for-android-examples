@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 
 import com.google.common.collect.ImmutableList;
 import com.tomtom.online.sdk.common.location.LatLng;
+import com.tomtom.online.sdk.samples.utils.Locations;
 
 import java.util.List;
 
@@ -23,13 +24,13 @@ public class LodzCityCenterRouteConfig implements RouteConfigExample {
     @NonNull
     @Override
     public LatLng getOrigin() {
-        return new LatLng(51.773136, 19.4233983);
+        return Locations.LODZ_CENTER_ORIGIN;
     }
 
     @NonNull
     @Override
     public LatLng getDestination() {
-        return new LatLng(51.772756, 19.423065);
+        return Locations.LODZ_CENTER_DESTINATION;
     }
 
     @Override

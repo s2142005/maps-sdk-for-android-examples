@@ -29,29 +29,17 @@ import java.util.concurrent.TimeUnit;
 
 public class MapCenteringPresenter extends BaseFunctionalExamplePresenter {
 
-    private final LatLng defaultLocation = Locations.AMSTERDAM_LOCATION;
-
-
     @Override
     public void bind(final FunctionalExampleFragment view, final TomtomMap map) {
         super.bind(view, map);
         if (!view.isMapRestored()) {
-            centerMapOnLocation();
+            centerOn(Locations.AMSTERDAM_LOCATION);
         }
     }
 
     @Override
     public FunctionalExampleModel getModel() {
         return new MapCenteringFunctionalExample();
-    }
-
-    private void centerMapOnLocation() {
-        tomtomMap.centerOn(
-                defaultLocation.getLatitude(),
-                defaultLocation.getLongitude(),
-                DEFAULT_ZOOM_LEVEL,
-                MapConstants.ORIENTATION_NORTH
-        );
     }
 
     @Override
@@ -63,11 +51,11 @@ public class MapCenteringPresenter extends BaseFunctionalExamplePresenter {
         view.setActionBarSubtitle(R.string.amsterdam_city_name);
 
         //tag::doc_map_center_on_amsterdam[]
-        tomtomMap.centerOn(
-                Locations.AMSTERDAM_LOCATION.getLatitude(),
-                Locations.AMSTERDAM_LOCATION.getLongitude(),
-                DEFAULT_ZOOM_LEVEL,
-                MapConstants.ORIENTATION_NORTH);
+        tomtomMap.centerOn(CameraPosition.builder()
+                .focusPosition(Locations.AMSTERDAM_LOCATION)
+                .zoom(DEFAULT_ZOOM_LEVEL)
+                .bearing(MapConstants.ORIENTATION_NORTH)
+                .build());
 
         //end::doc_map_center_on_amsterdam[]
     }
@@ -77,8 +65,8 @@ public class MapCenteringPresenter extends BaseFunctionalExamplePresenter {
         view.setActionBarSubtitle(R.string.berlin_city_name);
 
         //tag::doc_map_center_on_berlin[]
-        CameraPosition cameraPosition = CameraPosition
-                .builder(Locations.BERLIN_LOCATION)
+        CameraPosition cameraPosition = CameraPosition.builder()
+                .focusPosition(Locations.BERLIN_LOCATION)
                 .bearing(MapConstants.ORIENTATION_NORTH)
                 .zoom(DEFAULT_ZOOM_LEVEL)
                 .build();

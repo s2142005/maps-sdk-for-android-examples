@@ -14,6 +14,7 @@ import android.content.Context;
 
 import com.tomtom.online.sdk.common.location.BoundingBox;
 import com.tomtom.online.sdk.common.location.LatLng;
+import com.tomtom.online.sdk.samples.BuildConfig;
 import com.tomtom.online.sdk.traffic.OnlineTrafficApi;
 import com.tomtom.online.sdk.traffic.TrafficApi;
 import com.tomtom.online.sdk.traffic.api.incident.details.IncidentDetailsResultListener;
@@ -31,7 +32,7 @@ class TrafficIncidentListRequester {
 
     TrafficIncidentListRequester(Context context) {
         //tag::doc_traffic_init_api[]
-        this.trafficApi = OnlineTrafficApi.create(context);
+        this.trafficApi = OnlineTrafficApi.create(context, BuildConfig.TRAFFIC_API_KEY);
         //end::doc_traffic_init_api[]
     }
 

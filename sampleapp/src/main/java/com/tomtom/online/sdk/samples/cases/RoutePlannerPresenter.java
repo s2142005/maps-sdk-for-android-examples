@@ -17,9 +17,7 @@ import androidx.annotation.NonNull;
 
 import com.tomtom.online.sdk.common.location.LatLng;
 import com.tomtom.online.sdk.location.Locations;
-import com.tomtom.online.sdk.map.CameraPosition;
 import com.tomtom.online.sdk.map.Icon;
-import com.tomtom.online.sdk.map.MapConstants;
 import com.tomtom.online.sdk.map.Route;
 import com.tomtom.online.sdk.map.RouteBuilder;
 import com.tomtom.online.sdk.map.RouteSettings;
@@ -50,13 +48,9 @@ import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 
-public abstract class RoutePlannerPresenter extends BaseFunctionalExamplePresenter implements
-        RxContext {
-
-    protected static final int DEFAULT_ZOOM_FOR_EXAMPLE = 10;
-    protected static final int DEFAULT_MAP_PADDING = 0;
+public abstract class RoutePlannerPresenter extends BaseFunctionalExamplePresenter
+        implements RxContext {
 
     protected CheckedButtonCleaner checkedButtonCleaner;
     protected RoutingUiListener viewModel;
@@ -254,10 +248,7 @@ public abstract class RoutePlannerPresenter extends BaseFunctionalExamplePresent
     }
 
     public void centerOnDefaultLocation() {
-        tomtomMap.centerOn(CameraPosition.builder(new LatLng(Locations.AMSTERDAM.getLatitude(), Locations.AMSTERDAM.getLongitude()))
-                .bearing(MapConstants.ORIENTATION_NORTH)
-                .zoom(DEFAULT_ZOOM_FOR_EXAMPLE)
-                .build());
+        centerOn(new LatLng(Locations.AMSTERDAM.getLatitude(), Locations.AMSTERDAM.getLongitude()));
     }
 
     void setCheckedButtonCleaner(CheckedButtonCleaner checkedButtonCleaner) {

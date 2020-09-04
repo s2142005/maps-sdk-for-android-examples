@@ -8,10 +8,9 @@
  * licensee then you are not authorised to use this software in any manner and should
  * immediately return it to TomTom N.V.
  */
-package com.tomtom.online.sdk.samples.ktx.cases.search
+package com.tomtom.online.sdk.samples.ktx.cases.search.evstations
 
 import com.google.common.collect.ImmutableList
-import com.tomtom.online.sdk.samples.ktx.cases.search.evstations.ChargingStationDetails
 import com.tomtom.online.sdk.samples.ktx.utils.arch.Resource
 import com.tomtom.online.sdk.samples.ktx.utils.arch.ResourceListLiveData
 import com.tomtom.online.sdk.search.SearchApi
@@ -93,52 +92,40 @@ class EvChargingStationsSearchRequester(
     }
 
     private fun mapFromFuzzyResultsToChargingStationsDetails(results: ImmutableList<FuzzySearchResult>): Single<List<ChargingStationDetails>> {
+        val evSearchResults = results
+            .filter { it.additionalDataSources.chargingAvailabilityDataSource.isPresent }
+            .map { EvSearchResult(it.additionalDataSources, it.poi.name, it.address.freeformAddress, it.position) }
+        return toChargingStationDatails(evSearchResults)
+    }
+
+    private fun mapFromAlongRouteResultsToChargingStationsDetails(results: ImmutableList<AlongRouteSearchResult>): Single<List<ChargingStationDetails>> {
+        val evSearchResults = results
+            .filter { it.additionalDataSources.chargingAvailabilityDataSource.isPresent }
+            .map { EvSearchResult(it.additionalDataSources, it.poi.name, it.address.freeformAddress, it.position) }
+        return toChargingStationDatails(evSearchResults)
+    }
+
+    private fun mapFromGeometryResultsToChargingStationsDetails(results: ImmutableList<GeometrySearchResult>): Single<List<ChargingStationDetails>> {
+        val evSearchResults = results
+            .filter { it.additionalDataSources.chargingAvailabilityDataSource.isPresent }
+            .map { EvSearchResult(it.additionalDataSources, it.poi.name, it.address.freeformAddress, it.position) }
+        return toChargingStationDatails(evSearchResults)
+    }
+
+    private fun toChargingStationDatails(evSearchResults: List<EvSearchResult>): Single<List<ChargingStationDetails>> {
         //tag::doc_ev_charging_stations_mapping[]
-        val filteredResults = results.filter { it.additionalDataSources.chargingAvailabilityDataSource.isPresent }
-        return Observable.fromIterable(filteredResults)
+        return Observable.fromIterable(evSearchResults)
             .map { it.additionalDataSources.chargingAvailabilityDataSource.get().id }
             .map { searchApi.chargingStationsSearch(ChargingStationsSpecification(UUID.fromString(it))) }
-            .zipWith(filteredResults) { stations, result ->
+            .zipWith(evSearchResults) { stations, result ->
                 ChargingStationDetails(
-                    result.poi.name,
-                    result.address.freeformAddress,
+                    result.poiName,
+                    result.freeformAddress,
                     result.position,
                     stations.value().connectors
                 )
             }
             .toList()
         //end::doc_ev_charging_stations_mapping[]
-    }
-
-    private fun mapFromAlongRouteResultsToChargingStationsDetails(results: ImmutableList<AlongRouteSearchResult>): Single<List<ChargingStationDetails>> {
-        val filteredResults = results.filter { it.additionalDataSources.chargingAvailabilityDataSource.isPresent }
-        return Observable.fromIterable(filteredResults)
-            .map { it.additionalDataSources.chargingAvailabilityDataSource.get().id }
-            .map { searchApi.chargingStationsSearch(ChargingStationsSpecification(UUID.fromString(it))) }
-            .zipWith(filteredResults) { stations, result ->
-                ChargingStationDetails(
-                    result.poi.name,
-                    result.address.freeformAddress,
-                    result.position,
-                    stations.value().connectors
-                )
-            }
-            .toList()
-    }
-
-    private fun mapFromGeometryResultsToChargingStationsDetails(results: ImmutableList<GeometrySearchResult>): Single<List<ChargingStationDetails>> {
-        val filteredResults = results.filter { it.additionalDataSources.chargingAvailabilityDataSource.isPresent }
-        return Observable.fromIterable(filteredResults)
-            .map { it.additionalDataSources.chargingAvailabilityDataSource.get().id }
-            .map { searchApi.chargingStationsSearch(ChargingStationsSpecification(UUID.fromString(it))) }
-            .zipWith(filteredResults) { stations, result ->
-                ChargingStationDetails(
-                    result.poi.name,
-                    result.address.freeformAddress,
-                    result.position,
-                    stations.value().connectors
-                )
-            }
-            .toList()
     }
 }

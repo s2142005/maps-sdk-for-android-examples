@@ -14,8 +14,6 @@ import androidx.annotation.VisibleForTesting;
 
 import com.google.common.collect.ImmutableList;
 import com.tomtom.online.sdk.common.location.LatLng;
-import com.tomtom.online.sdk.map.CameraPosition;
-import com.tomtom.online.sdk.map.MapConstants;
 import com.tomtom.online.sdk.map.RouteSettings;
 import com.tomtom.online.sdk.map.TomtomMap;
 import com.tomtom.online.sdk.map.TomtomMapCallback;
@@ -62,10 +60,7 @@ public class RouteSupportingPointsPresenter extends RoutePlannerPresenter {
 
     @Override
     public void centerOnDefaultLocation() {
-        tomtomMap.centerOn(CameraPosition.builder(new LatLng(EXAMPLE_ORIGIN.getLatitude(), EXAMPLE_ORIGIN.getLongitude()))
-                .bearing(MapConstants.ORIENTATION_NORTH)
-                .zoom(DEFAULT_ZOOM_FOR_EXAMPLE)
-                .build());
+        centerOn(EXAMPLE_ORIGIN);
     }
 
     @Override

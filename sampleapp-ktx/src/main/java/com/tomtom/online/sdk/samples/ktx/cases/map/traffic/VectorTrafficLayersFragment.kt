@@ -28,6 +28,7 @@ class VectorTrafficLayersFragment : TrafficLayersFragment() {
         confViewActions()
     }
 
+    @Suppress("SimpleRedundantLet")
     override fun turnOnFlowTiles() {
         mainViewModel.applyOnMap(MapAction {
             let { tomtomMap ->
@@ -38,6 +39,7 @@ class VectorTrafficLayersFragment : TrafficLayersFragment() {
         })
     }
 
+    @Suppress("SimpleRedundantLet")
     override fun turnOnIncidents() {
         mainViewModel.applyOnMap(MapAction {
             let { tomtomMap ->
@@ -57,6 +59,7 @@ class VectorTrafficLayersFragment : TrafficLayersFragment() {
         })
     }
 
+    @Suppress("SimpleRedundantLet")
     override fun turnOffFlowTiles() {
         mainViewModel.applyOnMap(MapAction {
             let { tomtomMap ->
@@ -68,6 +71,7 @@ class VectorTrafficLayersFragment : TrafficLayersFragment() {
         })
     }
 
+    @Suppress("SimpleRedundantLet")
     override fun turnOffIncidents() {
         mainViewModel.applyOnMap(MapAction {
             let { tomtomMap ->
@@ -78,7 +82,7 @@ class VectorTrafficLayersFragment : TrafficLayersFragment() {
         })
     }
 
-    @Suppress("unused")
+    @Suppress("unused", "SimpleRedundantLet", "DEPRECATION")
     private fun showLegacyVectorTrafficIncidentsTiles() {
         mainViewModel.applyOnMap(MapAction {
             let { tomtomMap ->
@@ -89,7 +93,7 @@ class VectorTrafficLayersFragment : TrafficLayersFragment() {
         })
     }
 
-    @Suppress("unused")
+    @Suppress("unused", "SimpleRedundantLet", "DEPRECATION")
     private fun showLegacyVectorTrafficFlowTiles() {
         mainViewModel.applyOnMap(MapAction {
             let { tomtomMap ->
@@ -100,7 +104,7 @@ class VectorTrafficLayersFragment : TrafficLayersFragment() {
         })
     }
 
-    @Suppress("unused")
+    @Suppress("unused", "DEPRECATION", "UNUSED_VARIABLE")
     fun exampleOfUsingTrafficStyle() {
         mainViewModel.applyOnMap(MapAction {
             let { tomtomMap ->

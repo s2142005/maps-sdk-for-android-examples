@@ -77,6 +77,9 @@
             android:id="@+id/action_mapMenuFragment_to_customBalloonFragment"
             app:destination="@+id/customBalloonFragment" />
         <action
+            android:id="@+id/action_mapMenuFragment_to_customMapBannerFragment"
+            app:destination="@+id/customMapBannerFragment" />
+        <action
             android:id="@+id/action_mapMenuFragment_to_customShapesFragment"
             app:destination="@+id/customShapesFragment" />
         <action
@@ -186,6 +189,10 @@
         android:id="@+id/customBalloonFragment"
         android:name="com.tomtom.online.sdk.samples.ktx.cases.map.markers.balloon.CustomBalloonFragment"
         android:label="@string/menu_map_custom_balloon_title" />
+    <fragment
+        android:id="@+id/customMapBannerFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.map.view.CustomBannerFragment"
+        android:label="@string/menu_map_custom_banner_view_title" />
     <fragment
         android:id="@+id/customShapesFragment"
         android:name="com.tomtom.online.sdk.samples.ktx.cases.map.shapes.CustomShapesFragment"

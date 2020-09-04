@@ -19,6 +19,7 @@ import com.tomtom.online.sdk.geofencing.GeofencingApi;
 import com.tomtom.online.sdk.geofencing.RxGeofencingApi;
 import com.tomtom.online.sdk.geofencing.report.ReportCallback;
 import com.tomtom.online.sdk.geofencing.report.ReportQuery;
+import com.tomtom.online.sdk.samples.BuildConfig;
 
 import java.util.UUID;
 
@@ -56,7 +57,7 @@ public class GeofencingReportRequester {
 
     private GeofencingApi createGeofencingApi(Context context) {
         //tag::doc_initialise_geofencing[]
-        GeofencingApi geofencingApi = new GeofencingApi(context);
+        GeofencingApi geofencingApi = new GeofencingApi(context, BuildConfig.GEOFENCING_API_KEY);
         //end::doc_initialise_geofencing[]
         return geofencingApi;
     }
@@ -64,15 +65,15 @@ public class GeofencingReportRequester {
     @SuppressLint({"CheckResult", "unused"})
     private RxGeofencingApi obtainReportRx(Context context, ReportQuery reportQuery) {
         //tag::doc_initialise_rx_geofencing[]
-        RxGeofencingApi rxGeofencingApi = new RxGeofencingApi(context);
+        RxGeofencingApi rxGeofencingApi = new RxGeofencingApi(context, BuildConfig.GEOFENCING_API_KEY);
         //end::doc_initialise_rx_geofencing[]
         //tag::doc_obtain_report_rx[]
         rxGeofencingApi.obtainReport(reportQuery)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                         report -> { /* Handle result */ },
-                         error -> { /* Handle exception */ }
+                        report -> { /* Handle result */ },
+                        error -> { /* Handle exception */ }
                 );
         //end::doc_obtain_report_rx[]
         return rxGeofencingApi;

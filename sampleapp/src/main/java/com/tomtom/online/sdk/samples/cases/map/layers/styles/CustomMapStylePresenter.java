@@ -11,7 +11,6 @@
 package com.tomtom.online.sdk.samples.cases.map.layers.styles;
 
 import com.tomtom.online.sdk.map.LayerSetConfiguration;
-import com.tomtom.online.sdk.map.MapConstants;
 import com.tomtom.online.sdk.map.TomtomMap;
 import com.tomtom.online.sdk.samples.activities.BaseFunctionalExamplePresenter;
 import com.tomtom.online.sdk.samples.activities.FunctionalExampleModel;
@@ -20,15 +19,15 @@ import com.tomtom.online.sdk.samples.utils.Locations;
 
 public class CustomMapStylePresenter extends BaseFunctionalExamplePresenter {
 
-     private static final String TRAFFIC_FLOW_SOURCE_ID = "tomtom-flow-vector-reduced-sensitivity";
-     private static final String TRAFFIC_INCIDENTS_SOURCE_ID = "tomtom-incidents-vector";
-     private static final String MAP_TILES_SOURCE_ID = "tomtom-raster-basic-main";
+    private static final String TRAFFIC_FLOW_SOURCE_ID = "tomtom-flow-vector-reduced-sensitivity";
+    private static final String TRAFFIC_INCIDENTS_SOURCE_ID = "tomtom-incidents-vector";
+    private static final String MAP_TILES_SOURCE_ID = "tomtom-raster-basic-main";
 
     @Override
     public void bind(FunctionalExampleFragment view, TomtomMap map) {
         super.bind(view, map);
         if (!view.isMapRestored()) {
-            centerOnAmsterdam();
+            centerOn(Locations.AMSTERDAM_LOCATION);
         }
     }
 
@@ -42,27 +41,17 @@ public class CustomMapStylePresenter extends BaseFunctionalExamplePresenter {
         showBaseStyle();
     }
 
-    public void centerOnAmsterdam() {
-
-        tomtomMap.centerOn(
-                Locations.AMSTERDAM_LOCATION.getLatitude(),
-                Locations.AMSTERDAM_LOCATION.getLongitude(),
-                DEFAULT_ZOOM_LEVEL,
-                MapConstants.ORIENTATION_NORTH);
-
-    }
-
     public void showNightStyle() {
         //tag::doc_set_style[]
         tomtomMap.getUiSettings().setStyleUrl("asset://styles/night.json");
-        tomtomMap.getLogoSettings().applyInvertedLogo();
+        tomtomMap.getUiSettings().getLogoView().applyInvertedLogo();
         //end::doc_set_style[]
     }
 
     public void showBaseStyle() {
         //tag::set_default_style[]
         tomtomMap.getUiSettings().loadDefaultStyle();
-        tomtomMap.getLogoSettings().applyDefaultLogo();
+        tomtomMap.getUiSettings().getLogoView().applyDefaultLogo();
         //end::set_default_style[]
     }
 
@@ -72,10 +61,10 @@ public class CustomMapStylePresenter extends BaseFunctionalExamplePresenter {
         tomtomMap.getUiSettings().setStyleUrl(
                 "asset://styles/custom-traffic.json",
                 new LayerSetConfiguration.Builder()
-                .mapTilesConfiguration(MAP_TILES_SOURCE_ID)
-                .trafficFlowTilesConfiguration(TRAFFIC_FLOW_SOURCE_ID)
-                .trafficIncidentsTilesConfiguration(TRAFFIC_INCIDENTS_SOURCE_ID)
-                .build()
+                        .mapTilesConfiguration(MAP_TILES_SOURCE_ID)
+                        .trafficFlowTilesConfiguration(TRAFFIC_FLOW_SOURCE_ID)
+                        .trafficIncidentsTilesConfiguration(TRAFFIC_INCIDENTS_SOURCE_ID)
+                        .build()
         );
         //end::doc_set_custom_style[]
     }

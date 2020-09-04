@@ -18,7 +18,6 @@ import android.view.ViewGroup
 import com.tomtom.online.sdk.map.LayerSetConfiguration
 import com.tomtom.online.sdk.samples.ktx.MapAction
 import com.tomtom.online.sdk.samples.ktx.cases.ExampleFragment
-import com.tomtom.online.sdk.samples.ktx.documentation.MapPropertiesInitialization
 import com.tomtom.online.sdk.samples.ktx.documentation.MapPropertiesInitialization.Companion.MAP_TILES_SOURCE_ID
 import com.tomtom.online.sdk.samples.ktx.documentation.MapPropertiesInitialization.Companion.TRAFFIC_FLOW_SOURCE_ID
 import com.tomtom.online.sdk.samples.ktx.documentation.MapPropertiesInitialization.Companion.TRAFFIC_INCIDENTS_SOURCE_ID
@@ -28,8 +27,10 @@ import kotlinx.android.synthetic.main.default_map_fragment.*
 
 class CustomMapStyleFragment : ExampleFragment() {
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.default_map_fragment, container, false)
     }
 
@@ -61,7 +62,8 @@ class CustomMapStyleFragment : ExampleFragment() {
             let { tomtomMap ->
                 //tag::set_default_style[]
                 tomtomMap.uiSettings.loadDefaultStyle()
-                tomtomMap.logoSettings.applyDefaultLogo()
+                tomtomMap.uiSettings.logoView.applyDefaultLogo()
+                tomtomMap.uiSettings.copyrightsView.applyDefaultColor()
                 //end::set_default_style[]
             }
         })
@@ -72,13 +74,14 @@ class CustomMapStyleFragment : ExampleFragment() {
             let { tomtomMap ->
                 //tag::doc_set_style[]
                 tomtomMap.uiSettings.setStyleUrl("asset://styles/night.json")
-                tomtomMap.logoSettings.applyInvertedLogo()
+                tomtomMap.uiSettings.logoView.applyInvertedLogo()
+                tomtomMap.uiSettings.copyrightsView.applyInvertedColor()
                 //end::doc_set_style[]
             }
         })
     }
 
-    @Suppress("unused")
+    @Suppress("unused", "SimpleRedundantLet")
     private fun loadCustomStyle() {
         mainViewModel.applyOnMap(MapAction {
             let { tomtomMap ->

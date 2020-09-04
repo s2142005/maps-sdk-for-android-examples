@@ -12,6 +12,7 @@ package com.tomtom.online.sdk.samples.cases.search.entrypoints;
 
 import android.content.Context;
 
+import com.tomtom.online.sdk.samples.BuildConfig;
 import com.tomtom.online.sdk.search.OnlineSearchApi;
 import com.tomtom.online.sdk.search.SearchApi;
 import com.tomtom.online.sdk.search.fuzzy.FuzzyOutcomeCallback;
@@ -37,7 +38,7 @@ public class EntryPointsSearchRequester {
                 .searchEngineDescriptor(fuzzySearchEngineDescriptor)
                 .build();
 
-        SearchApi searchAPI = OnlineSearchApi.create(context);
+        SearchApi searchAPI = OnlineSearchApi.create(context, BuildConfig.SEARCH_API_KEY);
         searchAPI.search(searchSpecification, fuzzyOutcomeCallback);
     }
 }

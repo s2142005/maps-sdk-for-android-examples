@@ -13,8 +13,6 @@ package com.tomtom.online.sdk.samples.cases.search.adp;
 import android.annotation.SuppressLint;
 import android.content.Context;
 
-import com.tomtom.online.sdk.map.CameraPosition;
-import com.tomtom.online.sdk.map.MapConstants;
 import com.tomtom.online.sdk.map.TomtomMap;
 import com.tomtom.online.sdk.samples.activities.BaseFunctionalExamplePresenter;
 import com.tomtom.online.sdk.samples.activities.FunctionalExampleModel;
@@ -43,7 +41,7 @@ public class AdditionalDataSearchPresenter extends BaseFunctionalExamplePresente
         searchRequester = new AdditionalDataSearchRequester(context);
 
         if (!view.isMapRestored()) {
-            centerOnDefaultLocation();
+            centerOn(Locations.AMSTERDAM_CENTER_LOCATION, ZOOM_LEVEL_FOR_EXAMPLE);
         }
     }
 
@@ -62,13 +60,6 @@ public class AdditionalDataSearchPresenter extends BaseFunctionalExamplePresente
     public void onPause() {
         super.onPause();
         searchRequester.disposeObservable();
-    }
-
-    public void centerOnDefaultLocation() {
-        tomtomMap.centerOn(CameraPosition.builder(Locations.AMSTERDAM_CENTER_LOCATION)
-                .bearing(MapConstants.ORIENTATION_NORTH)
-                .zoom(ZOOM_LEVEL_FOR_EXAMPLE)
-                .build());
     }
 
     @SuppressLint("CheckResult")

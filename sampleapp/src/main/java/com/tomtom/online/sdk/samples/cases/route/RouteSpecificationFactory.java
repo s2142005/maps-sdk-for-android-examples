@@ -441,8 +441,8 @@ public class RouteSpecificationFactory {
         //tag::doc_ev_long_range[]
         ElectricVehicleDescriptor evDescriptor = new ElectricVehicleDescriptor.Builder(
                 new ElectricVehicleConsumption(
+                        80.0,
                         40.0,
-                        20.0,
                         auxiliaryPowerInKw,
                         speedConsumptionInKwhPer100Km
                 )
@@ -461,7 +461,7 @@ public class RouteSpecificationFactory {
                                 ),
                                 Arrays.asList(
                                         new ChargingCurveSupportPoint(6.0, 360),
-                                        new ChargingCurveSupportPoint(40.0, 4680)
+                                        new ChargingCurveSupportPoint(80.0, 6680)
                                 )
                         )
                 )

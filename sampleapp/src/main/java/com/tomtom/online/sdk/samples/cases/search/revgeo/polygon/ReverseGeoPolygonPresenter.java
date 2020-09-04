@@ -17,10 +17,11 @@ import androidx.annotation.VisibleForTesting;
 
 import com.tomtom.online.sdk.common.func.FuncUtils;
 import com.tomtom.online.sdk.common.location.LatLng;
-import com.tomtom.online.sdk.map.MapConstants;
+import com.tomtom.online.sdk.map.CameraPosition;
 import com.tomtom.online.sdk.map.TomtomMap;
 import com.tomtom.online.sdk.map.TomtomMapCallback;
 import com.tomtom.online.sdk.map.gestures.GesturesConfiguration;
+import com.tomtom.online.sdk.samples.BuildConfig;
 import com.tomtom.online.sdk.samples.activities.BaseFunctionalExamplePresenter;
 import com.tomtom.online.sdk.samples.activities.FunctionalExampleModel;
 import com.tomtom.online.sdk.samples.cases.search.ReverseGeoMarker;
@@ -68,7 +69,7 @@ public class ReverseGeoPolygonPresenter extends BaseFunctionalExamplePresenter i
         createSearchAPI();
         setupTomtomMap();
         if (!view.isMapRestored()) {
-            centerOnDefaultLocation();
+            centerOn(Locations.AMSTERDAM_LOCATION, ZOOM_LEVEL_FOR_EXAMPLE);
         }
         revGeoMarker = new ReverseGeoMarker(context, tomtomMap);
         if (view instanceof ProgressDisplayable) {
@@ -83,7 +84,11 @@ public class ReverseGeoPolygonPresenter extends BaseFunctionalExamplePresenter i
 
     @NonNull
     private TomtomMapCallback.OnMarkerClickListener initOnMarkerClickListener() {
-        return marker -> tomtomMap.centerOn(marker.getPosition());
+        return marker -> {
+            tomtomMap.centerOn(CameraPosition.builder()
+                    .focusPosition(marker.getPosition())
+                    .build());
+        };
     }
 
     @NonNull
@@ -132,15 +137,6 @@ public class ReverseGeoPolygonPresenter extends BaseFunctionalExamplePresenter i
         tomtomMap.updateGesturesConfiguration(new GesturesConfiguration.Builder().build());
     }
 
-    public void centerOnDefaultLocation() {
-        tomtomMap.centerOn(
-                Locations.AMSTERDAM_LOCATION.getLatitude(),
-                Locations.AMSTERDAM_LOCATION.getLongitude(),
-                ZOOM_LEVEL_FOR_EXAMPLE,
-                MapConstants.ORIENTATION_NORTH
-        );
-    }
-
     protected void setupTomtomMap() {
         tomtomMap.addOnMarkerClickListener(onMarkerClickListener);
         tomtomMap.addOnMapLongClickListener(onMapLongClickListener);
@@ -165,7 +161,7 @@ public class ReverseGeoPolygonPresenter extends BaseFunctionalExamplePresenter i
     @NonNull
     @VisibleForTesting
     protected SearchApi getSearchApi() {
-        return OnlineSearchApi.create(context);
+        return OnlineSearchApi.create(context, BuildConfig.SEARCH_API_KEY);
     }
 
     protected ReverseGeocoderSearchQuery createReverseGeocoderQuery(double latitude, double longitude) {

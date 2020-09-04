@@ -10,9 +10,7 @@
  */
 package com.tomtom.online.sdk.samples.cases.map.markers.balloons;
 
-import com.tomtom.online.sdk.common.location.LatLng;
 import com.tomtom.online.sdk.map.BaseMarkerBalloon;
-import com.tomtom.online.sdk.map.MapConstants;
 import com.tomtom.online.sdk.map.TomtomMap;
 import com.tomtom.online.sdk.samples.activities.BaseFunctionalExamplePresenter;
 import com.tomtom.online.sdk.samples.activities.FunctionalExampleModel;
@@ -22,8 +20,6 @@ import com.tomtom.online.sdk.samples.utils.Locations;
 
 public class BalloonCustomPresenter extends BaseFunctionalExamplePresenter {
 
-    private final static LatLng location = Locations.AMSTERDAM_LOCATION;
-
     private MarkerDrawer markerDrawer;
 
     @Override
@@ -32,7 +28,7 @@ public class BalloonCustomPresenter extends BaseFunctionalExamplePresenter {
         markerDrawer = new MarkerDrawer(view.getContext(), tomtomMap);
 
         if (!view.isMapRestored()) {
-            centerMapOnLocation();
+            centerOn(Locations.AMSTERDAM_LOCATION);
         }
     }
 
@@ -48,7 +44,7 @@ public class BalloonCustomPresenter extends BaseFunctionalExamplePresenter {
     }
 
     public void createSimpleBalloon() {
-        centerMapOnLocation();
+        centerOn(Locations.AMSTERDAM_LOCATION);
         tomtomMap.removeMarkers();
         //tag::doc_marker_balloon_model[]
         BaseMarkerBalloon markerBalloon = new BaseMarkerBalloon();
@@ -59,17 +55,9 @@ public class BalloonCustomPresenter extends BaseFunctionalExamplePresenter {
     }
 
     public void createCustomBalloon() {
-        centerMapOnLocation();
+        centerOn(Locations.AMSTERDAM_LOCATION);
         tomtomMap.removeMarkers();
 
         markerDrawer.createMarkerWithCustomBalloon(Locations.AMSTERDAM_LOCATION);
     }
-
-    public void centerMapOnLocation() {
-        tomtomMap.centerOn(
-                location.getLatitude(),
-                location.getLongitude(),
-                DEFAULT_ZOOM_LEVEL, MapConstants.ORIENTATION_NORTH);
-    }
-
 }

@@ -13,7 +13,6 @@ package com.tomtom.online.sdk.samples.cases.map.markers.advanced;
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 
-import com.tomtom.online.sdk.map.MapConstants;
 import com.tomtom.online.sdk.map.Marker;
 import com.tomtom.online.sdk.map.TomtomMap;
 import com.tomtom.online.sdk.map.TomtomMapCallback;
@@ -48,7 +47,7 @@ public class AdvancedMarkersPresenter extends BaseFunctionalExamplePresenter {
         //end::doc_register_draggable_marker_listener[]
 
         if (!view.isMapRestored()) {
-            centerMapOnLocation();
+            centerOn(Locations.AMSTERDAM_LOCATION);
         }
 
         markerDrawer = new MarkerDrawer(view.getContext(), tomtomMap);
@@ -142,19 +141,8 @@ public class AdvancedMarkersPresenter extends BaseFunctionalExamplePresenter {
         return tomtomMap != null;
     }
 
-    private void resetMap(){
+    private void resetMap() {
         tomtomMap.removeMarkers();
-        centerMapOnLocation();
+        centerOn(Locations.AMSTERDAM_LOCATION);
     }
-
-    private void centerMapOnLocation() {
-        tomtomMap.centerOn(
-                Locations.AMSTERDAM_LOCATION.getLatitude(),
-                Locations.AMSTERDAM_LOCATION.getLongitude(),
-                DEFAULT_ZOOM_LEVEL,
-                MapConstants.ORIENTATION_NORTH
-        );
-
-    }
-
 }

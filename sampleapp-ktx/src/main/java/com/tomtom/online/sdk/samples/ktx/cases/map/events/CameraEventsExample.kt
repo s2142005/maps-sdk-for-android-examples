@@ -12,7 +12,6 @@ package com.tomtom.online.sdk.samples.ktx.cases.map.events
 
 import com.tomtom.online.sdk.map.TomtomMap
 import com.tomtom.online.sdk.map.TomtomMapCallback.*
-import com.tomtom.sdk.examples.R
 
 @Suppress("unused")
 class CameraEventsExample(private val tomtomMap: TomtomMap) {
@@ -53,6 +52,7 @@ class CameraEventsExample(private val tomtomMap: TomtomMap) {
         //end::doc_map_unregister_camera_manipulation_listeners[]
     }
 
+    @Suppress("UNUSED_PARAMETER")
     private fun displayMessage(message: String) {}
 
     private companion object {

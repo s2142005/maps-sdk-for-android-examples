@@ -13,6 +13,8 @@ package com.tomtom.online.sdk.samples.cases.driving.matching.map;
 import com.tomtom.online.sdk.common.location.LatLng;
 import com.tomtom.online.sdk.map.driving.Matcher;
 import com.tomtom.online.sdk.map.driving.MatcherFactory;
+import com.tomtom.online.sdk.map.driving.MatcherListener;
+import com.tomtom.online.sdk.matching.MatchingDataProvider;
 import com.tomtom.online.sdk.samples.activities.FunctionalExampleModel;
 import com.tomtom.online.sdk.samples.cases.driving.AbstractTrackingPresenter;
 import com.tomtom.online.sdk.samples.cases.driving.ChevronMatcherUpdater;
@@ -70,10 +72,15 @@ public class MapMatchingPresenter extends AbstractTrackingPresenter {
     }
 
     private void createMatcher() {
-        //tag::doc_create_map_matcher[]
-        matcher = MatcherFactory.createMatcher(tomtomMap.asMatchingDataProvider());
-        matcher.setMatcherListener(new ChevronMatcherUpdater(getChevron(), tomtomMap));
-        //end::doc_create_map_matcher[]
+        //tag::doc_create_map_matcher_provider[]
+        MatchingDataProvider matchingDataProvider = tomtomMap.asMatchingDataProvider();
+        //end::doc_create_map_matcher_provider[]
+
+        MatcherListener matcherListener = new ChevronMatcherUpdater(getChevron(), tomtomMap);
+        //tag::doc_create_matcher[]
+        matcher = MatcherFactory.createMatcher(matchingDataProvider);
+        matcher.setMatcherListener(matcherListener);
+        //end::doc_create_matcher[]
     }
 
     @Override

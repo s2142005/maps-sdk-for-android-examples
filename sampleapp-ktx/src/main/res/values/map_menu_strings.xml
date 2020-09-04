@@ -141,6 +141,11 @@
     <string name="menu_map_custom_balloon_title">Balloons</string>
     <string name="menu_map_custom_balloon_description">Display default or custom balloons adjusting the UI and the content.</string>
 
+    <string name="menu_map_custom_banner_view_title">Custom map banner</string>
+    <string name="menu_map_custom_banner_view_description">Add a custom view to the map that will be tied to a location.</string>
+
+    <string name="custom_banner_title">Location of the view: (lat=%1$.2f, lon=%2$.2f)</string>
+
     <string name="label_marker_simple_balloon_btn">Simple</string>
     <string name="label_marker_custom_balloon_btn">Custom</string>
 

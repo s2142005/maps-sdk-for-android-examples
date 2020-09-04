@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.tomtom.online.sdk.common.location.LatLng;
+import com.tomtom.online.sdk.samples.utils.Locations;
 
 import java.util.List;
 
@@ -22,13 +23,13 @@ public class CzechRepublicToRomaniaRouteConfig implements RouteConfigExample {
     @NonNull
     @Override
     public LatLng getOrigin() {
-        return new LatLng(50.746420115485755, 14.799316562712196);
+        return Locations.CZECH_REPUBLIC;
     }
 
     @NonNull
     @Override
     public LatLng getDestination() {
-        return new LatLng(45.33232542221267, 22.753418125212196);
+        return Locations.ROMANIA;
     }
 
     @Override

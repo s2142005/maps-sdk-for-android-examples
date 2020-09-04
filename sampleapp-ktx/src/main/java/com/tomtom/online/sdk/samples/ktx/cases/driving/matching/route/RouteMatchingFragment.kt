@@ -64,20 +64,28 @@ class RouteMatchingFragment : DrivingFragment<RouteMatchingViewModel>() {
             it.data?.let { fullRoutes ->
                 restoreOrCreateChevron()
                 enableFollowTheChevron()
+                createSimulator(fullRoutes)
                 createMatcher(fullRoutes)
-                startSimulation(fullRoutes)
+                startSimulation()
             }
         })
     }
 
-    private fun startSimulation(fullRoutes: List<FullRoute>) {
+    private fun startSimulation() {
         mainViewModel.applyOnMap(MapAction {
-            viewModel.startSimulation(fullRoutes)
+            viewModel.startSimulation()
         })
     }
 
+    private fun createSimulator(routes: List<FullRoute>) {
+        viewModel.createSimulator(routes)
+    }
+
     private fun createMatcher(routes: List<FullRoute>) {
-        viewModel.createMatcher(LatLngTraceMatchingDataProvider.fromPoints(routes.first().getCoordinates()))
+        //tag::doc_create_route_matcher_provider[]
+        val routeMatchingProvider = LatLngTraceMatchingDataProvider.fromPoints(routes.first().getCoordinates())
+        //end::doc_create_route_matcher_provider[]
+        viewModel.createMatcher(routeMatchingProvider)
     }
 
 }

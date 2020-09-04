@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2015-2019 TomTom N.V. All rights reserved.
   ~
   ~ This software is the proprietary copyright of TomTom N.V. and its subsidiaries and may be used
@@ -85,4 +84,11 @@
     <dimen name="traffic_incident_view_text_size">20sp</dimen>
 
     <dimen name="poi_categories_search_container_height">44dp</dimen>
+
+    <dimen name="custom_banner_remove_icon_background_oval_size">20dp</dimen>
+    <dimen name="custom_banner_internal_layout_margin">10dp</dimen>
+    <dimen name="custom_banner_icon_margin">5dp</dimen>
+    <dimen name="custom_banner_icon_size">25dp</dimen>
+    <dimen name="custom_banner_remove_icon_size">25dp</dimen>
+    <dimen name="custom_banner_title_margin">10dp</dimen>
 </resources>

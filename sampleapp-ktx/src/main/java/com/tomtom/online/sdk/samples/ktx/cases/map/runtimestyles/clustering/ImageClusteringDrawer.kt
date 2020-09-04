@@ -11,6 +11,7 @@
 package com.tomtom.online.sdk.samples.ktx.cases.map.runtimestyles.clustering
 
 import android.content.Context
+import androidx.core.content.ContextCompat
 import com.tomtom.online.sdk.common.util.AssetUtils
 import com.tomtom.online.sdk.map.TomtomMap
 import com.tomtom.online.sdk.map.style.images.ImageFactory
@@ -48,10 +49,12 @@ class ImageClusteringDrawer(private val context: Context, private val tomtomMap:
         IMAGE_PAIRS.forEach { pair ->
             val imageId = pair.first
             val imageResId = pair.second
-            //tag::add_image_to_style[]
-            val image = ImageFactory.createImage(imageId, context.resources.getDrawable(imageResId))
-            tomtomMap.styleSettings.addImage(image)
-            //end::add_image_to_style[]
+            ContextCompat.getDrawable(context, imageResId)?.let { drawable ->
+                //tag::add_image_to_style[]
+                val image = ImageFactory.createImage(imageId, drawable)
+                tomtomMap.styleSettings.addImage(image)
+                //end::add_image_to_style[]
+            }
         }
     }
 

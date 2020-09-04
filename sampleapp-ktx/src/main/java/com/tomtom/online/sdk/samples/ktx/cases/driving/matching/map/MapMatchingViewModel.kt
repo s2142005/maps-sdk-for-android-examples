@@ -8,35 +8,18 @@
  * licensee then you are not authorised to use this software in any manner and should
  * immediately return it to TomTom N.V.
  */
-
 package com.tomtom.online.sdk.samples.ktx.cases.driving.matching.map
 
 import android.app.Application
-import android.location.Location
-import com.tomtom.online.sdk.map.driving.MatchResult
-import com.tomtom.online.sdk.map.driving.Matcher
-import com.tomtom.online.sdk.map.driving.MatcherFactory
-import com.tomtom.online.sdk.map.driving.MatcherListener
-import com.tomtom.online.sdk.matching.MatchingDataProvider
-import com.tomtom.online.sdk.samples.ktx.cases.driving.ChevronMatchedStateUpdate
-import com.tomtom.online.sdk.samples.ktx.cases.driving.DrivingViewModel
-import com.tomtom.online.sdk.samples.ktx.utils.driving.BaseSimulator
+import com.tomtom.online.sdk.samples.ktx.cases.driving.matching.MatchingViewModel
 import com.tomtom.online.sdk.samples.ktx.utils.driving.GpsCsvSimulator
 import com.tomtom.online.sdk.samples.ktx.utils.driving.Simulator
 import com.tomtom.online.sdk.samples.ktx.utils.driving.interpolator.BasicInterpolator
 
-class MapMatchingViewModel(application: Application) : DrivingViewModel(application), MatcherListener, BaseSimulator.SimulatorCallback {
+class MapMatchingViewModel(application: Application) : MatchingViewModel(application) {
 
-    private val simulator: Simulator = GpsCsvSimulator(getApplication(), BasicInterpolator())
+    override var simulator: Simulator = GpsCsvSimulator(getApplication(), BasicInterpolator())
     private var lastVisitedLocationIdx = INITIAL_VISITED_LOCATION_IDX
-    private lateinit var matcher: Matcher
-
-    fun createMatcher(matchingDataProvider: MatchingDataProvider) {
-        //tag::doc_create_map_matcher[]
-        matcher = MatcherFactory.createMatcher(matchingDataProvider)
-        matcher.setMatcherListener(this)
-        //end::doc_create_map_matcher[]
-    }
 
     fun startOrResumeSimulation() {
         if (lastVisitedLocationIdx == INITIAL_VISITED_LOCATION_IDX) {
@@ -45,34 +28,5 @@ class MapMatchingViewModel(application: Application) : DrivingViewModel(applicat
             simulator.resume(this, lastVisitedLocationIdx)
         }
     }
-
-    fun stopSimulation() {
-        lastVisitedLocationIdx = simulator.stop()
-    }
-
-    override fun onMatched(matchResult: MatchResult) {
-        chevronState.value = ChevronMatchedStateUpdate(
-            isDimmed = !matchResult.isMatched,
-            matchedLocation = matchResult.matchedLocation,
-            originalLocation = matchResult.originalLocation
-        )
-    }
-
-    override fun onNewRoutePointVisited(location: Location) {
-        //tag::doc_update_map_matcher[]
-        matcher.match(location)
-        //end::doc_update_map_matcher[]
-    }
-
-    fun disposeMatcher() {
-        //tag::doc_dispose_map_matcher[]
-        matcher.dispose()
-        //end::doc_dispose_map_matcher[]
-    }
-
-    companion object {
-        private const val INITIAL_VISITED_LOCATION_IDX = 0
-    }
-
 }
 

@@ -12,7 +12,6 @@ package com.tomtom.online.sdk.samples.cases.map.multiplemaps;
 
 import com.tomtom.online.sdk.common.location.LatLng;
 import com.tomtom.online.sdk.map.CameraPosition;
-import com.tomtom.online.sdk.map.MapConstants;
 import com.tomtom.online.sdk.map.TomtomMap;
 import com.tomtom.online.sdk.map.TomtomMapCallback;
 import com.tomtom.online.sdk.map.gestures.GesturesConfiguration;
@@ -40,7 +39,7 @@ public class MultipleMapsPresenter extends BaseFunctionalExamplePresenter {
     public void bind(final FunctionalExampleFragment view, final TomtomMap map) {
         super.bind(view, map);
         if (!view.isMapRestored()) {
-            centerMapOnLocation();
+            centerOn(Locations.AMSTERDAM_CENTER_LOCATION, DEFAULT_MAP_ZOOM_LEVEL_FOR_EXAMPLE);
         }
         tomtomMap.addOnCameraMoveFinishedListener(onMapChanged);
     }
@@ -56,21 +55,12 @@ public class MultipleMapsPresenter extends BaseFunctionalExamplePresenter {
         return new MultipleMapsFunctionalExample();
     }
 
-    private void centerMapOnLocation() {
-        tomtomMap.centerOn(
-                Locations.AMSTERDAM_CENTER_LOCATION.getLatitude(),
-                Locations.AMSTERDAM_CENTER_LOCATION.getLongitude(),
-                DEFAULT_MAP_ZOOM_LEVEL_FOR_EXAMPLE,
-                MapConstants.ORIENTATION_NORTH
-        );
-    }
-
     private void configureMiniMap(final TomtomMap miniTomtomMap) {
         miniTomtomMap.setMyLocationEnabled(true);
         miniTomtomMap.getUiSettings().getCompassView().hide();
         miniTomtomMap.getUiSettings().getCurrentLocationView().hide();
         miniTomtomMap.getUiSettings().setStyleUrl(NIGHT_STYLE_URL_PATH);
-        miniTomtomMap.getLogoSettings().applyInvertedLogo();
+        miniTomtomMap.getUiSettings().getLogoView().applyInvertedLogo();
         miniTomtomMap.updateGesturesConfiguration(
                 new GesturesConfiguration.Builder()
                         .zoomEnabled(false)
@@ -98,7 +88,8 @@ public class MultipleMapsPresenter extends BaseFunctionalExamplePresenter {
 
             double miniMapBearing = cameraPosition.getBearing();
 
-            CameraPosition miniMapPosition = CameraPosition.builder(focalLatLng)
+            CameraPosition miniMapPosition = CameraPosition.builder()
+                    .focusPosition(focalLatLng)
                     .zoom(miniMapZoomLevel)
                     .bearing(miniMapBearing)
                     .animationDuration(SECOND_MAP_ANIMATION_TIME)

@@ -14,7 +14,7 @@ import android.annotation.SuppressLint;
 
 import androidx.annotation.NonNull;
 
-import com.tomtom.online.sdk.map.MapConstants;
+import com.tomtom.online.sdk.map.CameraPosition;
 import com.tomtom.online.sdk.map.Marker;
 import com.tomtom.online.sdk.map.TomtomMap;
 import com.tomtom.online.sdk.map.TomtomMapCallback;
@@ -29,7 +29,8 @@ import timber.log.Timber;
 
 import static com.tomtom.online.sdk.map.MapConstants.ORIENTATION_SOUTH;
 
-public class MarkerCustomPresenter extends BaseFunctionalExamplePresenter implements TomtomMapCallback.OnMarkerClickListener {
+public class MarkerCustomPresenter extends BaseFunctionalExamplePresenter
+        implements TomtomMapCallback.OnMarkerClickListener {
 
     private MarkerDrawer markerDrawer;
 
@@ -51,7 +52,7 @@ public class MarkerCustomPresenter extends BaseFunctionalExamplePresenter implem
         //end::doc_register_marker_observable[]
 
         if (!view.isMapRestored()) {
-            centerMapOnLocation();
+            centerOn(Locations.AMSTERDAM_LOCATION);
         }
 
         markerDrawer = new MarkerDrawer(view.getContext(), tomtomMap);
@@ -83,7 +84,7 @@ public class MarkerCustomPresenter extends BaseFunctionalExamplePresenter implem
     }
 
     public void createSimpleMarker() {
-        centerMapOnLocation();
+        centerOn(Locations.AMSTERDAM_LOCATION);
 
         //tag::doc_remove_all_markers[]
         tomtomMap.removeMarkers();
@@ -101,24 +102,15 @@ public class MarkerCustomPresenter extends BaseFunctionalExamplePresenter implem
     }
 
     public void createDecalMarker() {
-        tomtomMap.centerOn(
-                Locations.AMSTERDAM_LOCATION.getLatitude(),
-                Locations.AMSTERDAM_LOCATION.getLongitude(),
-                DEFAULT_ZOOM_LEVEL, ORIENTATION_SOUTH);
+        tomtomMap.centerOn(CameraPosition.builder()
+                .focusPosition(Locations.AMSTERDAM_LOCATION)
+                .zoom(DEFAULT_ZOOM_LEVEL)
+                .bearing(ORIENTATION_SOUTH)
+                .build());
 
         tomtomMap.removeMarkers();
 
         markerDrawer.createDecalMarkers(Locations.AMSTERDAM_LOCATION, 5, 0.2f);
-    }
-
-    public void centerMapOnLocation() {
-        tomtomMap.centerOn(
-                Locations.AMSTERDAM_LOCATION.getLatitude(),
-                Locations.AMSTERDAM_LOCATION.getLongitude(),
-                DEFAULT_ZOOM_LEVEL,
-                MapConstants.ORIENTATION_NORTH
-        );
-
     }
 
     @Override

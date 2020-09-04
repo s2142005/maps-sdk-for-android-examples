@@ -13,6 +13,7 @@ package com.tomtom.online.sdk.samples.cases.search;
 import android.content.Context;
 
 import com.tomtom.online.sdk.common.location.LatLng;
+import com.tomtom.online.sdk.samples.BuildConfig;
 import com.tomtom.online.sdk.search.OnlineSearchApi;
 import com.tomtom.online.sdk.search.SearchApi;
 import com.tomtom.online.sdk.search.api.revgeo.RevGeoSearchResultListener;
@@ -52,7 +53,7 @@ class ReverseGeocodingRequester {
 
     SearchApi createSearchAPI() {
         //tag::doc_create_search_object[]
-        SearchApi searchApi = OnlineSearchApi.create(context);
+        SearchApi searchApi = OnlineSearchApi.create(context, BuildConfig.SEARCH_API_KEY);
         //end::doc_create_search_object[]
         return searchApi;
     }

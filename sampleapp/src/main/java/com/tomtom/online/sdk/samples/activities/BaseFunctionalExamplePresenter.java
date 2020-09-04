@@ -15,7 +15,9 @@ import android.content.res.Resources;
 
 import com.tomtom.online.sdk.common.location.LatLng;
 import com.tomtom.online.sdk.common.util.Contextable;
+import com.tomtom.online.sdk.map.CameraPosition;
 import com.tomtom.online.sdk.map.MapConstants;
+import com.tomtom.online.sdk.map.MapPadding;
 import com.tomtom.online.sdk.map.TomtomMap;
 import com.tomtom.online.sdk.map.ui.MapComponentView;
 import com.tomtom.online.sdk.samples.R;
@@ -26,7 +28,8 @@ import java.util.concurrent.Executors;
 import io.reactivex.Scheduler;
 import io.reactivex.schedulers.Schedulers;
 
-public abstract class BaseFunctionalExamplePresenter implements FunctionalExamplePresenter, Contextable {
+public abstract class BaseFunctionalExamplePresenter
+        implements FunctionalExamplePresenter, Contextable {
 
     private static final int NETWORK_THREADS_NUMBER = 4;
     public static final float DEFAULT_ZOOM_TRAFFIC_LEVEL = 12.0f; //works from 11.1
@@ -58,14 +61,10 @@ public abstract class BaseFunctionalExamplePresenter implements FunctionalExampl
     public void setComponentMargins(MapComponentView componentView, int[] margins) {
         Resources resources = view.getContext().getResources();
         componentView.setMargins(
-                resources
-                        .getDimensionPixelSize(margins[0]),
-                resources
-                        .getDimensionPixelSize(margins[1]),
-                resources
-                        .getDimensionPixelSize(margins[2]),
-                resources
-                        .getDimensionPixelSize(margins[3]));
+                resources.getDimensionPixelSize(margins[0]),
+                resources.getDimensionPixelSize(margins[1]),
+                resources.getDimensionPixelSize(margins[2]),
+                resources.getDimensionPixelSize(margins[3]));
     }
 
     @Override
@@ -80,30 +79,29 @@ public abstract class BaseFunctionalExamplePresenter implements FunctionalExampl
     public void onPause() {
     }
 
-    protected void centerOn(LatLng location) {
-        tomtomMap.centerOn(
-                location.getLatitude(),
-                location.getLongitude(),
-                DEFAULT_ZOOM_LEVEL,
-                MapConstants.ORIENTATION_NORTH);
+    public void centerOn(LatLng location) {
+        tomtomMap.centerOn(CameraPosition.builder()
+                .focusPosition(location)
+                .zoom(DEFAULT_ZOOM_LEVEL)
+                .bearing(MapConstants.ORIENTATION_NORTH)
+                .build());
     }
 
-    protected void centerOn(LatLng location, double zoom) {
-        tomtomMap.centerOn(
-                location.getLatitude(),
-                location.getLongitude(),
-                zoom,
-                MapConstants.ORIENTATION_NORTH);
+    public void centerOn(LatLng location, double zoom) {
+        tomtomMap.centerOn(CameraPosition.builder()
+                .focusPosition(location)
+                .zoom(zoom)
+                .bearing(MapConstants.ORIENTATION_NORTH)
+                .build());
     }
 
     protected void confMapPadding() {
         int padding = getContext().getResources().getDimensionPixelSize(R.dimen.offset_extra_big);
-        tomtomMap.setPadding(padding, padding, padding, padding);
+        tomtomMap.setPadding(new MapPadding(padding, padding, padding, padding));
     }
 
     protected void resetMapPadding() {
-        tomtomMap.setPadding(DEFAULT_MAP_PADDING, DEFAULT_MAP_PADDING,
-                DEFAULT_MAP_PADDING, DEFAULT_MAP_PADDING);
+        tomtomMap.setPadding(new MapPadding(DEFAULT_MAP_PADDING, DEFAULT_MAP_PADDING, DEFAULT_MAP_PADDING, DEFAULT_MAP_PADDING));
     }
 
     @Override

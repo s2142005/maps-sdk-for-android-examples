@@ -15,9 +15,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.tomtom.online.sdk.map.CameraPosition;
 import com.tomtom.online.sdk.map.Icon;
-import com.tomtom.online.sdk.map.MapConstants;
+import com.tomtom.online.sdk.map.MapPadding;
 import com.tomtom.online.sdk.map.TomtomMap;
 import com.tomtom.online.sdk.samples.R;
 import com.tomtom.online.sdk.samples.activities.BaseFunctionalExamplePresenter;
@@ -29,9 +28,6 @@ import com.tomtom.online.sdk.search.fuzzy.FuzzyOutcome;
 import com.tomtom.online.sdk.search.fuzzy.FuzzyOutcomeCallback;
 
 public class EntryPointsSearchPresenter extends BaseFunctionalExamplePresenter {
-
-    private static final int ZOOM_LEVEL_FOR_EXAMPLE = 10;
-    private static final int DEFAULT_MAP_PADDING = 0;
 
     protected Context context;
     protected FunctionalExampleFragment fragment;
@@ -45,7 +41,7 @@ public class EntryPointsSearchPresenter extends BaseFunctionalExamplePresenter {
         searchRequester = new EntryPointsSearchRequester(view.getContext(), resultListener);
 
         if (!view.isMapRestored()) {
-            centerOnDefaultLocation();
+            centerOn(Locations.AMSTERDAM_LOCATION);
         }
         confMapPadding();
     }
@@ -59,12 +55,7 @@ public class EntryPointsSearchPresenter extends BaseFunctionalExamplePresenter {
     public void cleanup() {
         super.cleanup();
         tomtomMap.clear();
-        tomtomMap.setPadding(
-                DEFAULT_MAP_PADDING,
-                DEFAULT_MAP_PADDING,
-                DEFAULT_MAP_PADDING,
-                DEFAULT_MAP_PADDING
-        );
+        resetMapPadding();
     }
 
     @Override
@@ -77,14 +68,7 @@ public class EntryPointsSearchPresenter extends BaseFunctionalExamplePresenter {
 
         int padding = actionBarHeight + offsetDefault;
 
-        tomtomMap.setPadding(padding, padding, padding, padding);
-    }
-
-    private void centerOnDefaultLocation() {
-        tomtomMap.centerOn(CameraPosition.builder(Locations.AMSTERDAM_LOCATION)
-                .bearing(MapConstants.ORIENTATION_NORTH)
-                .zoom(ZOOM_LEVEL_FOR_EXAMPLE)
-                .build());
+        tomtomMap.setPadding(new MapPadding(padding, padding, padding, padding));
     }
 
     public void performSearch(String term) {

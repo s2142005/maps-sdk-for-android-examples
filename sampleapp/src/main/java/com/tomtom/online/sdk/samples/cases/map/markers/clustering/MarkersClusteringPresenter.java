@@ -10,6 +10,7 @@
  */
 package com.tomtom.online.sdk.samples.cases.map.markers.clustering;
 
+import com.tomtom.online.sdk.map.MapPadding;
 import com.tomtom.online.sdk.map.TomtomMap;
 import com.tomtom.online.sdk.samples.R;
 import com.tomtom.online.sdk.samples.activities.BaseFunctionalExamplePresenter;
@@ -19,9 +20,6 @@ import com.tomtom.online.sdk.samples.fragments.FunctionalExampleFragment;
 import com.tomtom.online.sdk.samples.utils.Locations;
 
 public class MarkersClusteringPresenter extends BaseFunctionalExamplePresenter {
-
-    private static final double ZOOM_LEVEL_FOR_EXAMPLE = 7.5;
-    private static final int DEFAULT_MAP_PADDING = 0;
 
     private MarkerDrawer markerDrawer;
 
@@ -50,8 +48,7 @@ public class MarkersClusteringPresenter extends BaseFunctionalExamplePresenter {
         }
         tomtomMap.removeMarkers();
         tomtomMap.getMarkerSettings().setMarkersClustering(false);
-        tomtomMap.setPadding(DEFAULT_MAP_PADDING, DEFAULT_MAP_PADDING,
-                DEFAULT_MAP_PADDING, DEFAULT_MAP_PADDING);
+        resetMapPadding();
     }
 
     private boolean isMapReady() {
@@ -66,7 +63,7 @@ public class MarkersClusteringPresenter extends BaseFunctionalExamplePresenter {
                 R.dimen.abc_action_bar_default_height_material);
 
         int padding = actionBarHeight + offsetBig;
-        tomtomMap.setPadding(padding, padding, padding, padding);
+        tomtomMap.setPadding(new MapPadding(padding, padding, padding, padding));
     }
 
     private void createMarkers() {

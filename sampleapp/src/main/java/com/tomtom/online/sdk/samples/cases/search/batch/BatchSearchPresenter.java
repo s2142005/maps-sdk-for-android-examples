@@ -53,7 +53,8 @@ public class BatchSearchPresenter extends BaseFunctionalExamplePresenter {
     }
 
     private void centerOnDefaultLocation() {
-        tomtomMap.centerOn(CameraPosition.builder(Locations.AMSTERDAM_CENTER_LOCATION)
+        tomtomMap.centerOn(CameraPosition.builder()
+                .focusPosition(Locations.AMSTERDAM_CENTER_LOCATION)
                 .bearing(MapConstants.ORIENTATION_NORTH)
                 .build());
     }

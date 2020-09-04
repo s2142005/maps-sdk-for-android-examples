@@ -9,6 +9,8 @@
  * immediately return it to TomTom N.V.
  */
 
+@file:Suppress("DEPRECATION")
+
 package com.tomtom.online.sdk.samples.ktx.cases.map.traffic
 
 import android.os.Bundle
@@ -98,7 +100,7 @@ class RasterTrafficLayersFragment : TrafficLayersFragment() {
         })
     }
 
-    @Suppress("unused")
+    @Suppress("unused", "SimpleRedundantLet")
     private fun turnOnLegacyTrafficIncidents() {
         mainViewModel.applyOnMap(MapAction {
             let { tomtomMap ->
@@ -109,7 +111,7 @@ class RasterTrafficLayersFragment : TrafficLayersFragment() {
         })
     }
 
-    @Suppress("unused")
+    @Suppress("unused", "SimpleRedundantLet")
     private fun turnOnLegacyTrafficFlow() {
         mainViewModel.applyOnMap(MapAction {
             let { tomtomMap ->

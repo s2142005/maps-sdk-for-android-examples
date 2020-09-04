@@ -19,6 +19,7 @@ import com.tomtom.online.sdk.routing.OnlineRoutingApi;
 import com.tomtom.online.sdk.routing.RoutingApi;
 import com.tomtom.online.sdk.routing.matrix.MatrixRoutesCallback;
 import com.tomtom.online.sdk.routing.matrix.MatrixRoutesSpecification;
+import com.tomtom.online.sdk.samples.BuildConfig;
 
 import java.util.concurrent.Executors;
 
@@ -33,7 +34,7 @@ public class MatrixRouteRequester implements RxContext {
     private RoutingApi routePlannerApi;
 
     MatrixRouteRequester(Context context) {
-        routePlannerApi = OnlineRoutingApi.create(context);
+        routePlannerApi = OnlineRoutingApi.create(context, BuildConfig.ROUTING_API_KEY);
     }
 
     void performMatrixRouting(MatrixRoutesSpecification specification, MatrixRoutesCallback matrixRoutesCallback) {

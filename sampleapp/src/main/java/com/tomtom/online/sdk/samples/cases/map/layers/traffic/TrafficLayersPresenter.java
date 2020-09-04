@@ -11,11 +11,8 @@
 package com.tomtom.online.sdk.samples.cases.map.layers.traffic;
 
 import com.tomtom.online.sdk.common.func.FuncUtils;
-import com.tomtom.online.sdk.map.MapConstants;
 import com.tomtom.online.sdk.map.TomtomMap;
 import com.tomtom.online.sdk.map.TrafficFlowType;
-import com.tomtom.online.sdk.map.UiSettings;
-import com.tomtom.online.sdk.map.model.MapTilesType;
 import com.tomtom.online.sdk.map.style.layers.Layer;
 import com.tomtom.online.sdk.map.style.layers.Visibility;
 import com.tomtom.online.sdk.samples.activities.BaseFunctionalExamplePresenter;
@@ -25,17 +22,16 @@ import com.tomtom.online.sdk.samples.utils.Locations;
 
 import java.util.List;
 
-import static com.tomtom.online.sdk.map.TrafficFlowType.*;
-
 public class TrafficLayersPresenter extends BaseFunctionalExamplePresenter implements
         TrafficPresenter {
 
+    @SuppressWarnings("deprecation")
     @Override
     public void bind(FunctionalExampleFragment view, TomtomMap map) {
         super.bind(view, map);
-        tomtomMap.getUiSettings().setMapTilesType(MapTilesType.RASTER);
+        tomtomMap.getUiSettings().setMapTilesType(com.tomtom.online.sdk.map.model.MapTilesType.RASTER);
         if (!view.isMapRestored()) {
-            centerOnLondon();
+            centerOn(Locations.LONDON_LOCATION, DEFAULT_ZOOM_TRAFFIC_LEVEL);
         }
     }
 
@@ -44,13 +40,15 @@ public class TrafficLayersPresenter extends BaseFunctionalExamplePresenter imple
         return new TrafficLayersFunctionalExample();
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void cleanup() {
         hideTrafficInformation();
         tomtomMap.zoomTo(DEFAULT_ZOOM_LEVEL);
-        tomtomMap.getUiSettings().setMapTilesType(MapTilesType.VECTOR);
+        tomtomMap.getUiSettings().setMapTilesType(com.tomtom.online.sdk.map.model.MapTilesType.VECTOR);
     }
 
+    @SuppressWarnings("deprecation")
     public void showTrafficFlowTiles() {
         tomtomMap.getTrafficSettings().turnOffTraffic();
         //tag::doc_legacy_traffic_flow_on[]
@@ -58,7 +56,7 @@ public class TrafficLayersPresenter extends BaseFunctionalExamplePresenter imple
         //end::doc_legacy_traffic_flow_on[]
     }
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings({"unused", "deprecation"})
     public void exampleOfUsingTrafficStyle() {
         //tag::doc_legacy_traffic_flow_styles[]
         tomtomMap.getTrafficSettings().turnOnRasterTrafficFlowTiles(new TrafficFlowType.RelativeTrafficFlowStyle()); //default
@@ -67,15 +65,17 @@ public class TrafficLayersPresenter extends BaseFunctionalExamplePresenter imple
         //end::doc_legacy_traffic_flow_styles[]
 
         //tag::doc_get_style_info[]
-        RasterTrafficFlowType style = tomtomMap.getTrafficSettings().getTrafficRasterFlowStyle();
+        TrafficFlowType.RasterTrafficFlowType style = tomtomMap.getTrafficSettings().getTrafficRasterFlowStyle();
         //end::doc_get_style_info[]
     }
 
+    @SuppressWarnings("deprecation")
     public void showTrafficIncidents() {
         tomtomMap.getTrafficSettings().turnOffTraffic();
         tomtomMap.getTrafficSettings().turnOnRasterTrafficIncidents();
     }
 
+    @SuppressWarnings("deprecation")
     public void showTrafficFlowAndIncidentsTiles() {
         //tag::doc_legacy_traffic_flow_inc_tiles_raster_on[]
         tomtomMap.getTrafficSettings().turnOnRasterTrafficIncidents();
@@ -89,10 +89,6 @@ public class TrafficLayersPresenter extends BaseFunctionalExamplePresenter imple
         //tag::doc_traffic_off[]
         tomtomMap.getTrafficSettings().turnOffTrafficIncidents();
         //end::doc_traffic_off[]
-    }
-
-    public void centerOnLondon() {
-        tomtomMap.centerOn(Locations.LONDON_LOCATION.getLatitude(), Locations.LONDON_LOCATION.getLongitude(), DEFAULT_ZOOM_TRAFFIC_LEVEL, MapConstants.ORIENTATION_NORTH);
     }
 
     @SuppressWarnings("unused")

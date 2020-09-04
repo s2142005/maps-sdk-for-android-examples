@@ -12,24 +12,23 @@ package com.tomtom.online.sdk.samples.cases.map.layers.traffic;
 
 import com.tomtom.online.sdk.map.DefaultOnTrafficFlowClickListener;
 import com.tomtom.online.sdk.map.DefaultOnTrafficIncidentClickListener;
-import com.tomtom.online.sdk.map.MapConstants;
 import com.tomtom.online.sdk.map.TomtomMap;
 import com.tomtom.online.sdk.map.TrafficFlowBalloonViewAdapter;
 import com.tomtom.online.sdk.map.TrafficFlowType;
-import com.tomtom.online.sdk.map.TrafficFlowType.VectorTrafficFlowType;
 import com.tomtom.online.sdk.map.TrafficIncidentsBalloonViewAdapter;
-import com.tomtom.online.sdk.map.model.MapTilesType;
 import com.tomtom.online.sdk.samples.activities.BaseFunctionalExamplePresenter;
 import com.tomtom.online.sdk.samples.activities.FunctionalExampleModel;
 import com.tomtom.online.sdk.samples.fragments.FunctionalExampleFragment;
 import com.tomtom.online.sdk.samples.utils.Locations;
 
-public class VectorTrafficLayersPresenter extends BaseFunctionalExamplePresenter implements TrafficPresenter {
+public class VectorTrafficLayersPresenter extends BaseFunctionalExamplePresenter implements
+        TrafficPresenter {
 
+    @SuppressWarnings("deprecation")
     @Override
     public void bind(FunctionalExampleFragment view, TomtomMap map) {
         super.bind(view, map);
-        tomtomMap.getUiSettings().setMapTilesType(MapTilesType.VECTOR);
+        tomtomMap.getUiSettings().setMapTilesType(com.tomtom.online.sdk.map.model.MapTilesType.VECTOR);
         //tag::doc_traffic_flow_vector_listener[]
         tomtomMap.getTrafficSettings().setOnTrafficFlowClickListener(new DefaultOnTrafficFlowClickListener(tomtomMap));
         //end::doc_traffic_flow_vector_listener[]
@@ -47,7 +46,7 @@ public class VectorTrafficLayersPresenter extends BaseFunctionalExamplePresenter
         //end::doc_traffic_incident_balloon_view_adapter[]
 
         if (!view.isMapRestored()) {
-            centerOnLondon();
+            centerOn(Locations.LONDON_LOCATION, DEFAULT_ZOOM_TRAFFIC_LEVEL);
         }
     }
 
@@ -63,6 +62,7 @@ public class VectorTrafficLayersPresenter extends BaseFunctionalExamplePresenter
     }
 
 
+    @SuppressWarnings("deprecation")
     @Override
     public void showTrafficFlowTiles() {
         //tag::doc_legacy_traffic_vector_flow_on[]
@@ -77,7 +77,7 @@ public class VectorTrafficLayersPresenter extends BaseFunctionalExamplePresenter
         //end::doc_traffic_vector_flow_on[]
     }
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings({"unused", "deprecation"})
     public void exampleOfUsingTrafficStyle() {
         //tag::doc_legacy_traffic_flow_styles[]
         tomtomMap.getTrafficSettings().turnOnVectorTrafficFlowTiles(new TrafficFlowType.RelativeTrafficFlowStyle()); //default
@@ -85,7 +85,7 @@ public class VectorTrafficLayersPresenter extends BaseFunctionalExamplePresenter
         tomtomMap.getTrafficSettings().turnOnVectorTrafficFlowTiles(new TrafficFlowType.RelativeDelayTrafficFlowStyle());
         //end::doc_legacy_traffic_flow_styles[]
         //tag::doc_legacy_get_style_info[]
-        VectorTrafficFlowType style = tomtomMap.getTrafficSettings().getTrafficVectorFlowStyle();
+        TrafficFlowType.VectorTrafficFlowType style = tomtomMap.getTrafficSettings().getTrafficVectorFlowStyle();
         //end::doc_legacy_get_style_info[]
     }
 
@@ -97,15 +97,7 @@ public class VectorTrafficLayersPresenter extends BaseFunctionalExamplePresenter
         //end::doc_traffic_off[]
     }
 
-    public void centerOnLondon() {
-        tomtomMap.centerOn(
-                Locations.LONDON_LOCATION.getLatitude(),
-                Locations.LONDON_LOCATION.getLongitude(),
-                DEFAULT_ZOOM_TRAFFIC_LEVEL,
-                MapConstants.ORIENTATION_NORTH
-        );
-    }
-
+    @SuppressWarnings("deprecation")
     @Override
     public void showTrafficIncidents() {
         //tag::doc_legacy_traffic_vector_incidents_on[]
@@ -121,6 +113,7 @@ public class VectorTrafficLayersPresenter extends BaseFunctionalExamplePresenter
     }
 
 
+    @SuppressWarnings("deprecation")
     @Override
     public void showTrafficFlowAndIncidentsTiles() {
         tomtomMap.getTrafficSettings().turnOffTraffic();

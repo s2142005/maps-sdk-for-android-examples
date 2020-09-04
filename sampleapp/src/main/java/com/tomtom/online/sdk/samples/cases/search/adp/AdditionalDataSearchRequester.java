@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 
 import com.google.common.base.Optional;
 import com.tomtom.online.sdk.common.rx.RxContext;
+import com.tomtom.online.sdk.samples.BuildConfig;
 import com.tomtom.online.sdk.search.OnlineSearchApi;
 import com.tomtom.online.sdk.search.SearchApi;
 import com.tomtom.online.sdk.search.data.additionaldata.AdditionalDataSearchQueryBuilder;
@@ -43,7 +44,7 @@ public class AdditionalDataSearchRequester implements RxContext {
     }
 
     void performAdpSearch(FuzzySearchQuery query, Consumer<AdditionalDataSearchResponse> consumer) {
-        final SearchApi searchApi = OnlineSearchApi.create(context);
+        final SearchApi searchApi = OnlineSearchApi.create(context, BuildConfig.SEARCH_API_KEY);
         observableWork = searchApi.search(query)
                 .observeOn(getWorkingScheduler())
                 .filter(nonEmptyResponse())

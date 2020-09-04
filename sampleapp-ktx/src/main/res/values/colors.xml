@@ -18,6 +18,7 @@
     <color name="chrome_white">#EAF2D3</color> <!-- Disabled elements: buttons, sliders etc.-->
     <color name="catskill_white">#EDF2F7</color> <!-- Background, hover -->
     <color name="solid_white">#FFFFFF</color> <!-- Background, marker border -->
+    <color name="alpha90_red">#E6ED1515</color>
 
     <!-- Secondary colors -->
     <color name="solid_black">#000000</color> <!-- Body text, input text, text in popups, markers -->

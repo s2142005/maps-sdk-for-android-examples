@@ -12,6 +12,7 @@ package com.tomtom.online.sdk.samples.cases.map.manipulation.uiextensions;
 
 import android.widget.ImageView;
 
+import com.tomtom.online.sdk.map.CameraPosition;
 import com.tomtom.online.sdk.map.MapConstants;
 import com.tomtom.online.sdk.map.TomtomMap;
 import com.tomtom.online.sdk.map.ui.arrowbuttons.ArrowButtonsGroup;
@@ -40,11 +41,7 @@ public class MapUiExtensionsPresenter extends BaseFunctionalExamplePresenter {
 
     @Override
     public void cleanup() {
-        tomtomMap.centerOn(
-                Locations.AMSTERDAM_LOCATION.getLatitude(),
-                Locations.AMSTERDAM_LOCATION.getLongitude(),
-                DEFAULT_ZOOM_LEVEL,
-                MapConstants.ORIENTATION_NORTH);
+        centerOn(Locations.AMSTERDAM_LOCATION);
         defaultMapComponentIcons();
         defaultMapComponentsVisibility();
     }
@@ -57,11 +54,11 @@ public class MapUiExtensionsPresenter extends BaseFunctionalExamplePresenter {
     }
 
     private void centerOnAmsterdam() {
-        tomtomMap.centerOn(
-                Locations.AMSTERDAM_LOCATION.getLatitude(),
-                Locations.AMSTERDAM_LOCATION.getLongitude(),
-                DEFAULT_ZOOM_LEVEL,
-                MapConstants.ORIENTATION_NORTH_WEST);
+        tomtomMap.centerOn(CameraPosition.builder()
+                .focusPosition(Locations.AMSTERDAM_LOCATION)
+                .zoom(DEFAULT_ZOOM_LEVEL)
+                .bearing(MapConstants.ORIENTATION_NORTH_WEST)
+                .build());
     }
 
     public void defaultMapComponentIcons() {

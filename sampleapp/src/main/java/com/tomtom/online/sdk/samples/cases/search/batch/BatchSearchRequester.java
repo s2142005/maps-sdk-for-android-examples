@@ -12,6 +12,7 @@ package com.tomtom.online.sdk.samples.cases.search.batch;
 
 import android.content.Context;
 
+import com.tomtom.online.sdk.samples.BuildConfig;
 import com.tomtom.online.sdk.samples.utils.Locations;
 import com.tomtom.online.sdk.search.OnlineSearchApi;
 import com.tomtom.online.sdk.search.SearchApi;
@@ -47,7 +48,7 @@ public class BatchSearchRequester {
         batchQuery.withFuzzySearchQuery(createHaarlemQuery(category));
         batchQuery.withGeometrySearchQuery(createHoofddropQuery(category));
 
-        final SearchApi searchApi = OnlineSearchApi.create(context);
+        final SearchApi searchApi = OnlineSearchApi.create(context, BuildConfig.SEARCH_API_KEY);
         searchApi.batchSearch(batchQuery.build(), batchSearchResultListener);
         //end::doc_batch_search_request[]
     }

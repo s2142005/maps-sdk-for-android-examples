@@ -12,7 +12,7 @@ package com.tomtom.online.sdk.samples.cases.search;
 
 import android.content.Context;
 
-import com.tomtom.online.sdk.map.MapConstants;
+import com.tomtom.online.sdk.map.CameraPosition;
 import com.tomtom.online.sdk.map.TomtomMap;
 import com.tomtom.online.sdk.map.TomtomMapCallback;
 import com.tomtom.online.sdk.samples.R;
@@ -24,7 +24,8 @@ import com.tomtom.online.sdk.search.api.SearchError;
 import com.tomtom.online.sdk.search.api.revgeo.RevGeoSearchResultListener;
 import com.tomtom.online.sdk.search.data.reversegeocoder.ReverseGeocoderSearchResponse;
 
-public class ReverseGeocodingPresenter extends BaseFunctionalExamplePresenter implements RevGeoSearchResultListener {
+public class ReverseGeocodingPresenter extends BaseFunctionalExamplePresenter
+        implements RevGeoSearchResultListener {
 
     private ReverseGeoMarker revGeoMarker;
     private ReverseGeocodingRequester revGeoSearch;
@@ -39,14 +40,14 @@ public class ReverseGeocodingPresenter extends BaseFunctionalExamplePresenter im
                 revGeoSearch.performReverseGeocode(latLng);
             };
 
-    private final TomtomMapCallback.OnMarkerClickListener onMarkerClickListener = marker -> tomtomMap.centerOn(marker.getPosition());
+    private final TomtomMapCallback.OnMarkerClickListener onMarkerClickListener = marker -> tomtomMap.centerOn(CameraPosition.builder().focusPosition(marker.getPosition()).build());
 
     @Override
     public void bind(FunctionalExampleFragment view, TomtomMap map) {
         super.bind(view, map);
         context = view.getContext();
         setupTomtomMap();
-        centerOnAmsterdam();
+        centerOn(Locations.AMSTERDAM_LOCATION);
     }
 
     @Override
@@ -59,15 +60,6 @@ public class ReverseGeocodingPresenter extends BaseFunctionalExamplePresenter im
         tomtomMap.getMarkerSettings().removeMarkers();
         tomtomMap.removeOnMarkerClickListener(onMarkerClickListener);
         tomtomMap.removeOnMapLongClickListener(onMapLongClickListener);
-    }
-
-    public void centerOnAmsterdam() {
-        tomtomMap.centerOn(
-                Locations.AMSTERDAM_LOCATION.getLatitude(),
-                Locations.AMSTERDAM_LOCATION.getLongitude(),
-                DEFAULT_ZOOM_LEVEL,
-                MapConstants.ORIENTATION_NORTH
-        );
     }
 
     protected void setupTomtomMap() {

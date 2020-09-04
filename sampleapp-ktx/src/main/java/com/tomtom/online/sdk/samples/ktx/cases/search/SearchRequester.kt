@@ -13,6 +13,7 @@ package com.tomtom.online.sdk.samples.ktx.cases.search
 import android.content.Context
 import com.tomtom.online.sdk.common.rx.RxContext
 import com.tomtom.online.sdk.common.rx.Singles
+import com.tomtom.online.sdk.samples.ktx.cases.search.evstations.EvChargingStationsSearchRequester
 import com.tomtom.online.sdk.samples.ktx.utils.arch.Resource
 import com.tomtom.online.sdk.samples.ktx.utils.arch.ResourceListLiveData
 import com.tomtom.online.sdk.samples.ktx.utils.arch.ResourceLiveData

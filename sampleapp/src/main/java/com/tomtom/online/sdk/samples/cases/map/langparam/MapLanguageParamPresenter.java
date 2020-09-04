@@ -10,7 +10,6 @@
  */
 package com.tomtom.online.sdk.samples.cases.map.langparam;
 
-import com.tomtom.online.sdk.map.MapConstants;
 import com.tomtom.online.sdk.map.TomtomMap;
 import com.tomtom.online.sdk.samples.activities.BaseFunctionalExamplePresenter;
 import com.tomtom.online.sdk.samples.activities.FunctionalExampleModel;
@@ -23,14 +22,12 @@ public class MapLanguageParamPresenter extends BaseFunctionalExamplePresenter {
     final static String BRITISH_ENGLISH_CODE = "en-GB";
     final static String RUSSIAN_CODE = "ru-RU";
     final static String DUTCH_CODE = "nl-NL";
-    final static String NGT_CODE = "NGT";
-
 
     @Override
     public void bind(final FunctionalExampleFragment view, final TomtomMap map) {
         super.bind(view, map);
         if (!view.isMapRestored()) {
-            centerMapOnLocation();
+            centerOn(Locations.LODZ_LOCATION, DEFAULT_MAP_ZOOM_LEVEL_FOR_EXAMPLE);
             english();
         }
     }
@@ -38,15 +35,6 @@ public class MapLanguageParamPresenter extends BaseFunctionalExamplePresenter {
     @Override
     public FunctionalExampleModel getModel() {
         return new MapLanguageParamFunctionalExample();
-    }
-
-    private void centerMapOnLocation() {
-        tomtomMap.centerOn(
-                Locations.LODZ_LOCATION.getLatitude(),
-                Locations.LODZ_LOCATION.getLongitude(),
-                DEFAULT_MAP_ZOOM_LEVEL_FOR_EXAMPLE,
-                MapConstants.ORIENTATION_NORTH
-        );
     }
 
     @Override

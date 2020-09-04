@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+    Copyright (c) 2015-2020 TomTom N.V. All rights reserved.
+    This software is the proprietary copyright of TomTom N.V. and its subsidiaries and may be used
+    for internal evaluation purposes or commercial use strictly subject to separate licensee
+    agreement between you and TomTom. If you are the licensee, you are only permitted to use
+    this Software in accordance with the terms of your license agreement. If you are not the
+    licensee then you are not authorised to use this software in any manner and should
+    immediately return it to TomTom N.V.
+-->
+
+<!-- tag::doc_xml_custom_view_layout[] -->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/transparent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/custom_banner_internal_layout_margin"
+        android:layout_marginEnd="@dimen/custom_banner_internal_layout_margin"
+        android:layout_marginRight="@dimen/custom_banner_internal_layout_margin"
+        android:background="@drawable/center_balloon_bg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/banner_icon"
+            android:layout_width="@dimen/custom_banner_icon_size"
+            android:layout_height="@dimen/custom_banner_icon_size"
+            android:layout_marginStart="@dimen/custom_banner_icon_margin"
+            android:layout_marginLeft="@dimen/custom_banner_icon_margin"
+            android:src="@drawable/ic_markedlocation"
+            app:layout_constraintBottom_toBottomOf="@+id/banner_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/banner_title" />
+
+        <TextView
+            android:id="@+id/banner_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/custom_banner_title_margin"
+            android:textColor="@android:color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/banner_icon"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Your position is" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageButton
+        android:id="@+id/banner_remove_button"
+        android:layout_width="@dimen/custom_banner_remove_icon_size"
+        android:layout_height="@dimen/custom_banner_remove_icon_size"
+        android:background="@drawable/round_button_background"
+        android:src="@drawable/ic_remove"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout><!-- end::doc_xml_custom_view_layout[] -->

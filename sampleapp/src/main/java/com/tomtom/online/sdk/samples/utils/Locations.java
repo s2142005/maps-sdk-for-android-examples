@@ -31,6 +31,8 @@ public final class Locations {
     public final static LatLng AMSTERDAM_JAN_VAN_GALENSTRAAT = new LatLng(52.372281, 4.846595);
     public final static LatLng AMSTERDAM_BERLIN_CENTER_LOCATION = new LatLng(52.575119, 9.149708);
     public static final LatLng LODZ_LOCATION = new LatLng(51.759434, 19.449011);
+    public static final LatLng LODZ_CENTER_ORIGIN = new LatLng(51.773136, 19.4233983);
+    public static final LatLng LODZ_CENTER_DESTINATION = new LatLng(51.772756, 19.423065);
     public static final LatLng AMSTERDAM_HAARLEM = new LatLng(52.381222, 4.637558);
     public static final LatLng UTRECHT_LOCATION = new LatLng(52.09179, 5.11457);
     public static final LatLng HOOFDDORP_LOCATION = new LatLng(52.3058782, 4.6483191);
@@ -46,6 +48,9 @@ public final class Locations {
     public static final LatLng SAN_JOSE_IMG1 = new LatLng(37.76028, -122.454246);
     public static final LatLng SAN_JOSE_IMG2 = new LatLng(36.926304, -121.967966);
     public static final LatLng SAN_JOSE_IMG3 = new LatLng(37.455662, -122.492698);
+
+    public static final LatLng CZECH_REPUBLIC = new LatLng(50.746420115485755, 14.799316562712196);
+    public static final LatLng ROMANIA = new LatLng(45.33232542221267, 22.753418125212196);
 
     static Random r = new Random(System.currentTimeMillis());
 

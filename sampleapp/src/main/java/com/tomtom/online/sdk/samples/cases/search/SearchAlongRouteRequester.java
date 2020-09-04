@@ -13,6 +13,7 @@ package com.tomtom.online.sdk.samples.cases.search;
 import android.content.Context;
 
 import com.tomtom.online.sdk.routing.route.information.FullRoute;
+import com.tomtom.online.sdk.samples.BuildConfig;
 import com.tomtom.online.sdk.search.OnlineSearchApi;
 import com.tomtom.online.sdk.search.SearchApi;
 import com.tomtom.online.sdk.search.api.alongroute.AlongRouteSearchResultListener;
@@ -40,7 +41,7 @@ class SearchAlongRouteRequester {
 
         query.withLimit(SEARCH_MAX_LIMIT);
 
-        SearchApi searchAPI = OnlineSearchApi.create(context);
+        SearchApi searchAPI = OnlineSearchApi.create(context, BuildConfig.SEARCH_API_KEY);
         searchAPI.alongRouteSearch(query.build(), alongRouteSearchCallback);
         //end::doc_search_along_route_request[]
     }

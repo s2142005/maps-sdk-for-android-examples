@@ -13,7 +13,6 @@ package com.tomtom.online.sdk.samples.cases.map.manipulation.events;
 import androidx.annotation.StringRes;
 
 import com.tomtom.online.sdk.common.location.LatLng;
-import com.tomtom.online.sdk.map.MapConstants;
 import com.tomtom.online.sdk.map.TomtomMap;
 import com.tomtom.online.sdk.map.TomtomMapCallback;
 import com.tomtom.online.sdk.map.gestures.GesturesConfiguration;
@@ -61,7 +60,7 @@ public class MapManipulationEventsPresenter extends BaseFunctionalExamplePresent
         setupRxTomtomMap();
 
         if (!view.isMapRestored()) {
-            centerOnAmsterdam();
+            centerOn(Locations.AMSTERDAM_LOCATION);
         }
     }
 
@@ -74,15 +73,6 @@ public class MapManipulationEventsPresenter extends BaseFunctionalExamplePresent
     public void cleanup() {
         Timber.d("RxUtils: clean()");
         rxDisposables.dispose();
-    }
-
-    public void centerOnAmsterdam() {
-        tomtomMap.centerOn(
-                Locations.AMSTERDAM_LOCATION.getLatitude(),
-                Locations.AMSTERDAM_LOCATION.getLongitude(),
-                DEFAULT_ZOOM_LEVEL,
-                MapConstants.ORIENTATION_NORTH
-        );
     }
 
     private void setupTomtomMap() {

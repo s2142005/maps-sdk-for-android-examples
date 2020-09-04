@@ -11,16 +11,14 @@
 package com.tomtom.online.sdk.samples.cases.map.layers.layerstypes;
 
 import com.google.common.base.Preconditions;
-import com.tomtom.online.sdk.map.MapConstants;
 import com.tomtom.online.sdk.map.TomtomMap;
-import com.tomtom.online.sdk.map.model.MapLayersType;
-import com.tomtom.online.sdk.map.model.MapTilesType;
 import com.tomtom.online.sdk.samples.R;
 import com.tomtom.online.sdk.samples.activities.BaseFunctionalExamplePresenter;
 import com.tomtom.online.sdk.samples.activities.FunctionalExampleModel;
 import com.tomtom.online.sdk.samples.fragments.FunctionalExampleFragment;
 import com.tomtom.online.sdk.samples.utils.Locations;
 
+@SuppressWarnings("deprecation")
 public class MapLayersTypesPresenter extends BaseFunctionalExamplePresenter {
 
     private MapLayersTypesView view;
@@ -29,7 +27,7 @@ public class MapLayersTypesPresenter extends BaseFunctionalExamplePresenter {
     public void bind(FunctionalExampleFragment view, TomtomMap map) {
         super.bind(view, map);
         if (!view.isMapRestored()) {
-            centerOnAmsterdam();
+            centerOn(Locations.AMSTERDAM_LOCATION);
         }
         Preconditions.checkArgument(view instanceof MapLayersTypesView);
         this.view = (MapLayersTypesView) view;
@@ -45,25 +43,25 @@ public class MapLayersTypesPresenter extends BaseFunctionalExamplePresenter {
     @Override
     public void cleanup() {
         super.cleanup();
-        tomtomMap.getUiSettings().setMapTilesType(MapTilesType.VECTOR);
-        tomtomMap.getUiSettings().setMapLayersType(MapLayersType.BASIC);
+        tomtomMap.getUiSettings().setMapTilesType(com.tomtom.online.sdk.map.model.MapTilesType.VECTOR);
+        tomtomMap.getUiSettings().setMapLayersType(com.tomtom.online.sdk.map.model.MapLayersType.BASIC);
     }
 
-    public void setMapTilesType(MapTilesType type) {
+    public void setMapTilesType(com.tomtom.online.sdk.map.model.MapTilesType type) {
         tomtomMap.getUiSettings().setMapTilesType(type);
         updateTilesStatus();
     }
 
-    public void setMapLayersType(MapLayersType type) {
+    public void setMapLayersType(com.tomtom.online.sdk.map.model.MapLayersType type) {
         tomtomMap.getUiSettings().setMapLayersType(type);
         updateTilesStatus();
     }
 
-    public MapTilesType getMapTilesType() {
+    public com.tomtom.online.sdk.map.model.MapTilesType getMapTilesType() {
         return tomtomMap.getUiSettings().getMapTilesType();
     }
 
-    public MapLayersType getMapLayersType() {
+    public com.tomtom.online.sdk.map.model.MapLayersType getMapLayersType() {
         return tomtomMap.getUiSettings().getMapLayersType();
     }
 
@@ -71,14 +69,5 @@ public class MapLayersTypesPresenter extends BaseFunctionalExamplePresenter {
         String tilesStatus = getContext().getString(R.string.map_layers_status,
                 getMapTilesType(), getMapLayersType());
         view.showTilesStatus(tilesStatus);
-    }
-
-    private void centerOnAmsterdam() {
-        tomtomMap.centerOn(
-                Locations.AMSTERDAM_LOCATION.getLatitude(),
-                Locations.AMSTERDAM_LOCATION.getLongitude(),
-                DEFAULT_ZOOM_LEVEL,
-                MapConstants.ORIENTATION_NORTH);
-
     }
 }

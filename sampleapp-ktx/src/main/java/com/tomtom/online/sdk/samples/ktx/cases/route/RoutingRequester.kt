@@ -57,7 +57,7 @@ class RoutingRequester(context: Context) : RxContext {
         //end::doc_execute_routing[]
     }
 
-    @Suppress("unused")
+    @Suppress("unused", "UNUSED_VARIABLE")
     fun planRxRoute(routeSpecification: RouteSpecification, result: ResourceLiveData<RoutePlan>) {
         //tag::doc_execute_rx_routing[]
         val disposable = rxRoutingApi.planRoute(routeSpecification)

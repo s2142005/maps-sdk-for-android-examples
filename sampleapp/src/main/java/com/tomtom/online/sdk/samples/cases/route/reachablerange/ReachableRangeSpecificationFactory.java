@@ -26,37 +26,14 @@ import java.util.Map;
 public class ReachableRangeSpecificationFactory {
 
     public ReachableRangeSpecification createReachableRangeSpecificationForElectric() {
-        //tag::doc_reachable_range_common_params_electric[]
+        //tag::doc_reachable_range_budget_descriptor[]
         ReachableRangeBudgetDescriptor reachableRangeBudgetDescriptor =
                 new ReachableRangeBudgetDescriptor.Builder()
                         .energyBudgetInKWh(5.0)
                         .build();
 
-        Map<Double, Double> consumptionMap = new HashMap<>();
-        consumptionMap.put(50.0, 6.3);
-
-        ElectricVehicleConsumption electricVehicleConsumption =
-                new ElectricVehicleConsumption(85.0, 43.0, 1.7, consumptionMap);
-
-        ElectricVehicleDescriptor electricVehicleDescriptor = new ElectricVehicleDescriptor.Builder(electricVehicleConsumption)
-                .vehicleDimensions(new VehicleDimensions.Builder()
-                        .vehicleWeightInKg(1600)
-                        .build())
-                .vehicleEfficiency(new VehicleEfficiency.Builder()
-                        .uphillEfficiency(0.33)
-                        .downhillEfficiency(0.33)
-                        .decelerationEfficiency(0.33)
-                        .accelerationEfficiency(0.33)
-                        .build())
-                .build();
-        //end::doc_reachable_range_common_params_electric[]
-
-        //tag::doc_reachable_range_specification_electric[]
-        return new ReachableRangeSpecification.Builder(Locations.AMSTERDAM_CENTER_LOCATION)
-                .reachableRangeBudgetDescriptor(reachableRangeBudgetDescriptor)
-                .electricVehicleDescriptor(electricVehicleDescriptor)
-                .build();
-        //end::doc_reachable_range_specification_electric[]
+        //end::doc_reachable_range_budget_descriptor[]
+        return createReachableRangeSpecificationForElectric(reachableRangeBudgetDescriptor);
     }
 
     public ReachableRangeSpecification createReachableRangeSpecificationForElectricLimitTo2Hours() {
@@ -64,29 +41,7 @@ public class ReachableRangeSpecificationFactory {
                 new ReachableRangeBudgetDescriptor.Builder()
                         .timeBudgetInSeconds(7200.0)
                         .build();
-
-        Map<Double, Double> consumptionMap = new HashMap<>();
-        consumptionMap.put(50.0, 6.3);
-
-        ElectricVehicleConsumption electricVehicleConsumption =
-                new ElectricVehicleConsumption(85.0, 43.0, 1.7, consumptionMap);
-
-        ElectricVehicleDescriptor electricVehicleDescriptor = new ElectricVehicleDescriptor.Builder(electricVehicleConsumption)
-                .vehicleDimensions(new VehicleDimensions.Builder()
-                        .vehicleWeightInKg(1600)
-                        .build())
-                .vehicleEfficiency(new VehicleEfficiency.Builder()
-                        .uphillEfficiency(0.33)
-                        .downhillEfficiency(0.33)
-                        .decelerationEfficiency(0.33)
-                        .accelerationEfficiency(0.33)
-                        .build())
-                .build();
-
-        return new ReachableRangeSpecification.Builder(Locations.AMSTERDAM_CENTER_LOCATION)
-                .reachableRangeBudgetDescriptor(reachableRangeBudgetDescriptor)
-                .electricVehicleDescriptor(electricVehicleDescriptor)
-                .build();
+        return createReachableRangeSpecificationForElectric(reachableRangeBudgetDescriptor);
     }
 
     public ReachableRangeSpecification createReachableRangeSpecificationForCombustion() {
@@ -123,5 +78,34 @@ public class ReachableRangeSpecificationFactory {
                 .combustionVehicleDescriptor(combustionVehicleDescriptor)
                 .build();
         //end::doc_reachable_range_specification_combustion[]
+    }
+
+    private ReachableRangeSpecification createReachableRangeSpecificationForElectric(ReachableRangeBudgetDescriptor reachableRangeBudgetDescriptor) {
+        //tag::doc_reachable_range_common_params_electric[]
+        Map<Double, Double> consumptionMap = new HashMap<>();
+        consumptionMap.put(50.0, 6.3);
+
+        ElectricVehicleConsumption electricVehicleConsumption =
+                new ElectricVehicleConsumption(85.0, 43.0, 1.7, consumptionMap);
+
+        ElectricVehicleDescriptor electricVehicleDescriptor = new ElectricVehicleDescriptor.Builder(electricVehicleConsumption)
+                .vehicleDimensions(new VehicleDimensions.Builder()
+                        .vehicleWeightInKg(1600)
+                        .build())
+                .vehicleEfficiency(new VehicleEfficiency.Builder()
+                        .uphillEfficiency(0.33)
+                        .downhillEfficiency(0.33)
+                        .decelerationEfficiency(0.33)
+                        .accelerationEfficiency(0.33)
+                        .build())
+                .build();
+        //end::doc_reachable_range_common_params_electric[]
+
+        //tag::doc_reachable_range_specification_electric[]
+        return new ReachableRangeSpecification.Builder(Locations.AMSTERDAM_CENTER_LOCATION)
+                .reachableRangeBudgetDescriptor(reachableRangeBudgetDescriptor)
+                .electricVehicleDescriptor(electricVehicleDescriptor)
+                .build();
+        //end::doc_reachable_range_specification_electric[]
     }
 }

@@ -11,7 +11,6 @@
 package com.tomtom.online.sdk.samples.cases.map.geopoliticalview;
 
 import com.tomtom.online.sdk.common.location.LatLng;
-import com.tomtom.online.sdk.map.MapConstants;
 import com.tomtom.online.sdk.map.TomtomMap;
 import com.tomtom.online.sdk.samples.activities.BaseFunctionalExamplePresenter;
 import com.tomtom.online.sdk.samples.activities.FunctionalExampleModel;
@@ -30,7 +29,7 @@ public class MapGeopoliticalViewPresenter extends BaseFunctionalExamplePresenter
     public void bind(final FunctionalExampleFragment view, final TomtomMap map) {
         super.bind(view, map);
         if (!view.isMapRestored()) {
-            centerMapOnDefaultLocation();
+            centerOn(ISRAEL_REGION, DEFAULT_MAP_ZOOM_LEVEL_FOR_EXAMPLE);
         }
     }
 
@@ -39,22 +38,13 @@ public class MapGeopoliticalViewPresenter extends BaseFunctionalExamplePresenter
         return new MapGeopoliticalViewFunctionalExample();
     }
 
-    private void centerMapOnDefaultLocation() {
-        tomtomMap.centerOn(
-                ISRAEL_REGION.getLatitude(),
-                ISRAEL_REGION.getLongitude(),
-                DEFAULT_MAP_ZOOM_LEVEL_FOR_EXAMPLE,
-                MapConstants.ORIENTATION_NORTH
-        );
-    }
-
     @Override
     public void cleanup() {
         tomtomMap.setGeopoliticalView(DEFAULT_VIEW);
     }
 
     public void simulateIsrael() {
-        centerMapOnDefaultLocation();
+        centerOn(ISRAEL_REGION, DEFAULT_MAP_ZOOM_LEVEL_FOR_EXAMPLE);
         //tag::doc_map_geopolitical_view[]
         //ISRAEL_LOCAL_VIEW = "IL"
         tomtomMap.setGeopoliticalView(ISRAEL_LOCAL_VIEW);
@@ -62,7 +52,7 @@ public class MapGeopoliticalViewPresenter extends BaseFunctionalExamplePresenter
     }
 
     public void simulateUnified() {
-        centerMapOnDefaultLocation();
+        centerOn(ISRAEL_REGION, DEFAULT_MAP_ZOOM_LEVEL_FOR_EXAMPLE);
         tomtomMap.setGeopoliticalView(INTERNATIONAL_VIEW);
     }
 

@@ -13,6 +13,7 @@ package com.tomtom.online.sdk.samples.cases.search.autocomplete;
 import android.content.Context;
 
 import com.tomtom.online.sdk.common.location.LatLngBias;
+import com.tomtom.online.sdk.samples.BuildConfig;
 import com.tomtom.online.sdk.samples.utils.Locations;
 import com.tomtom.online.sdk.search.OnlineSearchApi;
 import com.tomtom.online.sdk.search.SearchApi;
@@ -57,6 +58,6 @@ class AutocompleteRequester {
     }
 
     SearchApi createSearchAPI() {
-        return OnlineSearchApi.create(context);
+        return OnlineSearchApi.create(context, BuildConfig.SEARCH_API_KEY);
     }
 }

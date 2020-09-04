@@ -13,7 +13,6 @@ package com.tomtom.online.sdk.samples.cases.search;
 import androidx.annotation.VisibleForTesting;
 
 import com.tomtom.online.sdk.common.location.LatLng;
-import com.tomtom.online.sdk.common.location.LatLngAcc;
 import com.tomtom.online.sdk.common.location.LatLngBias;
 import com.tomtom.online.sdk.search.fuzzy.FuzzySearchSpecification;
 import com.tomtom.online.sdk.search.fuzzy.FuzzyLocationDescriptor;

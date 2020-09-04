@@ -13,6 +13,7 @@ package com.tomtom.online.sdk.samples.ktx.cases.search.evstations
 
 import android.content.Context
 import android.graphics.drawable.LayerDrawable
+import androidx.core.content.ContextCompat
 import com.tomtom.online.sdk.map.Icon
 import com.tomtom.online.sdk.map.MarkerBuilder
 import com.tomtom.online.sdk.map.TomtomMap
@@ -62,8 +63,8 @@ class EvAvailabilityMarkerDrawer(private val context: Context, private val tomto
             name,
             LayerDrawable(
                 arrayOf(
-                    context.resources.getDrawable(R.drawable.ic_pin_ev_station),
-                    context.resources.getDrawable(badgeResId)
+                    ContextCompat.getDrawable(context, R.drawable.ic_pin_ev_station),
+                    ContextCompat.getDrawable(context, badgeResId)
                 )
             )
         )

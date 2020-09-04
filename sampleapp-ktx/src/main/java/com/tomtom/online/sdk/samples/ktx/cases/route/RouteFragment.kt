@@ -141,12 +141,9 @@ abstract class RouteFragment<T : RouteViewModel> : ExampleFragment() {
 
     open fun updateInfoBarSubtitle(route: FullRoute) {
         val routeSummary = route.summary
-        var arrivalTime = getString(R.string.routing_response_information_not_available)
-        var formattedDistance = getString(R.string.routing_response_information_not_available)
-
         val dateWithTimezone = DateFormatter().formatWithTimeZone(routeSummary.arrivalTime)
-        arrivalTime = dateWithTimezone.toString(TIME_FORMAT)
-        formattedDistance = DistanceFormatter.format(routeSummary.lengthInMeters)
+        val arrivalTime = dateWithTimezone.toString(TIME_FORMAT)
+        val formattedDistance = DistanceFormatter.format(routeSummary.lengthInMeters)
 
         infoBarView.subtitleTextView.text =
             getString(R.string.routing_info_bar_subtitle, arrivalTime, formattedDistance)

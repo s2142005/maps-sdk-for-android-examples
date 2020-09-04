@@ -14,8 +14,6 @@ import android.content.Context;
 import android.widget.Toast;
 
 import com.tomtom.online.sdk.common.location.LatLng;
-import com.tomtom.online.sdk.map.CameraPosition;
-import com.tomtom.online.sdk.map.MapConstants;
 import com.tomtom.online.sdk.map.MarkerBuilder;
 import com.tomtom.online.sdk.map.SimpleMarkerBalloon;
 import com.tomtom.online.sdk.map.TomtomMap;
@@ -30,7 +28,6 @@ import com.tomtom.online.sdk.search.data.geometry.GeometrySearchResult;
 public class GeometrySearchPresenter extends BaseFunctionalExamplePresenter{
 
     private static final LatLng MAP_CENTER_FOR_EXAMPLE = new LatLng(52.3691851, 4.8505632);
-    private static final int ZOOM_LEVEL_FOR_EXAMPLE = 10;
 
     protected Context context;
     protected FunctionalExampleFragment fragment;
@@ -44,7 +41,7 @@ public class GeometrySearchPresenter extends BaseFunctionalExamplePresenter{
         searchRequester = new GeometrySearchRequester(context);
 
         if (!view.isMapRestored()) {
-            centerOnDefaultLocation();
+            centerOn(MAP_CENTER_FOR_EXAMPLE);
             showShapesOnMap();
         }
     }
@@ -57,13 +54,6 @@ public class GeometrySearchPresenter extends BaseFunctionalExamplePresenter{
     @Override
     public void cleanup() {
         tomtomMap.clear();
-    }
-
-    public void centerOnDefaultLocation() {
-        tomtomMap.centerOn(CameraPosition.builder(MAP_CENTER_FOR_EXAMPLE)
-                .bearing(MapConstants.ORIENTATION_NORTH)
-                .zoom(ZOOM_LEVEL_FOR_EXAMPLE)
-                .build());
     }
 
     private void showShapesOnMap() {
