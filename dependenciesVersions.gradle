@@ -32,9 +32,9 @@ ext {
     androidMinSdkVersion = 16
     androidMinSdkVersionForBt = 21
     buildVersionName = releaseProps.getProperty('mapsSdkVersion')
-    buildVersionCode = releaseProps.getProperty("interLibVersion").replaceAll('-SNAPSHOT', '').replaceAll("\\.", '').toInteger()
+    buildVersionCode = releaseProps.getProperty("interLibVersion").replaceAll('-rc', '').replaceAll("\\.", '').toInteger()
     libraryVersion = releaseProps.getProperty('interLibVersion')
-    releaseLib = !libraryVersion.endsWith("SNAPSHOT")
+    releaseLib = !libraryVersion.contains("rc")
     integrationTests = getIntegrationTestEnabled()
 
     androidVersions = [
@@ -165,7 +165,7 @@ ext {
             midlet: releaseProps.getProperty('interLibVersion'),
             tbt   : releaseProps.getProperty('interLibVersion'),
             port  : releaseProps.getProperty('interLibVersion'),
-            sampleapp : '2.4617'
+            sampleapp : '2.4631'
     ]
     //doc_end_dependencies_version_config
 }
