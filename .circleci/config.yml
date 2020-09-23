@@ -38,15 +38,15 @@ references:
       persist_to_workspace:
         root: *workspace
         paths:
-          - sampleapp/build/outputs/androidTest-results
-          - sampleapp/build/outputs/apk
-          - sampleapp/build/outputs/code-coverage
-          - sampleapp/build/test-results
+          - sampleapp-ktx/build/outputs/androidTest-results
+          - sampleapp-ktx/build/outputs/apk
+          - sampleapp-ktx/build/outputs/code-coverage
+          - sampleapp-ktx/build/test-results
   persist_release_workspace: &persist_release_workspace
       persist_to_workspace:
         root: *workspace
         paths:
-          - sampleapp/build/outputs/apk
+          - sampleapp-ktx/build/outputs/apk
   attach_firebase_workspace: &attach_firebase_workspace
       attach_workspace:
         at: *workspace
@@ -59,15 +59,15 @@ references:
   android_config: &android_config
       working_directory: *workspace
       docker:
-        - image: circleci/android:api-28-alpha
+        - image: circleci/android:api-28
       environment:
           TERM: dumb
-          JVM_OPTS: -Xmx4096m
-          GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
+          JVM_OPTS: -Xmx3g
+          GRADLE_OPTS: -Xmx512m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false -Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2
   swap_tt_key: &swap_tt_key
       run:
         name: Swap TomTom Key
-        command: sed -i "s/undefined/$SECRET/g" sampleapp/src/main/AndroidManifest.xml
+        command: sed -i "s/undefined/$SECRET/g" sampleapp-ktx/src/main/AndroidManifest.xml
 
   ruby_dependencies: &ruby_dependencies
       run:
@@ -92,17 +92,20 @@ jobs:
         - *save_cache
         - run:
             name: Run Tests
-            command: bundle exec fastlane android build
+            command: ./gradlew test
+        - run:
+            name: Build Apps
+            command: ./gradlew build
         - *save_cache
         - *persist_debug_workspace
         - store_artifacts:
-            path: sampleapp/build/reports
+            path: sampleapp-ktx/build/reports
             destination: reports
         - store_artifacts:
-            path: sampleapp/build/outputs/apk/
+            path: sampleapp-ktx/build/outputs/apk/
             destination: apk
         - store_test_results:
-            path: sampleapp/build/test-results
+            path: sampleapp-ktx/build/test-results
 
 workflows:
   version: 2
