@@ -14,7 +14,8 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import com.tomtom.online.sdk.common.location.BoundingBox
 import com.tomtom.online.sdk.common.location.LatLng
 import com.tomtom.online.sdk.map.AnimationDuration
@@ -29,8 +30,8 @@ import java.util.concurrent.TimeUnit
 
 abstract class ExampleFragment : Fragment(), ExampleLifecycle {
 
-    lateinit var mainViewModel: MainViewModel
-    lateinit var exampleViewModel: ExampleViewModel
+    val mainViewModel: MainViewModel by activityViewModels()
+    val exampleViewModel: ExampleViewModel by viewModels()
 
     private val idlingResourceHelper = IdlingResourceHelper(ProgressFragment.PROGRESS_FRAGMENT_TAG)
 
@@ -40,11 +41,7 @@ abstract class ExampleFragment : Fragment(), ExampleLifecycle {
         //Handle back press for proper navigation
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, ExampleOnBackPressedCallback())
 
-        //Example view model
-        exampleViewModel = ViewModelProviders.of(this).get(ExampleViewModel::class.java)
-
         //Shared view model
-        mainViewModel = ViewModelProviders.of(requireActivity()).get(MainViewModel::class.java)
         mainViewModel.applyAboutButtonVisibility(false)
 
         //Restore if required
@@ -77,22 +74,30 @@ abstract class ExampleFragment : Fragment(), ExampleLifecycle {
     override fun onExampleEnded() {
     }
 
-    fun centerOnLocation(location: LatLng = Locations.AMSTERDAM,
-                         zoomLevel: Double = DEFAULT_MAP_ZOOM_LEVEL_FOR_EXAMPLE,
-                         bearing: Int = MapConstants.ORIENTATION_NORTH) {
+    fun centerOnLocation(
+        location: LatLng = Locations.AMSTERDAM,
+        zoomLevel: Double = DEFAULT_MAP_ZOOM_LEVEL_FOR_EXAMPLE,
+        bearing: Int = MapConstants.ORIENTATION_NORTH
+    ) {
         mainViewModel.applyOnMap(MapAction {
             let { tomtomMap ->
                 //tag::doc_map_center_on_amsterdam[]
-                tomtomMap.centerOn(location.latitude,
+                tomtomMap.centerOn(
+                    location.latitude,
                     location.longitude,
                     zoomLevel,
-                    bearing)
+                    bearing
+                )
                 //end::doc_map_center_on_amsterdam[]
             }
         })
     }
 
-    protected fun centerOnArea(topLeft: LatLng, bottomRight: LatLng, orientation: Int = MapConstants.ORIENTATION_SOUTH) {
+    protected fun centerOnArea(
+        topLeft: LatLng,
+        bottomRight: LatLng,
+        orientation: Int = MapConstants.ORIENTATION_SOUTH
+    ) {
         mainViewModel.applyOnMap(MapAction {
             let { tomtomMap ->
                 //tag::doc_map_center_on_area[]
@@ -130,5 +135,4 @@ abstract class ExampleFragment : Fragment(), ExampleLifecycle {
     companion object {
         const val DEFAULT_MAP_ZOOM_LEVEL_FOR_EXAMPLE = 10.0
     }
-
 }

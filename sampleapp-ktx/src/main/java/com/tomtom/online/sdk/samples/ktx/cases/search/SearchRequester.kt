@@ -11,6 +11,8 @@
 package com.tomtom.online.sdk.samples.ktx.cases.search
 
 import android.content.Context
+import android.graphics.Bitmap
+import com.tomtom.online.sdk.common.Result
 import com.tomtom.online.sdk.common.rx.RxContext
 import com.tomtom.online.sdk.common.rx.Singles
 import com.tomtom.online.sdk.samples.ktx.cases.search.evstations.EvChargingStationsSearchRequester
@@ -34,9 +36,15 @@ import com.tomtom.online.sdk.search.extensions.SearchService
 import com.tomtom.online.sdk.search.fuzzy.FuzzySearchDetails
 import com.tomtom.online.sdk.search.fuzzy.FuzzyOutcomeCallback
 import com.tomtom.online.sdk.search.fuzzy.FuzzySearchSpecification
+import com.tomtom.online.sdk.search.poi.details.PoiDetails
+import com.tomtom.online.sdk.search.poi.details.PoiDetailsCallback
+import com.tomtom.online.sdk.search.poi.details.PoiDetailsSpecification
+import com.tomtom.online.sdk.search.poi.photos.PoiPhotoCallback
+import com.tomtom.online.sdk.search.poi.photos.PoiPhotoSpecification
 import com.tomtom.online.sdk.search.poicategories.PoiCategoriesCallback
 import com.tomtom.online.sdk.search.poicategories.PoiCategoriesSpecification
 import com.tomtom.sdk.examples.BuildConfig
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.SerialDisposable
 import io.reactivex.observers.DisposableSingleObserver
@@ -55,6 +63,45 @@ class SearchRequester(context: Context) : RxContext {
 
     fun search(searchSpecification: FuzzySearchSpecification, fuzzyOutcomeCallback: FuzzyOutcomeCallback) {
         searchApi.search(searchSpecification, fuzzyOutcomeCallback)
+    }
+
+    fun poiDetailsSearch(poiDetailsSpecification: PoiDetailsSpecification, results: ResourceLiveData<PoiDetails>) {
+        results.value = Resource.loading(null)
+        disposable.set(Singles.fromResult {
+            //tag::doc_poi_details_photo_service_fetch_additional_data_sources[]
+            searchApi.poiDetailsSearch(poiDetailsSpecification)
+            //end::doc_poi_details_photo_service_fetch_additional_data_sources[]
+        }
+            .subscribeOn(workingScheduler)
+            .observeOn(resultScheduler)
+            .subscribe(
+                { response -> results.value = Resource.success(response) },
+                { error -> results.value = Resource.error(Error(error.message)) }
+            )
+        )
+    }
+
+    fun poiPhotosDownload(specifications: List<PoiPhotoSpecification>, results: ResourceListLiveData<Bitmap>) {
+        results.value = Resource.loading(null)
+        val imageList = mutableListOf<Bitmap>()
+        disposable.set(Observable.fromIterable(specifications)
+            .map { photo ->
+                //tag::doc_poi_details_photo_service_additional_data_sources_id[]
+                searchApi.poiPhotoDownload(photo)
+                //end::doc_poi_details_photo_service_additional_data_sources_id[]
+            }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                { imageResult ->
+                    if (imageResult.isSuccess()) {
+                        imageList.add(imageResult.value())
+                    }
+                },
+                { results.value = Resource.error(Error(it.message)) },
+                { results.value = Resource.success(imageList) }
+            )
+        )
     }
 
     fun search(searchSpecification: FuzzySearchSpecification, results: ResourceListLiveData<FuzzySearchDetails>) {

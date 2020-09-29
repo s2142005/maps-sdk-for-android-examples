@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2015-2020 TomTom N.V. All rights reserved.
   ~
   ~ This software is the proprietary copyright of TomTom N.V. and its subsidiaries and may be used
@@ -49,6 +48,17 @@
     <string name="menu_search_opening_hours_title">POI with Opening Hours</string>
     <string name="menu_search_opening_hours_description">Opening hours for next week, starting with the current day in the local time of the POI.</string>
 
+    <string name="menu_search_poidetails_and_poiphotos_title">POI details and photos</string>
+    <string name="menu_search_poidetails_and_poiphotos_description">Display Photos and add Details of the POIs in your app.</string>
+
+    <string name="poi_details_category_title">Category:&#160;</string>
+    <string name="poi_details_rating_title">Rating:&#160;</string>
+    <string name="poi_details_rating_value">%1$.2f/%2$.0f (%3$d ratings)</string>
+    <string name="poi_details_pricing_title">Pricing:&#160;</string>
+    <string name="poi_details_pricing_value">%1$.2f/%2$.0f</string>
+    <string name="poi_details_social_media">Social Media</string>
+    <string name="poi_details_review_title">Most popular reviews</string>
+
     <string name="menu_search_entry_rev_geo_polygons_title">Polygons for rev geo</string>
     <string name="menu_search_entry_rev_geo_polygons_description">Drop a pin to get a polygon.</string>
     <string name="rev_geo_polygons_country">Country</string>
@@ -89,4 +99,5 @@
     <string name="menu_search_poi_categories_title">POI category tree</string>
     <string name="menu_search_poi_categories_description">Allow your users to easily search for appropriate category of Point of Interest.</string>
 
+    <string name="poi_details_poi_photos_copyrights">Powered by <b>Foursquare</b></string>
 </resources>

@@ -43,6 +43,13 @@ class SearchMenuFragment : MenuFragment() {
                 onClickNavigateTo = R.id.categorySearchFragment
             ),
             MenuItem(
+                title = R.string.menu_search_poidetails_and_poiphotos_title,
+                icon = R.drawable.ic_map_menu_icon,
+                description = R.string.menu_search_poidetails_and_poiphotos_description,
+                banner = R.drawable.ic_menu_search_poidetails_and_poiphotos,
+                onClickNavigateTo = R.id.poi_details_photos_graph
+            ),
+            MenuItem(
                 title = R.string.menu_language_parameter_title,
                 icon = R.drawable.ic_map_menu_icon,
                 description = R.string.menu_language_parameter_description,

@@ -170,13 +170,14 @@ class MapUiExtensionsFragment : ExampleFragment() {
 
     private fun defaultUiComponentsIcons() {
         mainViewModel.applyOnMap(MapAction {
-            uiSettings.compassView.getView<ImageView>().setImageResource(R.drawable.btn_compass)
-            uiSettings.currentLocationView.getView<ImageView>()
+            (uiSettings.compassView.view as ImageView)
+                .setImageResource(R.drawable.btn_compass)
+            (uiSettings.currentLocationView.view as ImageView)
                 .setImageResource(R.drawable.btn_current_location)
 
             let { tomtomMap ->
                 //tag::set_default_panning_controls[]
-                val arrowButton: ArrowButtonsGroup = tomtomMap.uiSettings.panningControlsView.getView()
+                val arrowButton: ArrowButtonsGroup = tomtomMap.uiSettings.panningControlsView.view as ArrowButtonsGroup
                 arrowButton.arrowDownButton.setImageResource(R.drawable.btn_down)
                 arrowButton.arrowUpButton.setImageResource(R.drawable.btn_up)
                 arrowButton.arrowLeftButton.setImageResource(R.drawable.btn_left)
@@ -184,7 +185,7 @@ class MapUiExtensionsFragment : ExampleFragment() {
                 //end::set_default_panning_controls[]
 
                 //tag::set_default_zooming_controls[]
-                val zoomButtons: ZoomButtonsGroup = uiSettings.zoomingControlsView.getView()
+                val zoomButtons: ZoomButtonsGroup = uiSettings.zoomingControlsView.view as ZoomButtonsGroup
                 zoomButtons.zoomInButton.setImageResource(R.drawable.btn_zoom_in)
                 zoomButtons.zoomOutButton.setImageResource(R.drawable.btn_zoom_out)
                 //end::set_default_zooming_controls[]
@@ -195,14 +196,15 @@ class MapUiExtensionsFragment : ExampleFragment() {
 
     private fun customUiComponentsIcons() {
         mainViewModel.applyOnMap(MapAction {
-            uiSettings.compassView.getView<ImageView>()
+            (uiSettings.compassView.view as ImageView)
                 .setImageResource(R.drawable.ic_compass_custom)
-            uiSettings.currentLocationView.getView<ImageView>()
+            (uiSettings.currentLocationView.view as ImageView)
                 .setImageResource(R.drawable.ic_current_location_custom)
 
             let { tomtomMap ->
                 //tag::set_custom_panning_controls[]
-                val arrowButtonGroup: ArrowButtonsGroup = tomtomMap.uiSettings.panningControlsView.getView()
+                val arrowButtonGroup: ArrowButtonsGroup =
+                    tomtomMap.uiSettings.panningControlsView.view as ArrowButtonsGroup
                 arrowButtonGroup.arrowDownButton.setImageResource(R.drawable.arrow_button_down_custom)
                 arrowButtonGroup.arrowUpButton.setImageResource(R.drawable.arrow_button_up_custom)
                 arrowButtonGroup.arrowLeftButton.setImageResource(R.drawable.arrow_button_left_custom)
@@ -210,7 +212,8 @@ class MapUiExtensionsFragment : ExampleFragment() {
                 //end::set_custom_panning_controls[]
 
                 //tag::set_custom_zooming_controls[]
-                val zoomButtonsGroup: ZoomButtonsGroup = tomtomMap.uiSettings.zoomingControlsView.getView()
+                val zoomButtonsGroup: ZoomButtonsGroup =
+                    tomtomMap.uiSettings.zoomingControlsView.view as ZoomButtonsGroup
                 zoomButtonsGroup.zoomInButton.setImageResource(R.drawable.zoom_in_button_custom)
                 zoomButtonsGroup.zoomOutButton.setImageResource(R.drawable.zoom_out_button_custom)
                 //end::set_custom_zooming_controls[]

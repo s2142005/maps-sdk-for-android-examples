@@ -15,5 +15,6 @@
     <dimen name="submenu_item_height">130dp</dimen>
     <dimen name="submenu_item_banner_height">130dp</dimen>
     <dimen name="submenu_item_description_height">180dp</dimen>
-
+    <dimen name="poi_photo_container_height">280dp</dimen>
+    <dimen name="poi_photo_container_width">320dp</dimen>
 </resources>

@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2015-2020 TomTom N.V. All rights reserved.
+  ~
+  ~ This software is the proprietary copyright of TomTom N.V. and its subsidiaries and may be used
+  ~ for internal evaluation purposes or commercial use strictly subject to separate licensee
+  ~ agreement between you and TomTom. If you are the licensee, you are only permitted to use
+  ~ this Software in accordance with the terms of your license agreement. If you are not the
+  ~ licensee then you are not authorised to use this software in any manner and should
+  ~ immediately return it to TomTom N.V.
+  -->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/poi_details_scroll_view_container"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/zero_dp"
+        android:background="@color/solid_white"
+        app:layout_constraintBottom_toTopOf="@id/copyrights_text_view"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/poi_details_parent_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/poi_photos_view"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/poi_photo_container_height"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tab_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:alpha="@integer/poi_photo_position_indicator_visibility"
+                app:layout_constraintBottom_toBottomOf="@+id/poi_photos_view"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:tabIndicatorColor="@color/gray_chateau"
+                app:tabIndicatorHeight="@dimen/poi_photo_tab_indicator_size" />
+
+            <TextView
+                android:id="@+id/poi_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/offset_large_big"
+                android:layout_marginLeft="@dimen/offset_large_big"
+                android:layout_marginTop="@dimen/offset_medium"
+                android:textColor="@color/solid_black"
+                android:textSize="@dimen/poi_details_title"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/poi_photos_view"
+                tools:text="Restaurant name" />
+
+            <TextView
+                android:id="@+id/poi_category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/offset_large_big"
+                android:layout_marginLeft="@dimen/offset_large_big"
+                android:layout_marginTop="@dimen/offset_medium"
+                android:textSize="@dimen/text_size_default"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/poi_name"
+                tools:text="category: restaurant/pub" />
+
+            <TextView
+                android:id="@+id/poi_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/offset_large_big"
+                android:layout_marginLeft="@dimen/offset_large_big"
+                android:layout_marginTop="@dimen/offset_small"
+                android:textColor="@color/solid_black"
+                android:textSize="@dimen/text_size_default"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/poi_category"
+                tools:text="test Address 123" />
+
+            <TextView
+                android:id="@+id/poi_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/offset_large_big"
+                android:layout_marginLeft="@dimen/offset_large_big"
+                android:layout_marginTop="@dimen/offset_small"
+                android:textSize="@dimen/text_size_default"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/poi_address"
+                tools:text="Rating: 9.10/10" />
+
+            <TextView
+                android:id="@+id/poi_pricing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/offset_large_big"
+                android:layout_marginLeft="@dimen/offset_large_big"
+                android:layout_marginTop="@dimen/offset_small"
+                android:textSize="@dimen/text_size_default"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/poi_rating"
+                tools:text="Pricing: 2.00/4" />
+
+            <View
+                android:id="@+id/poi_details_divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="@dimen/offset_medium"
+                android:layout_marginLeft="@dimen/offset_medium"
+                android:layout_marginTop="@dimen/offset_medium"
+                android:layout_marginEnd="@dimen/offset_medium"
+                android:layout_marginRight="@dimen/offset_medium"
+                android:layout_marginBottom="@dimen/offset_medium"
+                android:background="@color/gray_chateau"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/poi_pricing" />
+
+            <TextView
+                android:id="@+id/poi_social_media"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/offset_large_big"
+                android:layout_marginLeft="@dimen/offset_large_big"
+                android:layout_marginTop="@dimen/offset_medium"
+                android:textSize="@dimen/text_size_default"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/poi_details_divider"
+                tools:text="Social Media" />
+
+            <TextView
+                android:id="@+id/poi_social_media_details"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/offset_large_big"
+                android:layout_marginLeft="@dimen/offset_large_big"
+                android:layout_marginTop="@dimen/offset_small"
+                android:autoLink="all"
+                android:textColorLink="@color/color_http_hyperlink"
+                android:textSize="@dimen/text_size_small"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/poi_social_media"
+                tools:text="https://developer.tomtom.com" />
+
+            <TextView
+                android:id="@+id/poi_reviews_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/offset_large_big"
+                android:layout_marginLeft="@dimen/offset_large_big"
+                android:layout_marginTop="@dimen/offset_small"
+                android:textSize="@dimen/text_size_default"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/poi_social_media_details"
+                tools:text="Most popular reviews" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/reviews_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/poi_reviews_title" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <TextView
+        android:id="@+id/copyrights_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/light_gray"
+        android:gravity="center_horizontal"
+        android:text="@string/poi_details_poi_photos_copyrights"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

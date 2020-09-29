@@ -33,9 +33,29 @@ android {
         resValue("string", "traffic_api_key", "$trafficApiKey")
     }
 
+    testOptions {
+        execution 'ANDROIDX_TEST_ORCHESTRATOR'
+        animationsDisabled true
+
+        unitTests {
+            returnDefaultValues = true
+            includeAndroidResources = true
+            all {
+                // All the usual Gradle options.
+                jvmArgs '-XX:MaxPermSize=256m'
+                testLogging {
+                    events "passed", "skipped", "failed", "standardOut", "standardError"
+                }
+            }
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+        kotlinOptions {
+            jvmTarget = JavaVersion.VERSION_1_8
+        }
     }
 
     dexOptions {
@@ -86,6 +106,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$rootProject.androidXVersions.lifecycleviewmodelktx"
     implementation "androidx.cardview:cardview:$rootProject.androidXVersions.cardview"
     implementation "com.google.android.material:material:$rootProject.androidXVersions.material"
+    implementation "androidx.viewpager2:viewpager2:$rootProject.androidXVersions.viewpager2"
 
     //Rx
     implementation "com.jakewharton.rxbinding2:rxbinding:$rootProject.libVersions.rxbinding"
@@ -98,6 +119,7 @@ dependencies {
     androidTestImplementation "androidx.test:runner:$rootProject.androidXVersions.test.runner"
     androidTestImplementation "androidx.test:rules:$rootProject.androidXVersions.test.rules"
     androidTestImplementation "androidx.test:orchestrator:$rootProject.androidXVersions.test.orchestrator"
+    androidTestImplementation "androidx.test.ext:junit:$rootProject.androidXVersions.test.ext_junit"
     androidTestImplementation "androidx.test.uiautomator:uiautomator:$rootProject.androidXVersions.test.uiautomator"
     implementation "androidx.test.espresso:espresso-idling-resource:$rootProject.androidXVersions.test.idling_resource"
 }

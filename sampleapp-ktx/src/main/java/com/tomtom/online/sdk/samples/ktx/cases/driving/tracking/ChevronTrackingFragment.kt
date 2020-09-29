@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.tomtom.online.sdk.map.ChevronBuilder
 import com.tomtom.online.sdk.map.Icon
 import com.tomtom.online.sdk.map.TomtomMap
+import com.tomtom.online.sdk.map.driving.ChevronScreenPosition
 import com.tomtom.online.sdk.routing.route.information.FullRoute
 import com.tomtom.online.sdk.samples.ktx.MapAction
 import com.tomtom.online.sdk.samples.ktx.cases.driving.DrivingFragment
@@ -30,7 +31,7 @@ class ChevronTrackingFragment : DrivingFragment<ChevronTrackingViewModel>() {
     private lateinit var chevronSimulatorUpdater: ChevronSimulatorUpdater
 
     override fun routingViewModel(): ChevronTrackingViewModel = ViewModelProviders.of(this)
-            .get(ChevronTrackingViewModel::class.java)
+        .get(ChevronTrackingViewModel::class.java)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -44,6 +45,17 @@ class ChevronTrackingFragment : DrivingFragment<ChevronTrackingViewModel>() {
     override fun onExampleStarted() {
         super.onExampleStarted()
         viewModel.planDefaultRoute()
+    }
+
+    override fun onExampleEnded() {
+        super.onExampleEnded()
+        mainViewModel.applyOnMap(MapAction {
+            let { tomtomMap ->
+                //tag::doc_center_tracking_screen[]
+                tomtomMap.drivingSettings.centerChevronScreenPosition()
+                //end::doc_center_tracking_screen[]
+            }
+        })
     }
 
     override fun onResume() {
@@ -97,12 +109,19 @@ class ChevronTrackingFragment : DrivingFragment<ChevronTrackingViewModel>() {
                 if (tomtomMap.drivingSettings.chevrons.isEmpty()) {
                     createChevron(tomtomMap)
                     setupSimulator()
+                    setChevronPosition(tomtomMap)
                 } else {
                     restoreChevron(tomtomMap)
                     restoreSimulator()
                 }
             }
         })
+    }
+
+    private fun setChevronPosition(tomtomMap: TomtomMap) {
+        //tag::doc_set_tracking_screen_coordinates[]
+        tomtomMap.drivingSettings.setChevronScreenPosition(ChevronScreenPosition(0.5, 0.75))
+        //end::doc_set_tracking_screen_coordinates[]
     }
 
     private fun restoreSimulator() {

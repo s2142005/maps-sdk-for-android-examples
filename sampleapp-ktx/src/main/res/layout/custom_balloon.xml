@@ -46,7 +46,7 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/offset_xsmall"
             android:text="@string/balloon_default_text"
-            android:textSize="@dimen/text_size_small" />
+            android:textSize="@dimen/text_size_xsmall" />
     </LinearLayout>
 
 </LinearLayout>

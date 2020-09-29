@@ -34,6 +34,9 @@
             android:id="@+id/action_searchMenuFragment_to_maxFuzzinessParamFragment"
             app:destination="@id/maxFuzzinessParamFragment" />
         <action
+            android:id="@+id/action_searchMenuFragment_to_poiDetailsAndPoiPhotosGraph"
+            app:destination="@id/poi_details_photos_graph" />
+        <action
             android:id="@+id/action_searchMenuFragment_to_revGeoFragment"
             app:destination="@id/revGeoFragment" />
         <action
@@ -131,5 +134,21 @@
         android:id="@+id/autocompleteMarkersFragment"
         android:name="com.tomtom.online.sdk.samples.ktx.cases.search.autocomplete.AutocompleteMarkersFragment"
         android:label="@string/menu_autocomplete_search_title" />
+    <navigation
+        android:id="@+id/poi_details_photos_graph"
+        app:startDestination="@id/poiDetailsPoiPhotosFragment">
+        <fragment
+            android:id="@+id/poiDetailsFragment"
+            android:name="com.tomtom.online.sdk.samples.ktx.cases.search.poidetailsphotos.PoiDetailsPhotosResultFragment"
+            android:label="@string/menu_search_poidetails_and_poiphotos_title" />
+        <fragment
+            android:id="@+id/poiDetailsPoiPhotosFragment"
+            android:name="com.tomtom.online.sdk.samples.ktx.cases.search.poidetailsphotos.PoiDetailsPhotosFragment"
+            android:label="@string/menu_search_poidetails_and_poiphotos_title" >
+            <action
+                android:id="@+id/action_poiDetailsPoiPhotosFragment_to_poiDetailsFragment"
+                app:destination="@id/poiDetailsFragment" />
+        </fragment>
+    </navigation>
 
 </navigation>

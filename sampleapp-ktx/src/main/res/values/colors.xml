@@ -25,6 +25,7 @@
     <color name="deep_gray">#4A4C4C</color> <!-- Selection titles, parameter labels -->
     <color name="rolling_stone">#7A7E80</color> <!-- Checkbox and radio buttons labels -->
     <color name="gray_chateau">#A2A9B4</color> <!-- Unselected tab, info text on Catskill White backgrounds -->
+    <color name="light_gray">#E5E6E8</color>
     <color name="silver">#BEBEB3</color> <!-- Hint text -->
     <color name="iron">#CECDCE</color> <!-- Disabled text on buttons/tags/tabs -->
     <color name="mercury">#E5E5E5</color> <!-- Borders and disabled text -->
@@ -37,6 +38,7 @@
     <color name="turquoise">#4A90E2</color> <!-- Routes -->
     <color name="chilean_fire_alt">#2FAAFF</color>  <!-- Routes, polygons -->
     <color name="malchiate">#00F288</color> <!-- Polygons -->
-    <color name="turquoise_alt">#44D0D6</color> <!-- Routes -->
+    <color name="turquoise_alt">#44D0D6</color>
+    <color name="color_http_hyperlink">#6666FF</color> <!-- Routes -->
 
 </resources>
