@@ -95,24 +95,24 @@ class EvChargingStationsSearchRequester(
         val evSearchResults = results
             .filter { it.additionalDataSources.chargingAvailabilityDataSource.isPresent }
             .map { EvSearchResult(it.additionalDataSources, it.poi.name, it.address.freeformAddress, it.position) }
-        return toChargingStationDatails(evSearchResults)
+        return toChargingStationDetails(evSearchResults)
     }
 
     private fun mapFromAlongRouteResultsToChargingStationsDetails(results: ImmutableList<AlongRouteSearchResult>): Single<List<ChargingStationDetails>> {
         val evSearchResults = results
             .filter { it.additionalDataSources.chargingAvailabilityDataSource.isPresent }
             .map { EvSearchResult(it.additionalDataSources, it.poi.name, it.address.freeformAddress, it.position) }
-        return toChargingStationDatails(evSearchResults)
+        return toChargingStationDetails(evSearchResults)
     }
 
     private fun mapFromGeometryResultsToChargingStationsDetails(results: ImmutableList<GeometrySearchResult>): Single<List<ChargingStationDetails>> {
         val evSearchResults = results
             .filter { it.additionalDataSources.chargingAvailabilityDataSource.isPresent }
             .map { EvSearchResult(it.additionalDataSources, it.poi.name, it.address.freeformAddress, it.position) }
-        return toChargingStationDatails(evSearchResults)
+        return toChargingStationDetails(evSearchResults)
     }
 
-    private fun toChargingStationDatails(evSearchResults: List<EvSearchResult>): Single<List<ChargingStationDetails>> {
+    private fun toChargingStationDetails(evSearchResults: List<EvSearchResult>): Single<List<ChargingStationDetails>> {
         //tag::doc_ev_charging_stations_mapping[]
         return Observable.fromIterable(evSearchResults)
             .map { it.additionalDataSources.chargingAvailabilityDataSource.get().id }

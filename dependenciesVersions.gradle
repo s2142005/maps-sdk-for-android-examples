@@ -127,8 +127,8 @@ ext {
             slf4j                  : '1.7.25',
             logback                : '2.0.0',
             mapbox_gestures        : '0.5.1',
-            analytics              : '17.2.2',
-            crashlytics            : '17.0.0-beta01',
+            analytics              : '17.6.0',
+            crashlytics            : '17.2.2',
             test                   : [
                     junit              : '4.13-beta-3',
                     robospock          : '1.0.1',

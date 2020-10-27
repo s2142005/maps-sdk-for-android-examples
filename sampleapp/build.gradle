@@ -116,8 +116,8 @@ dependencies {
     releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.libVersions.leakcanary"
 
     // Recommended: Add the Firebase SDK for Google Analytics.
-    implementation "com.google.firebase:firebase-analytics:$libVersions.analytics"
+    implementation "com.google.firebase:firebase-analytics:$rootProject.libVersions.analytics"
     // Add the Firebase SDK for Crashlytics.
-    implementation "com.google.firebase:firebase-crashlytics:$libVersions.crashlytics"
+    implementation "com.google.firebase:firebase-crashlytics:$rootProject.libVersions.crashlytics"
 }
 
