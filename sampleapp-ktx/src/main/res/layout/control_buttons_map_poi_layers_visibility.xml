@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RadioButton
+        android:id="@+id/map_poi_layers_visibility_all_btn"
+        style="@style/ControlButton"
+        android:checked="true"
+        android:text="@string/label_map_poi_layers_all" />
+
+    <RadioButton
+        android:id="@+id/map_poi_layers_visibility_none_btn"
+        style="@style/ControlButton"
+        android:text="@string/label_map_poi_layers_none" />
+
+    <RadioButton
+        android:id="@+id/map_poi_layers_visibility_parks_btn"
+        style="@style/ControlButton"
+        android:text="@string/label_map_poi_layers_parks" />
+
+</merge>

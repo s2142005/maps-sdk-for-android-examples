@@ -17,6 +17,8 @@ import java.util.*
 object Locations {
 
     val BERLIN = LatLng(52.520007, 13.404954)
+    val BERLIN_BOUNDING_BOX_TL = LatLng(52.525902, 13.39045)
+    val BERLIN_BOUNDING_BOX_BR = LatLng(52.518000, 13.40155)
     val ROTTERDAM = LatLng(51.935966, 4.482865)
     val AMSTERDAM = LatLng(52.377271, 4.909466)
     val AMSTERDAM_CENTER = LatLng(52.373154, 4.890659)

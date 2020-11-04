@@ -48,6 +48,13 @@
     <string name="menu_map_layers_visibility_title">Map layers visibility</string>
     <string name="menu_map_layers_visibility_description">Customize time which map layers are shown in the map in real time.</string>
 
+    <string name="menu_map_poi_layers_visibility_title">POI layers visibility</string>
+    <string name="menu_map_poi_layers_visibility_description">Display on the map various categories of POI’s with corresponding labels and icons.</string>
+
+    <string name="label_map_poi_layers_all">All POIs</string>
+    <string name="label_map_poi_layers_none">No POIs</string>
+    <string name="label_map_poi_layers_parks">Parks</string>
+
     <string name="label_map_layers_road_network_btn">"Road network"</string>
     <string name="label_map_layers_woodland_btn">"Woodland"</string>
     <string name="label_map_layers_build_up_btn">"Build-up"</string>

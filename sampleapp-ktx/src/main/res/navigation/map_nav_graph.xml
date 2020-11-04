@@ -44,6 +44,9 @@
             android:id="@+id/action_mapMenuFragment_to_mapLayerVisibilityFragment"
             app:destination="@+id/mapLayerVisibilityFragment" />
         <action
+            android:id="@+id/action_mapMenuFragment_to_poiLayersVisibilityFragment"
+            app:destination="@id/poiLayersVisibilityFragment" />
+        <action
             android:id="@+id/action_mapMenuFragment_to_mapDynamicSourcesFragment"
             app:destination="@+id/mapDynamicSourcesFragment" />
         <action
@@ -137,6 +140,10 @@
         android:id="@+id/mapLayerVisibilityFragment"
         android:name="com.tomtom.online.sdk.samples.ktx.cases.map.runtimestyles.visibility.LayerVisibilityFragment"
         android:label="@string/menu_map_layers_visibility_title" />
+    <fragment
+        android:id="@+id/poiLayersVisibilityFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.map.runtimestyles.poi.MapPoiLayersFragment"
+        android:label="@string/menu_map_poi_layers_visibility_title" />
     <fragment
         android:id="@+id/mapLayerFilteringFragment"
         android:name="com.tomtom.online.sdk.samples.ktx.cases.map.runtimestyles.filtering.MapLayerFilteringFragment"
