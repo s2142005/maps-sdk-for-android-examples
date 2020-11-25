@@ -120,6 +120,9 @@
     <string name="menu_map_perspective_title">Map perspective</string>
     <string name="menu_map_perspective_description">Switch between 2D and 3D mode to change map perspective.</string>
 
+    <string name="menu_map_snapshot_title">Map snapshot image</string>
+    <string name="menu_map_snapshot_description">The snapshot functionality generates a static image of the map with markers, routes, and shapes that are rendered on the map.</string>
+
     <string name="label_map_perspective_2d_btn">2D mode</string>
     <string name="label_map_perspective_3d_btn">3D mode</string>
 

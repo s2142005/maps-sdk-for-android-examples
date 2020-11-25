@@ -54,21 +54,31 @@ class LongEvViewModel(application: Application) : RouteViewModel(application) {
     private fun createShortRangeVehicle(): Pair<ElectricVehicleDescriptor, ChargingDescriptor> {
         availableCharge = 40.0
         //tag::doc_ev_short_range[]
+        // SPEED_CONSUMPTION_IN_KWH_PER_100_KM = mapOf(77.0 to 32.0, 18.01 to 10.87)
+        // AUXILIARY_POWER_IN_KW = 1.0
         val evDescriptor = ElectricVehicleDescriptor.Builder(
             ElectricVehicleConsumption(
+                50.0,
                 40.0,
-                20.0,
                 AUXILIARY_POWER_IN_KW,
                 SPEED_CONSUMPTION_IN_KWH_PER_100_KM
             )
         ).build()
 
         val chargingDescriptor = ChargingDescriptor(
-            MIN_CHARGE_AT_DESTINATION_IN_KWH,
-            MIN_CHARGE_AT_CHARGING_STOPS_IN_KWH,
-            listOf(
+            minChargeAtDestinationInkWh = 2.0,
+            minChargeAtChargingStopsInkWh = 4.0,
+            chargingModes = listOf(
                 ChargingMode(
                     listOf(
+                        ChargingConnection(
+                            FacilityType.CHARGE_200_TO_240V_1_PHASE_AT_16A,
+                            PlugType.IEC_62196_TYPE_2_OUTLET
+                        ),
+                        ChargingConnection(
+                            FacilityType.CHARGE_200_TO_240V_3_PHASE_AT_32A,
+                            PlugType.IEC_62196_TYPE_2_OUTLET
+                        ),
                         ChargingConnection(
                             FacilityType.CHARGE_380_TO_480V_3_PHASE_AT_32A,
                             PlugType.IEC_62196_TYPE_2_OUTLET
@@ -76,7 +86,7 @@ class LongEvViewModel(application: Application) : RouteViewModel(application) {
                     ),
                     listOf(
                         ChargingCurveSupportPoint(6.0, 360),
-                        ChargingCurveSupportPoint(40.0, 4680)
+                        ChargingCurveSupportPoint(50.0, 4680)
                     )
                 )
             )
@@ -86,11 +96,13 @@ class LongEvViewModel(application: Application) : RouteViewModel(application) {
     }
 
     private fun createLongRangeVehicle(): Pair<ElectricVehicleDescriptor, ChargingDescriptor> {
-        availableCharge = 80.0
+        availableCharge = 100.0
         //tag::doc_ev_long_range[]
+        // SPEED_CONSUMPTION_IN_KWH_PER_100_KM = mapOf(77.0 to 32.0, 18.01 to 10.87)
+        // AUXILIARY_POWER_IN_KW = 1.0
         val evDescriptor = ElectricVehicleDescriptor.Builder(
             ElectricVehicleConsumption(
-                80.0,
+                100.0,
                 40.0,
                 AUXILIARY_POWER_IN_KW,
                 SPEED_CONSUMPTION_IN_KWH_PER_100_KM
@@ -98,11 +110,19 @@ class LongEvViewModel(application: Application) : RouteViewModel(application) {
         ).build()
 
         val chargingDescriptor = ChargingDescriptor(
-            MIN_CHARGE_AT_DESTINATION_IN_KWH,
-            MIN_CHARGE_AT_CHARGING_STOPS_IN_KWH,
-            listOf(
+            minChargeAtDestinationInkWh = 4.0,
+            minChargeAtChargingStopsInkWh = 8.0,
+            chargingModes = listOf(
                 ChargingMode(
                     listOf(
+                        ChargingConnection(
+                            FacilityType.CHARGE_200_TO_240V_1_PHASE_AT_16A,
+                            PlugType.IEC_62196_TYPE_2_OUTLET
+                        ),
+                        ChargingConnection(
+                            FacilityType.CHARGE_200_TO_240V_3_PHASE_AT_32A,
+                            PlugType.IEC_62196_TYPE_2_OUTLET
+                        ),
                         ChargingConnection(
                             FacilityType.CHARGE_380_TO_480V_3_PHASE_AT_32A,
                             PlugType.IEC_62196_TYPE_2_OUTLET
@@ -110,7 +130,7 @@ class LongEvViewModel(application: Application) : RouteViewModel(application) {
                     ),
                     listOf(
                         ChargingCurveSupportPoint(6.0, 360),
-                        ChargingCurveSupportPoint(80.0, 6680)
+                        ChargingCurveSupportPoint(100.0, 6680)
                     )
                 )
             )
@@ -154,9 +174,6 @@ class LongEvViewModel(application: Application) : RouteViewModel(application) {
     companion object {
         private const val SECONDS_IN_MINUTES = 60
         private const val AUXILIARY_POWER_IN_KW = 1.0
-        private const val MIN_CHARGE_AT_DESTINATION_IN_KWH = 4.0
-        private const val MIN_CHARGE_AT_CHARGING_STOPS_IN_KWH = 8.0
         private val SPEED_CONSUMPTION_IN_KWH_PER_100_KM = mapOf(77.0 to 32.0, 18.01 to 10.87)
     }
-
 }

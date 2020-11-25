@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2015-2019 TomTom N.V. All rights reserved.
   ~
   ~ This software is the proprietary copyright of TomTom N.V. and its subsidiaries and may be used
@@ -15,22 +14,23 @@
     package="com.tomtom.sdk.examples">
 
     <!-- tag::WRITE_EXTERNAL_STORAGE[] -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!-- end::WRITE_EXTERNAL_STORAGE[] -->
 
     <application
+        android:name="com.tomtom.online.sdk.samples.ktx.SampleApp"
         android:allowBackup="true"
+        android:appComponentFactory="androidx"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@drawable/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name="com.tomtom.online.sdk.samples.ktx.SampleApp"
-        android:appComponentFactory="androidx"
-        tools:replace="android:appComponentFactory"
-        tools:ignore="GoogleAppIndexingWarning">
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:replace="android:appComponentFactory">
 
-        <activity android:name="com.tomtom.online.sdk.samples.ktx.SplashActivity"
+        <activity
+            android:name="com.tomtom.online.sdk.samples.ktx.SplashActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/app_name"
             android:noHistory="true"
@@ -43,6 +43,16 @@
 
         <activity android:name="com.tomtom.online.sdk.samples.ktx.MainActivity" />
 
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.tomtom.online.sdk.examples.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true"
+            tools:replace="android:authorities">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
     </application>
 
 </manifest>

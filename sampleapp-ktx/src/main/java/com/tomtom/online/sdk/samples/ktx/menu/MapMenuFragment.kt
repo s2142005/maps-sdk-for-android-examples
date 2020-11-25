@@ -139,6 +139,13 @@ class MapMenuFragment : MenuFragment() {
                 onClickNavigateTo = R.id.mapPerspectiveFragment
             ),
             MenuItem(
+                title = R.string.menu_map_snapshot_title,
+                icon = R.drawable.ic_map_menu_icon,
+                description = R.string.menu_map_snapshot_description,
+                banner = R.drawable.ic_map_menu_map_snapshot,
+                onClickNavigateTo = R.id.mapSnapshotFragment
+            ),
+            MenuItem(
                 title = R.string.menu_map_events_title,
                 icon = R.drawable.ic_map_menu_icon,
                 description = R.string.menu_map_events_description,
