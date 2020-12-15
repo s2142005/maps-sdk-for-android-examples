@@ -80,7 +80,8 @@ class MultipleMapsFragment : ExampleFragment() {
             uiSettings.compassView.hide()
             uiSettings.currentLocationView.hide()
             uiSettings.setStyleUrl(NIGHT_STYLE_URL_PATH)
-            logoSettings.applyInvertedLogo()
+            uiSettings.logoView.applyInvertedLogo()
+            uiSettings.copyrightsView.applyInvertedColor()
 
             updateGesturesConfiguration(
                 GesturesConfiguration.Builder()

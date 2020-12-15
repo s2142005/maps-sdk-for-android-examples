@@ -25,7 +25,7 @@ class LocationViewModel(application: Application) : AndroidViewModel(application
     private val locationProvider: LocationSource = BasicLocationSource(application)
     private var lastKnownLocation = MutableLiveData<Location>()
 
-    override fun onLocationChanged(location: Location?) {
+    override fun onLocationChanged(location: Location) {
         lastKnownLocation.value = location
     }
 
