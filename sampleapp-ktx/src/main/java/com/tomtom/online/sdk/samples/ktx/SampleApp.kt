@@ -11,15 +11,15 @@
 
 package com.tomtom.online.sdk.samples.ktx
 
-import android.app.Application
 import android.os.Environment
 import android.util.Log
+import androidx.multidex.MultiDexApplication
 import com.tomtom.online.sdk.common.util.LogUtils
 import com.tomtom.sdk.examples.BuildConfig
 import java.io.File
 
 @Suppress("unused")
-class SampleApp : Application() {
+class SampleApp : MultiDexApplication() {
 
     override fun onCreate() {
         super.onCreate()

@@ -29,7 +29,7 @@ ext {
     androidBuildToolsVersion = '28.0.3'
     androidCompileSdkVersion = 28
     androidTargetSdkVersion = 26
-    androidMinSdkVersion = 16
+    androidMinSdkVersion = 19
     androidMinSdkVersionForBt = 21
     buildVersionName = releaseProps.getProperty('mapsSdkVersion')
     buildVersionCode = releaseProps.getProperty("interLibVersion").replaceAll('-rc', '').replaceAll("\\.", '').toInteger()
@@ -96,7 +96,6 @@ ext {
             timber                 : '4.7.1',
             leakcanary             : '1.6.1',
             corektx                : '0.3',
-            lombok                 : '1.16.20',
             groovy                 : '2.4.12',
             gson                   : '2.8.2',
             jsonsimple             : '1.1.1',
@@ -116,7 +115,7 @@ ext {
             anko_version           : '0.10.4',
             glide                  : '4.11.0',
             androidgifdrawable     : '1.2.15',
-            sdkannotations         : '1.0.4',
+            sdkannotations         : '1.0.6',
             gesture                : '0.0.8',
             detekt                 : '1.0.0-RC12',
             ktlint                 : '6.3.1',

@@ -47,17 +47,6 @@ class ChevronTrackingFragment : DrivingFragment<ChevronTrackingViewModel>() {
         viewModel.planDefaultRoute()
     }
 
-    override fun onExampleEnded() {
-        super.onExampleEnded()
-        mainViewModel.applyOnMap(MapAction {
-            let { tomtomMap ->
-                //tag::doc_center_tracking_screen[]
-                tomtomMap.drivingSettings.centerChevronScreenPosition()
-                //end::doc_center_tracking_screen[]
-            }
-        })
-    }
-
     override fun onResume() {
         super.onResume()
         if (exampleViewModel.isRestored) {
@@ -109,19 +98,12 @@ class ChevronTrackingFragment : DrivingFragment<ChevronTrackingViewModel>() {
                 if (tomtomMap.drivingSettings.chevrons.isEmpty()) {
                     createChevron(tomtomMap)
                     setupSimulator()
-                    setChevronPosition(tomtomMap)
                 } else {
                     restoreChevron(tomtomMap)
                     restoreSimulator()
                 }
             }
         })
-    }
-
-    private fun setChevronPosition(tomtomMap: TomtomMap) {
-        //tag::doc_set_tracking_screen_coordinates[]
-        tomtomMap.drivingSettings.setChevronScreenPosition(ChevronScreenPosition(0.5, 0.75))
-        //end::doc_set_tracking_screen_coordinates[]
     }
 
     private fun restoreSimulator() {
@@ -153,7 +135,6 @@ class ChevronTrackingFragment : DrivingFragment<ChevronTrackingViewModel>() {
     }
 
     companion object {
-        private const val CHEVRON_ICON_SCALE = 2.5
         private const val DEFAULT_ZOOM_LEVEL_FOR_SIMULATION = 16.0
     }
 }

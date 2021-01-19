@@ -23,4 +23,7 @@
     <string name="menu_route_matching_title">Route matching</string>
     <string name="menu_route_matching_description">GPS matched to the given route.</string>
 
+    <string name="menu_driving_zoom_level_title">Zooming the route</string>
+    <string name="menu_driving_zoom_level_description">Adjust zoom level to the speed of driving.</string>
+
 </resources>

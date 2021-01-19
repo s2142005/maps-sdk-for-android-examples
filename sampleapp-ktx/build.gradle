@@ -92,6 +92,9 @@ dependencies {
     //Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
+    // Multidex
+    implementation "androidx.multidex:multidex:$rootProject.androidXVersions.multidex"
+
     //Google
     implementation "androidx.navigation:navigation-fragment-ktx:$rootProject.androidXVersions.navigation_fragment"
     implementation "androidx.navigation:navigation-ui-ktx:$rootProject.androidXVersions.navigation_ui"

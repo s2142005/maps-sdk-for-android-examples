@@ -16,8 +16,16 @@ import com.tomtom.online.sdk.routing.RoutingException
 import com.tomtom.online.sdk.routing.ev.EvRouteCallback
 import com.tomtom.online.sdk.routing.ev.EvRoutePlan
 import com.tomtom.online.sdk.routing.ev.EvRouteSpecification
-import com.tomtom.online.sdk.routing.ev.charging.*
+import com.tomtom.online.sdk.routing.ev.RouteDescriptor
+import com.tomtom.online.sdk.routing.ev.charging.ChargingConnection
+import com.tomtom.online.sdk.routing.ev.charging.ChargingCurveSupportPoint
+import com.tomtom.online.sdk.routing.ev.charging.ChargingDescriptor
+import com.tomtom.online.sdk.routing.ev.charging.ChargingMode
+import com.tomtom.online.sdk.routing.ev.charging.FacilityType
+import com.tomtom.online.sdk.routing.ev.charging.PlugType
 import com.tomtom.online.sdk.routing.ev.route.EvFullRoute
+import com.tomtom.online.sdk.routing.ev.route.RouteType
+import com.tomtom.online.sdk.routing.ev.route.TravelMode
 import com.tomtom.online.sdk.routing.route.ElectricVehicleDescriptor
 import com.tomtom.online.sdk.routing.route.vehicle.ElectricVehicleConsumption
 import com.tomtom.online.sdk.samples.ktx.cases.route.RouteViewModel
@@ -46,6 +54,12 @@ class LongEvViewModel(application: Application) : RouteViewModel(application) {
         //tag::doc_plan_ev_route[]
         val evRouteSpecification =
             EvRouteSpecification.Builder(Locations.AMSTERDAM, Locations.BERLIN, evDescriptor, chargingDescriptor)
+                .routeDescriptor(
+                    RouteDescriptor.Builder()
+                        .routeType(RouteType.FASTEST)
+                        .travelMode(TravelMode.CAR)
+                        .build()
+                )
                 .build()
         //end::doc_plan_ev_route[]
         planRoute(evRouteSpecification, routeCallback)
@@ -59,7 +73,7 @@ class LongEvViewModel(application: Application) : RouteViewModel(application) {
         val evDescriptor = ElectricVehicleDescriptor.Builder(
             ElectricVehicleConsumption(
                 50.0,
-                40.0,
+                20.0,
                 AUXILIARY_POWER_IN_KW,
                 SPEED_CONSUMPTION_IN_KWH_PER_100_KM
             )

@@ -18,7 +18,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import com.tomtom.online.sdk.common.location.LatLng
+import com.tomtom.online.sdk.location.LocationUpdateListener
 import com.tomtom.online.sdk.map.*
+import com.tomtom.online.sdk.map.driving.ChevronScreenPosition
 import com.tomtom.online.sdk.map.gestures.GesturesConfiguration
 import com.tomtom.online.sdk.routing.route.information.FullRoute
 import com.tomtom.online.sdk.samples.ktx.MapAction
@@ -57,10 +59,12 @@ abstract class DrivingFragment<T : DrivingViewModel> : ExampleFragment() {
     override fun onResume() {
         super.onResume()
         confCompass()
+        setChevronScreenPosition()
     }
 
     override fun onExampleEnded() {
         super.onExampleEnded()
+        restoreChevronScreenPosition()
         removeRoutes()
         removeChevrons()
         resetCompassMargins()
@@ -176,16 +180,35 @@ abstract class DrivingFragment<T : DrivingViewModel> : ExampleFragment() {
     protected fun createChevron() {
         mainViewModel.applyOnMap(MapAction {
             let { tomtomMap ->
-                val activeIcon =
-                    Icon.Factory.fromResources(requireContext(), R.drawable.chevron_color)
-                val inactiveIcon =
-                    Icon.Factory.fromResources(requireContext(), R.drawable.chevron_shadow)
+                val activeIcon = Icon.Factory.fromResources(requireContext(), R.drawable.chevron_color)
+                val inactiveIcon = Icon.Factory.fromResources(requireContext(), R.drawable.chevron_shadow)
                 //tag::doc_create_chevron[]
                 val chevronBuilder = ChevronBuilder.create(activeIcon, inactiveIcon)
                 chevron = tomtomMap.drivingSettings.addChevron(chevronBuilder)
                 //end::doc_create_chevron[]
             }
         })
+    }
+
+    private fun setChevronScreenPosition() {
+        mainViewModel.applyOnMap(MapAction {
+            let { tomtomMap ->
+                //tag::doc_set_tracking_screen_coordinates[]
+                tomtomMap.drivingSettings.setChevronScreenPosition(ChevronScreenPosition(0.5, 0.75))
+                //end::doc_set_tracking_screen_coordinates[]
+            }
+        })
+    }
+
+    private fun restoreChevronScreenPosition() {
+        mainViewModel.applyOnMap(MapAction {
+            let { tomtomMap ->
+                //tag::doc_center_tracking_screen[]
+                tomtomMap.drivingSettings.centerChevronScreenPosition()
+                //end::doc_center_tracking_screen[]
+            }
+        })
+
     }
 
     protected fun enableFollowTheChevron() {
@@ -217,6 +240,21 @@ abstract class DrivingFragment<T : DrivingViewModel> : ExampleFragment() {
         mainViewModel.applyOnMap(MapAction {
             updateGesturesConfiguration(GesturesConfiguration.Builder().build())
         })
+    }
+
+    @Suppress("unused")
+    fun registerLocationUpdates(tomtomMap: TomtomMap) {
+        //tag::doc_add_location_update_listener[]
+        val listener = LocationUpdateListener { location ->
+            chevron.position = ChevronPosition.Builder(location).build()
+            chevron.show()
+        }
+        tomtomMap.addLocationUpdateListener(listener)
+        //end::doc_add_location_update_listener[]
+
+        //tag::doc_remove_location_update_listener[]
+        tomtomMap.removeLocationUpdateListener(listener)
+        //end::doc_remove_location_update_listener[]
     }
 
     companion object {

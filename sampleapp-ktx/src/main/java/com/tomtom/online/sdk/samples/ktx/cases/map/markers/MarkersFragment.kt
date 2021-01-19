@@ -93,7 +93,12 @@ class MarkersFragment : ExampleFragment() {
             val icon: Icon = Icon.Factory.fromResources(it, R.drawable.ic_favourites)
 
             mainViewModel.applyOnMap(MapAction {
-                MarkerDrawer(this).createDecalMarkers(Locations.AMSTERDAM, NUMBER_OF_MARKERS, DISTANCE_BETWEEN_MARKERS, icon)
+                MarkerDrawer(this).createDecalMarkers(
+                    Locations.AMSTERDAM,
+                    NUMBER_OF_MARKERS,
+                    DISTANCE_BETWEEN_MARKERS,
+                    icon
+                )
             })
         }
     }

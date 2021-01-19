@@ -27,6 +27,9 @@
         <action
             android:id="@+id/action_drivingMenuFragment_to_routeMatchingFragment"
             app:destination="@id/routeMatchingFragment" />
+        <action
+            android:id="@+id/action_drivingMenuFragment_to_drivingZoomLevelFragment"
+            app:destination="@id/drivingZoomLevelFragment" />
     </fragment>
     <fragment
         android:id="@+id/chevronTrackingFragment"
@@ -40,4 +43,8 @@
         android:id="@+id/routeMatchingFragment"
         android:name="com.tomtom.online.sdk.samples.ktx.cases.driving.matching.route.RouteMatchingFragment"
         android:label="@string/menu_route_matching_title" />
+    <fragment
+        android:id="@+id/drivingZoomLevelFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.driving.zoom.DrivingZoomLevelFragment"
+        android:label="@string/menu_driving_zoom_level_title" />
 </navigation>

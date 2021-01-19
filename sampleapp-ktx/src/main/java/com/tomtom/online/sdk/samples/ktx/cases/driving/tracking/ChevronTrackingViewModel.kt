@@ -20,9 +20,9 @@ import com.tomtom.online.sdk.samples.ktx.utils.driving.interpolator.BasicInterpo
 import com.tomtom.online.sdk.samples.ktx.utils.routes.LodzCityCenterRouteConfig
 import com.tomtom.online.sdk.samples.ktx.utils.routes.convertFromRoutesToLocations
 
-class ChevronTrackingViewModel(application: Application) : DrivingViewModel(application) {
+open class ChevronTrackingViewModel(application: Application) : DrivingViewModel(application) {
 
-    private lateinit var simulator: com.tomtom.online.sdk.samples.ktx.utils.driving.Simulator
+    protected lateinit var simulator: com.tomtom.online.sdk.samples.ktx.utils.driving.Simulator
     private var lastVisitedLocation = 0
 
     fun startSimulation(chevronSimulatorUpdater: ChevronSimulatorUpdater) {
@@ -37,7 +37,7 @@ class ChevronTrackingViewModel(application: Application) : DrivingViewModel(appl
         simulator.resume(chevronSimulatorUpdater, lastVisitedLocation)
     }
 
-    fun createSimulator(routes: List<FullRoute>) {
+    open fun createSimulator(routes: List<FullRoute>) {
         simulator = RouteSimulator(convertFromRoutesToLocations(routes), BasicInterpolator())
     }
 

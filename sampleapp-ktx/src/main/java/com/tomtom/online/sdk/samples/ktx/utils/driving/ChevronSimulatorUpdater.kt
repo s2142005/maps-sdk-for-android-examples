@@ -15,7 +15,7 @@ import android.location.Location
 import com.tomtom.online.sdk.map.Chevron
 import com.tomtom.online.sdk.map.ChevronPosition
 
-class ChevronSimulatorUpdater(private var chevron: Chevron) : BaseSimulator.SimulatorCallback {
+open class ChevronSimulatorUpdater(private var chevron: Chevron) : BaseSimulator.SimulatorCallback {
 
     override fun onNewRoutePointVisited(location: Location) {
         val chevronPosition = ChevronPosition.Builder(location).build()

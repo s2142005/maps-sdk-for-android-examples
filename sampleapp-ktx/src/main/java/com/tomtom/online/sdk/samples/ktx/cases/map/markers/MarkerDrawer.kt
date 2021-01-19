@@ -23,7 +23,7 @@ class MarkerDrawer(private val tomtomMap: TomtomMap) {
         list.forEach { position ->
             //tag::doc_create_simple_marker[]
             val markerBuilder = MarkerBuilder(position)
-                    .markerBalloon(SimpleMarkerBalloon(positionToText(position)))
+                .markerBalloon(SimpleMarkerBalloon(positionToText(position)))
             tomtomMap.addMarker(markerBuilder)
             //end::doc_create_simple_marker[]
         }
@@ -34,11 +34,11 @@ class MarkerDrawer(private val tomtomMap: TomtomMap) {
         list.forEach { position ->
             //tag::doc_create_decal_marker[]
             val markerBuilder = MarkerBuilder(position)
-                    .icon(icon)
-                    .markerBalloon(SimpleMarkerBalloon(positionToText(position)))
-                    .tag(SERIALIZABLE_MARKER_TAG)
-                    .iconAnchor(MarkerAnchor.Bottom)
-                    .decal(true) //By default is false
+                .icon(icon)
+                .markerBalloon(SimpleMarkerBalloon(positionToText(position)))
+                .tag(SERIALIZABLE_MARKER_TAG)
+                .iconAnchor(MarkerAnchor.Bottom)
+                .decal(true) //By default is false
             tomtomMap.addMarker(markerBuilder)
             //end::doc_create_decal_marker[]
         }
@@ -49,7 +49,7 @@ class MarkerDrawer(private val tomtomMap: TomtomMap) {
         list.forEach { position ->
             //tag::doc_create_animated_marker[]
             val markerBuilder = MarkerBuilder(position)
-                    .icon(icon)
+                .icon(icon)
             tomtomMap.addMarker(markerBuilder)
             //end::doc_create_animated_marker[]
         }
@@ -60,8 +60,8 @@ class MarkerDrawer(private val tomtomMap: TomtomMap) {
         list.forEach { position ->
             //tag::doc_create_simple_draggable_marker[]
             val markerBuilder = MarkerBuilder(position)
-                    .markerBalloon(SimpleMarkerBalloon(positionToText(position)))
-                    .draggable(true)
+                .markerBalloon(SimpleMarkerBalloon(positionToText(position)))
+                .draggable(true)
             tomtomMap.addMarker(markerBuilder)
             //end::doc_create_simple_draggable_marker[]
         }
@@ -72,7 +72,7 @@ class MarkerDrawer(private val tomtomMap: TomtomMap) {
         tomtomMap.markerSettings.markerBalloonViewAdapter = TextBalloonViewAdapter()
         val balloon = SimpleMarkerBalloon(SIMPLE_BALLOON_TEXT)
         val markerBuilder = MarkerBuilder(position)
-                .markerBalloon(balloon)
+            .markerBalloon(balloon)
 
         val marker = tomtomMap.addMarker(markerBuilder)
         //end::doc_init_popup_layout[]
@@ -83,7 +83,7 @@ class MarkerDrawer(private val tomtomMap: TomtomMap) {
         //tag::doc_show_popup_layout[]
         tomtomMap.markerSettings.markerBalloonViewAdapter = SingleLayoutBalloonViewAdapter(layoutRes)
         val markerBuilder = MarkerBuilder(position)
-                .markerBalloon(BaseMarkerBalloon())
+            .markerBalloon(BaseMarkerBalloon())
 
         val marker = tomtomMap.addMarker(markerBuilder)
         //end::doc_show_popup_layout[]
@@ -95,8 +95,8 @@ class MarkerDrawer(private val tomtomMap: TomtomMap) {
         list.forEach { position ->
             //tag::doc_add_marker_to_cluster[]
             val markerBuilder = MarkerBuilder(position)
-                    .shouldCluster(true)
-                    .markerBalloon(SimpleMarkerBalloon(positionToText(position)))
+                .shouldCluster(true)
+                .markerBalloon(SimpleMarkerBalloon(positionToText(position)))
             //end::doc_add_marker_to_cluster[]
             tomtomMap.addMarker(markerBuilder)
         }

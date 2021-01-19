@@ -22,7 +22,7 @@ More informations how to start are available on: https://developer.tomtom.com/ma
 * https://developer.tomtom.com/maps-sdk-android/release-notes[Release notes]
 * https://developer.tomtom.com/maps-sdk-android/migrate-google-maps-tomtom[Migration guide from Google Maps SDK]
 
-== Api Reference
+== API Reference
 
 * https://developer.tomtom.com/maps-sdk-android/api-reference[Javadocs for Map]
 * https://developer.tomtom.com/maps-android-sdk/api-reference-1[Javadocs for Search]
@@ -37,8 +37,8 @@ To develop your own application with Maps SDK, you need to make sure that the *p
 [[pre-requisites]]
 === Get the pre-requisites in place:
 
-* Android Studio IDE installed (https://developer.android.com/studio/index.html[Android Studio])
-* Set up the application minimum API level to Android 4.4 "Kit Kat" (API Level 16) or higher
+* Android Studio IDE installed (https://developer.android.com/studio/index.html[Android Studio]).
+* Set up the application minimum API level to Android 4.4 "Kit Kat" (API Level 19) or higher.
 
 [[setting-up-a-project]]
 === Set up your project like this:

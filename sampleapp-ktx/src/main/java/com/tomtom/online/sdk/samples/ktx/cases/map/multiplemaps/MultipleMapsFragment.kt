@@ -31,10 +31,7 @@ class MultipleMapsFragment : ExampleFragment() {
     private lateinit var miniMapFragment: MapFragment
     private lateinit var viewModel: MultipleMapsViewModel
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_multiple_maps, container, false)
     }
 
@@ -68,45 +65,64 @@ class MultipleMapsFragment : ExampleFragment() {
     }
 
     private fun initMiniMap() {
+        // tag::doc_mini_map_initialization[]
         miniMapFragment = childFragmentManager.findFragmentById(R.id.mini_map_fragment) as MapFragment
-        //Make sure that mini map is drawn on top of the main map
-        //If not set, the mini map may be invisible on old devices
-        //With low Android version
+        // Make sure that mini map is drawn on top of the main map
+        // If not set, the mini map may be invisible on old devices
+        // with low Android version.
         miniMapFragment.setZOrderMediaOverlay(true)
+        // end::doc_mini_map_initialization[]
     }
 
     private fun confMiniMap() {
         viewModel.applyOnMiniMap(MapAction {
-            uiSettings.compassView.hide()
-            uiSettings.currentLocationView.hide()
-            uiSettings.setStyleUrl(NIGHT_STYLE_URL_PATH)
-            uiSettings.logoView.applyInvertedLogo()
-            uiSettings.copyrightsView.applyInvertedColor()
+            let { miniTomtomMap ->
+                //tag::doc_mini_map_configuration[]
+                miniTomtomMap.uiSettings.compassView.hide()
+                miniTomtomMap.uiSettings.currentLocationView.hide()
+                miniTomtomMap.uiSettings.setStyleUrl(NIGHT_STYLE_URL_PATH)
+                miniTomtomMap.uiSettings.logoView.applyInvertedLogo()
+                miniTomtomMap.uiSettings.copyrightsView.applyInvertedColor()
 
-            updateGesturesConfiguration(
-                GesturesConfiguration.Builder()
-                    .zoomEnabled(false)
-                    .panningEnabled(false)
-                    .rotationEnabled(false)
-                    .tiltEnabled(false)
-                    .build()
-            )
+                miniTomtomMap.updateGesturesConfiguration(
+                    GesturesConfiguration.Builder()
+                        .zoomEnabled(false)
+                        .panningEnabled(false)
+                        .rotationEnabled(false)
+                        .tiltEnabled(false)
+                        .build()
+                )
+                //end::doc_mini_map_configuration[]
+            }
         })
     }
 
     private fun registerListener() {
-        mainViewModel.applyOnMap(MapAction { addOnCameraMoveFinishedListener(onCameraMoveFinished) })
+        mainViewModel.applyOnMap(MapAction {
+            let { tomtomMap ->
+                // tag::doc_main_map_register_camera_move_finished_listener[]
+                tomtomMap.addOnCameraMoveFinishedListener(onCameraMoveFinished)
+                // end::doc_main_map_register_camera_move_finished_listener[]
+            }
+        })
     }
 
     private fun unregisterListener() {
-        mainViewModel.applyOnMap(MapAction { removeOnCameraMoveFinishedListener(onCameraMoveFinished) })
+        mainViewModel.applyOnMap(MapAction {
+            let { tomtomMap ->
+                // tag::doc_main_map_unregister_camera_move_finished_listener[]
+                tomtomMap.removeOnCameraMoveFinishedListener(onCameraMoveFinished)
+                // end::doc_main_map_unregister_camera_move_finished_listener[]
+            }
+        })
     }
 
+    // tag::doc_mini_map_camera_move_alignment_with_main_map[]
     private val onCameraMoveFinished = object : TomtomMapCallback.OnCameraMoveFinishedListener {
         override fun onCameraMoveFinished() {
-            //This callback is not called too often, only when map centering animation or map transition using gestures is finished.
-            //To have more frequent updates, one can register for onCameraChanged listener
-            //However, this may cause performance issues as onCameraChanged is called very often.
+            // This callback is not called too often, only when map centering animation or map transition using gestures is finished.
+            // To have more frequent updates, one can register for the onCameraChanged listener.
+            // However, this may cause performance issues as onCameraChanged is called very often.
             mainViewModel.applyOnMap(MapAction {
 
                 val cameraPosition = uiSettings.cameraPosition
@@ -124,12 +140,11 @@ class MultipleMapsFragment : ExampleFragment() {
                     .animationDuration(SECOND_MAP_ANIMATION_TIME)
                     .build()
 
-                viewModel.applyOnMiniMap(MapAction {
-                    uiSettings.cameraPosition = miniMapPosition
-                })
+                viewModel.applyOnMiniMap(MapAction { uiSettings.cameraPosition = miniMapPosition })
             })
         }
     }
+    // end::doc_mini_map_camera_move_alignment_with_main_map[]
 
     companion object {
         private const val NIGHT_STYLE_URL_PATH = "asset://styles/night.json"

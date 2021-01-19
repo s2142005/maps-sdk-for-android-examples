@@ -27,9 +27,9 @@ class ShapesDrawer(private val tomtomMap: TomtomMap) {
 
         //tag::doc_shape_polygon[]
         val polygon = PolygonBuilder.create()
-                .coordinates(coordinates)
-                .color(color)
-                .build()
+            .coordinates(coordinates)
+            .color(color)
+            .build()
 
         tomtomMap.overlaySettings.addOverlay(polygon)
         //end::doc_shape_polygon[]
@@ -41,9 +41,9 @@ class ShapesDrawer(private val tomtomMap: TomtomMap) {
 
         //tag::doc_shape_polyline[]
         val polyline = PolylineBuilder.create()
-                .coordinates(coordinates)
-                .color(color)
-                .build()
+            .coordinates(coordinates)
+            .color(color)
+            .build()
 
         tomtomMap.overlaySettings.addOverlay(polyline)
         //end::doc_shape_polyline[]
@@ -54,11 +54,11 @@ class ShapesDrawer(private val tomtomMap: TomtomMap) {
 
         //tag::doc_shape_circle[]
         val circle = CircleBuilder.create()
-                .fill(true)
-                .radius(CIRCLE_RADIUS_IN_METERS)
-                .position(position)
-                .color(color)
-                .build()
+            .fill(true)
+            .radius(CIRCLE_RADIUS_IN_METERS)
+            .position(position)
+            .color(color)
+            .build()
 
         tomtomMap.overlaySettings.addOverlay(circle)
         //end::doc_shape_circle[]

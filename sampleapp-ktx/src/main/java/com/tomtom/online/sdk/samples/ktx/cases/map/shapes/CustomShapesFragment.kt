@@ -24,8 +24,7 @@ import kotlinx.android.synthetic.main.fragment_map_custom_shapes.*
 
 class CustomShapesFragment : ExampleFragment() {
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_map_custom_shapes, container, false)
     }
 

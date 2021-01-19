@@ -19,21 +19,34 @@ class DrivingMenuFragment : MenuFragment() {
 
     companion object {
         val MENU_ITEMS = listOf(
-                MenuItem(title = R.string.menu_chevron_tracking_title,
-                        icon = R.drawable.ic_map_menu_icon,
-                        description = R.string.menu_chevron_tracking_description,
-                        banner = R.drawable.ic_driving_chevron_tracking,
-                        onClickNavigateTo = R.id.chevronTrackingFragment),
-                MenuItem(title = R.string.menu_map_matching_title,
-                        icon = R.drawable.ic_map_menu_icon,
-                        description = R.string.menu_map_matching_description,
-                        banner = R.drawable.ic_driving_map_matching,
-                        onClickNavigateTo = R.id.mapMatchingFragment),
-                MenuItem(title = R.string.menu_route_matching_title,
-                        icon = R.drawable.ic_map_menu_icon,
-                        description = R.string.menu_route_matching_description,
-                        banner = R.drawable.ic_driving_route_matching,
-                        onClickNavigateTo = R.id.routeMatchingFragment)
+            MenuItem(
+                title = R.string.menu_chevron_tracking_title,
+                icon = R.drawable.ic_map_menu_icon,
+                description = R.string.menu_chevron_tracking_description,
+                banner = R.drawable.ic_driving_chevron_tracking,
+                onClickNavigateTo = R.id.chevronTrackingFragment
+            ),
+            MenuItem(
+                title = R.string.menu_map_matching_title,
+                icon = R.drawable.ic_map_menu_icon,
+                description = R.string.menu_map_matching_description,
+                banner = R.drawable.ic_driving_map_matching,
+                onClickNavigateTo = R.id.mapMatchingFragment
+            ),
+            MenuItem(
+                title = R.string.menu_route_matching_title,
+                icon = R.drawable.ic_map_menu_icon,
+                description = R.string.menu_route_matching_description,
+                banner = R.drawable.ic_driving_route_matching,
+                onClickNavigateTo = R.id.routeMatchingFragment
+            ),
+            MenuItem(
+                title = R.string.menu_driving_zoom_level_title,
+                icon = R.drawable.ic_map_menu_icon,
+                description = R.string.menu_driving_zoom_level_description,
+                banner = R.drawable.ic_driving_zoom_level,
+                onClickNavigateTo = R.id.drivingZoomLevelFragment
+            )
         )
     }
 
