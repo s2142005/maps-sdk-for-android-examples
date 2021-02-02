@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2015-2020 TomTom N.V. All rights reserved.
+ * Copyright (c) 2015-2021 TomTom N.V. All rights reserved.
  *
  * This software is the proprietary copyright of TomTom N.V. and its subsidiaries and may be used
  * for internal evaluation purposes or commercial use strictly subject to separate licensee
@@ -12,11 +12,7 @@ package com.tomtom.online.sdk.samples.ktx.cases.driving.zoom
 
 import android.location.Location
 import androidx.lifecycle.ViewModelProviders
-import com.tomtom.online.sdk.map.CameraPosition
-import com.tomtom.online.sdk.map.Chevron
-import com.tomtom.online.sdk.map.ChevronBuilder
-import com.tomtom.online.sdk.map.Icon
-import com.tomtom.online.sdk.map.TomtomMap
+import com.tomtom.online.sdk.map.*
 import com.tomtom.online.sdk.map.camera.OnMapCenteredCallback
 import com.tomtom.online.sdk.routing.route.information.FullRoute
 import com.tomtom.online.sdk.samples.ktx.MapAction
@@ -44,21 +40,15 @@ class DrivingZoomLevelFragment : DrivingFragment<DrivingZoomLevelViewModel>() {
         mainViewModel.applyOnMap(MapAction { drivingSettings.stopTracking() })
     }
 
+    override fun onPause() {
+        super.onPause()
+        viewModel.stopSimulation()
+    }
+
     override fun displayRoutingResults(routes: List<FullRoute>) {
         super.displayRoutingResults(routes)
         viewModel.createSimulator(routes)
         setupChevronAndSimulation()
-        viewModel.startSimulation(chevronSimulatorUpdater)
-    }
-
-    private fun setupChevronAndSimulation() {
-        mainViewModel.applyOnMap(MapAction {
-            let { tomtomMap ->
-                createChevron(tomtomMap)
-                setupSimulator()
-                tomtomMap.drivingSettings.startTracking(chevron)
-            }
-        })
     }
 
     private fun setupSimulator() {
@@ -71,6 +61,29 @@ class DrivingZoomLevelFragment : DrivingFragment<DrivingZoomLevelViewModel>() {
         val inactiveIcon = Icon.Factory.fromResources(requireContext(), R.drawable.chevron_shadow)
         val chevronBuilder = ChevronBuilder.create(activeIcon, inactiveIcon)
         chevron = tomtomMap.drivingSettings.addChevron(chevronBuilder)
+    }
+
+    private fun setupChevronAndSimulation() {
+        mainViewModel.applyOnMap(MapAction {
+            if (drivingSettings.chevrons.isEmpty()) {
+                createChevron(this)
+                setupSimulator()
+                drivingSettings.startTracking(chevron)
+            } else {
+                restoreChevron(this)
+                restoreSimulator()
+                drivingSettings.startTracking(chevron)
+            }
+        })
+    }
+
+    private fun restoreSimulator() {
+        chevronSimulatorUpdater = ChevronUpdater(chevron)
+        viewModel.restoreSimulation(chevronSimulatorUpdater)
+    }
+
+    private fun restoreChevron(tomtomMap: TomtomMap) {
+        chevron = tomtomMap.drivingSettings.chevrons.first()
     }
 
     @Suppress("UNUSED")

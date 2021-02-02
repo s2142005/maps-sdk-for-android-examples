@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2020 TomTom N.V. All rights reserved.
+ * Copyright (c) 2015-2021 TomTom N.V. All rights reserved.
  *
  * This software is the proprietary copyright of TomTom N.V. and its subsidiaries and may be used
  * for internal evaluation purposes or commercial use strictly subject to separate licensee
@@ -28,6 +28,10 @@ object Locations {
     val AMSTERDAM_BOTTOM_RIGHT = LatLng(52.334709, 4.971877)
     val OSLO = LatLng(59.911491, 10.757933)
     val LONDON = LatLng(51.507351, -0.127758)
+    val LONDON_CITY_AIRPORT = LatLng(51.5048, 0.0495)
+    val LONDON_NATIONAL_GALLERY = LatLng(51.5089, -0.1283)
+    val LONDON_HEATHROW = LatLng(51.4700, -0.4543)
+    val LONDON_TOWER = LatLng(51.5081, -0.0759)
     val AMSTERDAM_HENK_SNEEVLIETWEG = LatLng(52.345971, 4.844899)
     val AMSTERDAM_JAN_VAN_GALENSTRAAT = LatLng(52.372281, 4.846595)
     val AMSTERDAM_HAARLEM = LatLng(52.381222, 4.637558)
@@ -54,6 +58,11 @@ object Locations {
     val SANTA_CRUZ = LatLng(36.9749416, -122.0285259)
     val CZECH_REPUBLIC = LatLng(50.746420115485755, 14.799316562712196)
     val ROMANIA = LatLng(45.33232542221267, 22.753418125212196)
+    val LOS_ANGELES_LAX = LatLng(33.9416, -118.4085)
+    val LOS_ANGELES_DOWNTOWN = LatLng(34.0407, -118.2468)
+    val BEVERLY_HILLS = LatLng(34.0736, -118.4004)
+    val SANTA_MONICA = LatLng(34.0195, -118.4912)
+    val ONTARIO_INTERNATIONAL_AIRPORT = LatLng(34.0603, -117.5979)
 
     private var r = Random(System.currentTimeMillis())
 

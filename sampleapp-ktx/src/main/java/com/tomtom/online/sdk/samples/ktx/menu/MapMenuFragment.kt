@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2020 TomTom N.V. All rights reserved.
+ * Copyright (c) 2015-2021 TomTom N.V. All rights reserved.
  *
  * This software is the proprietary copyright of TomTom N.V. and its subsidiaries and may be used
  * for internal evaluation purposes or commercial use strictly subject to separate licensee
@@ -73,7 +73,7 @@ class MapMenuFragment : MenuFragment() {
                 icon = R.drawable.ic_map_menu_icon,
                 description = R.string.menu_map_poi_layers_visibility_description,
                 banner = R.drawable.ic_map_menu_poi_layers_visibility,
-                onClickNavigateTo =R.id.poiLayersVisibilityFragment
+                onClickNavigateTo = R.id.poiLayersVisibilityFragment
             ),
             MenuItem(
                 title = R.string.menu_map_dynamic_sources_title,
@@ -221,6 +221,13 @@ class MapMenuFragment : MenuFragment() {
                 description = R.string.menu_map_custom_route_description,
                 banner = R.drawable.ic_map_menu_custom_route,
                 onClickNavigateTo = R.id.customRouteFragment
+            ),
+            MenuItem(
+                title = R.string.menu_map_traffic_along_the_route_title,
+                icon = R.drawable.ic_map_menu_icon,
+                description = R.string.menu_map_traffic_along_the_route_description,
+                banner = R.drawable.ic_map_menu_traffic_along_the_route,
+                onClickNavigateTo = R.id.trafficAlongTheRouteFragment
             )
         )
     }

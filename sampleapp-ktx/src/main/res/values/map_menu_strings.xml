@@ -190,4 +190,8 @@
     <string name="label_map_building_heights_enable_btn">Heights</string>
     <string name="label_map_building_heights_disable_btn">Footprints</string>
 
+    <string name="menu_map_traffic_along_the_route_title">Traffic along the route</string>
+    <string name="menu_map_traffic_along_the_route_description">Traffic information to support the user with planning the route regarding traffic jam conditions and planning.</string>
+    <string name="label_traffic_on_route_london">London</string>
+    <string name="label_traffic_on_route_los_angeles">Los Angeles</string>
 </resources>

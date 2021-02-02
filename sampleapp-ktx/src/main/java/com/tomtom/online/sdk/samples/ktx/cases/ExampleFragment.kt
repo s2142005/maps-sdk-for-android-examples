@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2020 TomTom N.V. All rights reserved.
+ * Copyright (c) 2015-2021 TomTom N.V. All rights reserved.
  *
  * This software is the proprietary copyright of TomTom N.V. and its subsidiaries and may be used
  * for internal evaluation purposes or commercial use strictly subject to separate licensee
@@ -20,6 +20,7 @@ import com.tomtom.online.sdk.common.location.BoundingBox
 import com.tomtom.online.sdk.common.location.LatLng
 import com.tomtom.online.sdk.map.AnimationDuration
 import com.tomtom.online.sdk.map.CameraFocusArea
+import com.tomtom.online.sdk.map.CameraPosition
 import com.tomtom.online.sdk.map.MapConstants
 import com.tomtom.online.sdk.samples.IdlingResourceHelper
 import com.tomtom.online.sdk.samples.ktx.MainViewModel
@@ -83,10 +84,11 @@ abstract class ExampleFragment : Fragment(), ExampleLifecycle {
             let { tomtomMap ->
                 //tag::doc_map_center_on_amsterdam[]
                 tomtomMap.centerOn(
-                    location.latitude,
-                    location.longitude,
-                    zoomLevel,
-                    bearing
+                    CameraPosition.builder()
+                        .focusPosition(location)
+                        .zoom(zoomLevel)
+                        .bearing(bearing.toDouble())
+                        .build()
                 )
                 //end::doc_map_center_on_amsterdam[]
             }

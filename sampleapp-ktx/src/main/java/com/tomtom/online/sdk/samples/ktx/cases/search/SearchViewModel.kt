@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2020 TomTom N.V. All rights reserved.
+ * Copyright (c) 2015-2021 TomTom N.V. All rights reserved.
  *
  * This software is the proprietary copyright of TomTom N.V. and its subsidiaries and may be used
  * for internal evaluation purposes or commercial use strictly subject to separate licensee
@@ -21,9 +21,9 @@ import com.tomtom.online.sdk.samples.ktx.utils.arch.Resource
 import com.tomtom.online.sdk.samples.ktx.utils.arch.ResourceListLiveData
 import com.tomtom.online.sdk.samples.ktx.utils.arch.SingleLiveEvent
 import com.tomtom.online.sdk.search.SearchException
-import com.tomtom.online.sdk.search.fuzzy.FuzzySearchDetails
 import com.tomtom.online.sdk.search.fuzzy.FuzzyOutcome
 import com.tomtom.online.sdk.search.fuzzy.FuzzyOutcomeCallback
+import com.tomtom.online.sdk.search.fuzzy.FuzzySearchDetails
 import com.tomtom.online.sdk.search.fuzzy.FuzzySearchSpecification
 
 abstract class SearchViewModel(application: Application) : AndroidViewModel(application) {
@@ -55,7 +55,11 @@ abstract class SearchViewModel(application: Application) : AndroidViewModel(appl
     }
 
     fun updateLocation(location: Location?) {
+        val refreshSelectedTab = lastKnownLocation == null
         lastKnownLocation = location
+        if (refreshSelectedTab) {
+            selectedTab.value?.let { selectedTab.value = it }
+        }
     }
 
     fun selectTab(tabPos: Int) {

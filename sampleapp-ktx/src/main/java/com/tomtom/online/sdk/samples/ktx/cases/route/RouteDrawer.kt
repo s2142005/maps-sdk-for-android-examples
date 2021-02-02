@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2020 TomTom N.V. All rights reserved.
+ * Copyright (c) 2015-2021 TomTom N.V. All rights reserved.
  *
  * This software is the proprietary copyright of TomTom N.V. and its subsidiaries and may be used
  * for internal evaluation purposes or commercial use strictly subject to separate licensee
@@ -15,6 +15,8 @@ import android.content.Context
 import android.graphics.Color
 import com.tomtom.online.sdk.map.*
 import com.tomtom.online.sdk.map.model.LineCapType
+import com.tomtom.online.sdk.map.route.traffic.RouteTrafficStyle
+import com.tomtom.online.sdk.map.route.traffic.TrafficData
 import com.tomtom.online.sdk.routing.ev.route.EvFullRoute
 import com.tomtom.online.sdk.routing.ev.route.Leg
 import com.tomtom.online.sdk.routing.route.information.FullRoute
@@ -90,6 +92,52 @@ open class RouteDrawer(private val context: Context, private val tomtomMap: Tomt
         }
     }
 
+    fun drawRouteWithTraffic(routes: List<FullRoute>) {
+        routes.forEachIndexed { routeIdx, route ->
+            val routeBuilder = RouteBuilder(route.getCoordinates())
+                .style(RouteStyle.DEFAULT_ROUTE_STYLE)
+                .startIcon(createIcon(R.drawable.ic_map_route_departure))
+                .endIcon(createIcon(R.drawable.ic_map_route_destination))
+                .tag(routeIdx.toString())
+            tomtomMap.addRoute(routeBuilder)
+            showTrafficOnRoute(route)
+        }
+    }
+
+    private fun showTrafficOnRoute(route: FullRoute) {
+        //tag::doc_route_traffic_style_data_mapping[]
+        val trafficStyle = mutableMapOf<RouteTrafficStyle, List<TrafficData>>()
+        route.sections.forEach {
+            //DELAY_MAGNITUDE_UNKNOWN = 5
+            val density = if (it.magnitudeOfDelay >= 0) it.magnitudeOfDelay else DELAY_MAGNITUDE_UNKNOWN
+            val style = routeTrafficStyles[density]
+            val trafficData = trafficStyle[style]?.toMutableList() ?: mutableListOf()
+            trafficData.add(TrafficData(it.startPointIndex, it.endPointIndex))
+            trafficStyle[style] = trafficData
+        }
+        //end::doc_route_traffic_style_data_mapping[]
+        val routeId = tomtomMap.routes.first().id
+        //tag::doc_route_traffic_show[]
+        tomtomMap.showTrafficOnRoute(routeId, trafficStyle)
+        //end::doc_route_traffic_show[]
+    }
+
+    //tag::doc_create_route_traffic_style[]
+    private val routeTrafficStyles: List<RouteTrafficStyle> =
+        listOf(
+            DENSITY_LEVEL_0_COLOR, //DENSITY_LEVEL_0_COLOR = 0xFFCC9900
+            DENSITY_LEVEL_1_COLOR, //DENSITY_LEVEL_1_COLOR = 0xFFFFFF00
+            DENSITY_LEVEL_2_COLOR, //DENSITY_LEVEL_2_COLOR = 0xFFFF9900
+            DENSITY_LEVEL_3_COLOR, //DENSITY_LEVEL_3_COLOR = 0xFFFF3300
+            DENSITY_LEVEL_4_COLOR, //DENSITY_LEVEL_4_COLOR = 0xFF993300
+            DENSITY_LEVEL_5_COLOR //DENSITY_LEVEL_5_COLOR = 0xFFFFFFFF
+        ).map {
+            RouteTrafficStyle.Builder()
+                .color(it.toInt())
+                .build()
+        }
+    //end::doc_create_route_traffic_style[]
+
     fun setAllAsInactive() {
         //To simplify, mark all as inactive and then selected as active
         //In more advanced flow, one can control style of each route separately
@@ -117,14 +165,14 @@ open class RouteDrawer(private val context: Context, private val tomtomMap: Tomt
 
     private fun createCustomStyle(): RouteStyle {
         return (
-                //tag::doc_create_custom_route_style[]
-                RouteStyleBuilder.create()
-                    .withWidth(ROUTE_WIDTH)
-                    .withFillColor(Color.BLACK)
-                    .withOutlineColor(Color.RED)
-                    .build()
-                //end::doc_create_custom_route_style[]
-                )
+            //tag::doc_create_custom_route_style[]
+            RouteStyleBuilder.create()
+                .withWidth(ROUTE_WIDTH)
+                .withFillColor(Color.BLACK)
+                .withOutlineColor(Color.RED)
+                .build()
+            //end::doc_create_custom_route_style[]
+            )
     }
 
     private fun createDottedStyle(): RouteStyle {
@@ -142,6 +190,15 @@ open class RouteDrawer(private val context: Context, private val tomtomMap: Tomt
         private const val DOTTED_ROUTE_WIDTH = 0.3
         private const val DASH_LENGTH = 0.01
         private const val DASH_GAP = 2.0
+        private const val DELAY_MAGNITUDE_UNKNOWN = 5
+
+        private const val DENSITY_LEVEL_0_COLOR = 0xFFCC9900
+        private const val DENSITY_LEVEL_1_COLOR = 0xFFFFFF00
+        private const val DENSITY_LEVEL_2_COLOR = 0xFFFF9900
+        private const val DENSITY_LEVEL_3_COLOR = 0xFFFF3300
+        private const val DENSITY_LEVEL_4_COLOR = 0xFF993300
+        private const val DENSITY_LEVEL_5_COLOR = 0xFFFFFFFF
+
         private val ROUTE_DASH = DashDescriptor(DASH_LENGTH, DASH_GAP)
         private val DASH_LIST: List<DashDescriptor> = listOf(ROUTE_DASH)
         private val COLOR_LIGHT_BLUE = Color.rgb(26, 181, 196)

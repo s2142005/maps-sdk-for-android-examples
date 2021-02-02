@@ -109,6 +109,9 @@
         <action
             android:id="@+id/action_mapMenuFragment_to_mapLayerFilteringFragment"
             app:destination="@id/mapLayerFilteringFragment" />
+        <action
+            android:id="@+id/action_mapMenuFragment_to_trafficAlongTheRouteFragment"
+            app:destination="@+id/trafficAlongTheRouteFragment" />
     </fragment>
 
     <fragment
@@ -227,5 +230,9 @@
         android:id="@+id/mapBuildingHeightsFragment"
         android:name="com.tomtom.online.sdk.samples.ktx.cases.map.buildingheights.MapBuildingHeightsFragment"
         android:label="@string/menu_map_building_heights_title" />
+    <fragment
+        android:id="@+id/trafficAlongTheRouteFragment"
+        android:name="com.tomtom.online.sdk.samples.ktx.cases.map.trafficalongtheroute.TrafficAlongTheRouteFragment"
+        android:label="@string/menu_map_traffic_along_the_route_title" />
 
 </navigation>
