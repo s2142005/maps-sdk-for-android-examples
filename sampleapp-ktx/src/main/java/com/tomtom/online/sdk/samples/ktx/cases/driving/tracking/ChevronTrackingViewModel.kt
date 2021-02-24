@@ -15,8 +15,7 @@ import android.app.Application
 import com.tomtom.online.sdk.routing.route.information.FullRoute
 import com.tomtom.online.sdk.samples.ktx.cases.driving.DrivingViewModel
 import com.tomtom.online.sdk.samples.ktx.utils.driving.ChevronSimulatorUpdater
-import com.tomtom.online.sdk.samples.ktx.utils.driving.RouteSimulator
-import com.tomtom.online.sdk.samples.ktx.utils.driving.interpolator.BasicInterpolator
+import com.tomtom.online.sdk.samples.ktx.utils.driving.InterpolatedRouteSimulator
 import com.tomtom.online.sdk.samples.ktx.utils.routes.LodzCityCenterRouteConfig
 import com.tomtom.online.sdk.samples.ktx.utils.routes.convertFromRoutesToLocations
 
@@ -38,7 +37,7 @@ open class ChevronTrackingViewModel(application: Application) : DrivingViewModel
     }
 
     open fun createSimulator(routes: List<FullRoute>) {
-        simulator = RouteSimulator(convertFromRoutesToLocations(routes), BasicInterpolator())
+        simulator = InterpolatedRouteSimulator(convertFromRoutesToLocations(routes))
     }
 
 }

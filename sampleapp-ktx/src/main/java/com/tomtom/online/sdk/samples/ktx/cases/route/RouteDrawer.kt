@@ -15,7 +15,7 @@ import android.content.Context
 import android.graphics.Color
 import com.tomtom.online.sdk.map.*
 import com.tomtom.online.sdk.map.model.LineCapType
-import com.tomtom.online.sdk.map.route.traffic.RouteTrafficStyle
+import com.tomtom.online.sdk.map.route.RouteLayerStyle
 import com.tomtom.online.sdk.map.route.traffic.TrafficData
 import com.tomtom.online.sdk.routing.ev.route.EvFullRoute
 import com.tomtom.online.sdk.routing.ev.route.Leg
@@ -106,7 +106,7 @@ open class RouteDrawer(private val context: Context, private val tomtomMap: Tomt
 
     private fun showTrafficOnRoute(route: FullRoute) {
         //tag::doc_route_traffic_style_data_mapping[]
-        val trafficStyle = mutableMapOf<RouteTrafficStyle, List<TrafficData>>()
+        val trafficStyle = mutableMapOf<RouteLayerStyle, List<TrafficData>>()
         route.sections.forEach {
             //DELAY_MAGNITUDE_UNKNOWN = 5
             val density = if (it.magnitudeOfDelay >= 0) it.magnitudeOfDelay else DELAY_MAGNITUDE_UNKNOWN
@@ -123,7 +123,7 @@ open class RouteDrawer(private val context: Context, private val tomtomMap: Tomt
     }
 
     //tag::doc_create_route_traffic_style[]
-    private val routeTrafficStyles: List<RouteTrafficStyle> =
+    private val routeTrafficStyles: List<RouteLayerStyle> =
         listOf(
             DENSITY_LEVEL_0_COLOR, //DENSITY_LEVEL_0_COLOR = 0xFFCC9900
             DENSITY_LEVEL_1_COLOR, //DENSITY_LEVEL_1_COLOR = 0xFFFFFF00
@@ -132,7 +132,7 @@ open class RouteDrawer(private val context: Context, private val tomtomMap: Tomt
             DENSITY_LEVEL_4_COLOR, //DENSITY_LEVEL_4_COLOR = 0xFF993300
             DENSITY_LEVEL_5_COLOR //DENSITY_LEVEL_5_COLOR = 0xFFFFFFFF
         ).map {
-            RouteTrafficStyle.Builder()
+            RouteLayerStyle.Builder()
                 .color(it.toInt())
                 .build()
         }

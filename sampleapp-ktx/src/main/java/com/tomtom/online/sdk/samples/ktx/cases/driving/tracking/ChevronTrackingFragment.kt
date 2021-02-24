@@ -17,7 +17,6 @@ import androidx.lifecycle.ViewModelProviders
 import com.tomtom.online.sdk.map.ChevronBuilder
 import com.tomtom.online.sdk.map.Icon
 import com.tomtom.online.sdk.map.TomtomMap
-import com.tomtom.online.sdk.map.driving.ChevronScreenPosition
 import com.tomtom.online.sdk.routing.route.information.FullRoute
 import com.tomtom.online.sdk.samples.ktx.MapAction
 import com.tomtom.online.sdk.samples.ktx.cases.driving.DrivingFragment
@@ -97,17 +96,17 @@ class ChevronTrackingFragment : DrivingFragment<ChevronTrackingViewModel>() {
             let { tomtomMap ->
                 if (tomtomMap.drivingSettings.chevrons.isEmpty()) {
                     createChevron(tomtomMap)
-                    setupSimulator()
+                    setupSimulator(tomtomMap)
                 } else {
                     restoreChevron(tomtomMap)
-                    restoreSimulator()
+                    restoreSimulator(tomtomMap)
                 }
             }
         })
     }
 
-    private fun restoreSimulator() {
-        chevronSimulatorUpdater = ChevronSimulatorUpdater(chevron)
+    private fun restoreSimulator(tomtomMap: TomtomMap) {
+        chevronSimulatorUpdater = createSimulatorCallback(tomtomMap)
         viewModel.restoreSimulation(chevronSimulatorUpdater)
     }
 
@@ -115,18 +114,33 @@ class ChevronTrackingFragment : DrivingFragment<ChevronTrackingViewModel>() {
         chevron = tomtomMap.drivingSettings.chevrons.first()
     }
 
-    private fun setupSimulator() {
-        chevronSimulatorUpdater = ChevronSimulatorUpdater(chevron)
+    private fun setupSimulator(tomtomMap: TomtomMap) {
+        chevronSimulatorUpdater = createSimulatorCallback(tomtomMap)
         viewModel.startSimulation(chevronSimulatorUpdater)
     }
 
+    private fun createSimulatorCallback(tomtomMap: TomtomMap) =
+        RouteProgressSimulatorUpdater(
+            chevron, tomtomMap.routeSettings,
+            tomtomMap.routeSettings.routes[viewModel.selectedRoute.value!!.second].id
+        )
+
     private fun createChevron(tomtomMap: TomtomMap) {
-        val activeIcon = Icon.Factory.fromResources(requireContext(), R.drawable.chevron_color)
-        val inactiveIcon = Icon.Factory.fromResources(requireContext(), R.drawable.chevron_shadow)
+        val activeIcon = Icon.Factory.fromResources(requireContext(), R.drawable.chevron_color, CHEVRON_SCALE)
+        val inactiveIcon = Icon.Factory.fromResources(requireContext(), R.drawable.chevron_shadow, CHEVRON_SCALE)
         //tag::doc_create_chevron[]
         val chevronBuilder = ChevronBuilder.create(activeIcon, inactiveIcon)
         chevron = tomtomMap.drivingSettings.addChevron(chevronBuilder)
         //end::doc_create_chevron[]
+    }
+
+    override fun onExampleEnded() {
+        viewModel.selectedRoute.value?.let {
+            mainViewModel.applyOnMap(MapAction {
+                routeSettings.deactivateProgressAlongRoute(routeSettings.routes[it.second].id)
+            })
+        }
+        super.onExampleEnded()
     }
 
     override fun onPause() {
@@ -136,5 +150,6 @@ class ChevronTrackingFragment : DrivingFragment<ChevronTrackingViewModel>() {
 
     companion object {
         private const val DEFAULT_ZOOM_LEVEL_FOR_SIMULATION = 16.0
+        private const val CHEVRON_SCALE = 2.0
     }
 }
