@@ -95,7 +95,7 @@ jobs:
             command: ./gradlew test
         - run:
             name: Build Apps
-            command: ./gradlew build
+            command: ./gradlew sampleapp-ktx:build
         - *save_cache
         - *persist_debug_workspace
         - store_artifacts:
